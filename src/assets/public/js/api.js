@@ -1,47 +1,108 @@
-/***后台管理系统 项目接口地址-数据库导航 */
+/***后台管理系统 项目接口地址-用户中心 */
 
-var baseURL = 'http://192.168.21.71:5023';//请求前端地址
+var baseURL = 'http://192.168.21.36:6001';//请求前端地址
 
 export default {
     postUrl: {
-        'cap-publish-event-doc': baseURL + '/api/cap-document/cap-publish-event-doc',//获取当前服务发布事件描述文档数据
-        'database-initialized-model': baseURL + '/api/database-terrace/database-initialized-model',//获取数据库导航应用的下拉列表
-        'database-terrace-list': baseURL + '/api/database-terrace/database-terrace-list',//获取数据库总导航的视图模型(按条件筛选)
-        'database-terrace': baseURL + '/api/database-terrace/database-terrace',//根据Id获取平台/数据库 表单的数据
-        'database-settings': baseURL + '/api/database-terrace/database-settings',//获取数据库导航的应用设置信息
-        'save-database-settings': baseURL + '/api/database-terrace/save-database-settings',//保存数据库导航的应用设置信息
-        'batch-delete-database-terrace': baseURL + '/api/database-terrace/batch-delete-database-terrace',//批量删除平台/数据库 逻辑删
-        'database-columns': baseURL + '/api/database-terrace/database-columns',//获取所有的数据库栏目(总列表)
-        'batch-recommend-database-terrace': baseURL + '/api/database-terrace/batch-recommend-database-terrace',//批量推荐平台/数据库
-        'batch-recover-database-terrace': baseURL + '/api/database-terrace/batch-recover-database-terrace',//批量恢复平台/数据库的状态
-        'database-column': baseURL + '/api/database-terrace/database-column',//根据ID获取数据库栏目
-        'save-database-column': baseURL + '/api/database-terrace/save-database-column',//保存数据库导航栏目
-        'database-column-preview': baseURL + '/api/database-terrace/database-column-preview',//获取数据库栏目的预览视图
-        'domain-esc-tree': baseURL + '/api/database-terrace/domain-esc-tree',//从数据中心获取学科分类树
-        'domain-escs': baseURL + '/api/database-terrace/domain-escs',//保存学科分类
-        'save-domain-esc-dtos': baseURL + '/api/database-terrace/save-domain-esc-dtos',//获取学科分类 字符数组
-        'batch-delete-coustom-label': baseURL + '/api/database-terrace/batch-delete-coustom-label',//批量删除栏目
-        'coustom-labels': baseURL + '/api/database-terrace/coustom-labels',//获取在用自定义标签
-        'acess-url-name': baseURL + '/api/database-terrace/acess-url-name',//获取链接名称
-        'batch-delete-coustom-label': baseURL + '/api/database-terrace/batch-delete-coustom-label',//批量删除自定义标签
-        'batch-delete-acess-url-name': baseURL + '/api/database-terrace/batch-delete-acess-url-name',//批量删除链接名称
-        'save-custom-labels': baseURL + '/api/database-terrace/save-custom-labels',//批量编辑自定义标签，全删后新增
-        'save-database-terrace': baseURL + '/api/database-terrace/save-database-terrace',//保存数据库平台
-        'rearrange-database': baseURL + '/api/database-terrace/rearrange-database',//调整数据库序号到指定位置
-        'sort-database-by-drag': baseURL + '/api/database-terrace/sort-database-by-drag',//前端通过拖拽方法排序
-        'sort-source-from-import-by-destination': baseURL + '/api/database-terrace/sort-source-from-import-by-destination',//通过弹窗输入绝对序号实现排序
-        'database-from-center': baseURL + '/api/database-terrace/database-from-center',//从中心站获取数据库的结构数据
-        'database-from-center-as-model': baseURL + '/api/database-terrace/database-from-center-as-model',//从中心站获取数据库的结构数据
+        'init-data': baseURL + '/api/property/init-data',//属性初始化数据
+        'list-data': baseURL + '/api/property/list-data',//获取属性列表数据
+        'property': baseURL + '/api/property',// get:获取属性详情 delete:删除属性 post:创建自定义属性 put:编辑自定义属性
+        'set-can-search': baseURL + '/api/property/set-can-search',//设置是否可搜索
+        'set-show-on-table': baseURL + '/api/property/set-show-on-table',//设置是否在列表显示
 
-        // 前台
-        'recommend-databases': baseURL + '/api/database-terrace/recommend-databases',//获取推荐的数据库
-        'collection-database': baseURL + '/api/database-terrace/collection-database',//获取当前用户收藏的数据库
-        'database-terrace-portal': baseURL + '/api/database-terrace/database-terrace-portal',//查数据库导航详情--前台
-        'batch-delete-database-column': baseURL + '/api/database-terrace/batch-delete-database-column',//删除该条收藏
-        'database-terrace-list-portal': baseURL + '/api/database-terrace/database-terrace-list-portal',//获取数据库总导航的视图模型(按条件筛选)
-        'database-settings-portal': baseURL + '/api/database-terrace/database-settings-portal',//获取数据库导航的应用设置信息--前台
-        'database-single-page-list-portal': baseURL + '/api/database-terrace/database-single-page-list-portal',//获取单页模式下的数据库列表--前台
+        'group-init-data': baseURL + '/api/property-group/init-data',//属性组初始化数据
+        'group-list-data': baseURL + '/api/property-group/list-data',//获取属性组列表数据
+        'list-item-data': baseURL + '/api/property-group/list-item-data',//获取属性组明细项
+        'group-item': baseURL + '/api/property-group/group-item',//创建、编辑、删除属性组明细项
+        'property-change-log': baseURL + '/api/property-group/property-change-log',//获取属性组变更日志
+
+        'change-init-data': baseURL + '/api/data-approve/init-data',//初始化数据
+        'property-change-log-table-data': baseURL + '/api/data-approve/property-change-log-table-data',//获取属性变更日志记录
+        'property-change-log-detail-items': baseURL + '/api/data-approve/property-change-log-detail-items',//获取属性变更详情
+        'approve-property-change': baseURL + '/api/data-approve/approve-property-change',//审批变更日志
+        'user-change-log-table-data': baseURL + '/api/data-approve/user-change-log-table-data',//获取读者审批变更日志记录
+        'approve-user-change': baseURL + '/api/data-approve/approve-user-change',//审批读者修改日志
+        'user-change-log-detail-info': baseURL + '/api/data-approve/user-change-log-detail-info',//获取读者信息变更详情
+        'user-change-log-detail-items': baseURL + '/api/data-approve/user-change-log-detail-items',//获取读者变更详情
+        'user-register-table-data': baseURL + '/api/data-approve/user-register-table-data',//获取注册审批列表数据
+        'approve-user-register': baseURL + '/api/data-approve/approve-user-register',//审批用户注册信息
+        'card-claim-table-data': baseURL + '/api/data-approve/card-claim-table-data',//获取读者领卡列表数据
+        'approve-card-claim': baseURL + '/api/data-approve/approve-card-claim',//审批读者领卡信息
         '': baseURL + '',//
         '': baseURL + '',//
+
+        'user-init-data': baseURL + '/api/user/init-data',//用户初始化数据
+        'table-data': baseURL + '/api/user/table-data',//获取用户表格数据
+        'basic-user-table-data': baseURL + '/api/user/basic-user-table-data',//获取基础用户表格数据
+        'user-points-table-data': baseURL + '/api/user/user-points-table-data',//获取获取积分详情数据
+        'user-borrow-table-data': baseURL + '/api/user/user-borrow-table-data',//获取用户借阅明细记录
+        'user-auth-app-list-data': baseURL + '/api/user/user-auth-app-list-data',//获取用户授权应用信息
+        'user-log-table-data': baseURL + '/api/user/user-log-table-data',//获取用户行为日志
+        'by-id-for-edit': baseURL + '/api/user/by-id-for-edit',//获取用户数据用于编辑展示，不掩饰敏感信息
+        'user': baseURL + '/api/user',//获取、删除、编辑、创建用户详情
+        'batch-update': baseURL + '/api/user/batch-update',//用户信息批量修改
+        'batch-set-user-as-staff': baseURL + '/api/user/batch-set-user-as-staff',//批量设置用户为馆员
+        'download-user-import-template': baseURL + '/api/user/download-user-import-template',//用户数据导入模板下载
+        'import-user': baseURL + '/api/user/import-user',//用户数据导入
+        'import-temp-user-data': baseURL + '/api/user/import-temp-user-data',//获取待导入数据
+        'import-user-confirm': baseURL + '/api/user/import-user-confirm',//用户数据导入确认
+        'export-user-data': baseURL + '/api/user/export-user-data',//用户数据导出
+        'export-user-data-brief-info': baseURL + '/api/user/export-user-data-brief-info',//获取待导出简要信息
+        
+
+
+        'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
+        'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据
+        'user-card-list-data': baseURL + '/api/card/user-card-list-data',//获取用户读者卡信息
+        'card': baseURL + '/api/card',//获取、删除、修改、新增读者卡信息
+        'card-batch-update': baseURL + '/api/card/batch-update',//批量修改读者卡数据
+        'export-card-data': baseURL + '/api/card/export-card-data',//卡数据导出
+        'export-card-data-brief-info': baseURL + '/api/card/export-card-data-brief-info',//卡数据导出简要信息
+
+        'staff-init-data': baseURL + '/api/staff/init-data',//馆员数据初始化
+        'staff1-table-data': baseURL + '/api/staff/table-data',//获取馆员表格数据
+        'batch-set-department': baseURL + '/api/staff/batch-set-department',//批量设置用户
+        'departments-list-data': baseURL + '/api/staff/departments-list-data',//获取部门信息
+        'staff': baseURL + '/api/staff',//删除馆员身份
+        'temp-staff': baseURL + '/api/staff/temp-staff',//添加临时馆员
+
+
+        'group-table-data': baseURL + '/api/user-group/table-data',//获取用户组数据
+        'user-group': baseURL + '/api/user-group',//创建、编辑、删除用户组
+        'all-permission-tree': baseURL + '/api/permission/all-permission-tree',//获取应用中所有权限列表树
+        'user-permission-list': baseURL + '/api/permission/user-permission-list',//获取馆员权限列表
+        'user-group-init-data': baseURL + '/api/user-group/init-data',//数据初始化
+        'by-id': baseURL + '/api/user-group/by-id',//获取用户组数据详情
+
+
+        'set-init-data': baseURL + '/api/basic-config/init-data',//获取初始化数据
+        'basic-config': baseURL + '/api/basic-config/basic-config',//获取用户配置信息
+        'set-basic-config': baseURL + '/api/basic-config/set-basic-config',//配置应用设置
+        'card-claim-reader': baseURL + '/api/basic-config/card-claim-reader',//查询可认领读者卡的用户
+        'set-card-claim-reader': baseURL + '/api/basic-config/set-card-claim-reader',//设置认领读者卡用户
+        'info-append-reader': baseURL + '/api/basic-config/info-append-reader',//查询可自己补全信息的用户
+        'se-info-append-reader': baseURL + '/api/basic-config/se-info-append-reader',//设置补充读者信息的用户
+        'reader-edit-property': baseURL + '/api/basic-config/reader-edit-property',//获取读者可编辑信息
+        'set-reader-edit-property': baseURL + '/api/basic-config/set-reader-edit-property',//设置可编辑属性
+
+
+        'role-table-data': baseURL + '/api/role/role-table-data',//获取角色表格数据
+        'staff-table-data': baseURL + '/api/role/staff-table-data',//查询馆员数据
+        'role-data': baseURL + '/api/role/role-data',//获取角色信息
+
+        'role': baseURL + '/api/role',//创建角色数据
+        'role-users': baseURL + '/api/role/role-users',//添加角色馆员
+        'user-role': baseURL + '/api/role/user-role',//删除用户角色
+        'set-user-roles': baseURL + '/api/role/set-user-roles',//设置用户角色
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+
     },
 }

@@ -2,155 +2,73 @@
 export default {
   router: [
     // {
-    //   path: "/list1",
-    //   name: "list1",
+    //   path: "/dataBaseHome",
+    //   name: "dataBaseHome",
     //   component: r =>
     //     require.ensure(
     //       [],
-    //       () => r(require("@/components/web/view/temp1/list")),
-    //       "list"
+    //       () => r(require("@/components/web/view/DataBase/Home")),
+    //       "dataBaseHome"
     //     ),
-    //   meta: { title: "列表页面-模板1", keepAlive: true }
-    // },
-    // {
-    //   path: "/topicList",
-    //   name: "topicList",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () => r(require("@/components/web/view/literatureTopic/TopicList")),
-    //       "topicList"
-    //     ),
-    //   meta: { title: "文献专题", keepAlive: true }
-    // },
-    // {
-    //   path: "/topicDetail",
-    //   name: "topicDetail",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () => r(require("@/components/web/view/literatureTopic/TopicDetail")),
-    //       "topicDetail"
-    //     ),
-    //   meta: { title: "专题详情", keepAlive: true }
-    // },
-    // {
-    //   path: "/topicDetail2",
-    //   name: "topicDetail2",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () =>
-    //         r(require("@/components/web/view/literatureTopic/TopicDetail2")),
-    //       "topicDetail2"
-    //     ),
-    //   meta: { title: "专题详情2", keepAlive: true }
-    // },
-    // {
-    //   path: "/myTopic",
-    //   name: "myTopic",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () => r(require("@/components/web/view/literatureTopic/MyTopic")),
-    //       "myTopic"
-    //     ),
-    //   meta: { title: "我的专题", keepAlive: true }
-    // },
-    // {
-    //   path: "/recommendList",
-    //   name: "recommendList",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () => r(require("@/components/web/view/literatureRecommend/List")),
-    //       "recommendList"
-    //     ),
-    //   meta: { title: "文件推荐列表", keepAlive: true }
-    // },
-    // {
-    //   path: "/recommendList2",
-    //   name: "recommendList2",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () => r(require("@/components/web/view/literatureRecommend/List2")),
-    //       "recommendList2"
-    //     ),
-    //   meta: { title: "文件推荐列表2", keepAlive: true }
-    // },
-    // {
-    //   path: "/recommendList3",
-    //   name: "recommendList3",
-    //   component: r =>
-    //     require.ensure(
-    //       [],
-    //       () => r(require("@/components/web/view/literatureRecommend/List3")),
-    //       "recommendList3"
-    //     ),
-    //   meta: { title: "文件推荐列表3", keepAlive: true }
+    //   meta: { title: "数据库首页", keepAlive: true }
     // },
     {
-      path: "/dataBaseHome",
-      name: "dataBaseHome",
-      component: r =>
-        require.ensure(
-          [],
-          () => r(require("@/components/web/view/DataBase/Home")),
-          "dataBaseHome"
-        ),
-      meta: { title: "数据库首页", keepAlive: true }
+      path: "/registeredAccount",
+      name: "registeredAccount",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/registered/registered_account")), "registered_account"),
+      meta: { title: "注册", keepAlive: true }
     },
     {
-      path: "/dataBaseHome2",
-      name: "dataBaseHome2",
-      component: r =>
-        require.ensure(
-          [],
-          () => r(require("@/components/web/view/DataBase/Home2")),
-          "dataBaseHome2"
-        ),
-      meta: { title: "数据库首页2", keepAlive: true }
+      path: "/registeredAccountInfo",
+      name: "registeredAccountInfo",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/registered/registered_account_info")), "registered_account_info"),
+      meta: { title: "注册", keepAlive: true }
     },
     {
-      path: "/dataBaseDetail",
-      name: "dataBaseDetail",
-      component: r =>
-        require.ensure(
-          [],
-          () => r(require("@/components/web/view/DataBase/Details")),
-          "dataBaseDetail"
-        ),
-      meta: { title: "数据库详情", keepAlive: true } 
+      path: "/registeredForm",
+      name: "registeredForm",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/registered/registered_form")), "registered_form"),
+      meta: { title: "注册", keepAlive: true }
     },
     {
-      path: "/myDataBase",
-      name: "myDataBase",
-      component: r =>
-        require.ensure(
-          [],
-          () => r(require("@/components/web/view/DataBase/MyDataBase")),
-          "myDataBase"
-        ),
-      meta: { title: "我的数据库", keepAlive: true }
+      path: "/registeredForm2",
+      name: "registeredForm2",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/registered/registered_form2")), "registered_form2"),
+      meta: { title: "注册", keepAlive: true }
     },
-    // {
-    //   path: '/detailspage1',
-    //   name: 'detailspage1',
-    //   component: r => require.ensure([], () => r(require('@/components/web/view/literatureRecommend/List3')), 'list'),
-    //   meta: { title: '详情页面-模板1' , keepAlive:true},
-    // },
-    // {
-    //   path: '/list2',
-    //   name: 'list2',
-    //   component: r => require.ensure([], () => r(require('@/components/web/view/temp2/list')), 'list'),
-    //   meta: { title: '列表页面-模板2' , keepAlive:true},
-    // },
-    // {
-    //   path: '/detailspage2',
-    //   name: 'detailspage2',
-    //   component: r => require.ensure([], () => r(require('@/components/web/view/temp2/detailspage')), 'list'),
-    //   meta: { title: '详情页面-模板2' , keepAlive:true},
-    // },
+    {
+      path: "/registeredSuccess",
+      name: "registeredSuccess",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/registered/registered_success")), "registered_success"),
+      meta: { title: "注册", keepAlive: true }
+    },
+    {
+      path: "/registeredSub",
+      name: "registeredSub",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/registered/registered_sub")), "registered_sub"),
+      meta: { title: "注册", keepAlive: true }
+    },
+
+    {
+      path: "/forgetPassword",
+      name: "forgetPassword",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/login/forget_password")), "forget_password"),
+      meta: { title: "忘记密码", keepAlive: true }
+    },
+    {
+      path: "/loginAccount",
+      name: "loginAccount",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/login/login_account")), "login_account"),
+      meta: { title: "登录", keepAlive: true }
+    },
+
+
+    {
+      path: "/accountSet",
+      name: "accountSet",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/account_set/account_set")), "account_set"),
+      meta: { title: "个人图书馆-账号设置", keepAlive: true }
+    },
+
   ]
 };
