@@ -69,6 +69,12 @@ export default {
       component: r => require.ensure([], () => r(require("@/components/web/view/user/account_set/account_set")), "account_set"),
       meta: { title: "个人图书馆-账号设置", keepAlive: true }
     },
+    {
+      path: "/library",
+      name: "library",
+      component: r => require.ensure([], () => r(require("@/components/web/view/user/library/library")), "library"),
+      meta: { title: "个人图书馆", keepAlive: true }
+    },
 
   ]
 };
