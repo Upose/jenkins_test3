@@ -32,7 +32,7 @@
               已认证
             </span>
           </div>
-          <div class="card">
+          <div class="card" @click="$refs.dialog_card.show()">
             <h6>张晓（临时卡）</h6>
             <p>0100080015036</p>
             <p>有效期至 2021-12-01</p>
@@ -189,13 +189,48 @@
             </div>
           </div>
         </div>
+        <div class="tmp-box">
+          <div class="tmp-detail">
+            <div class="title-box b-n">
+              <span class="left"></span>
+              <span class="right">
+                <!-- <span class="font-w">···</span> -->
+                <el-popover placement="bottom" width="120" trigger="click" popper-class="b-b">
+                  <div class="popover-content">
+                    <p>取消关注</p>
+                    <p>置顶</p>
+                  </div>
+                  <!-- <el-button slot="reference">click 激活</el-button> -->
+                  <span class="font-w" slot="reference">···</span>
+                </el-popover>
+              </span>
+            </div>
+            <div class="tem-content">
+              <div class="search-box">
+                <h1>统一检索</h1>
+                <div class="search-bar">
+                  <span>请输入</span>
+                  <i class="el-icon-search"></i>
+                </div>
+                <p>
+                  <span v-for="item in 4" :key="item">热门词</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <footer class="footer"></footer>
+
+    <!-- 弹窗组件 -->
+    <dialog_card ref="dialog_card"></dialog_card>
   </div>
 </template>
 <script>
+import dialog_card from '@/components/web/view/user/library/model/dialog_card'
 export default {
+    components:{dialog_card},
   data() {
     return {
 
@@ -209,6 +244,12 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+@import url('../../../../../assets/web/css/user.less');
+.b-b {
+  border-radius: 16px;
+}
+</style>
 <style lang="less" scoped>
 .header {
   width: 100%;
@@ -229,6 +270,7 @@ export default {
     margin: 0 auto;
     position: relative;
     padding-top: 24px;
+    overflow: hidden;
   }
 }
 .top-right {
@@ -346,9 +388,10 @@ export default {
       position: absolute;
       top: 20px;
       right: 0;
-      padding: 10px;
+      padding: 6px 10px 6px 14px;
       color: #4fcd92;
       background: #e5f8ef;
+      border-radius: 20px 0 0 20px;
     }
   }
 }
@@ -441,6 +484,9 @@ export default {
 .tmp-box {
   width: 588px;
   height: 320px;
+  float: left;
+  margin-right: 12px;
+  margin-bottom: 24px;
   .tmp-detail {
     width: 100%;
     height: 100%;
@@ -610,7 +656,63 @@ export default {
           height: 16px;
         }
       }
+
+      .search-box {
+        h1 {
+          text-align: center;
+          color: #666;
+          font-size: 24px;
+          margin: 12px 0 36px;
+        }
+        .search-bar {
+          width: 70%;
+          height: 48px;
+          background: #ffffff;
+          border: 1px solid rgba(0, 0, 0, 0.0588235294117647);
+          box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.02);
+          border-radius: 24px;
+          margin: 0 auto 16px;
+          color: #999;
+          line-height: 48px;
+          padding: 0 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          i {
+            font-size: 24px;
+          }
+        }
+        p {
+          text-align: center;
+          span {
+            padding: 0 10px;
+            color: #666;
+          }
+        }
+      }
     }
   }
 }
+.b-n {
+  border: none;
+}
+
+.popover-content {
+  p {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
 </style>
