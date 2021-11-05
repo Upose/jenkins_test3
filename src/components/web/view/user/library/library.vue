@@ -80,31 +80,11 @@
               <span class="left">通知消息</span>
               <span class="right">
                 <span>更多 </span>
-                <span>···</span>
+                <span class="font-w">···</span>
               </span>
             </div>
             <div class="tem-content">
-              <p class="info-item">
-                <span>【应用名称】消息内容消息内容</span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="info-item">
-                <span>【应用名称】消息内容消息内容</span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="info-item">
-                <span>【应用名称】消息内容消息内容</span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="info-item">
-                <span>【应用名称】消息内容消息内容</span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="info-item">
-                <span>【应用名称】消息内容消息内容</span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="info-item">
+              <p class="info-item" v-for="item in 6" :key="item">
                 <span>【应用名称】消息内容消息内容</span>
                 <span>09-21 21:12</span>
               </p>
@@ -116,27 +96,13 @@
             <div class="title-box">
               <span class="left">图书馆新闻</span>
               <span class="right">
-                <span>···</span>
+                <span class="font-w">···</span>
               </span>
             </div>
             <div class="tem-content">
-              <p class="news-item">
+              <p class="news-item" v-for="item in 4" :key="item">
                 <span>
                   <span class="tag bule">新闻</span>
-                  新闻标题新闻标题
-                </span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="news-item">
-                <span>
-                  <span class="tag red">通知</span>
-                  新闻标题新闻标题
-                </span>
-                <span>09-21 21:12</span>
-              </p>
-              <p class="news-item">
-                <span>
-                  <span class="tag green">公告</span>
                   新闻标题新闻标题
                 </span>
                 <span>09-21 21:12</span>
@@ -150,14 +116,76 @@
               <span class="left">资源推荐类</span>
               <span class="right">
                 <span>换一换</span>
-                <span>···</span>
+                <span class="font-w">···</span>
               </span>
             </div>
-            <div class="tem-content flex-box">
-              <div class="resource-item">
+            <div class="tem-content">
+              <div class="resource-item" v-for="item in 4" :key="item">
                 <img src="../../../../../assets/web/img/upload/book.png" alt="">
                 <p>中国通史中国通史中国通史中国国通史中国</p>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="tmp-box">
+          <div class="tmp-detail">
+            <div class="title-box">
+              <span class="left">专题类型</span>
+              <span class="right">
+                <span class="font-w">···</span>
+              </span>
+            </div>
+            <div class="tem-content">
+              <div class="topic-item" v-for="item in 6" :key="item">
+                <img src="../../../../../assets/web/img/upload/w-show.png" alt="">
+                <p>中国通史</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tmp-box">
+          <div class="tmp-detail">
+            <div class="title-box">
+              <span class="left">图书馆活动</span>
+              <span class="right">
+                <span class="font-w">···</span>
+              </span>
+            </div>
+            <div class="tem-content">
+              <div class="activity-item">
+                <img src="../../../../../assets/web/img/upload/pic.png" alt="">
+                <div>
+                  <span class="act-tag">讲座活动</span>
+                  <p>
+                    <span class="act-name">活动</span>
+                    <span class="act-text">2021-09-29 15:00 用户培训中心（304室）</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tmp-box">
+          <div class="tmp-detail">
+            <div class="title-box">
+              <span class="left">常用数据库</span>
+              <span class="right">
+                <span class="font-w">···</span>
+              </span>
+            </div>
+            <div class="tem-content">
+              <p class="database-item" v-for="item in 3" :key="item">
+                <span>消息内容消息内容</span>
+                <img class="data-icon" src="../../../../../assets/web/img/icon_hot.png" alt="">
+              </p>
+              <p class="database-item" v-for="item in 3" :key="item">
+                <span>消息内容消息内容</span>
+                <img class="data-icon" src="../../../../../assets/web/img/icon_focus.png" alt="">
+              </p>
+              <p class="database-item" v-for="item in 3" :key="item">
+                <span>消息内容消息内容</span>
+                <img class="data-icon" src="../../../../../assets/web/img/icon_usual.png" alt="">
+              </p>
             </div>
           </div>
         </div>
@@ -348,6 +376,10 @@ export default {
     font-size: 16px;
     color: #666;
     cursor: pointer;
+
+    .font-w {
+      font-weight: 600;
+    }
   }
 }
 .app-content {
@@ -416,7 +448,7 @@ export default {
     margin: 24px 0;
     border-radius: 16px;
     background: #fff;
-    
+
     .tem-content {
       padding: 0 20px;
 
@@ -426,6 +458,10 @@ export default {
         align-items: center;
         color: #666;
         height: 40px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
       .news-item {
         display: flex;
@@ -433,6 +469,10 @@ export default {
         align-items: center;
         color: #666;
         height: 40px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
 
         .tag {
           width: 48px;
@@ -455,8 +495,120 @@ export default {
           color: #4fcd92;
         }
       }
-      .resource-item{
+      .resource-item {
+        width: 20%;
+        height: auto;
+        margin: 0 2%;
+        display: inline-block;
+        margin-top: 25px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+        img {
+          width: 100%;
+          height: auto;
+        }
+        p {
+          width: 100%;
+          height: 40px;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          margin-top: 10px;
+        }
+      }
+      .topic-item {
+        width: 30%;
+        height: auto;
+        margin: 0 1%;
+        display: inline-block;
+        margin-bottom: 20px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+        img {
+          width: 100%;
+          height: auto;
+        }
+        p {
+          width: 100%;
+          height: 20px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-top: 10px;
+          text-align: center;
+        }
+      }
+      .activity-item {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        position: relative;
+        &:hover {
+          opacity: 0.8;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        div {
+          width: 100%;
+          height: 60px;
+          overflow: hidden;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.3);
+          color: #fff;
 
+          .act-tag {
+            width: 60px;
+            height: 60px;
+            background: #a21e1e;
+            padding: 8px 0 0 12px;
+            font-size: 18px;
+            display: inline-block;
+          }
+          p {
+            display: inline-block;
+            margin-left: 16px;
+          }
+          .act-name {
+            font-size: 15px;
+            font-weight: bold;
+            display: block;
+            line-height: 25px;
+          }
+          .act-text {
+            display: block;
+            line-height: 25px;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            // white-space: nowrap;
+          }
+        }
+      }
+      .database-item {
+        width: 45%;
+        height: 40px;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        float: left;
+        margin: 0 2%;
+        &:hover {
+          opacity: 0.8;
+        }
+        .data-icon {
+          width: 16px;
+          height: 16px;
+        }
       }
     }
   }
