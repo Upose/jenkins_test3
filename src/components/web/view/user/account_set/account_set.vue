@@ -34,7 +34,7 @@ export default {
   components: { info,set,card },
   data() {
     return {
-      tab:'card'
+      tab:'info'
     }
   },
   created() {

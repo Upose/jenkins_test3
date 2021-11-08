@@ -3,22 +3,24 @@
     <div>
       <el-form ref="form" :model="form" label-width="90px">
         <el-form-item label="手机号码">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="phone" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="验证码" class="inp-box">
-          <el-input v-model="code" placeholder="短信验证码" class="inp"></el-input>
-          <span class="verification-code">获取验证码</span>
+          <el-input v-model="code" placeholder="请输入" class="inp"></el-input>
+          <span class="verification-code" @click="getCode" v-if="!hasCode">获取验证码</span>
+          <span class="verification-code color-grey" v-else>{{countDown}}秒后重新获取</span>
         </el-form-item>
       </el-form>
     </div>
     <div slot="footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      <el-button type="primary" @click="subForm">确 定</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
+// import validator from 'validator-js';
 export default {
   name: "index",
   props: {},
@@ -26,7 +28,10 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      form: ''
+      phone: '',//手机号
+      code: '',//验证码
+      hasCode: false,//是否一点击获取验证码
+      countDown: 60,//倒计时
     };
   },
   created() {
@@ -38,6 +43,34 @@ export default {
   methods: {
     show() {
       this.dialogVisible = true;
+    },
+    // 获取验证码
+    getCode() {
+      this.http.postJsonSelf('forward-send-mobile-verfiy-code', `/${this.phone}`).then((res) => {
+        this.$message({ type: "error", message: "已发送!" });
+        this.hasCode = true;
+        this.countDown = 60;
+        var fnCountDown = setInterval(() => {
+          if (this.countDown > 1) {
+            this.countDown -= 1;
+          } else {
+            this.hasCode = false;
+            clearInterval(fnCountDown);
+          }
+        }, 1000);
+      }).catch((err) => {
+        this.$message({ type: "success", message: "发送失败!" });
+      });
+    },
+    // 编辑保存
+    subForm(){
+      this.http.postJson('forward-reader-info',{mobile:this.phone,code:this.code}).then((res) => {
+        this.dialogVisible = false;
+        this.$message({ type: "success", message: "修改成功!" });
+        this.$emit('change');
+      }).catch((err) => {
+        this.$message({ type: "error", message: "修改失败!" });
+      });
     }
   },
 };
@@ -56,8 +89,11 @@ export default {
     border-left: 1px solid #ddd;
     text-align: center;
     cursor: pointer;
-    color: #458DDA;
+    color: #458dda;
     //   background: #fff;
+  }
+  .color-grey {
+    color: #666;
   }
   /deep/ input {
     padding-right: 150px;

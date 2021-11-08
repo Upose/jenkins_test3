@@ -2,14 +2,14 @@
   <div class="card-box">
     <el-button type="primary" round size="medium" @click="$refs.get_card.show()">认证读者证</el-button>
     <div class="item-box">
-      <el-row :gutter="10" class="crad-item">
-        <el-col :span="6" class="number">读者证号：01111</el-col>
-        <el-col :span="2" class="green">正常</el-col>
-        <el-col :span="8">有效期：2013-09-12 99:00:00</el-col>
+      <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">
+        <el-col :span="6" class="number">读者证号：{{item.no}}</el-col>
+        <el-col :span="2" class="green">正常{{item.status}}</el-col>
+        <el-col :span="8">有效期：{{timeFormat(item.issueDate)}}</el-col>
         <el-col :span="2"><span class="bule">设为主卡</span></el-col>
         <el-col :span="6">
-          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-view" @click="$refs.card_detail.show()">查看</el-button>
-          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show()">修改密码</el-button>
+          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-view" @click="$refs.card_detail.show(item.id)">查看</el-button>
+          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)">修改密码</el-button>
         </el-col>
       </el-row>
       <el-row :gutter="10" class="crad-item">
@@ -45,20 +45,52 @@ import card_detail from '@/components/web/view/user/account_set/model/dialog/car
 export default {
   name: "index",
   props: {},
-  components: { password, get_card, phone, get_success,card_detail },
+  components: { password, get_card, phone, get_success, card_detail },
   data() {
     return {
-
+      cardList: {},
     };
   },
   created() {
-
+    this.getCard();
   },
-  mounted() {
-
-  },
+  mounted() { },
   methods: {
-
+    // 获取读者卡数据
+    getCard() {
+      this.http.getJson('forward-reader-card-list-data').then((res) => {
+        this.cardList = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
+    timeFormat(date, time = '日') {
+      let times = {
+        '年': 'YYYY',
+        '月': 'YYYY-mm',
+        '日': 'YYYY-mm-dd',
+        '时': 'YYYY-mm-dd HH',
+        '分': 'YYYY-mm-dd HH:MM',
+        '秒': 'YYYY-mm-dd HH:MM:SS',
+      }
+      let format = times[time];
+      date = new Date(date);
+      const dataItem = {
+        'Y+': date.getFullYear().toString(),
+        'm+': (date.getMonth() + 1).toString(),
+        'd+': date.getDate().toString(),
+        'H+': date.getHours().toString(),
+        'M+': date.getMinutes().toString(),
+        'S+': date.getSeconds().toString(),
+      };
+      Object.keys(dataItem).forEach((item) => {
+        const ret = new RegExp(`(${item})`).exec(format);
+        if (ret) {
+          format = format.replace(ret[1], ret[1].length === 1 ? dataItem[item] : dataItem[item].padStart(ret[1].length, '0'));
+        }
+      });
+      return format;
+    }
   },
 };
 </script>
