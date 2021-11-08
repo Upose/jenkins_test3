@@ -58,7 +58,7 @@ export default {
           }
         }, 1000);
       }).catch((err) => {
-        this.$message({ type: "success", message: "发送失败!" });
+        this.$message({ type: "error", message: "发送失败!" });
       });
     },
     // 编辑保存

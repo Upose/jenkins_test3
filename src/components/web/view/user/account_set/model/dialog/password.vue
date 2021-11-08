@@ -6,10 +6,10 @@
           <el-input v-model="prePwd"></el-input>
         </el-form-item>
         <el-form-item label="新密码">
-          <el-input v-model="newPwd"></el-input>
+          <el-input v-model="newPwd" show-password></el-input>
         </el-form-item>
         <el-form-item label="重复新密码">
-          <el-input v-model="newPwdTwo"></el-input>
+          <el-input v-model="newPwdTwo" show-password></el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -31,6 +31,7 @@ export default {
       prePwd:'',//旧密码
       newPwd:'',//新密码
       newPwdTwo:'',//新密码重复
+      id:'',
     };
   },
   created() {
@@ -40,16 +41,17 @@ export default {
 
   },
   methods: {
-    show() {
+    show(id) {
       this.dialogVisible = true;
+      this.id = id;
     },
     //提交
     subForm(){
-      this.http.postJson('forward-change-card-password',{prePwd:this.prePwd,newPwd:this.newPwd}).then((res) => {
+      this.http.postJson('forward-change-card-password',{cardID:this.id,prePwd:this.prePwd,newPwd:this.newPwd}).then((res) => {
         this.$message({ type: "success", message: "修改成功!" });
         this.dialogVisible = false;
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取读者信息失败!" });
+        this.$message({ type: "error", message: "修改失败!" });
       });
     }
   },

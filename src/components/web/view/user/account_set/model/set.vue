@@ -20,7 +20,7 @@
       <span class="use" @click="$refs.emil.show()">修改邮箱</span>
     </div>
 
-    <h1>社交账号绑定</h1>
+    <!-- <h1>社交账号绑定</h1>
     <div class="set-item">
       <span class="img big"><img src="../../../../../../assets/web/img/wex.png" alt=""></span>
       <span class="name">微信账号</span>
@@ -32,7 +32,7 @@
       <span class="name">QQ账号</span>
       <span class="content">9398574664773378</span>
       <span class="use">立即设置</span>
-    </div>
+    </div> -->
     
     <!-- 弹窗组件 -->
     <set_phone ref="set_phone" @change="getInfo"></set_phone>

@@ -3,19 +3,19 @@
     <div>
       <el-form ref="form" :model="form" label-width="90px">
         <el-form-item label="读者卡号">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="form.no"></el-input>
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="form.userName"></el-input>
         </el-form-item>
         <el-form-item label="有效日期">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="form.issueDate"></el-input>
         </el-form-item>
         <el-form-item label="状态">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="form.status"></el-input>
         </el-form-item>
         <el-form-item label="条形码">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="form.barCode"></el-input>
         </el-form-item>
         <el-form-item label="用户类型">
           <el-input v-model="form"></el-input>
@@ -51,12 +51,17 @@ export default {
 
   },
   methods: {
-    show() {
+    show(data) {
       this.dialogVisible = true;
+      this.form = data;
     },
     sub(){
+      this.http.postJson('forward-claim-reader-card', { cardID:this.form.id }).then((res) => {
         this.$emit('next');
         this.dialogVisible = false;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "无法领取此卡!" });
+      });
     }
   },
 };

@@ -17,7 +17,7 @@ export default {
         'forward-card': baseURL + '/api/reader/card',//删除个人读者卡
         'forward-search-card-data': baseURL + '/api/reader/search-card-data',//查询卡信息
         'forward-claim-reader-card': baseURL + '/api/reader/claim-reader-card',//读者卡领取
-        '': baseURL + '',//
+        'forward-init-data': baseURL + '/api/reader/init-data',//读者数据
         '': baseURL + '',//
 
     },

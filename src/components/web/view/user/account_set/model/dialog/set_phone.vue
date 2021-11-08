@@ -59,14 +59,14 @@ export default {
           }
         }, 1000);
       }).catch((err) => {
-        this.$message({ type: "success", message: "发送失败!" });
+        this.$message({ type: "error", message: "发送失败!" });
       });
     },
     // 编辑保存
     subForm(){
       this.http.postJson('forward-reader-info',{mobile:this.phone,code:this.code}).then((res) => {
         this.dialogVisible = false;
-        this.$message({ type: "success", message: "修改成功!" });
+        this.$message({ type: "error", message: "修改成功!" });
         this.$emit('change');
       }).catch((err) => {
         this.$message({ type: "error", message: "修改失败!" });

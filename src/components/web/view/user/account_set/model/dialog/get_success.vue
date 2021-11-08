@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      type: 1
+      type: 2
     };
   },
   created() {

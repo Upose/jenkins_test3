@@ -3,10 +3,10 @@
     <div>
       <el-form ref="form" :model="form" label-width="90px">
         <el-form-item label="读者证号">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="no" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="卡密码">
-          <el-input v-model="form"></el-input>
+          <el-input v-model="pwd" placeholder="请输入"></el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      form: ''
+      no: '',
+      pwd: '',
     };
   },
   created() {
@@ -38,9 +39,14 @@ export default {
     show() {
       this.dialogVisible = true;
     },
-    next(){
-        this.$emit('next');
+    next() {
+      this.http.postJson('forward-search-card-data', { no: this.no, pwd: this.pwd }).then((res) => {
+        this.$emit('next',res.data);
         this.dialogVisible = false;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "读者证号或密码错误!" });
+      });
+
     }
   },
 };

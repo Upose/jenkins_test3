@@ -1,33 +1,25 @@
 <template>
   <div class="card-box">
     <el-button type="primary" round size="medium" @click="$refs.get_card.show()">认证读者证</el-button>
-    <div class="item-box">
+    <div class="item-box" v-if="dataKey">
       <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">
         <el-col :span="6" class="number">读者证号：{{item.no}}</el-col>
-        <el-col :span="2" class="green">正常{{item.status}}</el-col>
-        <el-col :span="8">有效期：{{timeFormat(item.issueDate)}}</el-col>
+        <el-col :span="2" :class="item.status==1?'green':''">{{getKeyValue(item.status)}}</el-col>
+        <el-col :span="8">有效期：{{setTime(item.issueDate)}}</el-col>
         <el-col :span="2"><span class="bule">设为主卡</span></el-col>
         <el-col :span="6">
-          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-view" @click="$refs.card_detail.show(item.id)">查看</el-button>
-          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)">修改密码</el-button>
-        </el-col>
-      </el-row>
-      <el-row :gutter="10" class="crad-item">
-        <el-col :span="6" class="number">读者证号：01111</el-col>
-        <el-col :span="2" class="green">正常</el-col>
-        <el-col :span="8">有效期：2013-09-12 99:00:00</el-col>
-        <el-col :span="2"><span class="bule">设为主卡</span></el-col>
-        <el-col :span="6">
-          <el-button size="mini" round class="new-btn grey-color">待审核</el-button>
-          <el-button size="mini" round class="new-btn red-color" icon="el-icon-close">撤销</el-button>
-          <el-button size="mini" round class="new-btn red-color" icon="el-icon-delete-solid">撤销</el-button>
+          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-view" @click="$refs.card_detail.show(item.id)" v-if="item.status==1">查看</el-button>
+          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)" v-if="item.status==1">修改密码</el-button>
+          <!-- <el-button size="mini" round class="new-btn grey-color" v-if="item.status==1">待审核</el-button> -->
+          <!-- <el-button size="mini" round class="new-btn red-color" icon="el-icon-close" v-if="item.status==1">撤销</el-button> -->
+          <!-- <el-button size="mini" round class="new-btn red-color" icon="el-icon-delete-solid" v-if="item.status==2">删除</el-button> -->
         </el-col>
       </el-row>
     </div>
 
     <!-- 弹窗组件 -->
     <password ref="password"></password>
-    <get_card ref="get_card" @next="$refs.phone.show()"></get_card>
+    <get_card ref="get_card" @next="next"></get_card>
     <phone ref="phone" @next="$refs.get_success.show()"></phone>
     <get_success ref="get_success"></get_success>
 
@@ -36,6 +28,8 @@
 </template>
 
 <script>
+import {timeFormat} from "@/assets/public/js/util";
+
 import password from '@/components/web/view/user/account_set/model/dialog/password'
 import get_card from '@/components/web/view/user/account_set/model/dialog/get_card'
 import phone from '@/components/web/view/user/account_set/model/dialog/phone'
@@ -49,13 +43,24 @@ export default {
   data() {
     return {
       cardList: {},
+      dataKey:null,
+      setTime:timeFormat
     };
   },
   created() {
+    this.getKey();
     this.getCard();
   },
-  mounted() { },
+  mounted() {},
   methods: {
+    // 获取用户信息
+    getKey() {
+      this.http.getJson('forward-init-data').then((res) => {
+        this.dataKey = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
     // 获取读者卡数据
     getCard() {
       this.http.getJson('forward-reader-card-list-data').then((res) => {
@@ -64,33 +69,15 @@ export default {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
     },
-    timeFormat(date, time = '日') {
-      let times = {
-        '年': 'YYYY',
-        '月': 'YYYY-mm',
-        '日': 'YYYY-mm-dd',
-        '时': 'YYYY-mm-dd HH',
-        '分': 'YYYY-mm-dd HH:MM',
-        '秒': 'YYYY-mm-dd HH:MM:SS',
-      }
-      let format = times[time];
-      date = new Date(date);
-      const dataItem = {
-        'Y+': date.getFullYear().toString(),
-        'm+': (date.getMonth() + 1).toString(),
-        'd+': date.getDate().toString(),
-        'H+': date.getHours().toString(),
-        'M+': date.getMinutes().toString(),
-        'S+': date.getSeconds().toString(),
-      };
-      Object.keys(dataItem).forEach((item) => {
-        const ret = new RegExp(`(${item})`).exec(format);
-        if (ret) {
-          format = format.replace(ret[1], ret[1].length === 1 ? dataItem[item] : dataItem[item].padStart(ret[1].length, '0'));
-        }
-      });
-      return format;
-    }
+    // 领取读者卡
+    next(data) {
+      this.$refs.phone.show(data);
+    },
+    getKeyValue(val,code='Card_Status'){
+      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      let items = select.groupItems.find(item=>(item.value == val))
+      return items?items.key:'';
+    },
   },
 };
 </script>
