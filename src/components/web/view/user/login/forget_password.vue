@@ -11,26 +11,25 @@
             <el-step title="重置密码"></el-step>
           </el-steps>
           <div v-show="step == 1">
-            <el-input v-model="phone" placeholder="学号/工号/读者号/一卡通" class="inp"></el-input>
-            <el-input v-model="phone" placeholder="验证码" class="inp small"></el-input>
+            <el-input v-model="no" placeholder="学号/工号/读者号/一卡通" class="inp"></el-input>
+            <el-input v-model="validateCode" placeholder="验证码" class="inp small"></el-input>
             <span class="verify-img">
-              <!-- <el-image style="width: 100px; height: 100px" src="../../../../../assets/web/img/upload/yzm.png" :fit="fit"></el-image> -->
-              <img src="../../../../../assets/web/img/upload/yzm.png" alt="">
+              <img @click="getValidateCode" v-show="validatePic" :src="validatePic" title="点击刷新" alt="">
             </span>
-            <button class="btn" @click="step = 2">下 一 步</button>
+            <button class="btn" @click="next">下 一 步</button>
           </div>
           <div v-show="step == 2">
             <el-input v-model="phone" placeholder="手机号" class="inp"></el-input>
             <div class="inp-box">
-              <el-input v-model="code" placeholder="短信验证码" class="inp"></el-input>
-              <span class="verification-code">获取验证码</span>
+              <el-input v-model="verifyCode" placeholder="短信验证码" class="inp"></el-input>
+              <span class="verification-code" @click="sendPhoneVerifyCode">获取验证码</span>
             </div>
-            <button class="btn" @click="step = 3">下 一 步</button>
+            <button class="btn" @click="next">下 一 步</button>
           </div>
           <div v-show="step == 3">
-            <el-input v-model="phone" placeholder="新密码" class="inp" show-password></el-input>
-            <el-input v-model="phone" placeholder="重复新密码" class="inp" show-password></el-input>
-            <button class="btn">确 定</button>
+            <el-input v-model="newPassword" placeholder="新密码" class="inp" show-password></el-input>
+            <el-input v-model="repeatPassword" placeholder="重复新密码" class="inp" show-password></el-input>
+            <button class="btn" @click="changePassword">确 定</button>
           </div>
         </div>
       </div>
@@ -42,16 +41,113 @@
 export default {
   data() {
     return {
+      no: '',
+      validateKey: '',
+      validateCode: '',
+      validatePic: '',
       phone: '',
-      code: '',
+      verifyKey: '',
+      verifyCode: '',
       step: 1,
+      operateKey: '',
+      newPassword: '',
+      repeatPassword: ''
     }
   },
   created() {
-
+    this.getValidateCode();
   },
   methods: {
+    next() {
+      switch (this.step) {
+        case 1:
+          this.searchCardByNo();
+          break;
+        case 2:
+          this.verifyPhoneCode();
+          break;
+      }
+    },
+    getValidateCode() {
+      this.http
+        .getJson("get-validate-code")
+        .then(res => {
+          this.validateKey = res.data.validateKey;
+          this.validatePic = `data:image/png;base64,${res.data.imgFile}`;
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: "验证码获取失败!" });
+        });
+    },
+    searchCardByNo() {
+      if (!this.no) {
+        this.$message({ type: "error", message: "请填写卡号!" });
+        return;
+      }
+      if (!this.validateCode) {
+        this.$message({ type: "error", message: "请输入验证码!" });
+        return;
+      }
+      this.http
+        .postJson("search-card-by-no", { No: this.no, validateKey: this.validateKey, validateCode: this.validateCode })
+        .then(res => {
+          this.operateKey = res.data;
+          this.step = 2;
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: err.message });
+        });
+    },
+    sendPhoneVerifyCode() {
+      if (!this.phone) {
+        this.$message({ type: "error", message: "请填写正确格式手机号!" });
+        return;
+      }
 
+      this.http
+        .postJson("send-phone-verify-code-forget", { phone: this.phone, operatekey: this.operateKey })
+        .then(res => {
+          debugger
+          var verifyKey = res.data;
+          this.verifyKey = verifyKey;
+          this.$message({ type: "success", message: "验证码已发送" });
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: err.errors });
+        });
+    },
+    verifyPhoneCode() {
+      if (!this.phone) {
+        this.$message({ type: "error", message: "请填写正确格式手机号!" });
+        return;
+      }
+      this.http
+        .postJson("verify-phone-code", { phone: this.phone, operatekey: this.operateKey, verifykey: this.verifyKey, verifyCode: this.verifyCode })
+        .then(res => {
+          this.step = 3;
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: err.message });
+        });
+    },
+    changePassword() {
+      if (!this.newPassword || !this.repeatPassword) {
+        this.$message({ type: "error", message: "请输入密码!" });
+        return;
+      }
+      if (this.newPassword != this.repeatPassword) {
+        this.$message({ type: "error", message: "输入的密码与重复密码不一致!" });
+        return;
+      }
+      this.http
+        .postJson("change-card-password", { operatekey: this.operateKey, password: this.newPassword })
+        .then(res => {
+          this.$message({ type: "success", message: "密码修改成功!" });
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: err.message });
+        });
+    },
   }
 }
 </script>
@@ -156,9 +252,9 @@ export default {
     float: right;
     overflow: hidden;
 
-    img{
-        width: 100%;
-        height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
   .tip {

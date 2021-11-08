@@ -9,7 +9,7 @@
           <div class="login-right">
             <div v-show="type=='account'">
               <h1 class="title">密码登录</h1>
-              <span class="register">注册账号</span>
+              <!-- <span class="register">注册账号</span> -->
               <el-input v-model="accountLogin.account" placeholder="学号/工号/读者号/一卡通" class="inp"></el-input>
               <el-input v-model="accountLogin.password" placeholder="密码" class="inp" show-password></el-input>
               <el-input v-model="accountLogin.validateCode" placeholder="验证码" class="inp small"></el-input>
@@ -18,14 +18,14 @@
               </span>
               <div class="pass">
                 <el-checkbox v-model="accountLogin.rememberMe">记住密码</el-checkbox>
-                <span class="forget">忘记密码</span>
+                <span class="forget" @click="forgetNav">忘记密码</span>
               </div>
               <button class="btn" @click="loginByAccount">登 录</button>
             </div>
-            <div v-show="type=='idcard'">
+            <div v-show="type=='idCard'">
               <h1 class="title">身份证登录</h1>
-              <span class="register">注册账号</span>
-              <el-input v-model="idCardLogin.idcard" placeholder="身份证号" class="inp"></el-input>
+              <!-- <span class="register">注册账号</span> -->
+              <el-input v-model="idCardLogin.idCard" placeholder="身份证号" class="inp"></el-input>
               <el-input v-model="idCardLogin.password" placeholder="读者证密码" class="inp" show-password></el-input>
               <el-input v-model="idCardLogin.validateCode" placeholder="验证码" class="inp small"></el-input>
               <span class="verify-img">
@@ -33,13 +33,13 @@
               </span>
               <div class="pass">
                 <el-checkbox v-model="idCardLogin.rememberMe">记住密码</el-checkbox>
-                <span class="forget">忘记密码</span>
+                <span class="forget" @click="forgetNav">忘记密码</span>
               </div>
               <button class="btn" @click="loginByIdCard">登 录</button>
             </div>
             <div v-show="type=='phone'">
               <h1 class="title">手机登录</h1>
-              <span class="register">注册账号</span>
+              <!-- <span class="register">注册账号</span> -->
               <el-input v-model="phoneLogin.phone" placeholder="手机号" class="inp"></el-input>
               <el-input v-model="phoneLogin.validateCode" placeholder="验证码" class="inp small"></el-input>
               <span class="verify-img">
@@ -51,7 +51,7 @@
               </div>
               <div class="pass">
                 <el-checkbox v-model="phoneLogin.rememberMe">记住密码</el-checkbox>
-                <span class="forget">忘记密码</span>
+                <span class="forget" @click="forgetNav">忘记密码</span>
               </div>
               <button class="btn" @click="loginByPhone">登 录</button>
             </div>
@@ -65,12 +65,12 @@
 
             <div class="login-type">
               <span @click="loginSwitch('phone')"><img src="../../../../../assets/web/img/icon_login_phone.png" alt=""></span>
-              <span @click="type='qq'"><img src="../../../../../assets/web/img/icon_login_QQ.png" alt=""></span>
-              <span @click="type='wex'"><img src="../../../../../assets/web/img/icon_login_wex.png" alt=""></span>
+              <!-- <span @click="type='qq'"><img src="../../../../../assets/web/img/icon_login_QQ.png" alt=""></span>
+              <span @click="type='wex'"><img src="../../../../../assets/web/img/icon_login_wex.png" alt=""></span> -->
               <span @click="loginSwitch('idCard')"><img src="../../../../../assets/web/img/icon_login_id.png" alt=""></span>
               <span @click="loginSwitch('account')"><img src="../../../../../assets/web/img/icon_login_school.png" alt=""></span>
             </div>
-            <p class="bottom-login" v-show="type=='phone'||type=='idcard'" @click="loginSwitch('account')">密码登录</p>
+            <p class="bottom-login" v-show="type=='phone'||type=='idCard'" @click="loginSwitch('account')">密码登录</p>
           </div>
         </div>
       </div>
@@ -107,8 +107,7 @@ export default {
         validatePic: '',
         rememberMe: false
       },
-      code: '',
-      type: 'wex'
+      type: 'account'
     }
   },
   created() {
@@ -172,7 +171,6 @@ export default {
         this.$message({ type: "error", message: "请输入验证码!" });
         return;
       }
-      debugger
       this.http
         .postJson("send-phone-verify-code", { ...loginInfo, validatePic: '' })
         .then(res => {
@@ -204,7 +202,7 @@ export default {
         this.$message({ type: "error", message: '请输入密码' });
       }
       //数据完整性校验
-      this.http.postJson('login-by-account', { ...loginInfo })
+      this.http.postJson('login-by-account', { ...loginInfo, validatePic: '' })
         .then(res => {
           this.$message({ type: "success", message: "登录成功!" });
         })
@@ -212,7 +210,7 @@ export default {
           this.$message({ type: "error", message: `登录失败:${err.errors}` });
         });
     },
-    loginbyIdCard() {
+    loginByIdCard() {
       var loginInfo = this.idCardLogin;
       if (!loginInfo.idCard) {
         this.$message({ type: "error", message: '请输入身份证号' });
@@ -221,13 +219,16 @@ export default {
         this.$message({ type: "error", message: '请输入密码' });
       }
       //数据完整性校验
-      this.http.postJson('login-by-idCard', { ...loginInfo })
+      this.http.postJson('login-by-idCard', { ...loginInfo, validatePic: '' })
         .then(res => {
           this.$message({ type: "success", message: "登录成功!" });
         })
         .catch(err => {
           this.$message({ type: "error", message: `登录失败:${err.errors}` });
         });
+    },
+    forgetNav() {
+      this.$router.push('/forgetPassword');
     }
   }
 }
