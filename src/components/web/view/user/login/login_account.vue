@@ -10,50 +10,50 @@
             <div v-show="type=='account'">
               <h1 class="title">密码登录</h1>
               <span class="register">注册账号</span>
-              <el-input v-model="phone" placeholder="学号/工号/读者号/一卡通" class="inp"></el-input>
-              <el-input v-model="phone" placeholder="密码" class="inp" show-password></el-input>
-              <el-input v-model="phone" placeholder="验证码" class="inp small"></el-input>
+              <el-input v-model="accountLogin.account" placeholder="学号/工号/读者号/一卡通" class="inp"></el-input>
+              <el-input v-model="accountLogin.password" placeholder="密码" class="inp" show-password></el-input>
+              <el-input v-model="accountLogin.validateCode" placeholder="验证码" class="inp small"></el-input>
               <span class="verify-img">
-                <img src="../../../../../assets/web/img/upload/yzm.png" alt="">
+                <img @click="getAccountValidateCode" v-show="accountLogin.validatePic" :src="accountLogin.validatePic" title="点击刷新" alt="">
               </span>
               <div class="pass">
-                <el-checkbox v-model="code">记住密码</el-checkbox>
+                <el-checkbox v-model="accountLogin.rememberMe">记住密码</el-checkbox>
                 <span class="forget">忘记密码</span>
               </div>
-              <button class="btn">登 录</button>
+              <button class="btn" @click="loginByAccount">登 录</button>
             </div>
             <div v-show="type=='idcard'">
               <h1 class="title">身份证登录</h1>
               <span class="register">注册账号</span>
-              <el-input v-model="phone" placeholder="身份证号" class="inp"></el-input>
-              <el-input v-model="phone" placeholder="读者证密码" class="inp" show-password></el-input>
-              <el-input v-model="phone" placeholder="验证码" class="inp small"></el-input>
+              <el-input v-model="idCardLogin.idcard" placeholder="身份证号" class="inp"></el-input>
+              <el-input v-model="idCardLogin.password" placeholder="读者证密码" class="inp" show-password></el-input>
+              <el-input v-model="idCardLogin.validateCode" placeholder="验证码" class="inp small"></el-input>
               <span class="verify-img">
-                <img src="../../../../../assets/web/img/upload/yzm.png" alt="">
+                <img @click="getIdCardValidateCode" v-show="idCardLogin.validatePic" :src="idCardLogin.validatePic" title="点击刷新" alt="">
               </span>
               <div class="pass">
-                <el-checkbox v-model="code">记住密码</el-checkbox>
+                <el-checkbox v-model="idCardLogin.rememberMe">记住密码</el-checkbox>
                 <span class="forget">忘记密码</span>
               </div>
-              <button class="btn">登 录</button>
+              <button class="btn" @click="loginByIdCard">登 录</button>
             </div>
             <div v-show="type=='phone'">
               <h1 class="title">手机登录</h1>
               <span class="register">注册账号</span>
-              <el-input v-model="phone" placeholder="手机号" class="inp"></el-input>
-              <el-input v-model="phone" placeholder="验证码" class="inp small"></el-input>
+              <el-input v-model="phoneLogin.phone" placeholder="手机号" class="inp"></el-input>
+              <el-input v-model="phoneLogin.validateCode" placeholder="验证码" class="inp small"></el-input>
               <span class="verify-img">
-                <img src="../../../../../assets/web/img/upload/yzm.png" alt="">
+                <img @click="getPhoneValidateCode" v-show="phoneLogin.validatePic" :src="phoneLogin.validatePic" title="点击刷新" alt="">
               </span>
               <div class="inp-box">
-                <el-input v-model="code" placeholder="短信验证码" class="inp"></el-input>
-                <span class="verification-code">获取验证码</span>
+                <el-input v-model="phoneLogin.verifyCode" placeholder="短信验证码" class="inp"></el-input>
+                <span class="verification-code" @click="sendPhoneVerifyCode">获取验证码</span>
               </div>
               <div class="pass">
-                <el-checkbox v-model="code">记住密码</el-checkbox>
+                <el-checkbox v-model="phoneLogin.rememberMe">记住密码</el-checkbox>
                 <span class="forget">忘记密码</span>
               </div>
-              <button class="btn">登 录</button>
+              <button class="btn" @click="loginByPhone">登 录</button>
             </div>
             <div v-show="type=='wex'">
               <h1 class="title">微信登录</h1>
@@ -64,13 +64,13 @@
             </div>
 
             <div class="login-type">
-              <span @click="type='phone'"><img src="../../../../../assets/web/img/icon_login_phone.png" alt=""></span>
+              <span @click="loginSwitch('phone')"><img src="../../../../../assets/web/img/icon_login_phone.png" alt=""></span>
               <span @click="type='qq'"><img src="../../../../../assets/web/img/icon_login_QQ.png" alt=""></span>
               <span @click="type='wex'"><img src="../../../../../assets/web/img/icon_login_wex.png" alt=""></span>
-              <span @click="type='idcard'"><img src="../../../../../assets/web/img/icon_login_id.png" alt=""></span>
-              <span @click="type='account'"><img src="../../../../../assets/web/img/icon_login_school.png" alt=""></span>
+              <span @click="loginSwitch('idCard')"><img src="../../../../../assets/web/img/icon_login_id.png" alt=""></span>
+              <span @click="loginSwitch('account')"><img src="../../../../../assets/web/img/icon_login_school.png" alt=""></span>
             </div>
-            <p class="bottom-login" v-show="type=='phone'||type=='idcard'" @click="type='account'">密码登录</p>
+            <p class="bottom-login" v-show="type=='phone'||type=='idcard'" @click="loginSwitch('account')">密码登录</p>
           </div>
         </div>
       </div>
@@ -82,7 +82,31 @@
 export default {
   data() {
     return {
-      phone: '',
+      phoneLogin: {
+        phone: '',
+        validateKey: '',
+        validateCode: '',
+        validatePic: '',
+        verifyKey: '',
+        verifyCode: '',
+        rememberMe: false,
+      },
+      accountLogin: {
+        account: '',
+        password: '',
+        validateKey: '',
+        validateCode: '',
+        validatePic: '',
+        rememberMe: false
+      },
+      idCardLogin: {
+        idCard: '',
+        password: '',
+        validateKey: '',
+        validateCode: '',
+        validatePic: '',
+        rememberMe: false
+      },
       code: '',
       type: 'wex'
     }
@@ -91,7 +115,120 @@ export default {
 
   },
   methods: {
-
+    loginSwitch(type) {
+      this.type = type;
+      switch (type) {
+        case 'phone':
+          this.getPhoneValidateCode();
+          break;
+        case 'account':
+          this.getAccountValidateCode();
+          break;
+        case 'idCard':
+          this.getIdCardValidateCode();
+          break;
+      }
+    },
+    getPhoneValidateCode() {
+      this.http
+        .getJson("get-validate-code")
+        .then(res => {
+          this.phoneLogin.validateKey = res.data.validateKey;
+          this.phoneLogin.validatePic = `data:image/png;base64,${res.data.imgFile}`;
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: "验证码获取失败!" });
+        });
+    },
+    getAccountValidateCode() {
+      this.http
+        .getJson("get-validate-code")
+        .then(res => {
+          this.accountLogin.validateKey = res.data.validateKey;
+          this.accountLogin.validatePic = `data:image/png;base64,${res.data.imgFile}`;
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: "验证码获取失败!" });
+        });
+    },
+    getIdCardValidateCode() {
+      this.http
+        .getJson("get-validate-code")
+        .then(res => {
+          this.idCardLogin.validateKey = res.data.validateKey;
+          this.idCardLogin.validatePic = `data:image/png;base64,${res.data.imgFile}`;
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: "验证码获取失败!" });
+        });
+    },
+    sendPhoneVerifyCode() {
+      var loginInfo = this.phoneLogin;
+      if (!loginInfo.phone) {
+        this.$message({ type: "error", message: "请填写正确格式手机号!" });
+        return;
+      }
+      if (!loginInfo.validateCode) {
+        this.$message({ type: "error", message: "请输入验证码!" });
+        return;
+      }
+      debugger
+      this.http
+        .postJson("send-phone-verify-code", { ...loginInfo, validatePic: '' })
+        .then(res => {
+          var verifyKey = res.data;
+          this.phoneLogin.verifyKey = verifyKey;
+          this.$message({ type: "success", message: "验证码已发送" });
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: "发送验证码失败!" });
+        });
+    },
+    loginByPhone() {
+      var loginInfo = this.phoneLogin;
+      //数据完整性校验
+      this.http.postJson('login-by-phone', { ...loginInfo, validatePic: '' })
+        .then(res => {
+          this.$message({ type: "success", message: "登录成功!" });
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: `登录失败:${err.errors}` });
+        });
+    },
+    loginByAccount() {
+      var loginInfo = this.accountLogin;
+      if (!loginInfo.account) {
+        this.$message({ type: "error", message: '请输入卡号' });
+      }
+      if (!loginInfo.password) {
+        this.$message({ type: "error", message: '请输入密码' });
+      }
+      //数据完整性校验
+      this.http.postJson('login-by-account', { ...loginInfo })
+        .then(res => {
+          this.$message({ type: "success", message: "登录成功!" });
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: `登录失败:${err.errors}` });
+        });
+    },
+    loginbyIdCard() {
+      var loginInfo = this.idCardLogin;
+      if (!loginInfo.idCard) {
+        this.$message({ type: "error", message: '请输入身份证号' });
+      }
+      if (!loginInfo.password) {
+        this.$message({ type: "error", message: '请输入密码' });
+      }
+      //数据完整性校验
+      this.http.postJson('login-by-idCard', { ...loginInfo })
+        .then(res => {
+          this.$message({ type: "success", message: "登录成功!" });
+        })
+        .catch(err => {
+          this.$message({ type: "error", message: `登录失败:${err.errors}` });
+        });
+    }
   }
 }
 </script>
@@ -213,7 +350,7 @@ export default {
       // vertical-align: top;
       float: right;
       overflow: hidden;
-
+      cursor: pointer;
       img {
         width: 100%;
         height: 100%;

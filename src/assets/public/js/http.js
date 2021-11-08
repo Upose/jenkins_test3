@@ -7,7 +7,9 @@ import api from '@/assets/public/js/api';
 // console.log(api.postUrl)
 export default {
   postUrl: api.postUrl,
-
+  error: function (msg) {
+    console.error(msg);
+  },
   //不带token的get方法  --- json
   noGet: function (url, data) {
     return new Promise((resolve, reject) => {
@@ -23,7 +25,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -47,7 +49,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -71,7 +73,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -95,7 +97,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -103,7 +105,7 @@ export default {
       });
     });
   },
-  
+
   //带token的post方法  --- json
   postJson: function (url, data) {
     return new Promise((resolve, reject) => {
@@ -116,12 +118,13 @@ export default {
           'Authorization': token
         },
       }).then(response => {
+
         const result = response.data;
 
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -142,11 +145,11 @@ export default {
         },
       }).then(response => {
         const result = response.data;
+        if (result.statusCode == 200) {
+          resolve(result);
+        } else {
 
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -156,10 +159,10 @@ export default {
   },
   //带token的get方法  --- plain ；data参数是在调用时拼接好的（如：id=1&name=张三）
   getPlain: function (url, data) {
-    var get_url ='';
-    if(data){
+    var get_url = '';
+    if (data) {
       get_url = this.postUrl[url] + '?' + data;
-    }else{
+    } else {
       get_url = this.postUrl[url];
     }
     return new Promise((resolve, reject) => {
@@ -175,7 +178,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -185,10 +188,10 @@ export default {
   },
   //带token的get方法  --- plain ；data参数是在调用时拼接好的（如：id=1&name=张三）
   getPlain: function (url, data) {
-    var get_url ='';
-    if(data){
+    var get_url = '';
+    if (data) {
       get_url = this.postUrl[url] + '?' + data;
-    }else{
+    } else {
       get_url = this.postUrl[url];
     }
     return new Promise((resolve, reject) => {
@@ -204,7 +207,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -226,7 +229,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -250,7 +253,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -273,7 +276,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -285,7 +288,7 @@ export default {
   postJsonSelf: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: this.postUrl[url]  + data,
+        url: this.postUrl[url] + data,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -296,7 +299,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -319,7 +322,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
@@ -344,7 +347,7 @@ export default {
         if (result.statusCode == 200) {
           resolve(result);
         } else {
-          error(result.message);
+          this.error(result.errors);
           reject(result);
         }
       }).catch(err => {
