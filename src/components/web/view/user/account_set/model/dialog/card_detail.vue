@@ -1,40 +1,45 @@
 <template>
   <el-dialog title="读者证详情" :visible.sync="dialogVisible" width="1000px" :before-close="dialogBeforeClose">
     <div>
-      <el-form ref="form" :model="form" label-width="90px" class="detail">
-        <el-form-item label="统一认证">
-          <el-input v-model="form.barCode" class="w-inp"></el-input>
+      <el-form ref="form" :model="form" label-width="90px" class="detail" v-if="dataKey">
+        <el-form-item label="统一认证号">
+          <el-input v-model="form.identityNo" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="读者卡号">
-          <el-input v-model="form.no" class="w-inp"></el-input>
+          <el-input v-model="form.no" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="学号">
-          <el-input v-model="form" class="w-inp"></el-input>
+          <el-input v-model="form.studentNo" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="form.userName" class="w-inp"></el-input>
+          <el-input v-model="form.userName" class="w-inp" disabled></el-input>
         </el-form-item>
-        <el-form-item label="有效日期">
-          <el-input v-model="form.issueDate" class="w-inp"></el-input>
+        <el-form-item label="发卡日期">
+          <!-- <el-input v-model="form.issueDate" class="w-inp"></el-input> -->
+          <el-date-picker v-model="form.issueDate" type="date" class="w-inp" disabled></el-date-picker>
+        </el-form-item>
+        <el-form-item label="截止日期">
+          <!-- <el-input v-model="form.expireDate" class="w-inp"></el-input> -->
+          <el-date-picker v-model="form.expireDate" type="date" class="w-inp" disabled></el-date-picker>
         </el-form-item>
         <el-form-item label="状态">
-          <el-input v-model="form.status" class="w-inp"></el-input>
+          <el-input :value="getKeyValue(form.status)" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="押金">
-          <el-input v-model="form.deposit" class="w-inp"></el-input>
+          <el-input v-model="form.deposit" class="w-inp" disabled></el-input>
         </el-form-item>
-        <el-form-item label="条形码">
+        <el-form-item label="条形码号">
+          <el-input v-model="form.barCode" class="w-inp" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="物理码号">
+          <el-input v-model="form.physicNo" class="w-inp" disabled></el-input>
+        </el-form-item>
+        <!-- <el-form-item label="用户类型">
           <el-input v-model="form" class="w-inp"></el-input>
-        </el-form-item>
-        <el-form-item label="物理码">
-          <el-input v-model="form.physicNo" class="w-inp"></el-input>
-        </el-form-item>
-        <el-form-item label="用户类型">
-          <el-input v-model="form" class="w-inp"></el-input>
-        </el-form-item>
-        <el-form-item label="卡密码">
-          <el-input v-model="form" class="w-inp"></el-input>
-        </el-form-item>
+        </el-form-item> -->
+        <!-- <el-form-item label="卡密码">
+          <el-input value="******" class="w-inp"></el-input>
+        </el-form-item> -->
       </el-form>
     </div>
     <div slot="footer">
@@ -52,11 +57,11 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      form: {}
+      form: {},
+      dataKey:null
     };
   },
   created() {
-
   },
   mounted() {
 
@@ -65,7 +70,16 @@ export default {
     show(id) {
       this.dialogVisible = true;
       this.id = id;
+      this.getKey();
       this.getCard();
+    },
+    // 获取用户信息
+    getKey() {
+      this.http.getJson('forward-init-data').then((res) => {
+        this.dataKey = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
     },
     // 获取读者卡数据
     getCard() {
@@ -74,6 +88,12 @@ export default {
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
+    },
+    // 键值对匹配
+    getKeyValue(val, code = 'Card_Status') {
+      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      let items = select.groupItems.find(item => (item.value == val))
+      return items ? items.key : '';
     },
   },
 };
@@ -85,5 +105,8 @@ export default {
 }
 .detail /deep/ .el-form-item {
   display: inline-block;
+}
+/deep/ .el-input.is-disabled .el-input__inner {
+  color: #666;
 }
 </style>

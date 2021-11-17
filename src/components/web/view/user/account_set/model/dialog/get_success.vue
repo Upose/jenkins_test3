@@ -30,8 +30,9 @@ export default {
 
   },
   methods: {
-    show() {
+    show(type) {
       this.dialogVisible = true;
+      this.type = type;
     }
   },
 };
@@ -55,6 +56,7 @@ export default {
     line-height: 21px;
     color: rgba(0, 0, 0, 0.65);
     text-align: center;
+    margin-top: 10px;
   }
 }
 </style>

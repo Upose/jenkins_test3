@@ -18,6 +18,9 @@ export default {
         'forward-search-card-data': baseURL + '/api/reader/search-card-data',//查询卡信息
         'forward-claim-reader-card': baseURL + '/api/reader/claim-reader-card',//读者卡领取
         'forward-init-data': baseURL + '/api/reader/init-data',//读者数据
+        'forward-set-principal-card': baseURL + '/api/reader/set-principal-card',//设为主卡
+        'forward-reader-card-apply-list-data': baseURL + '/api/reader/reader-card-apply-list-data',//查询读者卡申请信息
+        'forward-card-claim': baseURL + '/api/reader/card-claim',//删除领卡申请
         '': baseURL + '',//
 
     },

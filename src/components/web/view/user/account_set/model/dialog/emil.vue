@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { validator } from "@/assets/public/js/util";
+
 export default {
   name: "index",
   props: {},
@@ -45,8 +47,12 @@ export default {
     },
     // 获取验证码
     getCode() {
+      if(!validator('email',this.email)){
+        this.$message({ type: "warning", message: "请输入正确的邮箱!" });
+        return
+      }
       this.http.postJsonSelf('forward-send-email-verify-code', `/${this.email}`).then((res) => {
-        this.$message({ type: "error", message: "已发送!" });
+        this.$message({ type: "success", message: "已发送!" });
         this.hasCode = true;
         this.countDown = 60;
         var fnCountDown = setInterval(() => {

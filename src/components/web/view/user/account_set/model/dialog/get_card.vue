@@ -40,7 +40,7 @@ export default {
       this.dialogVisible = true;
     },
     next() {
-      this.http.postJson('forward-search-card-data', { no: this.no, pwd: this.pwd }).then((res) => {
+      this.http.getJson('forward-search-card-data', { No: this.no, Pwd: this.pwd }).then((res) => {
         this.$emit('next',res.data);
         this.dialogVisible = false;
       }).catch((err) => {

@@ -20,7 +20,8 @@
 </template>
 
 <script>
-// import validator from 'validator-js';
+import { validator } from "@/assets/public/js/util";
+
 export default {
   name: "index",
   props: {},
@@ -46,8 +47,12 @@ export default {
     },
     // 获取验证码
     getCode() {
+      if(!validator('phone',this.phone)){
+        this.$message({ type: "warning", message: "请输入正确的手机号!" });
+        return
+      }
       this.http.postJsonSelf('forward-send-mobile-verfiy-code', `/${this.phone}`).then((res) => {
-        this.$message({ type: "error", message: "已发送!" });
+        this.$message({ type: "success", message: "已发送!" });
         this.hasCode = true;
         this.countDown = 60;
         var fnCountDown = setInterval(() => {
@@ -66,7 +71,7 @@ export default {
     subForm(){
       this.http.postJson('forward-reader-info',{mobile:this.phone,code:this.code}).then((res) => {
         this.dialogVisible = false;
-        this.$message({ type: "error", message: "修改成功!" });
+        this.$message({ type: "success", message: "修改成功!" });
         this.$emit('change');
       }).catch((err) => {
         this.$message({ type: "error", message: "修改失败!" });

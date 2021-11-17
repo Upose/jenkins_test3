@@ -3,7 +3,7 @@
     <div class="user-box">
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="头像">
-          <div class="avatar" @click="$refs.UpdateImg.show()">
+          <div class="avatar" :class="isEdit('User_Photo')?'c-n':''" @click="handleAvatar">
             <img :src="form.photo" alt="">
           </div>
         </el-form-item>
@@ -116,6 +116,12 @@ export default {
       let item = this.dataKey.readerEditProperties.find(item => (item.propertyCode == code));
       return item ? false : true;
     },
+    // 更换头像
+    handleAvatar(){
+      if(!this.isEdit('User_Photo')){
+        this.$refs.UpdateImg.show();
+      }
+    },
     // 编辑保存
     subForm() {
       this.http.putJson('forward-reader-info', this.form).then((res) => {
@@ -164,6 +170,9 @@ export default {
 }
 /deep/ .el-input.is-disabled .el-input__inner {
     color: #666;
+}
+.c-n{
+  cursor: not-allowed;
 }
 </style>
 
