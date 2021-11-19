@@ -55,7 +55,7 @@ export default {
         this.$message({ type: "success", message: "已发送!" });
         this.hasCode = true;
         this.countDown = 60;
-        var fnCountDown = setInterval(() => {
+        let fnCountDown = setInterval(() => {
           if (this.countDown > 1) {
             this.countDown -= 1;
           } else {
