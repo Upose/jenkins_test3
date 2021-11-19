@@ -4,7 +4,7 @@
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="头像">
           <div class="avatar" :class="isEdit('User_Photo')?'c-n':''" @click="handleAvatar">
-            <img :src="form.photo" alt="">
+            <img :src="imgPath + form.photo" alt="">
           </div>
         </el-form-item>
         <el-form-item label="姓名">
@@ -22,10 +22,11 @@
           <el-date-picker v-model="form.birthday" type="date" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Birthday')"></el-date-picker>
         </el-form-item>
         <el-form-item label="所在地区">
-          <el-input v-model="form.addr" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input>
+          <!-- <el-input v-model="form.addr" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input> -->
+          <el-cascader style="width:400px" :disabled="isEdit('User_Addr')" :options="addrList" v-model="form.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址">
-          <el-input v-model="form.addrDetail" placeholder="请输入" style="width:400px" :disabled="isEdit('User_AddrDetail')"></el-input>
+          <el-input v-model="form.addrDetail" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input>
         </el-form-item>
         <el-form-item label="所在单位">
           <el-input v-model="form.unit" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Unit')"></el-input>
@@ -68,7 +69,7 @@
     </div>
 
     <!-- 组件 -->
-    <UpdateImg ref="UpdateImg"></UpdateImg>
+    <UpdateImg ref="UpdateImg" @imgUrl="imgUrl"></UpdateImg>
   </div>
 </template>
 
@@ -77,15 +78,18 @@ import UpdateImg from '@/components/web/model/UpdateImg'
 export default {
   name: "index",
   props: {},
-  components: {UpdateImg},
+  components: { UpdateImg },
   data() {
     return {
       form: {},
       dataKey: null,
+      imgPath: process.env.VUE_APP_IMG_URL,
+      addrList: [],
     };
   },
   created() {
     this.getKey();
+    this.getAddrList();
     this.getInfo();
   },
   mounted() { },
@@ -97,6 +101,14 @@ export default {
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
+    },
+    // 获取地址列表
+    getAddrList() {
+      this.http.getJson('forward-region-list').then(res => {
+        this.addrList = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
     },
     // 获取用户信息
     getInfo() {
@@ -117,15 +129,23 @@ export default {
       return item ? false : true;
     },
     // 更换头像
-    handleAvatar(){
-      if(!this.isEdit('User_Photo')){
+    handleAvatar() {
+      if (!this.isEdit('User_Photo')) {
         this.$refs.UpdateImg.show();
       }
+    },
+    // 头像上传成功
+    imgUrl(imgList) {
+      this.form.photo = imgList[0];
     },
     // 编辑保存
     subForm() {
       this.http.putJson('forward-reader-info', this.form).then((res) => {
-        this.form = res.data;
+        // this.form = res.data;
+        this.$message({
+          message: '编辑成功！',
+          type: 'success'
+        })
       }).catch((err) => {
         this.$message({ type: "error", message: "编辑读者信息失败!" });
       });
@@ -169,9 +189,9 @@ export default {
   padding: 20px 120px 30px;
 }
 /deep/ .el-input.is-disabled .el-input__inner {
-    color: #666;
+  color: #666;
 }
-.c-n{
+.c-n {
   cursor: not-allowed;
 }
 </style>

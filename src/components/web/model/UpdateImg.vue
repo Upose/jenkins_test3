@@ -151,7 +151,7 @@ export default {
             this.input_value = '';
             this.$forceUpdate();
             this.$emit('imgUrl', res.data || []);
-
+            this.dialogVisible = false;
             // if (res.data && res.status == 0) {
             //   this.$emit('upImg',res.data||[]);
             // } else {

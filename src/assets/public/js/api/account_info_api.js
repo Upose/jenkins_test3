@@ -21,6 +21,8 @@ export default {
         'forward-set-principal-card': baseURL + '/api/reader/set-principal-card',//设为主卡
         'forward-reader-card-apply-list-data': baseURL + '/api/reader/reader-card-apply-list-data',//查询读者卡申请信息
         'forward-card-claim': baseURL + '/api/reader/card-claim',//删除领卡申请
+        'forward-region-list': baseURL + '/api/property-group/region-list',//获取地址
+
         '': baseURL + '',//
 
     },

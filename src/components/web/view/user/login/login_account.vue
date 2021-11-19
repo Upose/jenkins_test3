@@ -47,7 +47,8 @@
               </span>
               <div class="inp-box">
                 <el-input v-model="phoneLogin.verifyCode" placeholder="短信验证码" class="inp"></el-input>
-                <span class="verification-code" @click="sendPhoneVerifyCode">获取验证码</span>
+                <span class="verification-code" @click="sendPhoneVerifyCode" v-if="!hasCode">获取验证码</span>
+                <span class="verification-code color-grey" v-else>{{countDown}}秒后重新获取</span>
               </div>
               <div class="pass">
                 <el-checkbox v-model="phoneLogin.rememberMe">记住密码</el-checkbox>
@@ -107,11 +108,12 @@ export default {
         validatePic: '',
         rememberMe: false
       },
-      type: 'account'
+      type: 'account',
+      countDown:0,//倒计时
     }
   },
   created() {
-
+    this.loginSwitch(this.type)
   },
   methods: {
     loginSwitch(type) {
@@ -177,6 +179,15 @@ export default {
           var verifyKey = res.data;
           this.phoneLogin.verifyKey = verifyKey;
           this.$message({ type: "success", message: "验证码已发送" });
+          this.countDown = 60;
+          let fnCountDown = setInterval(() => {
+            if (this.countDown > 1) {
+              this.countDown -= 1;
+            } else {
+              this.hasCode = false;
+              clearInterval(fnCountDown);
+            }
+          }, 1000);
         })
         .catch(err => {
           this.$message({ type: "error", message: "发送验证码失败!" });
@@ -438,5 +449,8 @@ export default {
       }
     }
   }
+}
+.color-grey {
+  color: #666;
 }
 </style>
