@@ -29,7 +29,7 @@
 </style>
 <script>
 // import headerpage from '@/common/header'
-// import footerpage from '@/common/footer'
+// import footerpage from '@/components/admin/common/footer'
 export default {
   name: 'index',
   // components:{headerpage,footerpage},
