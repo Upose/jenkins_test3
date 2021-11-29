@@ -110,6 +110,7 @@ export default {
       },
       type: 'account',
       countDown:0,//倒计时
+      hasCode:false,//是否发送验证码
     }
   },
   created() {
@@ -180,6 +181,7 @@ export default {
           this.phoneLogin.verifyKey = verifyKey;
           this.$message({ type: "success", message: "验证码已发送" });
           this.countDown = 60;
+          this.hasCode=true;
           let fnCountDown = setInterval(() => {
             if (this.countDown > 1) {
               this.countDown -= 1;
