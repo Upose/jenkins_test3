@@ -1,77 +1,96 @@
 <template>
   <div class="container">
     <header class="header"></header>
-    <div class="content-box">
+    <div class="content-box" :class="isEdit?'no-background':''">
       <div class="content">
-        <div class="top-right">
-          <span class="item"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
-          <span class="item"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
-          <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
-        </div>
-        <div class="top-content">
-          <div class="avatar"><img src="" alt=""></div>
-          <div class="name">
-            <span class="text">小猫咪</span>
-            <span class="leave">LV8</span>
+        <div v-if="!isEdit">
+          <div class="top-right">
+            <span class="item"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
+            <span class="item"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
+            <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
           </div>
-          <div class="w-q">
-            <img src="../../../../../assets/web/img/wex.png" alt="">
-            <img src="../../../../../assets/web/img/qq.png" alt="">
-          </div>
-          <div class="certification">
-            <span>
-              <img src="../../../../../assets/web/img/phone-i.png" alt="">
-              已认证
-            </span>
-            <span>
-              <img src="../../../../../assets/web/img/id-i.png" alt="">
-              已认证
-            </span>
-            <span>
-              <img src="../../../../../assets/web/img/icon_msg.png" alt="">
-              已认证
-            </span>
-          </div>
-          <div class="card" @click="$refs.dialog_card.show()">
-            <h6>张晓（临时卡）</h6>
-            <p>0100080015036</p>
-            <p>有效期至 2021-12-01</p>
-            <span>正常</span>
-          </div>
-        </div>
-        <div class="apply">
-          <div class="title-box">
-            <span class="left">我的应用</span>
-            <span class="right">应用中心</span>
-          </div>
-          <div class="app-content">
-            <div class="re-box">
-              <div class="app-box">
-                <div class="app"></div>
-                <div class="app"></div>
-                <div class="app"></div>
-                <div class="app"></div>
-              </div>
-              <p class="title-name">应用中心</p>
+          <div class="top-content">
+            <div class="avatar"><img src="" alt=""></div>
+            <div class="name">
+              <span class="text">小猫咪</span>
+              <span class="leave">LV8</span>
             </div>
-            <div class="item-box">
-              <div class="app-item">
-                <div class="app"></div>
-                <p class="title-name">首页</p>
-              </div>
-              <div class="app-item">
-                <div class="app"></div>
-                <p class="title-name">首页</p>
-              </div>
-              <div class="app-item">
-                <div class="app"></div>
-                <p class="title-name">首页</p>
-              </div>
+            <div class="w-q">
+              <img src="../../../../../assets/web/img/wex.png" alt="">
+              <img src="../../../../../assets/web/img/qq.png" alt="">
             </div>
-            <span class="right-arr">
-              <i class="el-icon-arrow-right"></i>
-              <p>更多</p>
-            </span>
+            <div class="certification">
+              <span>
+                <img src="../../../../../assets/web/img/phone-i.png" alt="">
+                已认证
+              </span>
+              <span>
+                <img src="../../../../../assets/web/img/id-i.png" alt="">
+                已认证
+              </span>
+              <span>
+                <img src="../../../../../assets/web/img/icon_msg.png" alt="">
+                已认证
+              </span>
+            </div>
+            <div class="card" @click="$refs.dialog_card.show()">
+              <h6>张晓（临时卡）</h6>
+              <p>0100080015036</p>
+              <p>有效期至 2021-12-01</p>
+              <span>正常</span>
+            </div>
+          </div>
+          <div class="apply">
+            <div class="title-box">
+              <span class="left">我的应用</span>
+              <span class="right">应用中心</span>
+            </div>
+            <div class="app-content">
+              <div class="re-box">
+                <div class="app-box">
+                  <div class="app"></div>
+                  <div class="app"></div>
+                  <div class="app"></div>
+                  <div class="app"></div>
+                </div>
+                <p class="title-name">应用中心</p>
+              </div>
+              <div class="item-box">
+                <div class="app-item">
+                  <div class="app"></div>
+                  <p class="title-name">首页</p>
+                </div>
+                <div class="app-item">
+                  <div class="app"></div>
+                  <p class="title-name">首页</p>
+                </div>
+                <div class="app-item">
+                  <div class="app"></div>
+                  <p class="title-name">首页</p>
+                </div>
+              </div>
+              <span class="right-arr">
+                <i class="el-icon-arrow-right"></i>
+                <p>更多</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div>
+          <div class="chance">
+            <div class="title-box">
+              <span class="left">选择应用</span>
+            </div>
+            <div class="chance-app">
+                <span class="app-select">应用</span>
+                <span>应用</span>
+                <span>应用</span>
+                <span>应用</span>
+                <span>应用</span>
+                <span>应用</span>
+                <span>应用</span>
+            </div>
           </div>
         </div>
         <div class="tmp-box">
@@ -222,7 +241,16 @@
       </div>
     </div>
     <footer class="footer"></footer>
-
+    <!-- 编辑按钮 -->
+    <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="el-icon-edit"></i>编辑主页</div>
+    <div class="edit-ing-btn" v-else>
+      <span class="mb" @click="handleReset">
+        <i class="el-icon-refresh-left"></i>重置
+      </span>
+      <span @click="handleSave">
+        <i class="el-icon-s-claim"></i>保存
+      </span>
+    </div>
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card"></dialog_card>
   </div>
@@ -230,22 +258,33 @@
 <script>
 import dialog_card from '@/components/web/view/user/library/model/dialog_card'
 export default {
-    components:{dialog_card},
+  components: { dialog_card },
   data() {
     return {
-
+      isEdit: false,
     }
   },
   created() {
 
   },
   methods: {
-
+    // 编辑个人图书馆
+    handleEdit() {
+      this.isEdit = true;
+    },
+    // 重置
+    handleReset() {
+      this.isEdit = false;
+    },
+    // 保存
+    handleSave() {
+      this.isEdit = false;
+    }
   }
 }
 </script>
 <style lang="less" scoped>
-@import url('../../../../../assets/web/css/user.less');
+@import url("../../../../../assets/web/css/user.less");
 .b-b {
   border-radius: 16px;
 }
@@ -272,6 +311,9 @@ export default {
     padding-top: 24px;
     overflow: hidden;
   }
+}
+.no-background {
+  background: #eeeeee;
 }
 .top-right {
   display: flex;
@@ -401,6 +443,44 @@ export default {
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.02);
   border-radius: 16px;
   //   padding: 25px;
+  overflow: hidden;
+}
+.chance {
+  // height: 200px;
+  background: #ffffff;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.02);
+  border-radius: 16px;
+  // padding: 25px;
+  overflow: hidden;
+  margin-top: 24px;
+  .chance-app{
+    padding: 24px 20px 40px;
+
+    span{
+      padding: 10px 16px;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+      margin: 0 20px 20px 0;
+      cursor: pointer;
+      color: #666;
+    }
+    .app-select{
+      border-color: #458DDA;
+      position: relative;
+
+      &::after{
+        position: absolute;
+        top: 0;
+        right: 0;
+        content: '';
+        color: #458DDA;
+        // background: #458DDA;
+        width: 12px;
+        height: 10px;
+        border-radius: 3px;
+      }
+    }
+  }
 }
 .title-box {
   height: 60px;
@@ -714,5 +794,57 @@ export default {
     }
   }
 }
+.edit-btn {
+  width: 64px;
+  height: 92px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  padding: 15px;
+  position: fixed;
+  right: 24px;
+  top: 500px;
+  text-align: center;
+  cursor: pointer;
+  color: #666;
 
+  i {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+}
+.edit-ing-btn {
+  width: 64px;
+  height: 150px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  opacity: 1;
+  border-radius: 8px;
+  padding: 15px;
+  position: fixed;
+  right: 24px;
+  top: 500px;
+  text-align: center;
+  cursor: pointer;
+  color: #666;
+
+  i {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+  span {
+    display: block;
+  }
+  .mb {
+    margin-bottom: 30px;
+  }
+}
 </style>
