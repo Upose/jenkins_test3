@@ -31,6 +31,7 @@ export default {
       dialogVisible: false,
       phone: '',//手机号
       code: '',//验证码
+      key: '',//验证key
       hasCode: false,//是否一点击获取验证码
       countDown: 60,//倒计时
     };
@@ -47,13 +48,14 @@ export default {
     },
     // 获取验证码
     getCode() {
-      if(!validator('phone',this.phone)){
+      if (!validator('phone', this.phone)) {
         this.$message({ type: "warning", message: "请输入正确的手机号!" });
         return
       }
       this.http.postJsonSelf('forward-send-mobile-verfiy-code', `/${this.phone}`).then((res) => {
         this.$message({ type: "success", message: "已发送!" });
         this.hasCode = true;
+        this.key = res.data;
         this.countDown = 60;
         let fnCountDown = setInterval(() => {
           if (this.countDown > 1) {
@@ -68,8 +70,8 @@ export default {
       });
     },
     // 编辑保存
-    subForm(){
-      this.http.postJson('forward-reader-info',{mobile:this.phone,code:this.code}).then((res) => {
+    subForm() {
+      this.http.postJson('forward-bind-mobile-and-code', { mobile: this.phone, code: this.code, key: this.key }).then((res) => {
         this.dialogVisible = false;
         this.$message({ type: "success", message: "修改成功!" });
         this.$emit('change');

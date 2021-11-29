@@ -1,21 +1,21 @@
 <template>
   <div class="set-box">
     <el-alert title="完成以下认证信息，可以加强您账户的安全性" type="warning" show-icon></el-alert>
-    <h1>姓名：李欣欣</h1>
+    <h1>姓名：{{form.name}}</h1>
     <div class="set-item">
-      <span class="img"><img src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
+      <span class="img"><img v-show="form.idCardIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">身份证号</span>
       <span class="content">{{form.idCard}}</span>
       <!-- <span class="use" @click="$refs.set_phone.show()" v-if="isEdit('User_IdCard')">修改身份证</span> -->
     </div>
     <div class="set-item">
-      <span class="img"><img src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
+      <span class="img"><img v-show="form.mobileIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">手机号码</span>
       <span class="content">{{form.phone}}</span>
       <span class="use" @click="$refs.set_phone.show()" v-if="isEdit('User_Phone')">修改手机</span>
     </div>
     <div class="set-item">
-      <span class="img"><img src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
+      <span class="img"><img v-show="form.emailIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">常用邮箱</span>
       <span class="content">{{form.email}}</span>
       <span class="use" @click="$refs.emil.show()" v-if="isEdit('User_Email')">修改邮箱</span>
