@@ -9,22 +9,35 @@
           </div>
         </div>
         <div class="right">
-          <div :style="previews.div" class="img-preview">
+          <!-- <div :style="previews.div" class="img-preview">
+            <img :src="previews.url" :style="previews.img">
+          </div> -->
+
+          <div class="img-preview" style="width:100px;height:100px;border-radius: 50%;">
             <img :src="previews.url" :style="previews.img">
           </div>
+          <p>100x100</p>
+          <div class="img-preview" style="width:64px;height:64px;border-radius: 50%;">
+            <img :src="previews.url" :style="previews.img64">
+          </div>
+          <p>64x64</p>
+          <div class="img-preview" style="width:24px;height:24px;border-radius: 50%;">
+            <img :src="previews.url" :style="previews.img24">
+          </div>
+          <p>24x24</p>
           <div class="btn-warp">
             <p>
               <button class="btn">点击上传
                 <input type="file" id="uploads" :value="input_value" accept="image/png, image/jpeg, image/gif, image/jpg" @change="selectImg($event)">
               </button>
             </p>
-            <p class="hint">请上传图片格式文件</p>
+            <!-- <p class="hint">请上传图片格式文件</p>
             <p>
               <button class="btn" @click="changeScale(1)">放大</button>
               <button class="btn" @click="changeScale(-1)">缩小</button>
               <button class="btn" @click="rotateLeft">左旋转</button>
               <button class="btn" @click="rotateRight">右旋转</button>
-            </p>
+            </p> -->
             <p><button class="btn submit" @click="uploadImg('blob')" :style="{background:(true?this.$root.skin_number:'#a80000')}">保存图片</button></p>
           </div>
         </div>
@@ -46,11 +59,11 @@ export default {
   props: {
     imgWidth: {
       type: Number,
-      default: 150
+      default: 100
     },
     imgHeight: {
       type: Number,
-      default: 150
+      default: 100
     },
     enlarge: {
       type: String,
@@ -59,7 +72,7 @@ export default {
   },//图片宽高
   data() {
     return {
-      dialogVisible:false,
+      dialogVisible: false,
 
       // name: this.Name,
       previews: {},
@@ -91,7 +104,7 @@ export default {
     };
   },
   methods: {
-    show(){
+    show() {
       this.dialogVisible = true;
     },
     //初始化函数
@@ -113,7 +126,27 @@ export default {
     },
     //实时预览函数
     realTime(data) {
-      this.previews = data
+      this.previews = data;
+      // 设置64像素和24像素样式
+      let rgs = /\((.+?)\)/g;
+      let tran = data.img.transform.match(rgs)[1];
+      tran = tran.substring(1,tran.length-1);
+      let tranList = tran.split(',');
+      let tran64=parseFloat(tranList[0])*64/100 + 'px'+','+parseFloat(tranList[1])*64/100 + 'px'+','+parseFloat(tranList[2])*64/100 + 'px';
+      let tran24=parseFloat(tranList[0])*24/100 + 'px'+','+parseFloat(tranList[1])*24/100 + 'px'+','+parseFloat(tranList[2])*24/100 + 'px';
+      tran64 = data.img.transform.replace(tran,tran64);
+      tran24 = data.img.transform.replace(tran,tran24);
+      // console.log(tran64,tran24);
+      this.previews.img64 = {
+        width: parseInt(data.img.width)*64/100 + 'px',
+        height: parseInt(data.img.height)*64/100 + 'px',
+        transform:tran64
+      }
+      this.previews.img24 = {
+        width: parseInt(data.img.width)*24/100 + 'px',
+        height: parseInt(data.img.height)*24/100 + 'px',
+        transform:tran24
+      }
     },
     //选择图片
     selectImg(e) {
