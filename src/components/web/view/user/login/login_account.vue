@@ -70,6 +70,7 @@
               <span @click="type='wex'"><img src="../../../../../assets/web/img/icon_login_wex.png" alt=""></span> -->
               <span @click="loginSwitch('idCard')"><img src="../../../../../assets/web/img/icon_login_id.png" alt=""></span>
               <span @click="loginSwitch('account')"><img src="../../../../../assets/web/img/icon_login_school.png" alt=""></span>
+              <span @click="loginSwitch('cas')"><img src="../../../../../assets/web/img/icon_login_school.png" alt=""></span>
             </div>
             <p class="bottom-login" v-show="type=='phone'||type=='idCard'" @click="loginSwitch('account')">密码登录</p>
           </div>
@@ -109,8 +110,8 @@ export default {
         rememberMe: false
       },
       type: 'account',
-      countDown:0,//倒计时
-      hasCode:false,//是否发送验证码
+      countDown: 0,//倒计时
+      hasCode: false,//是否发送验证码
     }
   },
   created() {
@@ -129,6 +130,8 @@ export default {
         case 'idCard':
           this.getIdCardValidateCode();
           break;
+        case 'cas':
+          this.http.linkTo('third-part-case');
       }
     },
     getPhoneValidateCode() {
@@ -181,7 +184,7 @@ export default {
           this.phoneLogin.verifyKey = verifyKey;
           this.$message({ type: "success", message: "验证码已发送" });
           this.countDown = 60;
-          this.hasCode=true;
+          this.hasCode = true;
           let fnCountDown = setInterval(() => {
             if (this.countDown > 1) {
               this.countDown -= 1;

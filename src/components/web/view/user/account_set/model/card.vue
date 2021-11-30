@@ -1,6 +1,6 @@
 <template>
   <div class="card-box">
-    <el-button type="primary" round size="medium" @click="$refs.get_card.show()">认证读者证</el-button>
+    <el-button type="primary" round size="medium" @click="$refs.get_card.show()">认领读者证</el-button>
     <div class="item-box" v-if="dataKey">
       <!-- 读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">
@@ -99,7 +99,7 @@ export default {
     // 键值对匹配 审核状态
     getKeyStatus(val) {
       for (const key in this.dataKey.cardClaimStatus) {
-        if(this.dataKey.cardClaimStatus[key] == val){
+        if (this.dataKey.cardClaimStatus[key] == val) {
           return key;
         }
       }
@@ -130,11 +130,11 @@ export default {
         type: 'warning'
       }).then(() => {
         this.http.postJsonSelf('forward-cancel-card-confirm', `/${id}`).then((res) => {
-        this.$message({ type: "success", message: "撤销成功!" });
-        this.getCardReview();
-      }).catch((err) => {
-        this.$message({ type: "error", message: "撤销失败!" });
-      });
+          this.$message({ type: "success", message: "撤销成功!" });
+          this.getCardReview();
+        }).catch((err) => {
+          this.$message({ type: "error", message: "撤销失败!" });
+        });
       }).catch(() => {
         this.$message({ type: 'info', message: '已撤销领卡申请!' });
       });
@@ -211,9 +211,9 @@ export default {
   color: #666;
 }
 h1 {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 25px;
-    margin: 30px 0 20px;
-  }
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 25px;
+  margin: 30px 0 20px;
+}
 </style>

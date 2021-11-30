@@ -355,4 +355,7 @@ export default {
       });
     });
   },
+  linkTo: function (url) {
+    window.location.href = this.postUrl[url];
+  }
 }

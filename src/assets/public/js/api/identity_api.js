@@ -13,6 +13,7 @@ export default {
         'search-card-by-no': baseURL + '/api/user-identity/search-card-by-no',//查找读者卡
         'verify-phone-code': baseURL + '/api/user-identity/verify-phone-code',//验证手机验证码
         'change-card-password': baseURL + '/api/user-identity/change-card-password',//修改卡密码
+        'third-part-case': baseURL + '/api/third-part-auth/cas-auth',//cas授权登录
         '': baseURL + '',//
 
     },

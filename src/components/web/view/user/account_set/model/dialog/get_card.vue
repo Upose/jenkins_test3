@@ -37,11 +37,13 @@ export default {
   },
   methods: {
     show() {
+      this.no = '';
+      this.pwd = '';
       this.dialogVisible = true;
     },
     next() {
       this.http.getJson('forward-search-card-data', { No: this.no, Pwd: this.pwd }).then((res) => {
-        this.$emit('next',res.data);
+        this.$emit('next', res.data);
         this.dialogVisible = false;
       }).catch((err) => {
         this.$message({ type: "error", message: "读者证号或密码错误!" });
