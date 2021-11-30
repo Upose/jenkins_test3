@@ -22,7 +22,8 @@
             <el-input v-model="phone" placeholder="手机号" class="inp"></el-input>
             <div class="inp-box">
               <el-input v-model="verifyCode" placeholder="短信验证码" class="inp"></el-input>
-              <span class="verification-code" @click="sendPhoneVerifyCode">获取验证码</span>
+              <span class="verification-code" @click="sendPhoneVerifyCode" v-if="!hasCode">获取验证码</span>
+              <span class="verification-code color-grey" v-else>{{countDown}}秒后重新获取</span>
             </div>
             <button class="btn main_bg" @click="next">下 一 步</button>
           </div>
@@ -51,7 +52,9 @@ export default {
       step: 1,
       operateKey: '',
       newPassword: '',
-      repeatPassword: ''
+      repeatPassword: '',
+      countDown: 0,//倒计时
+      hasCode: false,//是否发送验证码
     }
   },
   created() {
@@ -107,10 +110,19 @@ export default {
       this.http
         .postJson("send-phone-verify-code-forget", { phone: this.phone, operatekey: this.operateKey })
         .then(res => {
-          debugger
           var verifyKey = res.data;
           this.verifyKey = verifyKey;
           this.$message({ type: "success", message: "验证码已发送" });
+          this.countDown = 60;
+          this.hasCode = true;
+          let fnCountDown = setInterval(() => {
+            if (this.countDown > 1) {
+              this.countDown -= 1;
+            } else {
+              this.hasCode = false;
+              clearInterval(fnCountDown);
+            }
+          }, 1000);
         })
         .catch(err => {
           this.$message({ type: "error", message: err.errors });
