@@ -9,7 +9,7 @@
             <span>提交成功，等待馆员审核</span>
           </p>
           <p class="result-tip">审核结果将通过邮件告知，请耐心等待...</p>
-          <button class="btn">关 闭</button>
+          <button class=" main_bg">关 闭</button>
         </div>
       </div>
     </div>

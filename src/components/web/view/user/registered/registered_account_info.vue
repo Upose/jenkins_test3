@@ -14,7 +14,7 @@
           </el-input>
           <el-input v-model="phone" placeholder="邮箱" class="inp"></el-input>
 
-          <button class="btn">确 定</button>
+          <button class="btn main_bg">确 定</button>
         </div>
       </div>
     </div>

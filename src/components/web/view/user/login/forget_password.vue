@@ -16,7 +16,7 @@
             <span class="verify-img">
               <img @click="getValidateCode" v-show="validatePic" :src="validatePic" title="点击刷新" alt="">
             </span>
-            <button class="btn" @click="next">下 一 步</button>
+            <button class="btn  main_bg" @click="next">下 一 步</button>
           </div>
           <div v-show="step == 2">
             <el-input v-model="phone" placeholder="手机号" class="inp"></el-input>
@@ -25,12 +25,12 @@
               <span class="verification-code" @click="sendPhoneVerifyCode" v-if="!hasCode">获取验证码</span>
               <span class="verification-code color-grey" v-else>{{countDown}}秒后重新获取</span>
             </div>
-            <button class="btn" @click="next">下 一 步</button>
+            <button class="btn main_bg" @click="next">下 一 步</button>
           </div>
           <div v-show="step == 3">
             <el-input v-model="newPassword" placeholder="新密码" class="inp" show-password></el-input>
             <el-input v-model="repeatPassword" placeholder="重复新密码" class="inp" show-password></el-input>
-            <button class="btn" @click="changePassword">确 定</button>
+            <button class="btn main_bg" @click="changePassword">确 定</button>
           </div>
         </div>
       </div>
@@ -280,7 +280,7 @@ export default {
     width: 100%;
     height: 48px;
     line-height: 48px;
-    background: #a21e1e;
+    // background: #a21e1e;
     border-radius: 4px;
     border: none;
     color: #fff;

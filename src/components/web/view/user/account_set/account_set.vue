@@ -7,9 +7,9 @@
         <div class="info-box">
           <div class="title">账号设置</div>
           <div class="nav-box">
-            <span class="nav-item" :class="tab=='info'?'active':''" @click="tab='info'">基本信息</span>
-            <span class="nav-item" :class="tab=='set'?'active':''" @click="tab='set'">安全设置</span>
-            <span class="nav-item" :class="tab=='card'?'active':''" @click="tab='card'">我的读者证</span>
+            <span class="nav-item" :class="tab=='info'?'active child_border_color':''" @click="tab='info'">基本信息</span>
+            <span class="nav-item" :class="tab=='set'?'active child_border_color':''" @click="tab='set'">安全设置</span>
+            <span class="nav-item" :class="tab=='card'?'active child_border_color':''" @click="tab='card'">我的读者证</span>
           </div>
           <div v-show="tab=='info'">
               <info></info>
@@ -98,7 +98,7 @@ export default {
       cursor: pointer;
     }
     .active {
-      border-bottom: 2px solid #a21e1e;
+      border-bottom: 2px solid;
       font-weight: bold;
     }
   }

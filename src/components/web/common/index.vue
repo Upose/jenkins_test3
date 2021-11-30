@@ -11,6 +11,11 @@
     </div>
 </div>
 </template>
+
+<style lang="less">
+@import "../../../assets/web/css/color.less";//引入主题颜色文件
+</style>
+
 <style scoped lang="less">
 .web-warp{
     min-width: 1200px;
@@ -36,35 +41,15 @@ export default {
   name: 'index',
   mounted(){
     console.log(this.$store.state.skin_template);
-    /**
-     * 
-     * 头部
-http://192.168.21.71:9000/header_sys/temp1/component.css
-http://192.168.21.71:9000/header_sys/temp1/component.js
-
-http://192.168.21.71:9000/header_sys/temp2/component.css
-http://192.168.21.71:9000/header_sys/temp2/component.js
-
-底部
-http://192.168.21.71:9000/footer_sys/temp1/component.css
-http://192.168.21.71:9000/footer_sys/temp1/component.js
-
-http://192.168.21.71:9000/footer_sys/temp2/component.css
-http://192.168.21.71:9000/footer_sys/temp2/component.js
-     * 
-     * 
-     * 
-     * 
-     * */ 
     if(this.$store.state.skin_template == 'template1'){
         var list = [
           {
-            cs_url:'http://192.168.21.71:9000/header_sys/temp1/component.css',
-            js_url:'http://192.168.21.71:9000/header_sys/temp1/component.js',
+            cs_url:'http://192.168.21.71:9000/header_sys/temp1/header.css',
+            js_url:'http://192.168.21.71:9000/header_sys/temp1/header.js',
           },
           {
-            cs_url:'http://192.168.21.71:9000/footer_sys/temp1/component.css',
-            js_url:'http://192.168.21.71:9000/footer_sys/temp1/component.js',
+            cs_url:'http://192.168.21.71:9000/footer_sys/temp1/footer.css',
+            js_url:'http://192.168.21.71:9000/footer_sys/temp1/footer.js',
           },
         ]
         list.forEach(e => {
@@ -74,12 +59,12 @@ http://192.168.21.71:9000/footer_sys/temp2/component.js
       }else{
         var list = [
           {
-            cs_url:'http://192.168.21.71:9000/header_sys/temp2/component.css',
-            js_url:'http://192.168.21.71:9000/header_sys/temp2/component.js',
+            cs_url:'http://192.168.21.71:9000/header_sys/temp2/header.css',
+            js_url:'http://192.168.21.71:9000/header_sys/temp2/header.js',
           },
           {
-            cs_url:'http://192.168.21.71:9000/footer_sys/temp2/component.css',
-            js_url:'http://192.168.21.71:9000/footer_sys/temp2/component.js',
+            cs_url:'http://192.168.21.71:9000/footer_sys/temp2/footer.css',
+            js_url:'http://192.168.21.71:9000/footer_sys/temp2/footer.js',
           },
         ]
         list.forEach(e => {

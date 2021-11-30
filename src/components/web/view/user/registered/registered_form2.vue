@@ -15,7 +15,7 @@
           <el-input v-model="phone" placeholder="常用邮箱" class="inp"></el-input>
 
           <p class="tip">注册即表示您同意用户协议</p>
-          <button class="btn">注 册</button>
+          <button class="btn main_bg">注 册</button>
           <p class="login">已有账号？<span href="">去登录</span></p>
         </div>
       </div>
