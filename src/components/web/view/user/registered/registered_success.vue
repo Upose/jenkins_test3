@@ -8,8 +8,8 @@
             <i class="el-icon-success"></i>
             <span>注册成功</span>
           </p>
-          <button class="btn">马 上 登 录</button>
-          <p class="login-tip">（3s后回到登录页）</p>
+          <button class="btn main_bg" @click="$router.push('/loginAccount')">马 上 登 录</button>
+          <p class="login-tip">（{{countDown}}s后回到登录页）</p>
         </div>
       </div>
     </div>
@@ -22,13 +22,23 @@ export default {
     return {
       phone: '',
       code: '',
+      countDown: 3
     }
   },
   created() {
-
+    this.countDownTo();
   },
   methods: {
-
+    countDownTo() {
+      let fnCountDown = setInterval(() => {
+        if (this.countDown > 1) {
+          this.countDown -= 1;
+        } else {
+          clearInterval(fnCountDown);
+          this.$router.push('/loginAccount')
+        }
+      }, 1000);
+    }
   }
 }
 </script>

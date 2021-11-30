@@ -13,7 +13,7 @@
           </div>
 
           <!-- <p class="tip">注册即表示您同意用户协议</p> -->
-          <button class="btn">下 一 步</button>
+          <button class="btn main_bg">下 一 步</button>
           <p class="login">已有账号？<span href="">去登录</span></p>
         </div>
       </div>

@@ -20,7 +20,7 @@
                 <el-checkbox v-model="accountLogin.rememberMe">记住密码</el-checkbox>
                 <span class="forget" @click="forgetNav">忘记密码</span>
               </div>
-              <button class="btn" @click="loginByAccount">登 录</button>
+              <button class="btn main_bg" @click="loginByAccount">登 录</button>
             </div>
             <div v-show="type=='idCard'">
               <h1 class="title">身份证登录</h1>
@@ -35,7 +35,7 @@
                 <el-checkbox v-model="idCardLogin.rememberMe">记住密码</el-checkbox>
                 <span class="forget" @click="forgetNav">忘记密码</span>
               </div>
-              <button class="btn" @click="loginByIdCard">登 录</button>
+              <button class="btn main_bg" @click="loginByIdCard">登 录</button>
             </div>
             <div v-show="type=='phone'">
               <h1 class="title">手机登录</h1>
@@ -54,7 +54,7 @@
                 <el-checkbox v-model="phoneLogin.rememberMe">记住密码</el-checkbox>
                 <span class="forget" @click="forgetNav">忘记密码</span>
               </div>
-              <button class="btn" @click="loginByPhone">登 录</button>
+              <button class="btn main_bg" @click="loginByPhone">登 录</button>
             </div>
             <div v-show="type=='wex'">
               <h1 class="title">微信登录</h1>
@@ -418,7 +418,7 @@ export default {
       width: 100%;
       height: 48px;
       line-height: 48px;
-      background: #a21e1e;
+      // background: #a21e1e;
       border-radius: 4px;
       border: none;
       color: #fff;

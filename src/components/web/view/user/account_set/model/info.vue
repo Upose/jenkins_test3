@@ -65,7 +65,7 @@
     </div>
     <div class="btn-box">
       <el-button type="info" size="medium">取消</el-button>
-      <el-button class="main_bg" type="primary" size="medium" @click="subForm">保存</el-button>
+      <el-button class="btn_bg_color child_border_color" type="primary" size="medium" @click="subForm">保存</el-button>
     </div>
 
     <!-- 组件 -->
