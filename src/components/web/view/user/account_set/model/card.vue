@@ -1,6 +1,6 @@
 <template>
   <div class="card-box">
-    <el-button type="primary" round size="medium" @click="$refs.get_card.show()">认领读者证</el-button>
+    <el-button class="child_border_color btn_bg_color" type="primary" round size="medium" @click="$refs.get_card.show()">认领读者证</el-button>
     <div class="item-box" v-if="dataKey">
       <!-- 读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">

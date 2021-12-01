@@ -51,6 +51,7 @@ export default {
         'import-user-confirm': baseURL + '/api/user/import-user-confirm',//用户数据导入确认
         'export-user-data': baseURL + '/api/user/export-user-data',//用户数据导出
         'export-user-data-brief-info': baseURL + '/api/user/export-user-data-brief-info',//获取待导出简要信息
+        'user-card-apply-list-data': baseURL + '/api/card/user-card-apply-list-data',//获取用户读者卡申请信息
 
 
 

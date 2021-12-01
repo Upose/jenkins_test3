@@ -6,38 +6,40 @@
         <div v-if="!isEdit">
           <div class="top-right">
             <span class="item"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
-            <span class="item"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
+            <span class="item" @click="$router.push('/accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
             <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
           </div>
           <div class="top-content">
-            <div class="avatar"><img src="" alt=""></div>
+            <div class="avatar"><img :src="imgPath+form.photo" alt=""></div>
             <div class="name">
-              <span class="text">小猫咪</span>
-              <span class="leave">LV8</span>
+              <span class="text">{{form.name}}</span>
+              <!-- <span class="leave">LV8</span> -->
             </div>
             <div class="w-q">
-              <img src="../../../../../assets/web/img/wex.png" alt="">
-              <img src="../../../../../assets/web/img/qq.png" alt="">
+              <!-- <img src="../../../../../assets/web/img/wex.png" alt="">
+              <img src="../../../../../assets/web/img/qq.png" alt=""> -->
             </div>
             <div class="certification">
               <span>
                 <img src="../../../../../assets/web/img/phone-i.png" alt="">
-                已认证
+                {{form.mobileIdentity?'已认证':'未认证'}}
               </span>
               <span>
                 <img src="../../../../../assets/web/img/id-i.png" alt="">
-                已认证
+                {{form.idCardIdentity?'已认证':'未认证'}}
               </span>
               <span>
                 <img src="../../../../../assets/web/img/icon_msg.png" alt="">
-                已认证
+                {{form.emailIdentity?'已认证':'未认证'}}
               </span>
             </div>
-            <div class="card" @click="$refs.dialog_card.show()">
-              <h6>张晓（临时卡）</h6>
-              <p>0100080015036</p>
-              <p>有效期至 2021-12-01</p>
-              <span>正常</span>
+            <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
+              <h6>{{principal.userName}}（{{getKeyValue(principal.type,'Card_Type')}}）</h6>
+              <p>{{principal.no}}</p>
+              <p>有效期至 {{setTime(principal.expireDate)}}</p>
+              <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+              <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+              <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
             </div>
           </div>
           <div class="apply">
@@ -83,13 +85,13 @@
               <span class="left">选择应用</span>
             </div>
             <div class="chance-app">
-                <span class="app-select">应用</span>
-                <span>应用</span>
-                <span>应用</span>
-                <span>应用</span>
-                <span>应用</span>
-                <span>应用</span>
-                <span>应用</span>
+              <span class="app-select">应用</span>
+              <span>应用</span>
+              <span>应用</span>
+              <span>应用</span>
+              <span>应用</span>
+              <span>应用</span>
+              <span>应用</span>
             </div>
           </div>
         </div>
@@ -213,15 +215,7 @@
             <div class="title-box b-n">
               <span class="left"></span>
               <span class="right">
-                <!-- <span class="font-w">···</span> -->
-                <el-popover placement="bottom" width="120" trigger="click" popper-class="b-b">
-                  <div class="popover-content">
-                    <p>取消关注</p>
-                    <p>置顶</p>
-                  </div>
-                  <!-- <el-button slot="reference">click 激活</el-button> -->
-                  <span class="font-w" slot="reference">···</span>
-                </el-popover>
+                <span class="font-w">···</span>
               </span>
             </div>
             <div class="tem-content">
@@ -252,22 +246,65 @@
       </span>
     </div>
     <!-- 弹窗组件 -->
-    <dialog_card ref="dialog_card"></dialog_card>
+    <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
   </div>
 </template>
 <script>
-import dialog_card from '@/components/web/view/user/library/model/dialog_card'
+import dialog_card from '@/components/web/view/user/library/model/dialog_card';
+import { timeFormat } from "@/assets/public/js/util";
+
 export default {
   components: { dialog_card },
   data() {
     return {
-      isEdit: false,
+      isEdit: false,//是否编辑状态
+      dataKey: null,//键值对数据
+      form: {},//读者信息
+      cardList: [],//读者卡信息
+      principal: {},//主卡
+      imgPath: process.env.VUE_APP_IMG_URL,//图片域名
+      setTime: timeFormat
     }
   },
   created() {
-
+    this.getKey();
+    this.getInfo();
+    this.getCard();
   },
   methods: {
+    // 获取键值对数据
+    getKey() {
+      this.http.getJson('forward-init-data').then((res) => {
+        this.dataKey = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
+    // 键值对匹配
+    getKeyValue(val, code = 'Card_Status') {
+      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      let items = select.groupItems.find(item => (item.value == val))
+      return items ? items.key : '';
+    },
+    // 获取用户信息
+    getInfo() {
+      this.http.getJson('forward-reader-info').then((res) => {
+        this.form = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
+    // 获取读者卡数据
+    getCard() {
+      this.http.getJson('forward-reader-card-list-data').then((res) => {
+        this.cardList = res.data;
+        //主卡信息
+        this.principal = this.cardList.find(item => item.isPrincipal == true);
+        this.principal = this.principal ? this.principal : this.cardList[0];
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
     // 编辑个人图书馆
     handleEdit() {
       this.isEdit = true;
@@ -366,6 +403,10 @@ export default {
     overflow: hidden;
     background: #ddd;
     position: absolute;
+    img{
+      width: 100%;
+      height: 100%;
+    }
   }
   .name {
     position: absolute;
@@ -453,10 +494,10 @@ export default {
   // padding: 25px;
   overflow: hidden;
   margin-top: 24px;
-  .chance-app{
+  .chance-app {
     padding: 24px 20px 40px;
 
-    span{
+    span {
       padding: 10px 16px;
       border-radius: 3px;
       border: 1px solid #ddd;
@@ -464,16 +505,16 @@ export default {
       cursor: pointer;
       color: #666;
     }
-    .app-select{
-      border-color: #458DDA;
+    .app-select {
+      border-color: #458dda;
       position: relative;
 
-      &::after{
+      &::after {
         position: absolute;
         top: 0;
         right: 0;
-        content: '';
-        color: #458DDA;
+        content: "";
+        color: #458dda;
         // background: #458DDA;
         width: 12px;
         height: 10px;
@@ -846,5 +887,17 @@ export default {
   .mb {
     margin-bottom: 30px;
   }
+}
+.green {
+  color: #4fcd92;
+  background: #e5f8ef;
+}
+.yellow {
+  color: #ffa520;
+  background: #fff2dd;
+}
+.gery {
+  color: #555;
+  background: #eee;
 }
 </style>
