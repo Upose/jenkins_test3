@@ -263,7 +263,7 @@ export default {
       addrList: [],
       uploadUrl: process.env.VUE_APP_IMG_URL + 'api/file/upload-file',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] },
-      fileList:[],
+      fileList: [],
     }
   },
   props: ['id', 'iconUrl'],
@@ -382,7 +382,7 @@ export default {
         })
       }
     },
-    upaloadFile(index){
+    upaloadFile(index) {
       this.index = index;
     },
     // 上传成功
@@ -392,7 +392,7 @@ export default {
       this.postForm.properties[this.index].propertyValue = data[0];
     },
     // 下载附件
-    downloadFile(url){
+    downloadFile(url) {
       window.open(process.env.VUE_APP_IMG_URL + url);
     },
     //表单提交
@@ -734,7 +734,7 @@ export default {
 // .youxiang .divStyle {
 //   width: 40.5%;
 // }
-.d-ib{
+.d-ib {
   display: inline-block;
   vertical-align: top;
 }

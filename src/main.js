@@ -6,17 +6,19 @@ import store from './router/store'
 import Debounce from '@/assets/public/js/debounce'
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
+import validator from "@/assets/public/js/validator.js";
 
 Vue.config.productionTip = false
 
 Vue.prototype.http = http;
 Vue.prototype.bus = bus;
+Vue.prototype.$validator = validator;//前端Rule验证帮助类
 
-Vue.component('Debounce',Debounce)
+Vue.component('Debounce', Debounce)
 Vue.use(VueI18n)
 
 const i18n = new VueI18n({
-  locale: window.localStorage.getItem('locale')||'zh-CN',
+  locale: window.localStorage.getItem('locale') || 'zh-CN',
   messages: {
     'zh-CN': require('@/assets/public/lang/zh'),   // 中文
     'zh-HANT': require('@/assets/public/lang/hant'),    // 繁体
