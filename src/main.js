@@ -7,12 +7,15 @@ import Debounce from '@/assets/public/js/debounce'
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
 import validator from "@/assets/public/js/validator.js";
+import { timeFormat, friendlyError } from "@/assets/public/js/util";
 
 Vue.config.productionTip = false
 
 Vue.prototype.http = http;
 Vue.prototype.bus = bus;
 Vue.prototype.$validator = validator;//前端Rule验证帮助类
+Vue.prototype.setTime = timeFormat;//格式化时间
+Vue.prototype.handleError = friendlyError;//异常消息处理
 
 Vue.component('Debounce', Debounce)
 Vue.use(VueI18n)

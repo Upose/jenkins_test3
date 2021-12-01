@@ -56,7 +56,38 @@ var validator = (name, value, min, max) => {
 }
 
 
+//请求返回错误消息处理
+/**
+ * 
+ * @param {object} err 
+ * @param {string} tip 
+ */
+var friendlyError = function (err, tip) {
+  if (!err || !err.errors) {
+    return tip;
+  }
+  var errMsg = "";
+  if (typeof err.errors == 'string') {
+    errMsg = err.errors;
+  } else if (typeof err.errors == 'object') {
+    var errs = [];
+    for (let key in err.errors) {
+      if (err.errors.hasOwnProperty(key)) {
+        errs.push(err.errors[key]);
+      }
+    }
+    errMsg = errs.join(',');
+  }
+  if (err.status == 500) {
+    return `${tip}`;
+  } else {
+    return `${tip}:${errMsg}`
+  }
+}
+
+
 export {
   timeFormat,
-  validator
+  validator,
+  friendlyError
 }

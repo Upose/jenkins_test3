@@ -349,7 +349,7 @@ export default {
     },
     // 获取数据
     getData() {
-      http.getJsonSelf('user', `/${this.id}`).then(res => {
+      http.getJsonSelf('user-for-edit', `/${this.id}`).then(res => {
         this.postForm = res.data;
         this.properties = res.data.properties;
         if (this.postForm.isStaff) {
