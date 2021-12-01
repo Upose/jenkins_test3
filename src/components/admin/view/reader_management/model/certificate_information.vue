@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <h3>申请记录</h3>
+    <h3 class="apply-title">申请记录</h3>
     <div class="certificate-box" v-for="(item,index) in logList" :key="index">
       <div class="certificate-box-top">
         <span class="nums">{{item.no}}</span>
@@ -142,7 +142,7 @@ export default {
   },
   methods: {
     shouqi(index,list) {
-      this.$set(this[list][index], 'showBox', !this.tableData[index].showBox)
+      this.$set(this[list][index], 'showBox', !this[list][index].showBox)
       // this.tableData[index].showBox = !this.tableData[index].showBox
     },
     // 获取初始数据
@@ -419,5 +419,9 @@ export default {
 }
 /deep/ .el-input.is-disabled .el-input__inner {
   color: #666;
+}
+.apply-title{
+  margin-top: 30px;
+  font-weight: bold;
 }
 </style>
