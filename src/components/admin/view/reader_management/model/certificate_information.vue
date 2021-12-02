@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <h3 class="apply-title">申请记录</h3>
+    <h3 class="apply-title" v-if="logList.length">申请记录</h3>
     <div class="certificate-box" v-for="(item,index) in logList" :key="index">
       <div class="certificate-box-top">
         <span class="nums">{{item.no}}</span>
@@ -138,7 +138,7 @@ export default {
   created() {
     this.getKey();
     this.getData();
-    this.getLog()();
+    this.getLog();
   },
   methods: {
     shouqi(index,list) {

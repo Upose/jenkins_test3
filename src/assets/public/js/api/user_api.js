@@ -114,7 +114,8 @@ export default {
         'org': baseURL + '/api/property-group/org',//创建、修改、删除组织机构
 
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
-        '': baseURL + '',//
+
+        'all-permission-tree': baseURL + '/api/sys-menu/all-permission-tree',//获取应用权限
         '': baseURL + '',//
         '': baseURL + '',//
         '': baseURL + '',//

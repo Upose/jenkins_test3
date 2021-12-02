@@ -83,9 +83,9 @@
         <div class="all-temp-box" id="all-temp-box">
           <div class="tmp-box" :class="isEdit?'sort':''" v-for="(item,index) in tempData" :key="index" :id="item.appId">
             <div class="edit-mark" v-if="isEdit">
-              <el-popover class="edit-right" placement="bottom" width="120" trigger="click" popper-class="b-b">
+              <el-popover class="edit-right" placement="bottom" width="120" trigger="click" popper-class="b-b" :id="'pop'+item.appId">
                 <div class="popover-content">
-                  <p @click="handleCancel(item,index)">取消关注</p>
+                  <p @click="handleCancel(item)">取消关注</p>
                   <p @click="handleTop(item)">置顶</p>
                 </div>
                 <span class="font-w" slot="reference">···</span>
@@ -129,8 +129,10 @@ export default {
       cardList: [],//读者卡信息
       principal: {},//主卡
       appList: [],//我的应用列表
+      tempParm:{},//模板总数据
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
+      applyIdList: [],//模板appid列表
       imgPath: process.env.VUE_APP_IMG_URL,//图片域名
       setTime: timeFormat,
     }
@@ -191,11 +193,11 @@ export default {
 
     // 获取模板组件信息
     getTemp() {
-      let id = '22838880-c3c2-4e14-93f6-d795dcfe6b2b';
-      this.http.getPlain_url('forward-scene-detail', `/${id}`).then((res) => {
-        // this.http.getJson('forward-personal-scene-detail').then((res) => {
+      this.http.getJson('forward-personal-scene-detail').then((res) => {
+        this.tempParm = res.data;
         this.tempData = res.data.sceneScreens[0].sceneApps;
         this.tempData.forEach(item => {
+          this.applyIdList.push(item.appId);
           this.addStyle(item.appWidget.target);
           this.addScript(item.appWidget.target);
         })
@@ -205,16 +207,16 @@ export default {
     },
     // 获取应用列表
     getApplyList() {
-      this.http.getJsonSelf('forward-app-list-by-service-type', `/0/0`).then((res) => {
+      this.http.getJson('forward-personal-app-list').then((res) => {
         this.applyList = res.data;
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取读者信息失败!" });
+        this.$message({ type: "error", message: "获取应用信息失败!" });
       });
     },
     // 应用是否已选
     isSelect(id) {
-      let val = this.tempData.find(item => (item.appId == id));
-      return val ? true : false;
+      let val = this.applyIdList.includes(id);
+      return val;
     },
     //引入css文件
     addStyle(url) {
@@ -240,33 +242,78 @@ export default {
     },
     // 重置
     handleReset() {
-      this.isEdit = false;
+      // this.isEdit = false;
+      // this.getTemp();
+      window.location.reload();
     },
     // 保存
     handleSave() {
       this.isEdit = false;
+      let list = this.tempData.filter(items=>(!items.noHas));
+      console.log(list);
+      let parm = this.tempParm;
+      parm.sceneScreens[0].sceneApps = list;
+      this.http.postJson('forward-save-personal-scene',parm).then((res) => {
+        this.$message({ type: "success", message: "保存设置成功!" });
+      }).catch((err) => {
+        this.$message({ type: "error", message: "保存设置失败!" });
+      });
     },
     // 选择应用
     handleApply(item) {
-      this.http.getJsonSelf('forward-app-widget-list-by-app-id', `/${item.id}`).then((res) => {
-        // this.applyList = res.data;
+      if (!this.applyIdList.includes(item.appId)) {
+        this.http.getJsonSelf('forward-personal-app-widget-by-app-id', `/${item.appId}`).then((res) => {
+        let data = res.data;
+        this.applyIdList.push(data.appId);
+        let parm = {
+          appId: data.appId,
+          appPlateItems: [],
+          appWidget: data,
+          height: 39,
+          id: data.id,
+          sceneId: data.sceneId,
+          sceneScreenId: data.sceneScreenId,
+          width: 6,
+          xIndex: 6,
+          yIndex: 0,
+        }
+        this.tempData.push(parm);
+        this.addStyle(data.target);
+        this.addScript(data.target);
+        // console.log(this.tempData);
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取读者信息失败!" });
+        this.$message({ type: "error", message: "选择应用失败!" });
       });
+      } else {
+        this.$message({
+          message: '该应用已存在，无需再次选择！',
+          type: 'warning'
+        })
+      }
     },
     // 取消关注
     handleCancel(item) {
+      let popList = document.getElementsByClassName('el-popover');
+      for(let i=0;i<popList.length;i++){
+        popList[i].setAttribute('aria-hidden','true');
+      }
       let dom = document.getElementById(item.appId);
       dom.remove();
-      // let index = this.tempData.findIndex(items=> items==item);
-      // this.tempData.splice(index,1)
-      this.tempData = this.tempData.filter(items => (items != item));
+      // let pop = document.getElementById('pop'+item.appId);
+      // pop.remove();
+      this.applyIdList = this.applyIdList.filter(items => (items != item.appId));
+      // this.tempData = this.tempData.filter(items => (items != item));
+      // console.log(this.tempData);
+      this.tempData.forEach(obj=>{
+        if(obj.appId == item.appId){
+          obj.noHas = 1;
+        }
+      })
     },
     // 置顶
     handleTop(item) {
       let dom = document.getElementById(item.appId);
-      dom.remove();
-      document.getElementById('all-temp-box').insertAdjacentHTML('afterbegin', dom);
+      document.getElementById('all-temp-box').insertBefore(dom, document.getElementById('all-temp-box').childNodes[0]);
     },
     //表格拖动排序
     dragSort() {
@@ -650,6 +697,7 @@ export default {
   text-align: center;
   cursor: pointer;
   color: #666;
+  z-index: 1000;
 
   i {
     font-size: 20px;
