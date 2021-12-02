@@ -350,6 +350,7 @@ export default {
     // 获取数据
     getData() {
       http.getJsonSelf('user-for-edit', `/${this.id}`).then(res => {
+        this.rebuildFormData(res.data);
         this.postForm = res.data;
         this.properties = res.data.properties;
         if (this.postForm.isStaff) {
@@ -421,6 +422,26 @@ export default {
         }
       });
     },
+    rebuildFormData(data) {
+      if (data && data.addr) {
+        data.addr = this.showAddrCode(data.addr);
+      }
+      if (data && data.properties) {
+        data.properties.forEach(element => {
+          if (element.propertyType == 5) {
+            element.propertyValue = this.showAddrCode(element.propertyValue);
+          }
+        });
+      }
+    },
+    //处理地区编码
+    showAddrCode(addr) {
+      var addrArray = (addr || "").split('|');
+      if (addrArray.length >= 2) {
+        return addrArray[1];
+      }
+      return '';
+    }
   }
 }
 </script>

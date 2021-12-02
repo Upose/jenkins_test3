@@ -264,6 +264,7 @@ export default {
   // }
 }
 /deep/ .el-date-editor .el-range-separator {
-    width: 30px;
+  width: 30px;
+  font-weight: normal;
 }
 </style>
