@@ -84,6 +84,7 @@ export default {
         'import-group-user': baseURL + '/api/user-group/import-group-user',//用户组数据导入1103
         'group-users': baseURL + '/api/user-group/group-users',//删除用户到用户组1103
         'user-to-group': baseURL + '/api/user-group/user-to-group',//添加用户到用户组
+        'user-group-brief-info':baseURL+'/api/user-group/group-brief-info',//获取用户组简要信息
         '': baseURL + '',//
 
 

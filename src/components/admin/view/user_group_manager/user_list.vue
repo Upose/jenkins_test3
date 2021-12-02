@@ -12,28 +12,34 @@
           <div class="search-table-w">
             <h1 class="search-title">用户列表</h1>
             <div class="user-top-box">
-              <div class="title"><span>即将离校人员</span></div>
+              <div class="title"><span>{{briefInfo.name}}</span></div>
               <div class="top-number">
-                <p>854人<span>|</span>2%</p>
-                <p class="total">总人数444</p>
+                <p>{{briefInfo.count}}人<span>|</span>{{briefInfo.percent|showPercent}}</p>
+                <p class="total">总人数{{briefInfo.totalCount}}</p>
               </div>
-              <div class="look">
-                <i class="el-icon-question"></i>
-                <span>查看用户组规则</span>
-              </div>
-              <div>更新时间：2020-07</div>
-            </div>
-            <div class="search-term" v-if="dataKey">
-              <el-input v-model="postForm.Name" placeholder="姓名" style="width:180px"></el-input>
-              <el-input v-model="postForm.CardNo" placeholder="读者卡号" style="width:180px"></el-input>
-              <el-input v-model="postForm.StudentNo" placeholder="学号" style="width:180px"></el-input>
-              <!-- <el-date-picker v-model="postForm.CreateStartTime" type="date" placeholder="创建日期" style="width:180px" @change="postForm.CreateEndTime = postForm.CreateStartTime"></el-date-picker> -->
-              <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
+              <el-popover placement="top" width="160" v-model="visible">
+                <template v-if="briefInfo.sourceFrom==1"><span>手动创建</span></template>
+                <template v-else>
+                  <span :key="index" v-for="(rule,index) in briefInfo.rules">{{rule.propertyName}}{{rule.compareType?'等于':'不等于'}}{{rule.propertyValue}}{{rule.unionWay?'与':'或'}}</span>
+                </template>
+                <div class="look" slot="reference">
+                  <i class="el-icon-question"></i>
+                  <span>查看用户组规则</span>
+                </div>
+              </el-popover>
+              <div style="width:15em">更新时间：{{setTime(briefInfo.lastSyncTime,'分')}}</div>
             </div>
           </div>
           <!--顶部查询 end-->
           <div class="table-w">
             <h2 class="m-title">
+              <div class="search-term" style="float:left" v-if="dataKey">
+                <el-input v-model="postForm.Name" placeholder="姓名" style="width:180px"></el-input>
+                <el-input v-model="postForm.CardNo" placeholder="读者卡号" style="width:180px"></el-input>
+                <el-input v-model="postForm.StudentNo" placeholder="学号" style="width:180px"></el-input>
+                <!-- <el-date-picker v-model="postForm.CreateStartTime" type="date" placeholder="创建日期" style="width:180px" @change="postForm.CreateEndTime = postForm.CreateStartTime"></el-date-picker> -->
+                <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
+              </div>
               <div class="r-btn">
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
@@ -106,7 +112,7 @@ export default {
       this.$root.collapse = msg;
     })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging,dialog_export },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export },
   data() {
     return {
       dataKey: null,
@@ -117,7 +123,13 @@ export default {
       },//分页参数
       tableData: [],//列表项
       id: this.$route.query.id,
-      sourceFrom: this.$route.query.sourceFrom
+      sourceFrom: this.$route.query.sourceFrom,
+      briefInfo: {}
+    }
+  },
+  filters: {
+    showPercent(val) {
+      return (Number(val || 0) * 100).toFixed(2) + '%';
     }
   },
   mounted() {
@@ -127,12 +139,20 @@ export default {
     initData() {
       //   this.getSysAttr()
       this.getKey();
+      this.getBriefInfo();
       this.getList();
     },
     // 获取初始数据
     getKey() {
       http.getJson('user-group-init-data').then(res => {
         this.dataKey = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    getBriefInfo() {
+      http.getJsonSelf('user-group-brief-info', `/${this.id}`).then(res => {
+        this.briefInfo = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -227,33 +247,37 @@ export default {
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
 
-.user-top-box{
+.user-top-box {
   display: flex;
   align-items: center;
   margin-left: 40px;
   padding: 10px 0;
 
-  div{
+  div {
     width: 150px;
   }
-  .title{
-    span{
-      padding: 5px 10px;
+  .title {
+    padding-right: 12px;
+    span {
+      padding: 10px 15px;
       color: #fff;
       background: @6777EF;
       border-radius: 5px;
+      display: inline-block;
+      width: 100%;
+      text-align: center;
     }
   }
-  .top-number{
-    span{
+  .top-number {
+    span {
       padding: 0 10px;
     }
-    .total{
-      color: #666;   
-      font-size: 12px; 
+    .total {
+      color: #666;
+      font-size: 12px;
     }
   }
-  .look{
+  .look {
     color: @6777EF;
     cursor: pointer;
     width: 180px;
