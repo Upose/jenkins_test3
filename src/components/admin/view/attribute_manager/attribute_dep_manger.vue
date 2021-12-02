@@ -23,10 +23,15 @@
               </div>
 
               <el-table class="admin-table" stripe ref="singleTable" :data="tableData" border row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">>
-                <el-table-column label="分组名称">
+                <el-table-column label="部门名称">
                   <template slot-scope="scope">
                     <el-input v-if="scope.row.edit || scope.row.new" v-model="scope.row.name" placeholder="" maxlength="20" clearable show-word-limit></el-input>
                     <span v-else-if="!scope.row.edit">{{ scope.row.name }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column label="全称" show-overflow-tooltip>
+                  <template slot-scope="scope">
+                    <span>{{scope.row.fullName}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="code" label="分组编号">
@@ -183,7 +188,7 @@ export default {
       row.edit = false;
       http.putJson('org', row).then(res => {
         this.$message({ message: '编辑成功！', type: 'success' });
-        //   this.getData();
+        this.getList();
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
       })

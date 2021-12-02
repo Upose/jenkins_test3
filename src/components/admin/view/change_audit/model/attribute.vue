@@ -13,7 +13,7 @@
           <el-option label="操作人电话" :value="'changeUserPhone'"></el-option>
         </el-select>
       </el-input> -->
-      <el-date-picker style="width:260px" type="daterange" v-model="dateRange" size="medium" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" clearable></el-date-picker>
+      <el-date-picker style="width:260px" type="daterange" v-model="dateRange" size="medium" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" clearable></el-date-picker>
 
       <el-input placeholder="请输入" size="medium" v-model="searchKey" style="width:300px" clearable>
         <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:130px">
