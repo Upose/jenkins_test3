@@ -36,11 +36,21 @@ export default {
         {icon:'el-icon-warning-outline',title:'用户组管理',url:'/userGroupList'},
         {icon:'el-icon-warning-outline',title:'变动审核',url:'/changeAudit'},
         {icon:'el-icon-warning-outline',title:'管理设置',url:'/userSet'},
-        {icon:'el-icon-warning-outline',title:'登录设置',url:'/loginSettings'},
+        // {icon:'el-icon-warning-outline',title:'登录设置',url:'/loginSettings'},
       ],
     }
   },
+  created(){
+    this.getAuth();
+  },
   methods:{
+    getAuth(){
+      http.getJson('all-permission-tree').then(res => {
+        // this.dataKey = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
     handleOpen(key, keyPath) {
         console.log(key, keyPath);
     },

@@ -4,7 +4,7 @@
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="头像">
           <div class="avatar" :class="isEdit('User_Photo')?'c-n':''" @click="handleAvatar">
-            <img :src="imgPath + form.photo" alt="">
+            <img class="avatar-img" :src="imgPath + form.photo" alt="">
           </div>
         </el-form-item>
         <el-form-item label="姓名">
@@ -94,7 +94,7 @@ export default {
   },
   mounted() { },
   methods: {
-    // 获取用户信息
+    // 获取键值对数据
     getKey() {
       this.http.getJson('forward-init-data').then((res) => {
         this.dataKey = res.data;
@@ -164,7 +164,7 @@ export default {
     background: #ddd;
     border-radius: 50%;
     overflow: hidden;
-    img {
+    .avatar-img {
       width: 100%;
       height: 100%;
     }

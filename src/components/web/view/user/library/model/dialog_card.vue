@@ -1,44 +1,34 @@
 <template>
   <el-dialog title="切换主卡" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
-      <div class="card">
-        <el-checkbox v-model="e" class="c-box"></el-checkbox>
-        <h6>张晓（临时卡）</h6>
-        <p>0100080015036</p>
-        <p>有效期至 2021-12-01</p>
-        <span class="green">正常</span>
-      </div>
-      <div class="card">
-        <el-checkbox v-model="e" class="c-box"></el-checkbox>
-        <h6>张晓（临时卡）</h6>
-        <p>0100080015036</p>
-        <p>有效期至 2021-12-01</p>
-        <span class="yellow">挂失</span>
-      </div>
-      <div class="card">
-        <el-checkbox v-model="e" class="c-box"></el-checkbox>
-        <h6>张晓（临时卡）</h6>
-        <p>0100080015036</p>
-        <p>有效期至 2021-12-01</p>
-        <span class="gery">失效</span>
+      <div class="card" v-for="item in cardList" :key="item.id">
+        <el-checkbox :checked="item.isPrincipal" class="c-box" @change="handleChange(item)"></el-checkbox>
+        <h6>{{item.userName}}（{{getKeyValue(item.type,'Card_Type')}}）</h6>
+        <p>{{item.no}}</p>
+        <p>有效期至 {{setTime(item.expireDate)}}</p>
+        <span class="green" v-if="item.status==1">{{getKeyValue(item.status)}}</span>
+        <span class="yellow" v-if="item.status==2">{{getKeyValue(item.status)}}</span>
+        <span class="gery" v-if="item.status==3">{{getKeyValue(item.status)}}</span>
       </div>
     </div>
     <div slot="footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="next">确 定</el-button>
+      <el-button type="info" @click="dialogVisible = false">取 消</el-button>
+      <el-button class="btn_bg_color child_border_color" type="primary" @click="handleSet">确 定</el-button>
     </div>
   </el-dialog>
 </template>
 
 <script>
+import { timeFormat } from "@/assets/public/js/util";
+
 export default {
   name: "index",
-  props: {},
+  props: ['dataKey', 'cardList'],
   components: {},
   data() {
     return {
       dialogVisible: false,
-      e: '',
+      setTime: timeFormat
     };
   },
   created() {
@@ -50,6 +40,44 @@ export default {
   methods: {
     show() {
       this.dialogVisible = true;
+    },
+    // 键值对匹配
+    getKeyValue(val, code = 'Card_Status') {
+      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      let items = select.groupItems.find(item => (item.value == val))
+      return items ? items.key : '';
+    },
+    // 选择
+    handleChange(val) {
+      if (!val.isPrincipal) {
+        this.cardList.forEach(item => {
+          item.isPrincipal = false;
+        })
+        val.isPrincipal = true;
+      } else {
+        val.isPrincipal = false;
+      }
+    },
+    // 设为主卡
+    handleSet() {
+      let id = '';
+      this.cardList.forEach(item => {
+        if(item.isPrincipal){
+          id = item.id;
+        }
+      })
+      if(id==''){
+        this.$message({
+          message: '请选择读者卡！',
+          type: 'warning'
+        })
+        return
+      }
+      this.http.postJsonSelf('forward-set-principal-card', `/${id}`).then((res) => {
+        this.$message({ type: "success", message: "设为主卡成功!" });
+      }).catch((err) => {
+        this.$message({ type: "error", message: "设为主卡失败!" });
+      });
     },
   },
 };

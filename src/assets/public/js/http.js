@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import qs from 'qs'
 var token = 'Bearer ' + window.localStorage['token'];
-axios.defaults.timeout = 20000;
+axios.defaults.timeout = 50000;
 
 import api from '@/assets/public/js/api';
 // console.log(api.postUrl)

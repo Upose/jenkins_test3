@@ -1,6 +1,6 @@
 /***后台管理系统 项目接口地址-用户中心 */
 
-var baseURL = 'http://192.168.21.36:7001';//请求前端地址
+var baseURL = 'http://192.168.21.36:8001';//请求前端地址
 var baseURL1 = 'http://192.168.21.36:6001';//请求前端地址
 
 export default {
@@ -51,6 +51,7 @@ export default {
         'import-user-confirm': baseURL + '/api/user/import-user-confirm',//用户数据导入确认
         'export-user-data': baseURL + '/api/user/export-user-data',//用户数据导出
         'export-user-data-brief-info': baseURL + '/api/user/export-user-data-brief-info',//获取待导出简要信息
+        'user-card-apply-list-data': baseURL + '/api/card/user-card-apply-list-data',//获取用户读者卡申请信息
 
 
 
@@ -113,7 +114,8 @@ export default {
         'org': baseURL + '/api/property-group/org',//创建、修改、删除组织机构
 
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
-        '': baseURL + '',//
+
+        'all-permission-tree': baseURL + '/api/sys-menu/all-permission-tree',//获取应用权限
         '': baseURL + '',//
         '': baseURL + '',//
         '': baseURL + '',//

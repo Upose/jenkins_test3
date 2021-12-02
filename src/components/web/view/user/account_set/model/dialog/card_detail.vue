@@ -44,7 +44,7 @@
     </div>
     <div slot="footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button class="btn_bg_color" type="primary" @click="dialogVisible = false">确 定</el-button>
+      <el-button class="btn_bg_color child_border_color" type="primary" @click="dialogVisible = false">确 定</el-button>
     </div>
   </el-dialog>
 </template>

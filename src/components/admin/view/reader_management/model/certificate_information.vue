@@ -12,7 +12,67 @@
         <el-button class="caozuo" @click="handleEditPass(item)"><i class="el-icon-edit"></i><span>修改密码</span></el-button>
         <el-button class="caozuo" @click="handleResetPass(item)"><img src="@/assets/admin/img/userManager/chongzhi.png" /><span>重置密码</span></el-button>
         <el-button class="caozuo" @click="handleLook(item)"><i class="el-icon-view"></i><span>查看</span></el-button>
-        <el-button class="caozuo" @click="shouqi(index)">
+        <el-button class="caozuo" @click="shouqi(index,'tableData')">
+          <i class="el-icon-arrow-up" v-if="item.showBox"></i><span v-if="item.showBox">收起</span>
+          <i class="el-icon-arrow-down" v-if="item.showBox==false"></i><span v-if="item.showBox==false">展开</span>
+        </el-button>
+      </div>
+      <div class="certificate-box-info" v-if="item.showBox">
+        <div class="editdiv">
+          <el-form ref="form" :model="form" label-width="100px">
+            <el-form-item label="读者卡号" prop="no">
+              <el-input disabled v-model="item.no"></el-input>
+            </el-form-item>
+            <el-form-item label="条形码" prop="barCode">
+              <el-input disabled v-model="item.barCode"></el-input>
+            </el-form-item>
+            <el-form-item label="物理码" prop="physicNo">
+              <el-input disabled v-model="item.physicNo"></el-input>
+            </el-form-item>
+            <el-form-item label="统一认证号" prop="identityNo">
+              <el-input disabled v-model="item.identityNo"></el-input>
+            </el-form-item>
+            <el-form-item label="发卡日期" prop="issueDate">
+              <el-date-picker disabled v-model="item.issueDate" type="date">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="截止日期" prop="expireDate">
+              <el-date-picker disabled v-model="item.expireDate" type="date">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="状态" prop="status">
+              <el-select disabled v-model="item.status" placeholder="请选择">
+                <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="卡类型" prop="type">
+              <el-select disabled v-model="item.type" placeholder="请选择">
+                <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="押金" prop="desposit">
+              <el-input disabled v-model="item.deposit"></el-input>
+            </el-form-item>
+            <el-form-item label="最近同步日期" prop="updateTime">
+              <el-date-picker disabled v-model="item.updateTime" type="date">
+              </el-date-picker>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+    </div>
+    <h3 class="apply-title" v-if="logList.length">申请记录</h3>
+    <div class="certificate-box" v-for="(item,index) in logList" :key="index">
+      <div class="certificate-box-top">
+        <span class="nums">{{item.no}}</span>
+        <span class="status">{{getKeyValue(item.status)}}</span>
+        <span class="times">有效期：{{dateChangeFormat(item.expireDate)}}</span>
+        <span class="card" v-if="item.isPrincipal">主卡</span>
+        <!-- <el-button class="caozuo" @click="handleEditPass(item)"><i class="el-icon-edit"></i><span>修改密码</span></el-button>
+        <el-button class="caozuo" @click="handleResetPass(item)"><img src="@/assets/admin/img/userManager/chongzhi.png" /><span>重置密码</span></el-button>
+        <el-button class="caozuo" @click="handleLook(item)"><i class="el-icon-view"></i><span>查看</span></el-button> -->
+        <span>{{getKeyStatus(item.approveStatus)}}</span>
+        <el-button class="caozuo" @click="shouqi(index,'logList')">
           <i class="el-icon-arrow-up" v-if="item.showBox"></i><span v-if="item.showBox">收起</span>
           <i class="el-icon-arrow-down" v-if="item.showBox==false"></i><span v-if="item.showBox==false">展开</span>
         </el-button>
@@ -70,17 +130,19 @@ export default {
     return {
       showBox: true,
       tableData: [],
-      dataKey: {}
+      dataKey: {},
+      logList:[],//申请记录列表
     }
   },
   props: ['id'],
   created() {
     this.getKey();
     this.getData();
+    this.getLog();
   },
   methods: {
-    shouqi(index) {
-      this.$set(this.tableData[index], 'showBox', !this.tableData[index].showBox)
+    shouqi(index,list) {
+      this.$set(this[list][index], 'showBox', !this[list][index].showBox)
       // this.tableData[index].showBox = !this.tableData[index].showBox
     },
     // 获取初始数据
@@ -107,6 +169,27 @@ export default {
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
+    },
+    // 获取申请记录
+    getLog() {
+      http.getJsonSelf('user-card-apply-list-data', `/${this.id}`).then(res => {
+        let list = res.data;
+        list.forEach((item, index) => {
+          item.showBox = false;
+        })
+        this.logList = list;
+        // this.logList = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 键值对匹配 审核状态
+    getKeyStatus(val) {
+      for (const key in this.dataKey.cardClaimStatus) {
+        if (this.dataKey.cardClaimStatus[key] == val) {
+          return key;
+        }
+      }
     },
     // 获取状态
     getKeyValue(status) {
@@ -336,5 +419,9 @@ export default {
 }
 /deep/ .el-input.is-disabled .el-input__inner {
   color: #666;
+}
+.apply-title{
+  margin-top: 30px;
+  font-weight: bold;
 }
 </style>
