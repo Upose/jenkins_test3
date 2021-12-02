@@ -263,4 +263,7 @@ export default {
   //   top: -26px;
   // }
 }
+/deep/ .el-date-editor .el-range-separator {
+    width: 30px;
+}
 </style>

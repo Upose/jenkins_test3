@@ -251,6 +251,7 @@ export default {
       this.isEdit = false;
       let list = this.tempData.filter(items => (!items.noHas));
       // console.log(list);
+      // 通过dom节点顺序重置列表顺序
       let parmList = [];
       let nodeList = document.getElementsByClassName('tmp-box');
       for (let i = 0; i < nodeList.length; i++) {

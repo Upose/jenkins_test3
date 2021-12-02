@@ -40,7 +40,17 @@ export default {
       ],
     }
   },
+  created(){
+    this.getAuth();
+  },
   methods:{
+    getAuth(){
+      http.getJson('all-permission-tree').then(res => {
+        // this.dataKey = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
     handleOpen(key, keyPath) {
         console.log(key, keyPath);
     },
