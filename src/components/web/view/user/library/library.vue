@@ -129,7 +129,7 @@ export default {
       cardList: [],//读者卡信息
       principal: {},//主卡
       appList: [],//我的应用列表
-      tempParm:{},//模板总数据
+      tempParm: {},//模板总数据
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
       applyIdList: [],//模板appid列表
@@ -249,10 +249,25 @@ export default {
     // 保存
     handleSave() {
       this.isEdit = false;
-      let list = this.tempData.filter(items=>(!items.noHas));
-      console.log(list);
+      let list = this.tempData.filter(items => (!items.noHas));
+      // console.log(list);
+      let parmList = [];
+      let nodeList = document.getElementsByClassName('tmp-box');
+      for (let i = 0; i < nodeList.length; i++) {
+        const elid = nodeList[i].id;
+        // console.log(elid);
+        let obj = list.find(item => (item.appId == elid));
+        obj.yIndex = i;
+        if ((i+1) % 2 == 0) {
+          obj.xIndex = 1;
+        }else{
+          obj.xIndex = 0;
+        }
+        parmList.push(obj);
+      }
+      // console.log(parmList);
       let parm = this.tempParm;
-      parm.sceneScreens[0].sceneApps = list;
+      parm.sceneScreens[0].sceneApps = parmList;
       this.http.postJson('forward-save-personal-scene',parm).then((res) => {
         this.$message({ type: "success", message: "保存设置成功!" });
       }).catch((err) => {
@@ -263,27 +278,27 @@ export default {
     handleApply(item) {
       if (!this.applyIdList.includes(item.appId)) {
         this.http.getJsonSelf('forward-personal-app-widget-by-app-id', `/${item.appId}`).then((res) => {
-        let data = res.data;
-        this.applyIdList.push(data.appId);
-        let parm = {
-          appId: data.appId,
-          appPlateItems: [],
-          appWidget: data,
-          height: 39,
-          id: data.id,
-          sceneId: data.sceneId,
-          sceneScreenId: data.sceneScreenId,
-          width: 6,
-          xIndex: 6,
-          yIndex: 0,
-        }
-        this.tempData.push(parm);
-        this.addStyle(data.target);
-        this.addScript(data.target);
-        // console.log(this.tempData);
-      }).catch((err) => {
-        this.$message({ type: "error", message: "选择应用失败!" });
-      });
+          let data = res.data;
+          this.applyIdList.push(data.appId);
+          let parm = {
+            appId: data.appId,
+            appPlateItems: [],
+            appWidget: data,
+            height: 39,
+            id: '',
+            sceneId: this.tempParm.id,
+            sceneScreenId: this.tempParm.sceneScreens[0].id,
+            width: 6,
+            xIndex: 6,
+            yIndex: 0,
+          }
+          this.tempData.push(parm);
+          this.addStyle(data.target);
+          this.addScript(data.target);
+          // console.log(this.tempData);
+        }).catch((err) => {
+          this.$message({ type: "error", message: "选择应用失败!" });
+        });
       } else {
         this.$message({
           message: '该应用已存在，无需再次选择！',
@@ -293,19 +308,19 @@ export default {
     },
     // 取消关注
     handleCancel(item) {
+      // 隐藏弹窗
       let popList = document.getElementsByClassName('el-popover');
-      for(let i=0;i<popList.length;i++){
-        popList[i].setAttribute('aria-hidden','true');
+      for (let i = 0; i < popList.length; i++) {
+        popList[i].style.display = 'none';
       }
+      // 删除dom节点
       let dom = document.getElementById(item.appId);
       dom.remove();
-      // let pop = document.getElementById('pop'+item.appId);
-      // pop.remove();
+
       this.applyIdList = this.applyIdList.filter(items => (items != item.appId));
-      // this.tempData = this.tempData.filter(items => (items != item));
-      // console.log(this.tempData);
-      this.tempData.forEach(obj=>{
-        if(obj.appId == item.appId){
+      //增加删除标识，直接删除有问题
+      this.tempData.forEach(obj => {
+        if (obj.appId == item.appId) {
           obj.noHas = 1;
         }
       })
@@ -314,10 +329,14 @@ export default {
     handleTop(item) {
       let dom = document.getElementById(item.appId);
       document.getElementById('all-temp-box').insertBefore(dom, document.getElementById('all-temp-box').childNodes[0]);
+      // 隐藏弹窗
+      let popList = document.getElementsByClassName('el-popover');
+      for (let i = 0; i < popList.length; i++) {
+        popList[i].style.display = 'none';
+      }
     },
     //表格拖动排序
     dragSort() {
-      // const el = this.$refs.singleTable.$el.querySelectorAll(".el-table__body-wrapper > table > tbody")[0];
       const el = document.getElementById("all-temp-box");
       this.sortable = Sortable.create(el, {
         animation: 150,
@@ -329,9 +348,6 @@ export default {
           if (e.newIndex == e.oldIndex) {
             return;
           }
-          // const targetRow = this.userTempList.splice(e.oldIndex, 1)[0];
-          // this.userTempList.splice(e.newIndex, 0, targetRow);
-          // console.log(this.userTempList);
         } //onEnd
       });
     },
