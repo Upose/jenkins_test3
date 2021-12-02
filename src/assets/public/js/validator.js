@@ -27,6 +27,55 @@ export function validateAlphabets(str) {
     const reg = /^[A-Za-z]+$/
     return reg.test(str)
 }
+/**
+ * var Level2Regex = new Regex(@"
+    (?=.*[0-9])                     #必须包含数字
+    (?=.*[a-z])                     #必须包含小写字母
+    (?=.*[A-Z])                     #必须包含大写字母
+    (?=([\x21-\x7e]+)[^a-zA-Z0-9])  #必须包含特殊符号
+    .{8,30}                         #至少8个字符，最多30个字符
+", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+var Level1Regex = new Regex(@"
+    (?=.*[0-9])                     #必须包含数字
+    (?=.*[a-z])                     #必须包含小写字母
+    (?=.*[A-Z])                     #必须包含大写字母
+    .{8,30}                         #至少8个字符，最多30个字符
+", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+var Level0Regex = new Regex(@"
+    (?=.*[0-9])                     #必须包含数字
+    (?=.*[a-zA-Z])                  #必须包含字母
+    .{6,30}                         #至少6个字符，最多30个字符
+", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+ * */
+export function validatePassword(password, level = 0) {
+    if (level == 0) {
+        let reg = /(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}/;
+        return reg.exec(password);
+    } else if (level == 1) {
+        let reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,30}/;
+        return reg.exec(password);
+    } else {
+        let reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=([\x21-\x7e]+)[^a-zA-Z0-9]).{8,30}/;
+        return reg.exec(password);
+    }
+}
+export function validatePasswordMsg(level = 0) {
+    let v_pass = {
+        0: {
+            reg: /(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}/,
+            msg: '至少6个字符，最多30个字符;必须包含字母、数字'
+        },
+        1: {
+            reg: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,30}/,
+            msg: '至少8个字符，最多30个字符;必须包含小写字母、大写字母、数字'
+        },
+        2: {
+            reg: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=([\x21-\x7e]+)[^a-zA-Z0-9]).{8,30}/,
+            msg: '至少8个字符，最多30个字符;必须包含小写字母、大写字母、数字、特殊符号'
+        }
+    }
+    return v_pass[level];
+}
 
 /**
  * validate email

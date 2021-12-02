@@ -125,13 +125,14 @@
 </template>
 <script>
 import http from "@/assets/public/js/http";
+import {validatePasswordMsg} from "@/assets/public/js/validator";
 export default {
   data() {
     return {
       showBox: true,
       tableData: [],
       dataKey: {},
-      logList:[],//申请记录列表
+      logList: [],//申请记录列表
     }
   },
   props: ['id'],
@@ -141,7 +142,7 @@ export default {
     this.getLog();
   },
   methods: {
-    shouqi(index,list) {
+    shouqi(index, list) {
       this.$set(this[list][index], 'showBox', !this[list][index].showBox)
       // this.tableData[index].showBox = !this.tableData[index].showBox
     },
@@ -231,8 +232,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        item.secret = item.no;
-        http.putJson('card', item).then(res => {
+        http.postJson('reset-card-secret', { cardId: item.id, secret: item.no }).then(res => {
           this.$message({ message: '重置成功！', type: 'success' });
           // this.getData();
         }).catch(err => {
@@ -247,11 +247,11 @@ export default {
       this.$prompt('请输入新密码', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        inputPattern: /^\s*$/g,
-        inputErrorMessage: '请输入密码'
+        inputPattern: validatePasswordMsg(this.dataKey.secretLevel).reg,
+        inputErrorMessage: validatePasswordMsg(this.dataKey.secretLevel).msg
       }).then(({ value }) => {
-        item.secret = value;
-        http.putJson('card', item).then(res => {
+        // item.secret = value;
+        http.postJson('set-card-secret', { cardId: item.id, secret: value }).then(res => {
           this.$message({ message: '修改成功！', type: 'success' });
           // this.getData();
         }).catch(err => {
@@ -420,7 +420,7 @@ export default {
 /deep/ .el-input.is-disabled .el-input__inner {
   color: #666;
 }
-.apply-title{
+.apply-title {
   margin-top: 30px;
   font-weight: bold;
 }

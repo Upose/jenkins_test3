@@ -52,6 +52,9 @@ export default {
         'export-user-data': baseURL + '/api/user/export-user-data',//用户数据导出
         'export-user-data-brief-info': baseURL + '/api/user/export-user-data-brief-info',//获取待导出简要信息
         'user-card-apply-list-data': baseURL + '/api/card/user-card-apply-list-data',//获取用户读者卡申请信息
+        'set-card-secret': baseURL + '/api/card/set-card-secret',//设置卡密码
+        'reset-card-secret': baseURL + '/api/card/reset-card-secret',//重置卡密码
+
 
 
 
@@ -116,7 +119,6 @@ export default {
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
 
         'all-permission-tree': baseURL + '/api/sys-menu/all-permission-tree',//获取应用权限
-        '': baseURL + '',//
         '': baseURL + '',//
         '': baseURL + '',//
 
