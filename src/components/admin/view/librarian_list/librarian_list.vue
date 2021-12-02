@@ -32,11 +32,12 @@
             <el-table :data="tableData" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="55" align="center"></el-table-column>
               <el-table-column label="姓名" prop="name" width="100" align="center" show-overflow-tooltip></el-table-column>
-              <el-table-column label="部门" prop="depart" min-width="120" align="left" show-overflow-tooltip></el-table-column>
+              <el-table-column label="工号" prop="studentNo" width="110" align="center" show-overflow-tooltip></el-table-column>
+              <el-table-column label="部门" prop="departName" min-width="120" align="left" show-overflow-tooltip></el-table-column>
               <el-table-column label="职称" prop="title" width="80" align="center" show-overflow-tooltip></el-table-column>
               <el-table-column label="手机号码" prop="phone" width="120" align="center" show-overflow-tooltip></el-table-column>
               <el-table-column label="主卡号" prop="cardNo" width="110" align="center" show-overflow-tooltip></el-table-column>
-              <el-table-column label="工号" prop="studentNo" width="110" align="center" show-overflow-tooltip></el-table-column>
+
               <el-table-column label="卡状态" prop="cardStatus" width="100" align="center" show-overflow-tooltip>
                 <template slot-scope="scope">
                   {{getKeyValue('Card_Status',scope.row.cardStatus) }}
@@ -90,7 +91,8 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'name',
-      }
+      },
+      nodeDepart: ''
     }
   },
   mounted() {
@@ -182,11 +184,13 @@ export default {
       //匹配文本查找项
       let search = {};
       search.keyword = this.name;
+      search.depart = this.nodeDepart;
       this.postForm = search;
       this.initGetList();
     },
     handleNodeClick(data) {
-      console.log(data);
+      this.nodeDepart = data.fullPath;
+      this.handSearch();
     },
     // 多选
     handleSelectionChange(val) {
@@ -214,6 +218,7 @@ export default {
 .librarianList-left,
 .librarianList-right {
   float: left;
+  padding-bottom: 30px;
 }
 .librarianList-left {
   width: 22%;
