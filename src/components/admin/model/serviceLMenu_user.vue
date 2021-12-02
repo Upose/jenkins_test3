@@ -36,7 +36,7 @@ export default {
         {icon:'el-icon-warning-outline',title:'用户组管理',url:'/userGroupList'},
         {icon:'el-icon-warning-outline',title:'变动审核',url:'/changeAudit'},
         {icon:'el-icon-warning-outline',title:'管理设置',url:'/userSet'},
-        {icon:'el-icon-warning-outline',title:'登录设置',url:'/loginSettings'},
+        // {icon:'el-icon-warning-outline',title:'登录设置',url:'/loginSettings'},
       ],
     }
   },

@@ -16,8 +16,8 @@
               <!-- <span class="leave">LV8</span> -->
             </div>
             <div class="w-q">
-              <!-- <img src="../../../../../assets/web/img/wex.png" alt="">
-              <img src="../../../../../assets/web/img/qq.png" alt=""> -->
+              <img src="../../../../../assets/web/img/wex.png" alt="">
+              <img src="../../../../../assets/web/img/qq.png" alt="">
             </div>
             <div class="certification">
               <span>
@@ -50,25 +50,16 @@
             <div class="app-content">
               <div class="re-box">
                 <div class="app-box">
-                  <div class="app"></div>
-                  <div class="app"></div>
-                  <div class="app"></div>
-                  <div class="app"></div>
+                  <div class="app" v-for="(item,index) in appList" :key="item.appId" v-if="index<4"><img :src="item.appIcon" alt=""></div>
                 </div>
                 <p class="title-name">应用中心</p>
               </div>
               <div class="item-box">
-                <div class="app-item">
-                  <div class="app"></div>
-                  <p class="title-name">首页</p>
-                </div>
-                <div class="app-item">
-                  <div class="app"></div>
-                  <p class="title-name">首页</p>
-                </div>
-                <div class="app-item">
-                  <div class="app"></div>
-                  <p class="title-name">首页</p>
+                <div class="app-item" v-for="item in appList" :key="item.appId">
+                  <div class="app">
+                    <img :src="item.appIcon" alt="">
+                  </div>
+                  <p class="title-name">{{item.appName}}</p>
                 </div>
               </div>
               <span class="right-arr">
@@ -85,150 +76,23 @@
               <span class="left">选择应用</span>
             </div>
             <div class="chance-app">
-              <span class="app-select">应用</span>
-              <span>应用</span>
-              <span>应用</span>
-              <span>应用</span>
-              <span>应用</span>
-              <span>应用</span>
-              <span>应用</span>
+              <span :class="isSelect(item.appId)?'app-select':''" v-for="item in applyList" :key="item.id" @click="handleApply(item)">{{item.name}}</span>
             </div>
           </div>
         </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box">
-              <span class="left">通知消息</span>
-              <span class="right">
-                <span>更多 </span>
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <p class="info-item" v-for="item in 6" :key="item">
-                <span>【应用名称】消息内容消息内容</span>
-                <span>09-21 21:12</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box">
-              <span class="left">图书馆新闻</span>
-              <span class="right">
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <p class="news-item" v-for="item in 4" :key="item">
-                <span>
-                  <span class="tag bule">新闻</span>
-                  新闻标题新闻标题
-                </span>
-                <span>09-21 21:12</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box">
-              <span class="left">资源推荐类</span>
-              <span class="right">
-                <span>换一换</span>
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <div class="resource-item" v-for="item in 4" :key="item">
-                <img src="../../../../../assets/web/img/upload/book.png" alt="">
-                <p>中国通史中国通史中国通史中国国通史中国</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box">
-              <span class="left">专题类型</span>
-              <span class="right">
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <div class="topic-item" v-for="item in 6" :key="item">
-                <img src="../../../../../assets/web/img/upload/w-show.png" alt="">
-                <p>中国通史</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box">
-              <span class="left">图书馆活动</span>
-              <span class="right">
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <div class="activity-item">
-                <img src="../../../../../assets/web/img/upload/pic.png" alt="">
-                <div>
-                  <span class="act-tag">讲座活动</span>
-                  <p>
-                    <span class="act-name">活动</span>
-                    <span class="act-text">2021-09-29 15:00 用户培训中心（304室）</span>
-                  </p>
+        <div class="all-temp-box" id="all-temp-box">
+          <div class="tmp-box" :class="isEdit?'sort':''" v-for="(item,index) in tempData" :key="index" :id="item.appId">
+            <div class="edit-mark" v-if="isEdit">
+              <el-popover class="edit-right" placement="bottom" width="120" trigger="click" popper-class="b-b">
+                <div class="popover-content">
+                  <p @click="handleCancel(item,index)">取消关注</p>
+                  <p @click="handleTop(item)">置顶</p>
                 </div>
-              </div>
+                <span class="font-w" slot="reference">···</span>
+              </el-popover>
             </div>
-          </div>
-        </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box">
-              <span class="left">常用数据库</span>
-              <span class="right">
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <p class="database-item" v-for="item in 3" :key="item">
-                <span>消息内容消息内容</span>
-                <img class="data-icon" src="../../../../../assets/web/img/icon_hot.png" alt="">
-              </p>
-              <p class="database-item" v-for="item in 3" :key="item">
-                <span>消息内容消息内容</span>
-                <img class="data-icon" src="../../../../../assets/web/img/icon_focus.png" alt="">
-              </p>
-              <p class="database-item" v-for="item in 3" :key="item">
-                <span>消息内容消息内容</span>
-                <img class="data-icon" src="../../../../../assets/web/img/icon_usual.png" alt="">
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="tmp-box">
-          <div class="tmp-detail">
-            <div class="title-box b-n">
-              <span class="left"></span>
-              <span class="right">
-                <span class="font-w">···</span>
-              </span>
-            </div>
-            <div class="tem-content">
-              <div class="search-box">
-                <h1>统一检索</h1>
-                <div class="search-bar">
-                  <span>请输入</span>
-                  <i class="el-icon-search"></i>
-                </div>
-                <p>
-                  <span v-for="item in 4" :key="item">热门词</span>
-                </p>
-              </div>
+            <div :class="item.appWidget.widgetCode">
+              <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
         </div>
@@ -250,6 +114,8 @@
   </div>
 </template>
 <script>
+import Sortable from "sortablejs";
+
 import dialog_card from '@/components/web/view/user/library/model/dialog_card';
 import { timeFormat } from "@/assets/public/js/util";
 
@@ -262,14 +128,23 @@ export default {
       form: {},//读者信息
       cardList: [],//读者卡信息
       principal: {},//主卡
+      appList: [],//我的应用列表
+      tempData: [],//模板组件数据
+      applyList: [],//模板应用列表
       imgPath: process.env.VUE_APP_IMG_URL,//图片域名
-      setTime: timeFormat
+      setTime: timeFormat,
     }
   },
   created() {
     this.getKey();
     this.getInfo();
     this.getCard();
+    this.getMyApp();
+    this.getApplyList();
+  },
+  mounted() {
+    this.getTemp();
+    this.dragSort();
   },
   methods: {
     // 获取键值对数据
@@ -277,7 +152,7 @@ export default {
       this.http.getJson('forward-init-data').then((res) => {
         this.dataKey = res.data;
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取读者信息失败!" });
+        this.$message({ type: "error", message: "获取初始数据失败!" });
       });
     },
     // 键值对匹配
@@ -302,9 +177,63 @@ export default {
         this.principal = this.cardList.find(item => item.isPrincipal == true);
         this.principal = this.principal ? this.principal : this.cardList[0];
       }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者卡信息失败!" });
+      });
+    },
+    // 获取我的应用
+    getMyApp() {
+      this.http.getJson('forward-getmycollectionapps').then((res) => {
+        this.appList = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取应用信息失败!" });
+      });
+    },
+
+    // 获取模板组件信息
+    getTemp() {
+      let id = '22838880-c3c2-4e14-93f6-d795dcfe6b2b';
+      this.http.getPlain_url('forward-scene-detail', `/${id}`).then((res) => {
+        // this.http.getJson('forward-personal-scene-detail').then((res) => {
+        this.tempData = res.data.sceneScreens[0].sceneApps;
+        this.tempData.forEach(item => {
+          this.addStyle(item.appWidget.target);
+          this.addScript(item.appWidget.target);
+        })
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取模板组件失败!" });
+      });
+    },
+    // 获取应用列表
+    getApplyList() {
+      this.http.getJsonSelf('forward-app-list-by-service-type', `/0/0`).then((res) => {
+        this.applyList = res.data;
+      }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
     },
+    // 应用是否已选
+    isSelect(id) {
+      let val = this.tempData.find(item => (item.appId == id));
+      return val ? true : false;
+    },
+    //引入css文件
+    addStyle(url) {
+      url = url + '/component.css';
+      var link = document.createElement("link");
+      link.setAttribute("rel", "stylesheet");
+      link.setAttribute("type", "text/css");
+      link.setAttribute("href", url);
+      document.getElementsByTagName("body")[0].appendChild(link);
+    },
+    //引入js文件
+    addScript(url) {
+      url = url + '/component.js';
+      var js_element = document.createElement("script");
+      js_element.setAttribute("type", "text/javascript");
+      js_element.setAttribute("src", url);
+      document.getElementsByTagName("body")[0].appendChild(js_element);
+    },
+
     // 编辑个人图书馆
     handleEdit() {
       this.isEdit = true;
@@ -316,7 +245,49 @@ export default {
     // 保存
     handleSave() {
       this.isEdit = false;
-    }
+    },
+    // 选择应用
+    handleApply(item) {
+      this.http.getJsonSelf('forward-app-widget-list-by-app-id', `/${item.id}`).then((res) => {
+        // this.applyList = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
+    // 取消关注
+    handleCancel(item) {
+      let dom = document.getElementById(item.appId);
+      dom.remove();
+      // let index = this.tempData.findIndex(items=> items==item);
+      // this.tempData.splice(index,1)
+      this.tempData = this.tempData.filter(items => (items != item));
+    },
+    // 置顶
+    handleTop(item) {
+      let dom = document.getElementById(item.appId);
+      dom.remove();
+      document.getElementById('all-temp-box').insertAdjacentHTML('afterbegin', dom);
+    },
+    //表格拖动排序
+    dragSort() {
+      // const el = this.$refs.singleTable.$el.querySelectorAll(".el-table__body-wrapper > table > tbody")[0];
+      const el = document.getElementById("all-temp-box");
+      this.sortable = Sortable.create(el, {
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        draggable: ".sort",
+        // handle: '.handleSort',
+        onEnd: e => {
+          // 拖动了但是没有改变位置 不执行
+          if (e.newIndex == e.oldIndex) {
+            return;
+          }
+          // const targetRow = this.userTempList.splice(e.oldIndex, 1)[0];
+          // this.userTempList.splice(e.newIndex, 0, targetRow);
+          // console.log(this.userTempList);
+        } //onEnd
+      });
+    },
   }
 }
 </script>
@@ -403,7 +374,7 @@ export default {
     overflow: hidden;
     background: #ddd;
     position: absolute;
-    img{
+    img {
       width: 100%;
       height: 100%;
     }
@@ -504,6 +475,7 @@ export default {
       margin: 0 20px 20px 0;
       cursor: pointer;
       color: #666;
+      display: inline-block;
     }
     .app-select {
       border-color: #458dda;
@@ -555,12 +527,18 @@ export default {
   .re-box {
     margin-right: 74px;
   }
+
   .app-box {
     width: 70px;
     height: 70px;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 16px;
-    padding: 9px 0 0 9px;
+    // padding: 9px 0 0 9px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: space-evenly;
 
     .app {
       width: 24px;
@@ -568,6 +546,10 @@ export default {
       border-radius: 8px;
       background: #e3f2ff;
       display: inline-block;
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
   .title-name {
@@ -602,216 +584,36 @@ export default {
     }
   }
 }
+.all-temp-box {
+  margin-top: 24px;
+}
 .tmp-box {
   width: 588px;
   height: 320px;
   float: left;
-  margin-right: 12px;
+  margin-right: 24px;
   margin-bottom: 24px;
-  .tmp-detail {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    margin: 24px 0;
+  position: relative;
+  &:nth-child(2n) {
+    margin-right: 0;
+  }
+  .edit-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px dashed #aaa;
     border-radius: 16px;
-    background: #fff;
+    z-index: 100;
 
-    .tem-content {
-      padding: 0 20px;
-
-      .info-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #666;
-        height: 40px;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-      .news-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #666;
-        height: 40px;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
-
-        .tag {
-          width: 48px;
-          height: 22px;
-          border-radius: 14px;
-          text-align: center;
-          line-height: 22px;
-          display: inline-block;
-        }
-        .bule {
-          background: #e3eefa;
-          color: #458dda;
-        }
-        .red {
-          background: #fce7e2;
-          color: #eb5f3c;
-        }
-        .green {
-          background: #e5f8ef;
-          color: #4fcd92;
-        }
-      }
-      .resource-item {
-        width: 20%;
-        height: auto;
-        margin: 0 2%;
-        display: inline-block;
-        margin-top: 25px;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
-        img {
-          width: 100%;
-          height: auto;
-        }
-        p {
-          width: 100%;
-          height: 40px;
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2;
-          margin-top: 10px;
-        }
-      }
-      .topic-item {
-        width: 30%;
-        height: auto;
-        margin: 0 1%;
-        display: inline-block;
-        margin-bottom: 20px;
-        cursor: pointer;
-        &:hover {
-          opacity: 0.8;
-        }
-        img {
-          width: 100%;
-          height: auto;
-        }
-        p {
-          width: 100%;
-          height: 20px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          margin-top: 10px;
-          text-align: center;
-        }
-      }
-      .activity-item {
-        width: 100%;
-        height: auto;
-        cursor: pointer;
-        position: relative;
-        &:hover {
-          opacity: 0.8;
-        }
-        img {
-          width: 100%;
-          height: 100%;
-        }
-        div {
-          width: 100%;
-          height: 60px;
-          overflow: hidden;
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.3);
-          color: #fff;
-
-          .act-tag {
-            width: 60px;
-            height: 60px;
-            background: #a21e1e;
-            padding: 8px 0 0 12px;
-            font-size: 18px;
-            display: inline-block;
-          }
-          p {
-            display: inline-block;
-            margin-left: 16px;
-          }
-          .act-name {
-            font-size: 15px;
-            font-weight: bold;
-            display: block;
-            line-height: 25px;
-          }
-          .act-text {
-            display: block;
-            line-height: 25px;
-            // overflow: hidden;
-            // text-overflow: ellipsis;
-            // white-space: nowrap;
-          }
-        }
-      }
-      .database-item {
-        width: 45%;
-        height: 40px;
-        cursor: pointer;
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        float: left;
-        margin: 0 2%;
-        &:hover {
-          opacity: 0.8;
-        }
-        .data-icon {
-          width: 16px;
-          height: 16px;
-        }
-      }
-
-      .search-box {
-        h1 {
-          text-align: center;
-          color: #666;
-          font-size: 24px;
-          margin: 12px 0 36px;
-        }
-        .search-bar {
-          width: 70%;
-          height: 48px;
-          background: #ffffff;
-          border: 1px solid rgba(0, 0, 0, 0.0588235294117647);
-          box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.02);
-          border-radius: 24px;
-          margin: 0 auto 16px;
-          color: #999;
-          line-height: 48px;
-          padding: 0 20px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          i {
-            font-size: 24px;
-          }
-        }
-        p {
-          text-align: center;
-          span {
-            padding: 0 10px;
-            color: #666;
-          }
-        }
-      }
+    .edit-right {
+      position: absolute;
+      right: 20px;
+      top: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 18px;
     }
   }
 }
@@ -899,5 +701,20 @@ export default {
 .gery {
   color: #555;
   background: #eee;
+}
+
+.tmp-box {
+  position: relative;
+  &:nth-child(2n) {
+    margin-right: 0;
+  }
+  .edit-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px dashed #aaa;
+  }
 }
 </style>
