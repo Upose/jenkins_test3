@@ -37,19 +37,19 @@
               </div> -->
               <div class="search-item-box">
                 <div class="search-item">
-                  <el-input v-model="postForm.userName" placeholder="读者名称"></el-input>
+                  <el-input v-model="postForm.name" placeholder="读者名称" clearable></el-input>
                 </div>
               </div>
               <div class="search-item-box">
                 <div class="search-item">
-                  <el-select v-model="postForm.cardType" placeholder="卡类型">
+                  <el-select v-model="postForm.cardType" placeholder="卡类型" clearable>
                     <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                 </div>
               </div>
               <div class="search-item-box">
                 <div class="search-item">
-                  <el-select v-model="postForm.cardStatus" placeholder="卡状态">
+                  <el-select v-model="postForm.cardStatus" placeholder="卡状态" clearable>
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                 </div>
@@ -120,7 +120,7 @@ export default {
       this.$root.collapse = msg;
     })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export,someChange },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {
       dataKey: null,
@@ -280,7 +280,7 @@ export default {
     handSearch() {
       this.initGetList();
     },
-   
+
     // 编辑
     handleSet(row) {
       this.$router.push({ path: '/readerCardEdit', query: { id: row.id } })
@@ -310,13 +310,13 @@ export default {
     exportExcel() {
       this.$refs.dialog_export.show(this.postForm, this.pageData, 'card')
     },
-     // 多选
+    // 多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
     // 批量修改
-    handMathChange(){
-      if(!this.multipleSelection.length){
+    handMathChange() {
+      if (!this.multipleSelection.length) {
         this.$message({
           message: '请勾选需要修改的读者！',
           type: 'warning'
@@ -331,7 +331,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
-@import "../../../../assets/admin/css/form.less"; 
+@import "../../../../assets/admin/css/form.less";
 .search-item-box {
   display: inline-block;
 }

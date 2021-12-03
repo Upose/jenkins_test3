@@ -5,6 +5,9 @@
       <el-form-item label="读者名称" prop="name">
         <el-input v-model="ruleForm.name" placeholder="请输入"></el-input>
       </el-form-item>
+      <el-form-item label="学工号" prop="studentNo">
+        <el-input v-model="ruleForm.studentNo" placeholder="请输入"></el-input>
+      </el-form-item>
       <el-form-item label="单位名称" prop="unit">
         <el-input v-model="ruleForm.unit" placeholder="请输入"></el-input>
       </el-form-item>
@@ -37,7 +40,7 @@
         <el-input v-model="ruleForm.account" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="ruleForm.password" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.password" placeholder="请输入" show-password></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="ruleForm.gender">
@@ -77,7 +80,7 @@ import http from "@/assets/public/js/http";
 export default {
   name: 'index',
   components: {},
-  props: ['dataKey','departList'],
+  props: ['dataKey', 'departList'],
   data() {
     return {
       dialogVisible: false,
@@ -98,6 +101,9 @@ export default {
       },
       rules: {
         name: [
+          { required: true, message: '必填项', trigger: 'blur' }
+        ],
+        studentNo: [
           { required: true, message: '必填项', trigger: 'blur' }
         ],
         status: [
@@ -150,19 +156,25 @@ export default {
       return select.groupItems;
     },
     sub() {
-      http.postJson('temp-staff', this.ruleForm).then(res => {
-        this.$message({ type: 'success', message: '添加成功!' });
-        this.dialogVisible = false;
-      }).catch(err => {
-        this.$message({ type: 'error', message: '添加失败!' });
+      this.$refs.ruleForm.validate(ok => {
+        if (ok) {
+          http.postJson('temp-staff', this.ruleForm).then(res => {
+            this.$message({ type: 'success', message: '添加成功!' });
+            this.dialogVisible = false;
+          }).catch(err => {
+            this.$message({ type: 'error', message: this.handleError(err, '添加失败') });
+          })
+        }
+
       })
+
     },
     // 添加临时馆员
     handleAddStaff() {
       http.postJson('temp-staff', this.ruleForm).then(res => {
         this.$message({ type: 'success', message: '添加成功!' });
       }).catch(err => {
-        this.$message({ type: 'error', message: '添加失败!' });
+        this.$message({ type: 'error', message: this.handleError(err, '添加失败') });
       })
     },
   },
@@ -172,7 +184,7 @@ export default {
 /deep/ .el-cascader {
   width: 100%;
 }
-.demo-ruleForm{
-    margin-top: 20px;
+.demo-ruleForm {
+  margin-top: 20px;
 }
 </style>
