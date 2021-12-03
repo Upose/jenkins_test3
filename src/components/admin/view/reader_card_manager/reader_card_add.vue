@@ -290,7 +290,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
-@import "../../../../assets/admin/css/form.less";
+@import "../../../../assets/admin/css/style.less";
 .content {
   .s-w {
     min-height: 60px;
@@ -596,6 +596,9 @@ export default {
 .divStyle {
   width: 95%;
   float: left;
+}
+/deep/ .el-cascader{
+  width: 100%;
 }
 .radios {
   width: 63%;

@@ -126,9 +126,8 @@ class ApplicationBuilder {
     handle403Go2LoginResponse() {
         if (axios) {
             axios.interceptors.response.use(undefined, error => {
-                if (error.response.status == 403) {
-                    let head = error.response.headers;
-                    
+                // unauth 存在则需要登录
+                if (error.response.status == 403 && error.response.headers.unauth) {
                     localStorage.removeItem('token');
                     let current = window.location.href;
                     localStorage.setItem('COM+', current);
@@ -185,7 +184,7 @@ class ApplicationBuilder {
 }
 new ApplicationBuilder()
     .configureCasBase("http://192.168.21.36:10011")
-    .configureApiBase('http://192.168.21.36:8001')
+    .configureApiBase('http://192.168.21.36:7001')
     .configureOrgInfo({
         orgId: "string",
         orgSecret: 'string',
