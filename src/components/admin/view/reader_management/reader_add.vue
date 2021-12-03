@@ -425,6 +425,14 @@ export default {
         });
       });
     },
+    // 转为馆员
+    handleChange(id) {
+      http.postJson('batch-set-user-as-staff', [id]).then(res => {
+        this.$message({ type: 'success', message: '转为馆员成功!' });
+      }).catch(err => {
+        this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败') });
+      })
+    },
   }
 }
 </script>
