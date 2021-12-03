@@ -36,10 +36,16 @@
                 </div>
               </div> -->
               <div class="search-item-box">
-                <div class="search-item">
-                  <el-input v-model="postForm.name" placeholder="读者名称" clearable></el-input>
-                </div>
+                <!-- <el-input v-model="postForm.name" placeholder="读者名称" clearable></el-input> -->
+                <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
+                  <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
+                    <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                  </el-select>
+                </el-input>
               </div>
+              <!-- <div class="search-item-box">
+                <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="发卡开始日期" end-placeholder="发卡结束日期"></el-date-picker>
+              </div> -->
               <div class="search-item-box">
                 <div class="search-item">
                   <el-select v-model="postForm.cardType" placeholder="卡类型" clearable>
@@ -135,9 +141,17 @@ export default {
       // 系统属性code
       sysArrt: ['User_Name', 'User_NickName', 'User_StudentNo', 'User_Unit', 'User_Edu', 'User_Depart', 'User_Title', 'User_College', 'User_Grade', 'User_Major', 'User_Class', 'User_Type', 'User_Status', 'User_Phone', 'User_IdCard', 'User_Email', 'User_Birthday', 'User_Gender', 'User_AddrDetail', 'User_Addr', 'Card_No', 'User_LeaveTime', 'User_Photo', 'Card_BarCode', 'Card_PhysicNo', 'Card_Type', 'Card_IdentityNo', 'Card_Status', 'Card_IsPrincipal', 'Card_ExpireDate', 'Card_IssueDate', 'Card_Deposit'],
       // 系统属性code对应字段名称
-      sysArrtKey: ['userName', 'nickName', 'userStudentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'userType', 'userStatus', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'no', 'leaveTime', 'photo', 'barCode', 'physicNo', 'type', 'identityNo', 'status', 'isPrincipal', 'expireDate', 'issueDate', 'deposit']
+      sysArrtKey: ['userName', 'nickName', 'userStudentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'userType', 'userStatus', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'no', 'leaveTime', 'photo', 'barCode', 'physicNo', 'type', 'identityNo', 'status', 'isPrincipal', 'expireDate', 'issueDate', 'deposit'],
       // sysArrtKey: ['name', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit']
 
+      textProperties: [
+        { name: '读者姓名', code: 'Name' },
+        { name: '读者卡号', code: 'CardNo' },
+        { name: '物理码', code: 'PhysicNo' },
+        { name: '学号', code: 'StudentNo' },
+      ],
+      searchTextCode: '',//文本输入code
+      searchTextValue: '',//文本输入值
     }
   },
   mounted() {
@@ -278,6 +292,25 @@ export default {
     },
     // 查找
     handSearch() {
+      let search = {};
+      // for (const item in this.searchForm) {
+      //   let index = this.sysArrtKey[this.sysArrt.indexOf(item)];
+      //   search[index] = this.searchForm[item];
+      // }
+      if (this.searchTextCode && this.searchTextValue) {
+        // let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
+        search[this.searchTextCode] = this.searchTextValue;
+      }
+      // if (this.searchDateCode && this.searchDateValue) {
+      //   let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchDateCode)];
+      //   index = (index || '').replace('Date', '');
+      //   index = (index || '').replace('Time', '');
+      //   search[index + 'StartTime'] = this.searchDateValue[0];
+      //   search[index + 'EndTime'] = this.searchDateValue[1];
+      // }
+
+      this.postForm = search;
+      // console.log(search);
       this.initGetList();
     },
 
@@ -343,6 +376,11 @@ export default {
   /deep/ .el-date-editor.el-input,
   .el-date-editor.el-input__inner {
     width: 150px;
+  }
+}
+/deep/ .el-date-editor {
+  .el-range-separator {
+    width: 30px;
   }
 }
 </style>

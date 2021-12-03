@@ -565,6 +565,7 @@ export default {
   padding: 0;
   // float: left;
   display: inline-block;
+  vertical-align: top;
 }
 .card-box {
   width: 80%;
