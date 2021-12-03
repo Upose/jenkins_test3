@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="header"></header>
+    <!-- <header class="header"></header> -->
     <div class="content-box">
       <div class="content">
         <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div>
@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <footer class="footer"></footer>
+      <!-- <footer class="footer"></footer> -->
     </div>
   </div>
 </template>

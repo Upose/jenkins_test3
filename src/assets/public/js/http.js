@@ -66,7 +66,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -90,7 +90,7 @@ export default {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -115,7 +115,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
 
@@ -141,7 +141,7 @@ export default {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -171,7 +171,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -200,7 +200,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -222,7 +222,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -246,7 +246,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -269,7 +269,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -292,7 +292,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -315,7 +315,7 @@ export default {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -340,7 +340,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': token
+          
         },
       }).then(response => {
         const result = response.data;
@@ -367,7 +367,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          
         },
         responseType: 'blob' // 表明返回服务器返回的数据类型
       }).then(response => {

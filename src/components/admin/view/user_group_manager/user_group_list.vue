@@ -41,7 +41,7 @@
                     {{setTime(scope.row.createTime,'分')}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" width="260">
+                <el-table-column prop="content" label="操作" width="300">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>编辑</el-button>

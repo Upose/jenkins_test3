@@ -29,15 +29,78 @@ const i18n = new VueI18n({
   }
 })
 
-router.beforeEach((to, from, next) => {
-  // const token = sessionStorage.getItem('token');
-  // if (!token && to.path !== '/login') {
-  //     next('/login');
-  // } else {
-  //   next();
-  // }
-  next();
-})
+// router.beforeEnter ((to, from, next) => {
+//   let originUrl = localStorage.getItem('COM+');
+//   localStorage.removeItem('COM+');
+//   if (originUrl == null) { next('/404'); return; }
+//   let ticketRegex = /\?ticket=([^#]+)#/;
+
+//   let regexResult = ticketRegex.exec(location.href);
+//   if (regexResult.length > 1) {
+//     let ticket = regexResult[1];
+//     let ticketHref = `http://192.168.21.36:6001/api/third-part-auth/cas-proxy?ticket=${ticket}&service=${encodeURIComponent(location.origin)}`;
+//     axios({
+//       url: ticketHref,
+//       method: 'get'
+//     })
+//       .then(x => {
+
+//         let xml = x.data.data;
+//         if (!xml) { next('/404'); return; }
+//         let xdoc = new DOMParser().parseFromString(xml.toString(), 'application/xml');
+
+//         let tokenElements = xdoc.getElementsByTagName("cas:access_token");
+//         if (tokenElements.length > 0) {
+//           let token = tokenElements[0].innerHTML;
+//           localStorage.setItem('token', token);
+
+//           window.open(originUrl, '_blank')
+//           window.close();
+//           next(originUrl);
+//           return;
+//         }
+//       })
+
+//     //fetch(ticketHref).then(x=>console.log(x));
+//   }
+//   next('/404');
+// })
+// router.beforeEach((to, from, next) => {
+//   let originUrl = localStorage.getItem('COM+');
+//   localStorage.removeItem('COM+');
+//   if (originUrl == null) { next('/404'); return; }
+//   let ticketRegex = /\?ticket=([^#]+)#/;
+
+//   let regexResult = ticketRegex.exec(location.href);
+//   if (regexResult.length > 1) {
+//     let ticket = regexResult[1];
+//     let ticketHref = `http://192.168.21.36:6001/api/third-part-auth/cas-proxy?ticket=${ticket}&service=${encodeURIComponent(location.origin)}`;
+//     axios({
+//       url: ticketHref,
+//       method: 'get'
+//     })
+//       .then(x => {
+
+//         let xml = x.data.data;
+//         if (!xml) { next('/404'); return; }
+//         let xdoc = new DOMParser().parseFromString(xml.toString(), 'application/xml');
+
+//         let tokenElements = xdoc.getElementsByTagName("cas:access_token");
+//         if (tokenElements.length > 0) {
+//           let token = tokenElements[0].innerHTML;
+//           localStorage.setItem('token', token);
+
+//           window.open(originUrl, '_blank')
+//           window.close();
+//           next(originUrl);
+//           return;
+//         }
+//       })
+
+//     //fetch(ticketHref).then(x=>console.log(x));
+//   }
+//   next('/404');
+// })
 
 new Vue({
   el: '#database_nav_sys',

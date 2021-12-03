@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="header"></header>
+    <!-- <header class="header"></header> -->
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="content">
         <div v-if="!isEdit">
@@ -98,7 +98,7 @@
         </div>
       </div>
     </div>
-    <footer class="footer"></footer>
+    <!-- <footer class="footer"></footer> -->
     <!-- 编辑按钮 -->
     <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="el-icon-edit"></i>编辑主页</div>
     <div class="edit-ing-btn" v-else>
