@@ -744,6 +744,7 @@ export default {
 
 /deep/ .el-input,
 /deep/ .el-select,
+/deep/ .admin-form .el-date-editor.el-input,
 .divStyle {
   width: 95%;
   float: left;

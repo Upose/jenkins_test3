@@ -23,9 +23,9 @@
         <div class="right-box">
           <div class="box-title">
             <el-input class="handle-input duzhe" v-model="name" placeholder="馆员姓名"></el-input>
-            <el-button type="primary" class="searchs">
+            <el-button type="primary" class="searchs" @click="handSearch">
               <i class="el-icon-search"></i>
-              <span @click="handSearch">查找</span>
+              <span>查找</span>
             </el-button>
           </div>
           <div>
@@ -92,7 +92,8 @@ export default {
         children: 'children',
         label: 'name',
       },
-      nodeDepart: ''
+      nodeDepart: '',
+      name:''
     }
   },
   mounted() {
