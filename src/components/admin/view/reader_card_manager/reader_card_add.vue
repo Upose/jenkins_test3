@@ -61,8 +61,8 @@
                 <el-form-item label="设为主卡">
                   <el-switch v-model="cardForm.isPrincipal"></el-switch>
                 </el-form-item>
-                <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
-                  <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 || item.propertyType == 5 || item.propertyType == 6"></el-input>
+                <el-form-item :label="item.propertyName" v-for="(item,index) in cardForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                  <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 "></el-input>
                   <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1" placeholder="请输入"></el-input>
                   <el-date-picker v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
                   <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
@@ -72,6 +72,14 @@
                   <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable>
                     <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
+                  <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                  <div v-if="item.propertyType == 6">
+                    <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
+                      <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
+                      <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
+                    </el-upload>
+                    <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
+                  </div>
                 </el-form-item>
               </el-form>
             </div>
@@ -109,10 +117,8 @@ export default {
     return {
       id: this.$route.query.id,
       userId: this.$route.query.userId,
-      postForm: {},
       cardForm: {},
       dataKey: {},
-      properties: null,
 
       loading: false,
       userList: [],
@@ -159,7 +165,11 @@ export default {
             trigger: 'blur'
           }
         ]
-      }
+      },
+      addrList: [],
+      uploadUrl: process.env.VUE_APP_IMG_URL + 'api/file/upload-file',
+      myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] },
+      fileList: [],
     }
   },
   created() {
@@ -192,15 +202,24 @@ export default {
     },
     initData() {
       this.getKey();
-      if (this.id) {
-        this.getData();
-      }
+      this.getAddrList();
+      // if (this.id) {
+      //   this.getData();
+      // }
     },
     // 获取初始数据
     getKey() {
       http.getJson('card-init-data').then(res => {
         this.dataKey = res.data;
-        this.postForm = this.dataKey.cardData;
+        this.cardForm = this.dataKey.cardData;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 获取地址列表
+    getAddrList() {
+      http.getJson('region-list').then(res => {
+        this.addrList = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -233,6 +252,18 @@ export default {
         this.options = [];
       }
     },
+    upaloadFile(index) {
+      this.index = index;
+    },
+    // 上传成功
+    uploadSuccess(response, file, fileList) {
+      let data = response.data;
+      this.cardForm.properties[this.index].propertyValue = data[0];
+    },
+    // 下载附件
+    downloadFile(url) {
+      window.open(process.env.VUE_APP_IMG_URL + url);
+    },
     //表单提交
     submitForm() {
       if (this.id) {
@@ -240,7 +271,7 @@ export default {
           this.$message({ message: '编辑成功！', type: 'success' });
           this.getData();
         }).catch(err => {
-          this.$message({ type: 'error', message: '编辑失败!' });
+          this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
         })
       } else {
         this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
@@ -249,7 +280,7 @@ export default {
           this.id = res.data;
           this.getData();
         }).catch(err => {
-          this.$message({ type: 'error', message: '新增失败!' });
+          this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
         })
       }
     },
