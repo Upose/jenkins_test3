@@ -357,5 +357,47 @@ export default {
   },
   linkTo: function (url) {
     window.location.href = this.postUrl[url];
+  },
+   // 下载文件  文件流-转为excel
+   importFile: function (url, data = {}, name = '用户数据模板') {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url],
+        data: data,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        responseType: 'blob' // 表明返回服务器返回的数据类型
+      }).then(response => {
+        const result = response.data;
+        if (result) {
+          const content = response.data
+          const blob = new Blob([content]) // 构造一个blob对象来处理数据
+          const fileName = name + '.xlsx' // 导出文件名
+          // 对于<a>标签，只有 Firefox 和 Chrome（内核） 支持 download 属性
+          // IE10以上支持blob但是依然不支持download
+          if ('download' in document.createElement('a')) { // 支持a标签download的浏览器
+            const link = document.createElement('a') // 创建a标签
+            link.download = fileName // a标签添加属性
+            link.style.display = 'none'
+            link.href = URL.createObjectURL(blob)
+            document.body.appendChild(link)
+            link.click() // 执行下载
+            URL.revokeObjectURL(link.href) // 释放url
+            document.body.removeChild(link) // 释放标签
+          } else { // 其他浏览器
+            navigator.msSaveBlob(blob, fileName)
+          }
+          resolve();
+        } else {
+          // this.error(result.errors);
+          reject();
+        }
+      }).catch(err => {
+        reject(err);
+      });
+    });
   }
 }
