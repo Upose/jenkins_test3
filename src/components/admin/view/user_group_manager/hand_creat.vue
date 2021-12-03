@@ -63,7 +63,11 @@
                           </template>
                         </el-table-column>
                         <el-table-column prop="phone" label="手机"></el-table-column>
-                        <el-table-column prop="type" label="用户类型"></el-table-column>
+                        <el-table-column prop="type" label="用户类型">
+                          <template slot-scope="scope">
+                            {{getKeyValue('User_Type',scope.row.type)}}
+                          </template>
+                        </el-table-column>
                         <el-table-column prop="prop" label="注册日期">
                           <template slot-scope="scope">
                             {{setTime(scope.row.createTime) }}
