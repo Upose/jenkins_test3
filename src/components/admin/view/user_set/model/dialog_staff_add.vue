@@ -9,7 +9,7 @@
       <el-table @selection-change="handleSelectionChange" ref="selectTable" :data="tableData" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="部门" prop="depart"></el-table-column>
+        <el-table-column label="部门" prop="departName"></el-table-column>
         <el-table-column label="职称" prop="title"></el-table-column>
         <el-table-column label="手机号码" prop="phone"></el-table-column>
         <el-table-column label="工号" prop="studentNo"></el-table-column>
