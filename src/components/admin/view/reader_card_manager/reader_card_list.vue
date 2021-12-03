@@ -135,7 +135,7 @@ export default {
       // 系统属性code
       sysArrt: ['User_Name', 'User_NickName', 'User_StudentNo', 'User_Unit', 'User_Edu', 'User_Depart', 'User_Title', 'User_College', 'User_Grade', 'User_Major', 'User_Class', 'User_Type', 'User_Status', 'User_Phone', 'User_IdCard', 'User_Email', 'User_Birthday', 'User_Gender', 'User_AddrDetail', 'User_Addr', 'Card_No', 'User_LeaveTime', 'User_Photo', 'Card_BarCode', 'Card_PhysicNo', 'Card_Type', 'Card_IdentityNo', 'Card_Status', 'Card_IsPrincipal', 'Card_ExpireDate', 'Card_IssueDate', 'Card_Deposit'],
       // 系统属性code对应字段名称
-      sysArrtKey: ['userName', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'userType', 'userStatus', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'no', 'leaveTime', 'photo', 'barCode', 'physicNo', 'type', 'identityNo', 'status', 'isPrincipal', 'expireDate', 'issueDate', 'deposit']
+      sysArrtKey: ['userName', 'nickName', 'userStudentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'userType', 'userStatus', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'no', 'leaveTime', 'photo', 'barCode', 'physicNo', 'type', 'identityNo', 'status', 'isPrincipal', 'expireDate', 'issueDate', 'deposit']
       // sysArrtKey: ['name', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit']
 
     }
