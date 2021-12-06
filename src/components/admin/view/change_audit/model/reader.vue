@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="m-title search-term-table">
-      <el-select class="width136" v-model="postForm.type" size="medium" placeholder="操作类型">
+      <el-select class="width136" v-model="postForm.type" size="medium" placeholder="操作类型" clearable>
         <el-option :value="item" :label="index" v-for="(item,index) in dataKey.propertyLogType" :key="index"></el-option>
       </el-select>
-      <el-select class="width136" v-model="postForm.status" size="medium" placeholder="操作状态">
+      <el-select class="width136" v-model="postForm.status" size="medium" placeholder="操作状态" clearable>
         <el-option :value="item" :label="index" v-for="(item,index) in dataKey.propertyLogStatus" :key="index"></el-option>
       </el-select>
-      <el-date-picker class="width136" type="date" v-model="date" size="medium" placeholder="操作日期" @change="handleDate"></el-date-picker>
+      <el-date-picker style="width:260px" type="daterange" v-model="dateRange" size="medium" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" clearable></el-date-picker>
       <!-- <el-input class="width136" v-model="postForm.changeUserName" placeholder="操作人"></el-input> -->
-      <el-input placeholder="请输入" size="medium" v-model="searchKey" style="width:300px">
+      <el-input placeholder="请输入" size="medium" v-model="searchKey" style="width:300px" clearable>
         <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:130px">
           <el-option label="操作人姓名" :value="'changeUserName'"></el-option>
           <el-option label="操作人电话" :value="'changeUserPhone'"></el-option>
@@ -68,7 +68,7 @@ import dialogAudit from "./dialog/dialog_audit";
 
 export default {
   name: 'index',
-  components: { paging, dialogLog, dialogAudit,dialogUserLog },
+  components: { paging, dialogLog, dialogAudit, dialogUserLog },
   props: ['dataKey'],
   data() {
     return {
@@ -81,11 +81,12 @@ export default {
       multipleSelection: [],//勾选列表
       postForm: {},
       tableData: [],
-      date: '',//操作日期
+      dateRange: [],
       select: '',//搜索文本搜索选择
       searchKey: '',//搜索文本搜索内容
 
-      idList: []
+      idList: [],
+      resetFields: ['changeStartTime', 'changeEndTime', 'changeUserName', 'changeUserPhone']
     }
   },
   mounted() {
@@ -120,18 +121,23 @@ export default {
 
     // 查找
     handSearch() {
+      //处理需要清空的搜索
+      this.resetFields.forEach(key => {
+        if (this.postForm.hasOwnProperty(key)) {
+          this.postForm[key] = null;
+        }
+      });
       //匹配文本查找项
       if (this.select && this.select != '') {
         this.postForm[this.select] = this.searchKey;
       }
+      //处理时间范围
+      if (this.dateRange && this.dateRange.length == 2) {
+        this.postForm['changeStartTime'] = this.dateRange[0];
+        this.postForm['changeEndTime'] = this.dateRange[1];
+      }
 
       this.initGetList();
-    },
-    // 选择日期
-    handleDate() {
-      // console.log(val);
-      this.postForm.ChangeEndTime = this.date;
-      this.postForm.ChangeStartTime = this.date;
     },
     // 键值对匹配
     getKeyValue(name, val) {
@@ -148,11 +154,11 @@ export default {
     },
     // 审核
     handleAudit(row) {
-      this.$refs.dialogAudit.show('reader',row.id);
+      this.$refs.dialogAudit.show('reader', row.id);
     },
     // 查看日志
     handleLog(row) {
-      this.$refs.dialogUserLog.show('reader',row.id);
+      this.$refs.dialogUserLog.show('reader', row.id);
     },
     // 删除
     handleDel(row) {
@@ -256,5 +262,9 @@ export default {
   //   left: -19px;
   //   top: -26px;
   // }
+}
+/deep/ .el-date-editor .el-range-separator {
+  width: 30px;
+  font-weight: normal;
 }
 </style>

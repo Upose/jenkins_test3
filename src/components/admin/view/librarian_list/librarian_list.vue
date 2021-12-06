@@ -22,7 +22,7 @@
         </div>
         <div class="right-box">
           <div class="box-title">
-            <el-input class="handle-input duzhe" v-model="name" placeholder="馆员姓名"></el-input>
+            <el-input class="handle-input duzhe" v-model="name" placeholder="馆员姓名" clearable></el-input>
             <el-button type="primary" class="searchs" @click="handSearch">
               <i class="el-icon-search"></i>
               <span>查找</span>
@@ -184,7 +184,7 @@ export default {
     handSearch() {
       //匹配文本查找项
       let search = {};
-      search.keyword = this.name;
+      search.name = this.name;
       search.depart = this.nodeDepart;
       this.postForm = search;
       this.initGetList();

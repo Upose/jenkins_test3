@@ -43,7 +43,7 @@ export default {
       ],
 
       auth: [],
-      curAuth:'/userManager',
+      curAuth: '/userManager',
     }
   },
   created() {
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     getAuth() {
-      this.http.getJson('all-permission-tree').then(res => {
+      this.http.getJson('user-permission-tree').then(res => {
         this.auth = res.data.permissionNodes;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
@@ -65,14 +65,14 @@ export default {
     },
     openPage(url) {
       this.$router.push(url)
-      window.localStorage.setItem('path_url',url);
+      window.localStorage.setItem('path_url', url);
     },
     //是否当前菜单
-    isActive(url){
+    isActive(url) {
       var cu_href = window.localStorage.getItem('path_url');
-      if(url == cu_href){
+      if (url == cu_href) {
         return true;
-      }else{
+      } else {
         return false;
       }
     },

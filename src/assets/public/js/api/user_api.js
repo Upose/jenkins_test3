@@ -76,15 +76,15 @@ export default {
 
         'group-table-data': baseURL + '/api/user-group/table-data',//获取用户组数据
         'user-group': baseURL + '/api/user-group',//创建、编辑、删除用户组
-        'all-permission-tree': baseURL + '/api/permission/all-permission-tree',//获取应用中所有权限列表树
-        'user-permission-list': baseURL + '/api/permission/user-permission-list',//获取馆员权限列表
+        'all-permission-tree': baseURL + '/api/sys-menu/all-permission-tree',//获取应用中所有权限列表树
+        'user-permission-list': baseURL + '/api/sys-menu/user-permission-list',//获取馆员权限列表
         'user-group-init-data': baseURL + '/api/user-group/init-data',//数据初始化
         'by-id': baseURL + '/api/user-group/by-id',//获取用户组数据详情
         'download-group-import-template': baseURL + '/api/user-group/download-user-import-template',//用户数据导入模板下载1103
         'import-group-user': baseURL + '/api/user-group/import-group-user',//用户组数据导入1103
         'group-users': baseURL + '/api/user-group/group-users',//删除用户到用户组1103
         'user-to-group': baseURL + '/api/user-group/user-to-group',//添加用户到用户组
-        'user-group-brief-info':baseURL+'/api/user-group/group-brief-info',//获取用户组简要信息
+        'user-group-brief-info': baseURL + '/api/user-group/group-brief-info',//获取用户组简要信息
         '': baseURL + '',//
 
 
@@ -119,7 +119,7 @@ export default {
 
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
 
-        'all-permission-tree': baseURL + '/api/sys-menu/all-permission-tree',//获取应用权限
+        'user-permission-tree': baseURL + '/api/sys-menu/user-permission-tree',//获取当前登录用户应用权限
         '': baseURL + '',//
         '': baseURL + '',//
 
