@@ -19,7 +19,7 @@
     </div>
 
     <div class="t-p">
-      <el-table stripe ref="singleTable" :data="tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table stripe ref="singleTable" :data="isAuth('approve:cardClaimList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column label="IP" align="center" width="58" type="index"></el-table-column>
         <el-table-column prop="changeTime" label="申请时间">
           <template slot-scope="scope">
@@ -37,12 +37,12 @@
         </el-table-column>
         <el-table-column prop="content" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="scope.row.status == 0">审核</el-button>
+            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="scope.row.status == 0&&isAuth('approve:cardClaimApprove')">审核</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="content" label="详细日志">
           <template slot-scope="scope">
-            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-edit" round>详细记录</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('approve:cardClaimDetail')">详细记录</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -87,6 +87,14 @@ export default {
     this.getList();
   },
   methods: {
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/changeAudit'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
+    },
     // 获取列表数据
     getList() {
       http.getJson('card-claim-table-data', { ...this.postForm, ...this.pageData }).then(res => {

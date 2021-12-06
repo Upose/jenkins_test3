@@ -16,9 +16,9 @@
             <img src="@/assets/admin/img/userManager/icon-table2x.png" />
             <span>馆员列表</span>
           </div>
-          <span class="tianjia" @click="$refs.dialog_add.show()">添加临时馆员</span>
-          <span class="xzgy" @click="handleAdd">新增馆员</span>
-          <span class="bdzz" @click="handleChange">变动组织</span>
+          <span class="tianjia" @click="$refs.dialog_add.show()" v-if="isAuth('staff:createTemp')">添加临时馆员</span>
+          <span class="xzgy" @click="handleAdd" v-if="isAuth('staff:create')">新增馆员</span>
+          <span class="bdzz" @click="handleChange" v-if="isAuth('staff:setDepart')">变动组织</span>
         </div>
         <div class="right-box">
           <div class="box-title">
@@ -29,7 +29,7 @@
             </el-button>
           </div>
           <div>
-            <el-table :data="tableData" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
+            <el-table :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="55" align="center"></el-table-column>
               <el-table-column label="姓名" prop="name" width="100" align="center" show-overflow-tooltip></el-table-column>
               <el-table-column label="工号" prop="studentNo" width="110" align="center" show-overflow-tooltip></el-table-column>
@@ -50,8 +50,8 @@
               </el-table-column>
               <el-table-column label="操作" width="200">
                 <template slot-scope="scope">
-                  <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
-                  <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>查看</el-button>
+                  <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('staff:delete')">删除</el-button>
+                  <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('staff:detail')">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -102,6 +102,14 @@ export default {
     // this.getDepa();
   },
   methods: {
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/librarianManagement'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
+    },
     getDataKey() {
       http.getJson('staff-init-data').then(res => {
         this.dataKey = res.data;

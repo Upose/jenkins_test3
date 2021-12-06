@@ -21,12 +21,12 @@
           <div class="table-w">
             <h2 class="m-title">
               <div class="r-btn">
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/ruleCreat')">规则新建用户组</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/handCreat')">手动新建用户组</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/ruleCreat')" v-if="isAuth('userGroup:create')">规则新建用户组</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/handCreat')" v-if="isAuth('userGroup:create')">手动新建用户组</el-button>
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="index" width="50" align="center" label="序号"></el-table-column>
                 <el-table-column prop="name" label="用户组名称"></el-table-column>
                 <el-table-column prop="userCount" label="读者数"></el-table-column>
@@ -43,9 +43,9 @@
                 </el-table-column>
                 <el-table-column prop="content" label="操作" width="300">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>编辑</el-button>
-                    <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户列表</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('userGroup:delete')">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('userGroup:update')">编辑</el-button>
+                    <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('userGroup:userList')">用户列表</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->
                   </template>
                 </el-table-column>
@@ -96,6 +96,14 @@ export default {
     this.initData();
   },
   methods: {
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/userGroupList'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
+    },
     initData() {
       //   this.getSysAttr()
       this.getKey();

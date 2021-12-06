@@ -14,7 +14,7 @@
             <!-- <span class="fsxx">发送消息</span>
             <span class="zwhy" @click="handleChange">转为馆员</span> -->
             <div class="right-btn-box">
-              <el-button v-if="showToStaff" size="medium" type="primary" class="admin-red-btn" @click="handleChange">转为馆员</el-button>
+              <el-button v-if="showToStaff&&isAuth('reader:batchSetAsStaff')" size="medium" type="primary" class="admin-red-btn" @click="handleChange">转为馆员</el-button>
               <el-button disabled type="primary" size="medium" class="blue-btn" @click="handAdd">发送消息</el-button>
             </div>
           </div>
@@ -133,6 +133,14 @@ export default {
       } else {
         this.postForm = {}
       }
+    },
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/readerList'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
     },
     // 获取初始数据
     getKey() {
