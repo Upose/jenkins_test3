@@ -9,12 +9,12 @@
     <div class="footer_sys_temp1">
       <div id="zt_footer_sys"></div>
     </div>
-    <div class="template-warp">
+    <!-- <div class="template-warp">
       <span @click="skinClick('template1')">红</span>
       <span @click="skinClick('template2')">蓝</span>
       <span @click="skinClick('template3')">绿</span>
       <span @click="skinClick('template4')">紫</span>
-    </div>
+    </div> -->
   </div>
 </template>
 

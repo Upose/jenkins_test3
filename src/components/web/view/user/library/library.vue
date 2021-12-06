@@ -739,6 +739,7 @@ export default {
   text-align: center;
   cursor: pointer;
   color: #666;
+  z-index: 1000;
 
   i {
     font-size: 20px;
