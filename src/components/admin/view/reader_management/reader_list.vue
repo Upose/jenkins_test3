@@ -280,7 +280,7 @@ export default {
           } else {
             let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
             let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.sysArrtKey[this.sysArrt.indexOf(code)]]))
-            value = itemss ? itemss.key : '';
+            value = itemss ? itemss.key : row[key];
           }
         } else if (curItem.type == 5) {//地址
           value = row[key] ? this.showAddrName(row[key]) : "";

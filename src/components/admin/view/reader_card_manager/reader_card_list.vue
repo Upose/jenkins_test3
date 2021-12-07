@@ -244,7 +244,7 @@ export default {
         } else if (curItem.type == 4) {//属性组
           let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
           let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.sysArrtKey[this.sysArrt.indexOf(code)]]))
-          value = itemss ? itemss.key : '';
+          value = itemss ? itemss.key : row[key];
         } else {//默认
           value = row[key] ? row[key] : '';
         }

@@ -144,7 +144,7 @@ export default {
       row.children = row.children || [];
       row.children.push({
         "id": 0,
-        "pId": row.id,
+        "pId": row.fullPath,
         "name": "",
         "code": "",
         "remark": "",

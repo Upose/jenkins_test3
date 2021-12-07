@@ -28,7 +28,7 @@
                 <el-table-column prop="userName" label="姓名" align="center" width="120" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="userGender" label="性别" align="center" width="90" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="userPhone" label="手机号" align="center" width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="userType" label="读者类型" align="center" width="120" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="userTypeName" label="读者类型" align="center" width="120" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="studentNo" label="学工号" align="center" width="120" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="edu" label="学历" align="center" width="120" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="unit" label="单位" align="left" width="120" show-overflow-tooltip></el-table-column>
@@ -47,8 +47,8 @@
                 <el-table-column prop="addr" label="所在地" align="center" width="120" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="addrDetail" label="详细地址" align="left" width="260" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cardNo" label="卡号" align="center" width="150" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="cardType" label="卡类型" align="center" width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column label="错误提示">
+                <el-table-column prop="cardTypeName" label="卡类型" align="center" width="120" show-overflow-tooltip></el-table-column>
+                <el-table-column label="错误提示" min-width="200" show-overflow-tooltip>
                   <template slot-scope="scope">
                     <span v-if="scope.row.error">{{scope.row.errorMsg}}</span>
                   </template>
