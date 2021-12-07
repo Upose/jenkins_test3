@@ -53,6 +53,7 @@ export default {
     getAuth() {
       this.http.getJson('user-permission-tree').then(res => {
         this.auth = res.data.permissionNodes;
+        this.$store.commit('setAuthList',res.data.permissionNodes);
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })

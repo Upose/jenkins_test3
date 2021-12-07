@@ -49,7 +49,7 @@
                 <el-form-item label="卡密码" prop="secret">
                   <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
                   <el-input v-model="cardForm.secret" placeholder="请输入">
-                    <template slot="suffix">
+                    <template slot="suffix" v-if="isAuth('card:setSecret')">
                       <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
                     </template>
                   </el-input>
@@ -171,6 +171,14 @@ export default {
     this.initData();
   },
   methods: {
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/readerCardList'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
+    },
     getDynamicRule(property) {
       var rules = [];
       if (property.required) {

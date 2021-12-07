@@ -7,7 +7,7 @@
     </div>
 
     <div class="t-p">
-      <el-table stripe ref="singleTable" :data="tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table stripe ref="singleTable" :data="isAuth('setting:roleList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column prop="code" label="编码" align="center" width="180px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="name" label="角色名称" align="center" width="150px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="staffCount" label="馆员" align="center" width="100px"></el-table-column>
@@ -19,9 +19,9 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round :disabled="scope.row.sysBuildIn">删除</el-button>
-            <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="el-icon-edit" round :disabled="scope.row.sysBuildIn">编辑权限</el-button>
-            <el-button @click="handleEditStaff(scope.row)" type="text" size="mini" icon="el-icon-edit" round>编辑馆员</el-button>
+            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:roleDelete')">删除</el-button>
+            <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="el-icon-edit" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:rolePermissionSet')">编辑权限</el-button>
+            <el-button @click="handleEditStaff(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('setting:roleStaffSet')">编辑馆员</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -65,6 +65,14 @@ export default {
     this.getList();
   },
   methods: {
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/userSet'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
+    },
     // 获取列表数据
     getList() {
       http.getJson('role-table-data', { ...this.postForm, ...this.pageData }).then(res => {

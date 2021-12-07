@@ -58,14 +58,14 @@
           <div class="table-w">
             <h2 class="m-title">
               <div class="r-btn">
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange">批量修改</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">新增读者</el-button>
-                <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
-                <el-button type="primary" size="medium" @click="importExcel">导入数据</el-button>
+                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('reader:batchUpdate')">批量修改</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('reader:create')">新增读者</el-button>
+                <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('reader:export')">导出数据</el-button>
+                <el-button type="primary" size="medium" @click="importExcel" v-if="isAuth('reader:import')">导入数据</el-button>
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
                   <template slot-scope="scope">
@@ -74,8 +74,8 @@
                 </el-table-column>
                 <el-table-column prop="content" label="操作" width="260">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>查看</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('reader:delete')">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('reader:update')">查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -146,6 +146,14 @@ export default {
       this.getKey();
       this.getDepList();
       this.getList();
+    },
+    // 页面子权限判定
+    isAuth(name){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == '/readerList'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
     },
     // 获取初始数据
     getKey() {
@@ -333,7 +341,7 @@ export default {
       this.multipleSelection = val;
     },
     clickRow(item, row) {
-      if (item.code == "User_Name") {
+      if (item.code == "User_Name" && this.isAuth('reader:detail')) {
         this.$router.push({ path: '/readerManagement', query: { id: row.id } })
       }
     },

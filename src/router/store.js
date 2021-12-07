@@ -8,10 +8,12 @@ export default new Vuex.Store({
     token: undefined,//token参数
     language:'zh-CN',//语言
     skin_template:'template1',
+    authList:[],
   },
   getters: {
     token: (state) => state.token,
     language: (state) => state.language||'zh-CN',
+    authList:(state)=>state.authList
   },
   mutations: {
     login: (state, data) => {
@@ -36,6 +38,9 @@ export default new Vuex.Store({
       state.language = sessionStorage.getItem('language') || 'zh-CN';
       state.skin_template = sessionStorage.getItem('skin_template') || 'template1';
     },
+    setAuthList:(state,data)=>{
+      state.authList = data;
+    }
   },
 });
 

@@ -13,13 +13,13 @@
                         </div>
                         <div class="box-title">读者管理</div>
                         <div class="box-words">
-                            <span @click="to('/readerList')">读者列表</span>
-                            <span @click="to('/readerAdd')">新增读者</span>
-                            <span>导入读者</span>
+                            <span @click="to('/readerList')" v-if="isAuth('reader:list','/readerList')">读者列表</span>
+                            <span @click="to('/readerAdd')" v-if="isAuth('reader:create','/readerList')">新增读者</span>
+                            <span @click="to('/importUser')" v-if="isAuth('reader:import','/readerList')">导入读者</span>
                         </div>
                         <div class="box-words">
-                            <span @click="to('/changeAudit','registered')">注册审核</span>
-                            <span @click="to('/changeAudit','reader')">读者修改审核</span>
+                            <span @click="to('/changeAudit','registered')" v-if="isAuth('approve:registerList','/changeAudit')">注册审核</span>
+                            <span @click="to('/changeAudit','reader')" v-if="isAuth('approve:readerList','/changeAudit')">读者修改审核</span>
                         </div>
                     </div>
                     <div class="login-list-box">
@@ -28,8 +28,8 @@
                         </div>
                         <div class="box-title">馆员管理</div>
                         <div class="box-words">
-                            <span @click="to('/librarianManagement','first')">馆员通讯录</span>
-                            <span @click="to('/librarianManagement','second')">馆员日志</span>
+                            <span @click="to('/librarianManagement','first')" v-if="isAuth('staff:list','/librarianManagement')">馆员通讯录</span>
+                            <!-- <span @click="to('/librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
                         </div>
                     </div>
                     <div class="login-list-box">
@@ -38,13 +38,13 @@
                         </div>
                         <div class="box-title">读者卡管理</div>
                         <div class="box-words">
-                            <span @click="to('/readerCardList')">读者卡列表</span>
-                            <span @click="to('/readerCardAdd')">新增读者卡</span>
-                            <span @click="to('/changeAudit','card')">领卡审核</span>
+                            <span @click="to('/readerCardList')" v-if="isAuth('card:list','/readerCardList')">读者卡列表</span>
+                            <span @click="to('/readerCardAdd')" v-if="isAuth('card:create','/readerCardList')">新增读者卡</span>
+                            <span @click="to('/changeAudit','card')" v-if="isAuth('approve:cardClaimList','/changeAudit')">领卡审核</span>
                         </div>
-                        <div class="box-words">
+                        <!-- <div class="box-words">
                            <span>同步日志</span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="login-list-box">
                         <div class="box-radio">
@@ -52,9 +52,9 @@
                         </div>
                         <div class="box-title">属性管理</div>
                         <div class="box-words">
-                            <span @click="to('/attributeList')">属性管理</span>
-                            <span @click="to('/attributeAdd')">新增属性</span>
-                            <span @click="to('/changeAudit','attribute')">属性修改审核</span>
+                            <span @click="to('/attributeList')" v-if="isAuth('property:list','/attributeList')">属性管理</span>
+                            <span @click="to('/attributeAdd')" v-if="isAuth('property:create','/attributeList')">新增属性</span>
+                            <span @click="to('/changeAudit','attribute')" v-if="isAuth('approve:propertyList','/changeAudit')">属性修改审核</span>
                         </div>
                     </div>
 
@@ -67,7 +67,7 @@
                         <div class="box-title">标签与用户组</div>
                         <div class="box-words">
                             <!-- <span>标签管理</span> -->
-                            <span @click="to('/userGroupList')">用户组管理</span>
+                            <span @click="to('/userGroupList')" v-if="isAuth('userGroup:list','/userGroupList')">用户组管理</span>
                         </div>
                     </div>
                     <div class="login-list-box">
@@ -76,8 +76,8 @@
                         </div>
                         <div class="box-title">管理设置</div>
                         <div class="box-words">
-                            <span @click="to('/userSet','base')">基础设置</span>
-                            <span @click="to('/userSet','auth')">权限管理</span>
+                            <span @click="to('/userSet','base')" v-if="isAuth('setting:basicDetail','/userSet')">基础设置</span>
+                            <span @click="to('/userSet','auth')" v-if="isAuth('setting:roleList','/userSet')">权限管理</span>
                         </div>
                     </div>
               </div>
@@ -114,6 +114,14 @@ export default {
     //   this.initData();
   },
   methods:{
+    // 页面子权限判定
+    isAuth(name,path){
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item=>(item.router == path));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
+      return curSonAuth?true:false;
+    },
     // 前往页面
     to(path,type){
       this.$router.push({ path: path, query: { type: type } })
