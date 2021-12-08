@@ -124,6 +124,7 @@ class ApplicationBuilder {
     }
     /**403跳转登录 */
     handle403Go2LoginResponse() {
+        
         if (axios) {
             axios.interceptors.response.use(undefined, error => {
                 // unauth 存在则需要登录
@@ -133,7 +134,7 @@ class ApplicationBuilder {
                     localStorage.setItem('COM+', current);
 
                     //   window.open(this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin),'_blank');
-                    // window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin)
+                     window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin)
                     // window.close();
                 }
                 return Promise.reject(error);
@@ -184,12 +185,12 @@ class ApplicationBuilder {
 }
 new ApplicationBuilder()
     .configureCasBase("http://192.168.21.36:10011")
-    .configureApiBase('http://192.168.21.36:7001')
+    .configureApiBase('http://192.168.21.36:8011')
     .configureOrgInfo({
         orgId: "string",
         orgSecret: 'string',
         orgCode: "cqu",
-        OrgTokenLink: 'http://192.168.21.71:8077/api/Auth/AccessToken'
+        OrgTokenLink: 'http://192.168.21.46:5002/api/Auth/AccessToken'
     })
     .buildDefaultApplication();
 
