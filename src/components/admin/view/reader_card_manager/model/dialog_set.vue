@@ -80,7 +80,15 @@ export default {
   mounted() { },
   methods: {
     show() {
-      this.dialogVisible = true;
+      this.getData();
+    },
+    getData() {
+      this.http.getJson('sync-card-config').then(res => {
+        this.form = res.data;
+        this.dialogVisible = true;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取同步配置失败!' });
+      })
     },
     submit() {
       this.http.postJson('set-sync-card-config', this.form).then(res => {
