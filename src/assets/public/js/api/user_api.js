@@ -1,7 +1,7 @@
 /***后台管理系统 项目接口地址-用户中心 */
 
-var baseURL = 'http://192.168.21.36:8011';//请求前端地址
-var baseURL1 = 'http://192.168.21.36:8021';//请求前端地址
+var baseURL = 'http://192.168.21.43:8011';//请求前端地址
+var baseURL1 = 'http://192.168.21.43:8021';//请求前端地址
 
 export default {
     postUrl: {

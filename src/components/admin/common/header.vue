@@ -73,7 +73,7 @@ export default {
         localStorage.removeItem('token');
         let current = window.location.href;
         localStorage.setItem('COM+', current);
-        location.href = 'http://192.168.21.36:10011/cas/logout?service=' + encodeURIComponent(window.location);
+        location.href = 'http://192.168.21.43:10011/cas/logout?service=' + encodeURIComponent(window.location);
       }).catch(() => {
       });
     },

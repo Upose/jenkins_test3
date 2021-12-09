@@ -184,8 +184,8 @@ class ApplicationBuilder {
     }
 }
 new ApplicationBuilder()
-    .configureCasBase("http://192.168.21.36:10011")
-    .configureApiBase('http://192.168.21.36:8011')
+    .configureCasBase("http://192.168.21.43:10011")
+    .configureApiBase('http://192.168.21.43:8011')
     .configureOrgInfo({
         orgId: "string",
         orgSecret: 'string',

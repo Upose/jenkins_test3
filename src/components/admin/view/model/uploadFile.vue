@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      uploadUrl: 'http://192.168.21.36:8011' + '/api/user/import-user',
+      uploadUrl: 'http://192.168.21.43:8011' + '/api/user/import-user',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] }
     }
   },
