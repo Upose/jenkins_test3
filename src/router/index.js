@@ -34,7 +34,7 @@ export default new Router({
         let regexResult = ticketRegex.exec(location.href);
         if (regexResult.length > 1) {
           let ticket = regexResult[1];
-          let ticketHref = `http://192.168.21.36:8021/api/third-part-auth/cas-proxy?ticket=${ticket}&service=${encodeURIComponent(location.origin)}`;
+          let ticketHref = `http://192.168.21.43:8021/api/third-part-auth/cas-proxy?ticket=${ticket}&service=${encodeURIComponent(location.origin)}`;
           axios({
             url: ticketHref,
             method: 'get'
@@ -50,7 +50,7 @@ export default new Router({
                 let token = tokenElements[0].innerHTML;
                 localStorage.setItem('token', token);
 
-                window.open(originUrl, '_blank')
+                window.location.href=originUrl;
                 window.close();
                 next(originUrl);
                 return;
