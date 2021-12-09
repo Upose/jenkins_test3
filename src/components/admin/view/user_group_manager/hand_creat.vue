@@ -18,9 +18,9 @@
 
           <!-- 目录 -->
           <div class="content-box">
-            <el-form ref="form" :model="postForm" label-width="100px">
-              <el-form-item label="用户组名称" class="w500">
-                <el-input v-model="postForm.name" class="w500"></el-input>
+            <el-form ref="postForm" :model="postForm" label-width="100px" :rules="rules">
+              <el-form-item label="用户组名称" class="w500" prop="name">
+                <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="50" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注">
                 <el-input type="textarea" v-model="postForm.desc" class="w500"></el-input>
@@ -128,7 +128,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button icon="el-icon-close" size="medium" @click="reset">重置</el-button>
-                <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm">保存</el-button>
+                <el-button icon="el-icon-check" size="medium" type="primary" @click="validateRun">保存</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -190,6 +190,13 @@ export default {
       rightListImp: [],//右边勾选列表
 
       activeName: '选择',
+
+      rules: {
+        name: [
+          { required: true, message: '请输入用户组名称', trigger: 'blur' },
+          { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+        ],
+      },
     };
   },
   mounted() {
@@ -342,6 +349,20 @@ export default {
           this.$message({ type: 'error', message: '新增失败!' });
         })
       }
+    },
+    // 验证执行
+    validateRun() {
+      this.$refs['postForm'].validate((valid) => {
+        if (valid) {
+          this.submitForm();
+        } else {
+          this.$message({
+            message: '请完善信息！',
+            type: 'warning'
+          })
+          return false;
+        }
+      });
     },
   },
 };
