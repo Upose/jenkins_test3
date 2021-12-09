@@ -54,6 +54,10 @@ export default {
         'user-card-apply-list-data': baseURL + '/api/card/user-card-apply-list-data',//获取用户读者卡申请信息
         'set-card-secret': baseURL + '/api/card/set-card-secret',//设置卡密码
         'reset-card-secret': baseURL + '/api/card/reset-card-secret',//重置卡密码
+        'sync-card-config': baseURL + '/api/card/sync-card-config',//获取同步设置配置项
+        'sync-card-log-table-data': baseURL + '/api/card/sync-card-log-table-data',//获取同步日志
+        'set-sync-card-config': baseURL + '/api/card/set-sync-card-config',//设置同步设置配置项
+
 
 
 

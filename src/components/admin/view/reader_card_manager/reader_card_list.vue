@@ -12,31 +12,7 @@
           <div class="search-table-w">
             <h1 class="search-title">读者卡管理</h1>
             <div class="search-term" v-if="dataKey">
-              <!-- <el-input placeholder="请输入" size="medium" v-model="searchKey" style="width:300px">
-                <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:130px">
-                  <el-option label="读者姓名" :value="'changeUserName'"></el-option>
-                  <el-option label="统一登录号" :value="'changeUserPhone'"></el-option>
-                  <el-option label="手机号" :value="'changeUserPhone'"></el-option>
-                  <el-option label="读者身份证/护照" :value="'changeUserPhone'"></el-option>
-                  <el-option label="学号" :value="'changeUserPhone'"></el-option>
-                  <el-option label="读者卡号" :value="'changeUserPhone'"></el-option>
-                </el-select>
-              </el-input> -->
-              <!-- <div class="search-item-box" v-for="item in dataKey.canSearchProperties" :key="item.code">
-                <div class="search-item" v-if="!item.external">
-                  <el-input v-model="searchForm[item.code]" :placeholder="item.name" v-if="!item.external && (item.type==0||item.type==1||item.type==5||item.type==6)"></el-input>
-                  <el-date-picker v-model="searchForm[item.code]" type="date" :placeholder="item.name" v-if="!item.external && item.type==2"></el-date-picker>
-                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="!item.external && item.type==3">
-                    <el-option label="是" :value="true"></el-option>
-                    <el-option label="否" :value="false"></el-option>
-                  </el-select>
-                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && initSelect(item.code)">
-                    <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                  </el-select>
-                </div>
-              </div> -->
               <div class="search-item-box">
-                <!-- <el-input v-model="postForm.name" placeholder="读者名称" clearable></el-input> -->
                 <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
                   <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
                     <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
@@ -66,13 +42,11 @@
           <!--顶部查询 end-->
           <div class="table-w">
             <h2 class="m-title">
+              <el-button type="primary" size="medium" @click="$router.push('/readerCardSnyc')">同步日志</el-button>
               <div class="r-btn">
-                <!-- <el-button size="medium" class="gray-btn" @click="handSomeChange(2)">批量推荐</el-button> -->
-                <!-- <el-button size="medium" class="gray-btn" @click="handSomeChange(1)">批量恢复</el-button> -->
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('card:batchUpdate')">批量修改</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('card:create')">新增读者卡</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:export')">导出数据</el-button>
-                <!-- <el-button type="primary" size="medium" @click="exportExcel">导入数据</el-button> -->
                 <!-- <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:increatSync')">增量同步</el-button> -->
                 <!-- <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:allSync')">全量同步</el-button> -->
               </div>
@@ -80,7 +54,6 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
                   <template slot-scope="scope">
                     <span>{{getKeyValue(item.code,scope.row)}}</span>
@@ -94,7 +67,6 @@
                 </el-table-column>
 
               </el-table>
-              <!--<el-button size="small" class="default-btn-n-border next-btn">下一页</el-button>-->
               <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
             </div>
           </div>
@@ -164,12 +136,12 @@ export default {
       this.getList();
     },
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/readerCardList'));
+      let curAuth = authList.find(item => (item.router == '/readerCardList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {

@@ -71,6 +71,12 @@ export default {
         meta: { title: '读者卡管理', keepAlive: true }
     },
     {
+        path: '/readerCardSnyc',
+        name: 'readerCardSnyc',
+        component: r => require.ensure([], () => r(require('@/components/admin/view/reader_card_manager/reader_card_snyc')), 'reader_card_snyc'),
+        meta: { title: '读者卡管理-同步日志', keepAlive: true }
+    },
+    {
         path: '/readerCardAdd',
         name: 'readerCardAdd',
         component: r => require.ensure([], () => r(require('@/components/admin/view/reader_card_manager/reader_card_add')), 'reader_card_add'),
