@@ -10,7 +10,7 @@
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title">同步日志</h1>
+            <h1 class="search-title"><span class="tab-nav" @click="$router.push('/readerCardList')">读者卡管理</span><span class="tab-nav current">同步日志</span></h1>
           </div>
           <!--顶部查询 end-->
           <div class="table-w">
@@ -31,14 +31,14 @@
                   </template>
                 </el-table-column>
                 <el-table-column prop="syncType" label="同步类型" align="center" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                        {{getKeyValue('syncCardType',scope.row.syncType)}}
-                    </template>
+                  <template slot-scope="scope">
+                    {{getKeyValue('syncCardType',scope.row.syncType)}}
+                  </template>
                 </el-table-column>
                 <el-table-column prop="status" label="同步状态" align="center" show-overflow-tooltip>
-                    <template slot-scope="scope">
-                        {{getKeyValue('syncCardStatus',scope.row.status)}}
-                    </template>
+                  <template slot-scope="scope">
+                    {{getKeyValue('syncCardStatus',scope.row.status)}}
+                  </template>
                 </el-table-column>
                 <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column>
               </el-table>
@@ -180,5 +180,14 @@ export default {
     cursor: pointer;
     width: 180px;
   }
+}
+.search-table-w .search-title .tab-nav{
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 40px;
+  padding-bottom: 10px;
+}
+.search-table-w .search-title .current{
+  border-bottom: 2px solid @6777EF;
 }
 </style>

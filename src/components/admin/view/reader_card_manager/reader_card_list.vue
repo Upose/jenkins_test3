@@ -10,7 +10,7 @@
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title">读者卡管理</h1>
+            <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav" @click="$router.push('/readerCardSnyc')">同步日志</span></h1>
             <div class="search-term" v-if="dataKey">
               <div class="search-item-box">
                 <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
@@ -42,7 +42,7 @@
           <!--顶部查询 end-->
           <div class="table-w">
             <h2 class="m-title">
-              <el-button type="primary" size="medium" @click="$router.push('/readerCardSnyc')">同步日志</el-button>
+              <!-- <el-button type="primary" size="medium" @click="$router.push('/readerCardSnyc')">同步日志</el-button> -->
               <div class="r-btn">
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('card:batchUpdate')">批量修改</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('card:create')">新增读者卡</el-button>
@@ -59,7 +59,7 @@
                     <span>{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" width="260">
+                <el-table-column prop="content" label="操作" width="100">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('card:detele')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('card:update')">查看</el-button>
@@ -362,5 +362,14 @@ export default {
   .el-range-separator {
     width: 30px;
   }
+}
+.search-table-w .search-title .tab-nav{
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 40px;
+  padding-bottom: 10px;
+}
+.search-table-w .search-title .current{
+  border-bottom: 2px solid @6777EF;
 }
 </style>
