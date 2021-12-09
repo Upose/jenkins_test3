@@ -82,9 +82,6 @@ export default {
         pageSize: 50,
       },//分页参数
       tableData: [],//列表项
-      id: this.$route.query.id,
-      sourceFrom: this.$route.query.sourceFrom,
-      briefInfo: {}
     }
   },
   mounted() {
