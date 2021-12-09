@@ -134,7 +134,7 @@ class ApplicationBuilder {
                     localStorage.setItem('COM+', current);
 
                     //   window.open(this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin),'_blank');
-                     window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin)
+                    window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin)
                     // window.close();
                 }
                 return Promise.reject(error);

@@ -15,7 +15,9 @@
       </el-tabs>
     </div>
     <div class="login-msg-warp">
-      <div class="u-img-w"><el-image class="u-img" :src="default_img" :fit="'contain'"></el-image></div>
+      <div class="u-img-w">
+        <el-image class="u-img" :src="default_img" :fit="'contain'"></el-image>
+      </div>
       <span class="u-name">user admin</span>
       <i class="el-icon-warning-outline loginOut" title="退出登录" @click="outLogin()"></i>
     </div>
@@ -26,128 +28,139 @@
 import bus from '@/assets/public/js/bus';
 export default {
   name: 'test',
-  data () {
+  data() {
     return {
-      activeName:0,
-      default_img:require('@/assets/admin/img/upload/user-img.png'),
-      logoList:{
-        show:require('@/assets/admin/img/logo.png'),
-        hide:require('@/assets/admin/img/logo-text.png'),
+      activeName: 0,
+      default_img: require('@/assets/admin/img/upload/user-img.png'),
+      logoList: {
+        show: require('@/assets/admin/img/logo.png'),
+        hide: require('@/assets/admin/img/logo-text.png'),
       },
-      dataList:[
-        {icon:'el-icon-warning-outline',title:'工作台',url:'/workbench'},
+      dataList: [
+        { icon: 'el-icon-warning-outline', title: '工作台', url: '/workbench' },
         // {icon:'el-icon-warning-outline',title:'工作台',url:'/librarianWorkbench'},
-        {icon:'el-icon-warning-outline',title:'应用中心',url:'/appInfo'},
-        {icon:'el-icon-warning-outline',title:'场景管理',url:'/caseShow'},
-        {icon:'el-icon-warning-outline',title:'用户管理',url:'/userManager'},
-        {icon:'el-icon-warning-outline',title:'数据管理',url:'/dataCentre'},
-        {icon:'el-icon-warning-outline',title:'运行统计',url:'/tableList'},
-        {icon:'el-icon-warning-outline',title:'应用开放中心',url:'/appManage'},
-        {icon:'el-icon-warning-outline',title:'新闻发布',url:'/newsProgram'},
-        {icon:'el-icon-warning-outline',title:'文献专题引擎',url:'/specialProgram'},
-        {icon:'el-icon-warning-outline',title:'文献智能推荐',url:'/intelligentManage'},
-        {icon:'el-icon-warning-outline',title:'信息导航',url:'/navigationProgram'},
-        {icon:'el-icon-warning-outline',title:'数据库导航',url:'/databaseNav'},
+        { icon: 'el-icon-warning-outline', title: '应用中心', url: '/appInfo' },
+        { icon: 'el-icon-warning-outline', title: '场景管理', url: '/caseShow' },
+        { icon: 'el-icon-warning-outline', title: '用户管理', url: '/userManager' },
+        { icon: 'el-icon-warning-outline', title: '数据管理', url: '/dataCentre' },
+        { icon: 'el-icon-warning-outline', title: '运行统计', url: '/tableList' },
+        { icon: 'el-icon-warning-outline', title: '应用开放中心', url: '/appManage' },
+        { icon: 'el-icon-warning-outline', title: '新闻发布', url: '/newsProgram' },
+        { icon: 'el-icon-warning-outline', title: '文献专题引擎', url: '/specialProgram' },
+        { icon: 'el-icon-warning-outline', title: '文献智能推荐', url: '/intelligentManage' },
+        { icon: 'el-icon-warning-outline', title: '信息导航', url: '/navigationProgram' },
+        { icon: 'el-icon-warning-outline', title: '数据库导航', url: '/databaseNav' },
       ],
     }
   },
-  methods:{
+  methods: {
     // 侧边栏折叠展开
-    collapseChage(){
-        this.$root.collapse = !this.$root.collapse;
-        bus.$emit('collapse', this.$root.collapse);
+    collapseChage() {
+      this.$root.collapse = !this.$root.collapse;
+      bus.$emit('collapse', this.$root.collapse);
     },
     handleClick(tab, event) {
       this.$router.push(this.dataList[this.activeName].url);
     },
-    outLogin(){
-      this.$store.commit('logout');
-      this.$router.push('/login');
+    outLogin() {
+      // this.$store.commit('logout');
+      // this.$router.push('/login');
+      this.$confirm('是否确认退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        localStorage.removeItem('token');
+        let current = window.location.href;
+        localStorage.setItem('COM+', current);
+        location.href = 'http://192.168.21.36:10011/cas/logout?service=' + encodeURIComponent(window.location);
+      }).catch(() => {
+      });
     },
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
-.header-warp{
+@import "../../../assets/admin/css/color.less"; /**颜色配置 */
+.header-warp {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
   color: @6C757D;
   height: 40px;
   z-index: 8;
   position: relative;
   background-color: @fff;
-  a{
+  a {
     color: @6C757D;
   }
-  .logo-w{
+  .logo-w {
     vertical-align: middle;
     display: inline-block;
-    padding:0 10px;
+    padding: 0 10px;
     width: 240px;
     height: 100%;
-    transition: width .3s ease-in-out;
-    a{
+    transition: width 0.3s ease-in-out;
+    a {
       color: #fff;
       margin-left: 10px;
       display: block;
       height: 100%;
-      line-height:40px;
+      line-height: 40px;
       width: 100%;
-      vertical-align:middle;
+      vertical-align: middle;
     }
   }
-  .logo-collapse{
+  .logo-collapse {
     width: 65px;
   }
-  .m-cut{
+  .m-cut {
     font-size: 24px;
     vertical-align: middle;
-    margin-left:16px;
+    margin-left: 16px;
   }
   /**box-菜单**/
-  .m-box-list{
+  .m-box-list {
     display: inline-block;
     height: 100%;
-    vertical-align:middle;
+    vertical-align: middle;
     position: absolute;
     left: 300px;
     right: 200px;
-    transition: left .3s ease-in-out;
-    .m-box{
+    transition: left 0.3s ease-in-out;
+    .m-box {
       line-height: 40px;
       margin-right: 20px;
       font-size: 13px;
       font-weight: 500;
-      font-family:'Microsoft YaHei';
-      &:first-child{
+      font-family: "Microsoft YaHei";
+      &:first-child {
         margin-left: 16px;
       }
-      &:last-child{
+      &:last-child {
         margin-right: 0;
       }
-      i{
+      i {
         font-size: 24px;
         vertical-align: middle;
       }
-      span.name{
+      span.name {
         vertical-align: middle;
       }
     }
   }
-  .logo-collapse-left{
-    left:127px;
-    transition: left .3s ease-in-out;
+  .logo-collapse-left {
+    left: 127px;
+    transition: left 0.3s ease-in-out;
   }
-  
+
   /**用户信息-退出登录**/
-  .login-msg-warp{
+  .login-msg-warp {
     position: absolute;
-    right:24px;
+    right: 24px;
     top: 0;
     z-index: 9;
     line-height: 40px;
-    .u-img-w{
+    .u-img-w {
       width: 30px;
       height: 30px;
       display: inline-block;
@@ -155,39 +168,39 @@ export default {
       background-color: @C2C8C0;
       border-radius: 50%;
       overflow: hidden;
-      .u-img{
+      .u-img {
         width: 30px;
         height: 30px;
         padding: 3px;
       }
     }
-    .u-name{
+    .u-name {
       font-size: 14px;
       margin: 0 8px;
     }
-    .loginOut{
+    .loginOut {
       font-size: 24px;
       vertical-align: middle;
     }
   }
 }
 /**重置样式**/
-/deep/.el-tabs__item.is-active{
-  color:@6C757D;
+/deep/.el-tabs__item.is-active {
+  color: @6C757D;
 }
-/deep/.el-tabs__item{
-  color:@6C757D;
+/deep/.el-tabs__item {
+  color: @6C757D;
 }
-/deep/.el-tabs__item:hover{
-  color:@6777EF;
+/deep/.el-tabs__item:hover {
+  color: @6777EF;
 }
-/deep/.el-tabs__active-bar{
-  display:none;
+/deep/.el-tabs__active-bar {
+  display: none;
 }
-/deep/.el-tabs__content{
-  display:none;
+/deep/.el-tabs__content {
+  display: none;
 }
-/deep/.el-tabs__nav-wrap::after{
-  height:0;
+/deep/.el-tabs__nav-wrap::after {
+  height: 0;
 }
 </style>
