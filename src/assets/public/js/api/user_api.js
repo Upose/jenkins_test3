@@ -57,6 +57,7 @@ export default {
         'sync-card-config': baseURL + '/api/card/sync-card-config',//获取同步设置配置项
         'sync-card-log-table-data': baseURL + '/api/card/sync-card-log-table-data',//获取同步日志
         'set-sync-card-config': baseURL + '/api/card/set-sync-card-config',//设置同步设置配置项
+        'add-sync-card-task':baseURL+'/api/card/set-sync-card-task',//添加读者临时同步任务
 
 
 

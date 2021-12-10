@@ -27,7 +27,7 @@
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column label="同步日期" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{setTime(scope.row.syncStartTime)}}
+                    {{setTime(scope.row.syncStartTime,'分')}}
                   </template>
                 </el-table-column>
                 <el-table-column prop="syncType" label="同步类型" align="center" show-overflow-tooltip>
@@ -37,7 +37,7 @@
                 </el-table-column>
                 <el-table-column prop="status" label="同步状态" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{getKeyValue('syncCardStatus',scope.row.status)}}
+                    {{getKeyValue('syncCardLogStatus',scope.row.status)}}
                   </template>
                 </el-table-column>
                 <!-- <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column> -->
@@ -110,6 +110,7 @@ export default {
     // 获取列表数据
     getList() {
       http.getJson('sync-card-log-table-data', { ...this.postForm, ...this.pageData }).then(res => {
+        
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
