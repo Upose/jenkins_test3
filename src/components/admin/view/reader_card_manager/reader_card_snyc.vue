@@ -37,7 +37,7 @@
                 </el-table-column>
                 <el-table-column prop="status" label="同步状态" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{getKeyValue('syncCardStatus',scope.row.status)}}
+                    {{getKeyValue('syncCardLogStatus',scope.row.status)}}
                   </template>
                 </el-table-column>
                 <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column>
@@ -103,6 +103,7 @@ export default {
     // 获取列表数据
     getList() {
       http.getJson('sync-card-log-table-data', { ...this.postForm, ...this.pageData }).then(res => {
+        
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
