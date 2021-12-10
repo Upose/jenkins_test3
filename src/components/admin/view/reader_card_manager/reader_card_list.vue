@@ -47,6 +47,7 @@
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('card:batchUpdate')">批量修改</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('card:create')">新增读者卡</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:export')">导出数据</el-button>
+                <el-button type="primary" size="medium" @click="syncNow" v-if="isAuth('card:increatSync')">增量同步</el-button>
                 <!-- <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:increatSync')">增量同步</el-button> -->
                 <!-- <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:allSync')">全量同步</el-button> -->
               </div>
@@ -337,6 +338,14 @@ export default {
         return;
       }
       this.$refs.someChange.show();
+    },
+    //新增立即同步任务
+    syncNow() {
+      http.postJson('add-sync-card-task', {}).then(res => {
+        this.$message({ type: 'success', message: '添加同步任务成功，任务执行需要时间，请耐心等待' });
+      }).catch(err => {
+        this.$message({ type: 'error', message: this.handleError(err, '添加同步任务失败') });
+      })
     }
   },
 }
@@ -363,13 +372,13 @@ export default {
     width: 30px;
   }
 }
-.search-table-w .search-title .tab-nav{
+.search-table-w .search-title .tab-nav {
   font-size: 18px;
   cursor: pointer;
   margin-right: 40px;
   padding-bottom: 10px;
 }
-.search-table-w .search-title .current{
+.search-table-w .search-title .current {
   border-bottom: 2px solid @6777EF;
 }
 </style>

@@ -27,7 +27,7 @@
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column label="同步日期" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{setTime(scope.row.syncStartTime)}}
+                    {{setTime(scope.row.syncStartTime,'分')}}
                   </template>
                 </el-table-column>
                 <el-table-column prop="syncType" label="同步类型" align="center" show-overflow-tooltip>
