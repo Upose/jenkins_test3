@@ -40,7 +40,12 @@
                     {{getKeyValue('syncCardLogStatus',scope.row.status)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column>
+                <!-- <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column> -->
+                <el-table-column prop="content" label="同步结果" width="100">
+                  <template slot-scope="scope">
+                    <el-button @click="handleDetail(scope.row)" type="text" size="mini" icon="el-icon-edit" round>查看</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
               <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
             </div>
@@ -48,6 +53,7 @@
           <!--管理页列表 end--->
           <!-- 组件 -->
           <dialog_set ref="dialog_set"></dialog_set>
+          <dialog_detail ref="dialog_detail"></dialog_detail>
         </div>
         <!---顶部查询板块 end--->
         <footerPage class="top20"></footerPage>
@@ -64,6 +70,7 @@ import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 import dialog_set from './model/dialog_set'
+import dialog_detail from './model/dialog_detail'
 
 export default {
   name: 'index',
@@ -72,7 +79,7 @@ export default {
       this.$root.collapse = msg;
     })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_set },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_set,dialog_detail },
   data() {
     return {
       dataKey: null,
@@ -138,6 +145,10 @@ export default {
     handSearch() {
       this.initGetList();
     },
+    // 查看
+    handleDetail(row){
+        this.$refs.dialog_detail.show(row.context);
+    }
   },
 }
 </script>
