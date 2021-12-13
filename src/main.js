@@ -103,7 +103,7 @@ const i18n = new VueI18n({
 // })
 
 new Vue({
-  el: '#database_nav_sys',
+  el: '#zt_user_center_sys',
   router,
   i18n,
   store,

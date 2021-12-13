@@ -124,7 +124,6 @@ class ApplicationBuilder {
     }
     /**403跳转登录 */
     handle403Go2LoginResponse() {
-        
         if (axios) {
             axios.interceptors.response.use(undefined, error => {
                 // unauth 存在则需要登录
