@@ -9,22 +9,21 @@
       </el-form>
     </div> -->
     <div style="width:40%;display: inline-block;vertical-align: top;margin-right:2%">
-      <el-table :data="userList" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe height="600px">
-        <el-table-column prop="studentNo" label="读者账号"></el-table-column>
-        <el-table-column prop="name" label="读者姓名"></el-table-column>
-        <el-table-column prop="college" label="院系"></el-table-column>
-        <el-table-column prop="college" label="院系" align="center">
-            <template slot-scope="scope">
-                <!-- <span @click="handleGetLog(scope.row.id)">查看</span> -->
-                <el-button @click="handleGetLog(scope.row)" type="text" size="mini" round>查看</el-button>
-            </template>
-        </el-table-column>
+      <el-table :data="userList" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe height="600px" @row-click="handleGetLog">
+        <el-table-column prop="studentNo" label="读者账号" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="name" label="读者姓名" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="collegeName" label="院系" show-overflow-tooltip></el-table-column>
+        <!-- <el-table-column label="" align="center" width="80">
+          <template slot-scope="scope">
+            <el-button @click="handleGetLog(scope.row)" type="text" size="mini" round>查看</el-button>
+          </template>
+        </el-table-column> -->
       </el-table>
     </div>
     <div style="width:56%;display: inline-block;">
       <el-table :data="tableData" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe height="600px">
-        <el-table-column prop="fieldCode" label="字段编码"></el-table-column>
-        <el-table-column prop="fieldName" label="字段名称"></el-table-column>
+        <el-table-column prop="fieldCode" label="字段编码" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="fieldName" label="字段名称" show-overflow-tooltip></el-table-column>
         <el-table-column label="类型">
           <template slot-scope="scope">
             <span>{{ getKeyValue('propertyLogType',scope.row.changeType) }}</span>
@@ -85,8 +84,8 @@ export default {
       })
     },
     // 获取其他日志
-    handleGetLog(row){
-        http.getJsonSelf('user-change-log-detail-items', `/${this.logid}/${row.id}`).then(res => {
+    handleGetLog(row) {
+      http.getJsonSelf('user-change-log-detail-items', `/${this.logid}/${row.id}`).then(res => {
         this.tableData = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });

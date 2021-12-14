@@ -35,10 +35,10 @@
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="发卡日期" prop="issueDate">
-                  <el-date-picker v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  <el-date-picker v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="截止日期" prop="expireDate">
-                  <el-date-picker v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  <el-date-picker v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择" clearable>
@@ -48,7 +48,7 @@
                 </el-form-item>
                 <el-form-item label="卡密码" prop="secret">
                   <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
-                  <el-input v-model="cardForm.secret" placeholder="请输入">
+                  <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
                     <template slot="suffix" v-if="isAuth('card:setSecret')">
                       <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
                     </template>
@@ -172,12 +172,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/readerCardList'));
+      let curAuth = authList.find(item => (item.router == '/readerCardList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     getDynamicRule(property) {
       var rules = [];
@@ -250,7 +250,22 @@ export default {
     },
     //重置密码
     handleReset() {
-      this.cardForm.secret = this.cardForm.no;
+      var cardId = this.cardForm.id;
+      var newSecret = this.cardForm.no;
+      this.$confirm('是否确认重置密码?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        http.postJson('reset-card-secret', { cardId: cardId, secret: newSecret }).then(res => {
+          this.cardForm.secret = '******';
+          this.$message({ message: `重置成功！密码为：${newSecret}`, type: 'success' });
+        }).catch(err => {
+          this.$message({ type: 'error', message: '编辑失败!' });
+        })
+      }).catch(() => {
+        // this.$message({ type: 'info', message: '已取消删除!' });
+      });
     },
     //表单提交
     submitForm() {
@@ -259,7 +274,7 @@ export default {
           this.$message({ message: '编辑成功！', type: 'success' });
           this.getData();
         }).catch(err => {
-          this.$message({ type: 'error', message: '编辑失败!' });
+          this.$message({ type: 'error', message: this.handleError(err, '编辑失败!') });
         })
       } else {
         this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
@@ -268,7 +283,7 @@ export default {
           this.id = res.data;
           this.getData();
         }).catch(err => {
-          this.$message({ type: 'error', message: '新增失败!' });
+          this.$message({ type: 'error', message: this.handleError(err, '新增失败!') });
         })
       }
     },

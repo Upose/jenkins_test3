@@ -60,9 +60,9 @@
                     <span>{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" width="100">
+                <el-table-column prop="content" label="操作" width="260">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('card:detele')">删除</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('card:delete')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('card:update')">查看</el-button>
                   </template>
                 </el-table-column>
@@ -274,10 +274,8 @@ export default {
     // 查找
     handSearch() {
       let search = {};
-      // for (const item in this.searchForm) {
-      //   let index = this.sysArrtKey[this.sysArrt.indexOf(item)];
-      //   search[index] = this.searchForm[item];
-      // }
+      search['cardType'] = this.postForm.cardType;
+      search['cardStatus'] = this.postForm.cardStatus;
       if (this.searchTextCode && this.searchTextValue) {
         // let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
         search[this.searchTextCode] = this.searchTextValue;

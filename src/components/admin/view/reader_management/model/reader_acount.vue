@@ -26,7 +26,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="出生日期" prop="birthday">
-          <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
+          <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="部门" prop="depart" v-if="postForm.isStaff">

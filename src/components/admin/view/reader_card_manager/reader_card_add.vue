@@ -18,7 +18,7 @@
               <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules">
                 <div class="read-title">读者卡信息</div>
                 <el-form-item label="选择用户" v-if="!id&&!userId" prop="userId">
-                  <el-select v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
+                  <el-select @change="refChangeCardSecret" v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
                     <el-option v-for="item in userList" :key="item.id" :label="item.name+'_'+item.phone" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
@@ -123,6 +123,13 @@ export default {
       loading: false,
       userList: [],
       cardRules: {
+        userId: [
+          {
+            required: true,
+            message: '必填项',
+            trigger: 'change',
+          }
+        ],
         no: [
           {
             required: true,
@@ -264,25 +271,44 @@ export default {
     downloadFile(url) {
       window.open(process.env.VUE_APP_IMG_URL + url);
     },
+    refChangeCardSecret(val) {
+      var userId = val || '';
+      var userList = this.userList || [];
+      var mapUser = userList.find(x => { return x.id == userId });
+      if (mapUser) {
+        var newStr = mapUser.phone || '';
+        if (newStr.length <= 6) {
+          this.cardForm.secret = val;
+        } else {
+          this.cardForm.secret = newStr.substring(newStr.length - 6);
+        }
+      }
+
+    },
     //表单提交
     submitForm() {
-      if (this.id) {
-        http.putJson('card', this.cardForm).then(res => {
-          this.$message({ message: '编辑成功！', type: 'success' });
-          this.getData();
-        }).catch(err => {
-          this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
-        })
-      } else {
-        this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
-        http.postJson('card', this.cardForm).then(res => {
-          this.$message({ message: '新增成功！', type: 'success' });
-          this.id = res.data;
-          this.getData();
-        }).catch(err => {
-          this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
-        })
-      }
+      this.$refs["form"].validate((cardOk) => {
+        if (cardOk) {
+          if (this.id) {
+            http.putJson('card', this.cardForm).then(res => {
+              this.$message({ message: '编辑成功！', type: 'success' });
+              this.getData();
+            }).catch(err => {
+              this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
+            })
+          } else {
+            this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
+            http.postJson('card', this.cardForm).then(res => {
+              this.$message({ message: '新增成功！', type: 'success' });
+              this.id = res.data;
+              this.getData();
+            }).catch(err => {
+              this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
+            })
+          }
+        }
+      });
+
     },
   }
 }
@@ -597,7 +623,7 @@ export default {
   width: 95%;
   float: left;
 }
-/deep/ .el-cascader{
+/deep/ .el-cascader {
   width: 100%;
 }
 .radios {

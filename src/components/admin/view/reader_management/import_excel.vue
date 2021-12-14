@@ -149,7 +149,9 @@ export default {
     // 确认导入
     sub() {
       http.postJsonSelf('import-user-confirm', `/${this.batchid}`).then(res => {
-        this.$message({ type: 'success', message: '导入成功!' });
+        if (res.data) {
+          this.$message({ type: 'success', message: `导入成功：${res.data.sucCount}条，失败：${res.data.errCount}条!` });
+        }
       }).catch(err => {
         this.$message({ type: 'error', message: '导入失败!' });
       })

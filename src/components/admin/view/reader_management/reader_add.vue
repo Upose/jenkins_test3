@@ -117,7 +117,7 @@
                   <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="手机" prop="phone">
-                  <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit></el-input>
+                  <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit @input="refChangeCardSecret"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证" prop="idCard">
                   <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
@@ -125,7 +125,7 @@
                 <el-form-item label="邮箱" prop="email" class="youxiang">
                   <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                <!-- <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
                   <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
                   <el-input v-model="item.propertyValue" :min="1" label="label" clearable v-if="item.propertyType == 1" placeholder="请输入"></el-input>
                   <el-date-picker v-model="item.propertyValue" type="date" clearable placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
@@ -144,7 +144,7 @@
                     </el-upload>
                     <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
                   </div>
-                </el-form-item>
+                </el-form-item> -->
               </el-form>
 
             </div>
@@ -365,7 +365,8 @@ export default {
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
-        this.postForm = this.dataKey.userData;
+        this.postForm = this.dataKey.userData || {};
+        this.cardForm = this.dataKey.cardData || { secret: '' };
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -432,6 +433,14 @@ export default {
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败') });
       })
+    },
+    refChangeCardSecret(val) {
+      var newStr = val || '';
+      if (newStr.length <= 6) {
+        this.cardForm.secret = val;
+      } else {
+        this.cardForm.secret = newStr.substring(newStr.length - 6);
+      }
     },
   }
 }

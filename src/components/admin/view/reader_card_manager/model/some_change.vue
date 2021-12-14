@@ -12,10 +12,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="发卡日期">
-        <el-date-picker v-model="postForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
+        <el-date-picker v-model="postForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
       </el-form-item>
       <el-form-item label="截止日期">
-        <el-date-picker v-model="postForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
+        <el-date-picker v-model="postForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -40,9 +40,9 @@ export default {
         "cardIDList": [],
         "fields": [],
         "type": "",
-        "status": "",
-        "issueDate": "",
-        "expireDate": ""
+        "status": null,
+        "issueDate": null,
+        "expireDate": null
       },
 
       // 系统属性code
