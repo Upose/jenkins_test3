@@ -125,7 +125,7 @@
 </template>
 <script>
 import http from "@/assets/public/js/http";
-import {validatePasswordMsg} from "@/assets/public/js/validator";
+import { validatePasswordMsg } from "@/assets/public/js/validator";
 export default {
   data() {
     return {
@@ -143,12 +143,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/readerCardList'));
+      let curAuth = authList.find(item => (item.router == '/readerCardList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     shouqi(index, list) {
       this.$set(this[list][index], 'showBox', !this[list][index].showBox)
@@ -241,7 +241,7 @@ export default {
         type: 'warning'
       }).then(() => {
         http.postJson('reset-card-secret', { cardId: item.id, secret: item.no }).then(res => {
-          this.$message({ message: '重置成功！', type: 'success' });
+          this.$message({ message: `重置成功！密码为：${item.no}`, type: 'success' });
           // this.getData();
         }).catch(err => {
           this.$message({ type: 'error', message: '编辑失败!' });
