@@ -186,7 +186,7 @@ export default {
     },
     // 添加馆员
     handleAdd() {
-      this.$router.push('/readerAdd');
+      this.$router.push({path:'/readerAdd',query:{type:'staff'}});
     },
     // 查找
     handSearch() {
