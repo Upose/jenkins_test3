@@ -22,11 +22,21 @@
         </div>
         <div class="right-box">
           <div class="box-title">
-            <el-input class="handle-input duzhe" v-model="name" placeholder="馆员姓名" clearable></el-input>
-            <el-button type="primary" class="searchs" @click="handSearch">
-              <i class="el-icon-search"></i>
-              <span>查找</span>
-            </el-button>
+            <div class="search-term">
+              <div class="search-item-box">
+                <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
+                  <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
+                    <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                  </el-select>
+                </el-input>
+              </div>
+              <el-button type="primary" class="searchs" @click="handSearch">
+                <i class="el-icon-search"></i>
+                <span>查找</span>
+              </el-button>
+            </div>
+            <!-- <el-input class="handle-input duzhe" v-model="name" placeholder="馆员姓名" clearable></el-input> -->
+
           </div>
           <div>
             <el-table :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
@@ -76,7 +86,7 @@ import updateIcon from '../model/updateIcon';
 import dialog_change from './model/dialog_change'
 import dialog_add from './model/dialog_add'
 export default {
-  components: { paging, updateIcon,dialog_change,dialog_add },
+  components: { paging, updateIcon, dialog_change, dialog_add },
   data() {
     return {
       dataKey: {},
@@ -87,13 +97,22 @@ export default {
       tableData: [],//列表项
       multipleSelection: [],//勾选列表
       postForm: {},
-      departList:[],
+      departList: [],
       defaultProps: {
         children: 'children',
         label: 'name',
       },
       nodeDepart: '',
-      name:''
+      name: '',
+      textProperties: [
+        { name: '读者姓名', code: 'Name' },
+        { name: '手机号', code: 'Phone' },
+        { name: '身份证号/护照', code: 'IdCard' },
+        { name: '工号', code: 'StudentNo' },
+        { name: '读者卡号', code: 'CardNo' },
+      ],
+      searchTextCode: '',//文本输入code
+      searchTextValue: '',//文本输入值
     }
   },
   mounted() {
@@ -103,12 +122,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/librarianManagement'));
+      let curAuth = authList.find(item => (item.router == '/librarianManagement'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     getDataKey() {
       http.getJson('staff-init-data').then(res => {
@@ -161,7 +180,7 @@ export default {
     getKeyValue(code, val) {
       let curItem = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
       let curItems = curItem.groupItems.find((item) => (item.value == val));
-      return curItems?curItems.key:'';
+      return curItems ? curItems.key : '';
     },
     // 编辑
     handleSet(row) {
@@ -186,14 +205,16 @@ export default {
     },
     // 添加馆员
     handleAdd() {
-      this.$router.push({path:'/readerAdd',query:{type:'staff'}});
+      this.$router.push({ path: '/readerAdd', query: { type: 'staff' } });
     },
     // 查找
     handSearch() {
       //匹配文本查找项
       let search = {};
-      search.name = this.name;
-      search.depart = this.nodeDepart;
+      search["depart"] = this.nodeDepart;
+      if (this.searchTextCode && this.searchTextValue) {
+        search[this.searchTextCode] = this.searchTextValue;
+      }
       this.postForm = search;
       this.initGetList();
     },
@@ -206,8 +227,8 @@ export default {
       this.multipleSelection = val;
     },
     // 变动组织
-    handleChange(){
-      if(!this.multipleSelection.length){
+    handleChange() {
+      if (!this.multipleSelection.length) {
         this.$message({
           message: '请先选择用户！',
           type: 'warning'
@@ -523,5 +544,19 @@ export default {
   > .el-tree-node__content {
   background: #f1eeff;
   color: #6777ef;
+}
+
+.search-item-box {
+  display: inline-block;
+}
+.search-item {
+  width: 150px;
+  display: inline-block;
+  margin-right: 4px;
+
+  /deep/ .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
+    width: 150px;
+  }
 }
 </style>

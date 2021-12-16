@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改手机号" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
+  <el-dialog title="认领读者卡" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
       <el-form ref="form" :model="form" label-width="90px" v-if="dataKey">
         <el-form-item label="读者卡号">
@@ -50,7 +50,7 @@ export default {
     return {
       dialogVisible: false,
       form: {},
-      dataKey:null,
+      dataKey: null,
       setTime: timeFormat
     };
   },
@@ -81,9 +81,9 @@ export default {
       return items ? items.key : '';
     },
     //提交
-    sub(){
-      this.http.postJson('forward-claim-reader-card', { cardID:this.form.id }).then((res) => {
-        this.$emit('next');
+    sub() {
+      this.http.postJson('forward-claim-reader-card', { cardID: this.form.id }).then((res) => {
+        this.$emit('next', res.data);
         this.dialogVisible = false;
       }).catch((err) => {
         this.$message({ type: "error", message: "无法领取此卡!" });
@@ -94,10 +94,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-.red-color{
-    color: #A21E1E;
+.red-color {
+  color: #a21e1e;
 }
 /deep/ .el-input.is-disabled .el-input__inner {
-    color: #666;
+  color: #666;
 }
 </style>

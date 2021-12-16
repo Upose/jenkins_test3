@@ -19,9 +19,6 @@
                   </el-select>
                 </el-input>
               </div>
-              <!-- <div class="search-item-box">
-                <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="发卡开始日期" end-placeholder="发卡结束日期"></el-date-picker>
-              </div> -->
               <div class="search-item-box">
                 <div class="search-item">
                   <el-select v-model="postForm.cardType" placeholder="卡类型" clearable>
@@ -34,6 +31,17 @@
                   <el-select v-model="postForm.cardStatus" placeholder="卡状态" clearable>
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
+                </div>
+              </div>
+              <!-- 日期选择 -->
+              <div class="search-item-box" v-if="dateRangeProperties.length">
+                <div class="search-item w400">
+                  <div class="date-checkbox">
+                    <el-select v-model="searchDateCode" placeholder="请选择" size="medium" clearable>
+                      <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                    </el-select>
+                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                  </div>
                 </div>
               </div>
               <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
@@ -123,8 +131,13 @@ export default {
         { name: '物理码', code: 'PhysicNo' },
         { name: '学号', code: 'StudentNo' },
       ],
+      dateRangeProperties: [
+        { name: '发卡日期', code: 'CardIssueDate' }
+      ],
       searchTextCode: '',//文本输入code
       searchTextValue: '',//文本输入值
+      searchDateCode: '',//日期选择code
+      searchDateValue: '',//日期选择值
     }
   },
   mounted() {
@@ -280,13 +293,13 @@ export default {
         // let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
         search[this.searchTextCode] = this.searchTextValue;
       }
-      // if (this.searchDateCode && this.searchDateValue) {
-      //   let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchDateCode)];
-      //   index = (index || '').replace('Date', '');
-      //   index = (index || '').replace('Time', '');
-      //   search[index + 'StartTime'] = this.searchDateValue[0];
-      //   search[index + 'EndTime'] = this.searchDateValue[1];
-      // }
+      if (this.searchDateCode && this.searchDateValue) {
+        var dateSearchCode = this.searchDateCode;
+        dateSearchCode = (dateSearchCode || '').replace('Date', '');
+        dateSearchCode = (dateSearchCode || '').replace('Time', '');
+        search[dateSearchCode + 'StartTime'] = this.searchDateValue[0];
+        search[dateSearchCode + 'EndTime'] = this.searchDateValue[1];
+      }
 
       this.postForm = search;
       // console.log(search);
@@ -359,17 +372,8 @@ export default {
   width: 150px;
   display: inline-block;
   margin-right: 4px;
+}
 
-  /deep/ .el-date-editor.el-input,
-  .el-date-editor.el-input__inner {
-    width: 150px;
-  }
-}
-/deep/ .el-date-editor {
-  .el-range-separator {
-    width: 30px;
-  }
-}
 .search-table-w .search-title .tab-nav {
   font-size: 18px;
   cursor: pointer;
@@ -378,5 +382,37 @@ export default {
 }
 .search-table-w .search-title .current {
   border-bottom: 2px solid @6777EF;
+}
+.date-checkbox {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  // display: inline-block;
+
+  /deep/ .el-select {
+    width: 130px;
+    color: #909399;
+
+    .el-input__inner {
+      background: #f5f7fa;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border: 1px solid #e4e6fc !important;
+      border-right: 0;
+      color: #909399;
+    }
+  }
+  /deep/ .el-date-editor {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 270px;
+
+    .el-range-separator {
+      width: 30px;
+    }
+  }
+}
+.w400 {
+  width: 400px;
 }
 </style>

@@ -42,6 +42,7 @@ export default {
         'user-log-table-data': baseURL + '/api/user/user-log-table-data',//获取用户行为日志
         'by-id-for-edit': baseURL + '/api/user/by-id-for-edit',//获取用户数据用于编辑展示，不掩饰敏感信息
         'user': baseURL + '/api/user',//获取、删除、编辑、创建用户详情
+        'user-staff':baseURL+'/api/user/staff',//创建馆员
         'user-for-edit': baseURL + '/api/user/by-id-for-edit',//获取用户编辑详情
         'batch-update': baseURL + '/api/user/batch-update',//用户信息批量修改
         'batch-set-user-as-staff': baseURL + '/api/user/batch-set-user-as-staff',//批量设置用户为馆员

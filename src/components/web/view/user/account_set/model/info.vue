@@ -63,7 +63,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="btn-box">
+    <div class="btn-box" v-if="updateReaderInfo">
       <el-button type="info" size="medium">取消</el-button>
       <el-button class="btn_bg_color child_border_color" type="primary" size="medium" @click="subForm">保存</el-button>
     </div>
@@ -85,10 +85,12 @@ export default {
       dataKey: null,
       imgPath: process.env.VUE_APP_IMG_URL,
       addrList: [],
+      updateReaderInfo: false,
     };
   },
   created() {
     this.getKey();
+    this.checkModifyReaderPermit();
     this.getAddrList();
     this.getInfo();
   },
@@ -100,6 +102,12 @@ export default {
         this.dataKey = res.data;
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
+    // 获取用户修改信息权限
+    checkModifyReaderPermit() {
+      this.http.getJson('forward-check-modify-reader-permit').then((res) => {
+        this.updateReaderInfo = res.data;
       });
     },
     // 获取地址列表
@@ -147,7 +155,7 @@ export default {
           type: 'success'
         })
       }).catch((err) => {
-        this.$message({ type: "error", message: "编辑读者信息失败!" });
+        this.$message({ type: "error", message: this.handleError(err, "编辑读者信息失败") });
       });
     }
   },

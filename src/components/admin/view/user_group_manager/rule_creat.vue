@@ -23,9 +23,9 @@
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="50" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input type="textarea" v-model="postForm.desc" class="w500"></el-input>
+                <el-input type="textarea" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="选择权限">
+              <el-form-item label="选择">
                 <div class="rule-box" v-if="dataKey">
                   <div class="rule-item" v-for="(item,index) in ruleList" :key="index">
                     <el-select v-model="item.propertyId" placeholder="请选择" class="w150" @change="handleChange(item)">
@@ -183,7 +183,16 @@ export default {
     },
     //表单提交
     submitForm() {
-      this.postForm.rules = this.ruleList;
+      var validRules = this.ruleList.filter(x => { return x.propertyId && x.propertyValue });
+      if (!validRules || validRules.length <= 0) {
+        this.$message({ message: '请至少添加1条规则', type: 'error' });
+        return;
+      }
+      if (validRules.length > 6) {
+        this.$message({ message: '最多只能添加6条规则', type: 'error' });
+        return;
+      }
+      this.postForm.rules = validRules;
       if (this.id) {
         http.putJson('user-group', this.postForm).then(res => {
           this.$message({ message: '编辑成功！', type: 'success' });

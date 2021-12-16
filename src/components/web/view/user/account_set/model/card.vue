@@ -1,6 +1,6 @@
 <template>
   <div class="card-box">
-    <el-button class="child_border_color btn_bg_color" type="primary" round size="medium" @click="$refs.get_card.show()">认领读者证</el-button>
+    <el-button v-if="cardClaimPermit" class="child_border_color btn_bg_color" type="primary" round size="medium" @click="$refs.get_card.show()">认领读者证</el-button>
     <div class="item-box" v-if="dataKey">
       <!-- 读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">
@@ -56,11 +56,13 @@ export default {
       cardList: [],
       reviewList: [],
       dataKey: null,
-      setTime: timeFormat
+      setTime: timeFormat,
+      cardClaimPermit: false,
     };
   },
   created() {
     this.getKey();
+    this.checkCardClaimPermit();
     this.getCard();
     this.getCardReview();
   },
@@ -72,6 +74,12 @@ export default {
         this.dataKey = res.data;
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
+      });
+    },
+    // 获取用户领卡权限
+    checkCardClaimPermit() {
+      this.http.getJson('forward-check-card-claim-permit').then((res) => {
+        this.cardClaimPermit = res.data;
       });
     },
     // 获取读者卡数据

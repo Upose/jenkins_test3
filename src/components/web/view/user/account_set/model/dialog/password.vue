@@ -28,10 +28,10 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      prePwd:'',//旧密码
-      newPwd:'',//新密码
-      newPwdTwo:'',//新密码重复
-      id:'',
+      prePwd: '',//旧密码
+      newPwd: '',//新密码
+      newPwdTwo: '',//新密码重复
+      id: '',
     };
   },
   created() {
@@ -46,12 +46,12 @@ export default {
       this.id = id;
     },
     //提交
-    subForm(){
-      this.http.postJson('forward-change-card-password',{cardID:this.id,prePwd:this.prePwd,newPwd:this.newPwd}).then((res) => {
+    subForm() {
+      this.http.postJson('forward-change-card-password', { cardID: this.id, prePwd: this.prePwd, newPwd: this.newPwd }).then((res) => {
         this.$message({ type: "success", message: "修改成功!" });
         this.dialogVisible = false;
       }).catch((err) => {
-        this.$message({ type: "error", message: "修改失败!" });
+        this.$message({ type: "error", message: this.handleError(err, "修改失败") });
       });
     }
   },

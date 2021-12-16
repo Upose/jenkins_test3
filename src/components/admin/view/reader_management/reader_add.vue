@@ -125,7 +125,7 @@
                 <el-form-item label="邮箱" prop="email" class="youxiang">
                   <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
                 </el-form-item>
-                <!-- <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
                   <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
                   <el-input v-model="item.propertyValue" :min="1" label="label" clearable v-if="item.propertyType == 1" placeholder="请输入"></el-input>
                   <el-date-picker v-model="item.propertyValue" type="date" clearable placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
@@ -144,7 +144,7 @@
                     </el-upload>
                     <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
                   </div>
-                </el-form-item> -->
+                </el-form-item>
               </el-form>
 
             </div>
@@ -225,7 +225,8 @@ export default {
     return {
       renderIndex: 0,
       postForm: {
-        gender: '男'
+        gender: '男',
+        type: null
       },
       cardForm: {},
       dataKey: null,
@@ -389,8 +390,13 @@ export default {
     },
     // 初始化下拉列表
     initSelect(code) {
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      if (this.dataKey && this.dataKey.groupSelect) {
+        let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+        if (select) {
+          return select.groupItems;
+        }
+      }
+      return [];
     },
     // 获取图标
     coverUrl(url) {
@@ -414,11 +420,13 @@ export default {
       this.$refs['readerForm'].validate((readerOk) => {
         this.$refs['cardForm'].validate((cardOk) => {
           if (readerOk && cardOk) {
-            http.postJson('user', { userData: this.postForm, cardData: this.cardForm }).then(res => {
+            var requestKey = 'user';
+            if (this.$route.query.type == 'staff') {
+              requestKey = 'user-staff';
+            }
+            http.postJson(requestKey, { userData: this.postForm, cardData: this.cardForm }).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
-              if (this.$route.query.type == 'staff') {
-                this.handleChange(res.data);
-              }
+
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
             });

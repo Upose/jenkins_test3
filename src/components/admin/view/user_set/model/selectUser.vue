@@ -10,7 +10,7 @@
             <el-tab-pane label="类型">
               <el-checkbox :indeterminate="isUserTypeIndeterminate" v-model="checkUserTypeAll" @change="handleCheckAllUserTypeChange">全部读者</el-checkbox>
               <el-checkbox-group v-model="checkedUserTypes" @change="handleCheckedUserTypeChange">
-                <el-checkbox v-for="item in dataKey.userTypeList" :label="item.name" :key="item.groupItemId">{{item.name}}</el-checkbox>
+                <el-checkbox v-for="item in dataKey.userTypeList" :label="item.code" :key="item.groupItemId">{{item.name}}</el-checkbox>
               </el-checkbox-group>
             </el-tab-pane>
             <el-tab-pane label="分组">
@@ -66,7 +66,7 @@ export default {
     getKey() {
       http.getJson('set-init-data').then(res => {
         this.dataKey = res.data;
-        this.allUserTypes = this.dataKey.userTypeList.map(x => { return x.name; });
+        this.allUserTypes = this.dataKey.userTypeList.map(x => { return x.code; });
         this.allGroupList = this.dataKey.groupList.map(x => { return x.id; });
         this.initData();
       }).catch(err => {
@@ -75,6 +75,7 @@ export default {
     },
     handleCheckAllUserTypeChange(val) {
       this.checkedUserTypes = val ? this.allUserTypes : [];
+      debugger
       this.isUserTypeIndeterminate = false;
     },
     handleCheckAllGroupListChange(val) {
@@ -106,7 +107,6 @@ export default {
           urlCode = 'set-info-append-reader';
           break;
       }
-      debugger
       http.postJson(urlCode, allItems).then(res => {
         this.$message({ message: '保存成功！', type: 'success' });
         this.closeClick();

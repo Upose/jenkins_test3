@@ -66,7 +66,7 @@ export default {
           }
         }, 1000);
       }).catch((err) => {
-        this.$message({ type: "error", message: "发送失败!" });
+        this.$message({ type: "error", message: this.handleError(err, "发送失败") });
       });
     },
     // 编辑保存
@@ -76,7 +76,7 @@ export default {
         this.$message({ type: "success", message: "修改成功!" });
         this.$emit('change');
       }).catch((err) => {
-        this.$message({ type: "error", message: "修改失败!" });
+        this.$message({ type: "error", message: this.handleError(err, "修改失败") });
       });
     }
   },

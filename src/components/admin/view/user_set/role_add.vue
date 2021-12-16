@@ -18,12 +18,12 @@
 
           <!-- 目录 -->
           <div class="content-box">
-            <el-form ref="form" :model="postForm" label-width="150px">
-              <el-form-item label="角色名称" class="w500">
-                <el-input v-model="postForm.name"></el-input>
+            <el-form ref="form" :model="postForm" label-width="150px" :rules="formRules">
+              <el-form-item label="角色名称" prop="name" class="w500">
+                <el-input v-model="postForm.name" maxlength="10" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="角色描述" class="w500">
-                <el-input type="textarea" v-model="postForm.remark"></el-input>
+              <el-form-item label="角色描述" prop="remark" class="w500">
+                <el-input type="textarea" v-model="postForm.remark" maxlength="100" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择权限" class="w500">
                 <el-tree :data="auth" :default-checked-keys="postForm.menuIds" ref="tree" show-checkbox node-key="id" default-expand-all :props="defaultProps">
@@ -73,6 +73,11 @@ export default {
         children: 'permissionNodes',
       },
       auth: [],
+      formRules: {
+        name: [
+          { required: true, message: '必填项', trigger: 'blur' }
+        ],
+      }
     };
   },
   mounted() {
@@ -103,23 +108,28 @@ export default {
     },
     //表单提交
     submitForm() {
-      this.postForm.menuIds = this.$refs.tree.getCheckedKeys();
-      // let parms = this.upFromData(this.postForm, [{ name: 'introduce', datas: { '使用帮助': { key: '使用帮助', value: 1 }, '资源统计': { key: '资源统计', value: 2 } } }])
-      if (this.id) {
-        http.putJson('role', this.postForm).then(res => {
-          this.$message({ message: '编辑成功！', type: 'success' });
-          // this.getData();
-        }).catch(err => {
-          this.$message({ type: 'error', message: '编辑失败!' });
-        })
-      } else {
-        http.postJson('role', this.postForm).then(res => {
-          this.$message({ message: '新增成功！', type: 'success' });
-          // this.getData();
-        }).catch(err => {
-          this.$message({ type: 'error', message: '新增失败!' });
-        })
-      }
+      this.$refs["form"].validate(ok => {
+        if (ok) {
+          this.postForm.menuIds = this.$refs.tree.getCheckedKeys();
+          // let parms = this.upFromData(this.postForm, [{ name: 'introduce', datas: { '使用帮助': { key: '使用帮助', value: 1 }, '资源统计': { key: '资源统计', value: 2 } } }])
+          if (this.id) {
+            http.putJson('role', this.postForm).then(res => {
+              this.$message({ message: '编辑成功！', type: 'success' });
+              // this.getData();
+            }).catch(err => {
+              this.$message({ type: 'error', message: '编辑失败!' });
+            })
+          } else {
+            http.postJson('role', this.postForm).then(res => {
+              this.$message({ message: '新增成功！', type: 'success' });
+              // this.getData();
+            }).catch(err => {
+              this.$message({ type: 'error', message: '新增失败!' });
+            })
+          }
+        }
+      });
+
     },
   },
 };

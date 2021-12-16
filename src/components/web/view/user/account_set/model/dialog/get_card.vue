@@ -1,12 +1,12 @@
 <template>
-  <el-dialog title="修改密码" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
+  <el-dialog title="认领读者卡" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
       <el-form ref="form" :model="form" label-width="90px">
         <el-form-item label="读者证号">
           <el-input v-model="no" placeholder="请输入"></el-input>
         </el-form-item>
         <el-form-item label="卡密码">
-          <el-input v-model="pwd" placeholder="请输入"></el-input>
+          <el-input v-model="pwd" placeholder="请输入" show-password></el-input>
         </el-form-item>
       </el-form>
     </div>

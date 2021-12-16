@@ -1,7 +1,6 @@
 /***前台 项目接口地址-用户中心-账户设置 */
 
 var baseURL = 'http://192.168.21.43:8011';//请求前端地址
-var baseURL1 = 'http://192.168.21.48:7005';//请求前端地址
 
 export default {
     postUrl: {
@@ -22,7 +21,9 @@ export default {
         'forward-set-principal-card': baseURL + '/api/reader/set-principal-card',//设为主卡
         'forward-reader-card-apply-list-data': baseURL + '/api/reader/reader-card-apply-list-data',//查询读者卡申请信息
         'forward-card-claim': baseURL + '/api/reader/card-claim',//删除领卡申请
-        'forward-region-list': baseURL + '/api/property-group/region-list',//获取地址
+        'forward-region-list': baseURL + '/api/reader/region-list',//获取地址
+        'forward-check-modify-reader-permit': baseURL + '/api/reader/check-modify-reader-permit',//获取修改读者信息权限
+        'forward-check-card-claim-permit': baseURL + '/api/reader/check-card-claim-permit',//获取读者领卡权限
 
         '': baseURL + '',//
 

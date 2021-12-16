@@ -23,52 +23,51 @@
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="50" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input type="textarea" v-model="postForm.desc" class="w500"></el-input>
+                <el-input type="textarea" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择读者">
                 <el-tabs v-model="activeName" style="width:950px">
                   <el-tab-pane label="选择" name="选择">
                     <div class="rule-box" v-if="dataKey">
-                      <!-- <el-transfer v-model="value" :props="{ key: 'id',label: 'name'}" :data="tableData"></el-transfer> -->
                       <div class="search-box">
-                        <el-select v-model="searchForm.ReaderType" placeholder="读者类型" class="search-item">
+                        <el-select v-model="searchForm.type" placeholder="读者类型" class="search-item" clearable>
                           <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                         </el-select>
-                        <el-select v-model="searchForm.ReaderStatus" placeholder="状态" class="search-item">
+                        <el-select v-model="searchForm.status" placeholder="状态" class="search-item" clearable>
                           <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                         </el-select>
-                        <el-select v-model="searchForm.College" placeholder="院系" class="search-item">
+                        <el-select v-model="searchForm.College" placeholder="院系" class="search-item" clearable>
                           <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                         </el-select>
-                        <el-select v-model="searchForm.SourceFrom" placeholder="用户来源" class="search-item">
+                        <el-select v-model="searchForm.SourceFrom" placeholder="用户来源" class="search-item" clearable>
                           <el-option v-for="item in initSelect('User_SourceFrom')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                         </el-select>
-                        <el-date-picker v-model="searchForm.LastLoginEndCompareTime" type="date" placeholder="最近登录日期" class="search-item"></el-date-picker>
+                        <el-date-picker v-model="searchForm.LastLoginEndCompareTime" type="date" placeholder="最近登录日期" class="search-item" clearable></el-date-picker>
                         <!-- <el-date-picker v-model="searchForm.name" type="date" placeholder="注册日期" class="search-item"></el-date-picker> -->
-                        <el-date-picker v-model="searchForm.ExpireDate" type="date" placeholder="截止日期" class="search-item"></el-date-picker>
-                        <el-input v-model="searchForm.Name" placeholder="读者姓名" class="search-item"></el-input>
-                        <el-input v-model="searchForm.IdentityNo" placeholder="统一登录号" class="search-item"></el-input>
-                        <el-input v-model="searchForm.Phone" placeholder="手机号" class="search-item"></el-input>
-                        <el-input v-model="searchForm.IDCard" placeholder="读者身份证/护照" class="search-item"></el-input>
-                        <el-input v-model="searchForm.StudentNo" placeholder="学号" class="search-item"></el-input>
-                        <el-input v-model="searchForm.CardNo" placeholder="读者卡号" class="search-item"></el-input>
+                        <el-date-picker v-model="searchForm.ExpireDate" type="date" placeholder="截止日期" class="search-item" clearable></el-date-picker>
+                        <el-input v-model="searchForm.name" placeholder="读者姓名" class="search-item" clearable></el-input>
+                        <el-input v-model="searchForm.cardIdentityNo" placeholder="统一登录号" class="search-item" clearable></el-input>
+                        <el-input v-model="searchForm.phone" placeholder="手机号" class="search-item" clearable></el-input>
+                        <el-input v-model="searchForm.idCard" placeholder="读者身份证/护照" class="search-item" clearable></el-input>
+                        <el-input v-model="searchForm.studentNo" placeholder="学号" class="search-item" clearable></el-input>
+                        <el-input v-model="searchForm.cardNo" placeholder="读者卡号" class="search-item" clearable></el-input>
                         <el-button type="primary" @click="handleSearch" size="medium">查找</el-button>
                       </div>
                       <el-table :data="tableData" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange">
-                        <el-table-column type="selection" width="55"></el-table-column>
-                        <el-table-column prop="name" label="姓名"></el-table-column>
-                        <el-table-column prop="sourceFrom" label="用户来源">
+                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column prop="name" label="姓名" width="75" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机"></el-table-column>
-                        <el-table-column prop="type" label="用户类型">
+                        <el-table-column prop="phone" label="手机" width="95" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="type" label="用户类型" width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{getKeyValue('User_Type',scope.row.type)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="prop" label="注册日期">
+                        <el-table-column prop="prop" label="注册日期" width="115" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{setTime(scope.row.createTime) }}
                           </template>
@@ -76,18 +75,18 @@
                       </el-table>
 
                       <el-table :data="chanceData" style="width: 320px;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
-                        <el-table-column type="selection" width="55"></el-table-column>
-                        <el-table-column prop="name" label="姓名">
+                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column prop="name" label="姓名" width="75" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{scope.row.name || scope.row.userName}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="sourceFrom" label="用户来源">
+                        <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机"></el-table-column>
+                        <el-table-column prop="phone" label="手机" width="95" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
                       <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
                       <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
@@ -103,21 +102,21 @@
                       </div>
 
                       <el-table :data="tableDataImp" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange" :row-class-name="tableRowClassName">
-                        <el-table-column type="selection" width="55"></el-table-column>
-                        <el-table-column prop="name" label="姓名"></el-table-column>
-                        <el-table-column prop="phone" label="手机"></el-table-column>
-                        <el-table-column prop="idCard" label="身份证"></el-table-column>
+                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column prop="name" label="姓名" width="85" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
 
                       <el-table :data="chanceDataImp" style="width: 320px;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
-                        <el-table-column type="selection" width="55"></el-table-column>
-                        <el-table-column prop="name" label="姓名">
+                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column prop="name" label="姓名" width="85" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{scope.row.name || scope.row.userName}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机"></el-table-column>
-                        <el-table-column prop="idCard" label="身份证"></el-table-column>
+                        <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
                       <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
                       <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
@@ -238,7 +237,6 @@ export default {
     getList() {
       http.getJson('table-data', { ...this.searchForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
-
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
       }).catch(err => {
@@ -255,9 +253,14 @@ export default {
     },
     // 匹配键值对
     getKeyValue(code, value) {
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      let items = select.groupItems.find(item => (item.value == value));
-      return items.key;
+      if (this.dataKey && this.dataKey.groupSelect) {
+        let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+        if (select && select.groupItems) {
+          let items = select.groupItems.find(item => (item.value == value));
+          return items != null ? items.key : '';
+        }
+      }
+      return '';
     },
     // 分页 页面修改
     pageChange(data) {

@@ -93,11 +93,11 @@
         <el-form-item label="手机" prop="phone">
           <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit>
             <template slot="append">
-              <div v-if="postForm.phoneIdentity">
+              <div v-if="postForm.mobileIdentity">
                 <span class="yuan"></span>
                 <span class="renzheng">已认证</span>
               </div>
-              <div v-if="!postForm.phoneIdentity">
+              <div v-if="!postForm.mobileIdentity">
                 <span class="renzheng tag-text">未认证</span>
               </div>
             </template>

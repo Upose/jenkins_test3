@@ -1,26 +1,39 @@
 <template>
   <el-dialog title="编辑馆员" :visible.sync="dialogVisible" width="80%">
     <div class="m-title search-term-table">
-      <el-input placeholder="馆员名称" size="medium" v-model="postForm.keyword" class="width136" clearable></el-input>
-      <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
-      <el-button type="primary" size="medium" icon="el-icon-plus" @click="handleAdd">添加馆员</el-button>
+      <div class="search-term">
+        <div class="search-item-box">
+          <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
+            <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
+              <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+            </el-select>
+          </el-input>
+        </div>
+        <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
+        <el-button type="primary" size="medium" icon="el-icon-plus" @click="handleAdd">添加馆员</el-button>
+      </div>
     </div>
 
     <div class="t-p">
       <el-table :data="tableData" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
-        <el-table-column label="姓名" prop="name"></el-table-column>
-        <el-table-column label="部门" prop="departName"></el-table-column>
-        <el-table-column label="职称" prop="title"></el-table-column>
-        <el-table-column label="手机号码" prop="phone"></el-table-column>
-        <el-table-column label="工号" prop="studentNo"></el-table-column>
-
-        <el-table-column prop="roles" label="角色">
+        <el-table-column label="姓名" prop="name" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column label="部门" prop="departName" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column label="职称" prop="title" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column label="手机号码" prop="phone" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column label="主卡号" prop="cardNo" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column label="工号" prop="studentNo" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column label="卡状态" prop="cardStatusName" align="center"></el-table-column>
+        <el-table-column label="截止日期" prop="cardExpireDate" align="center">
+          <template slot-scope="scope">
+            {{setTime(scope.row.cardExpireDate,'日')}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="roles" label="角色" align="center">
           <template slot-scope="scope">
             <span style="display:inline-block" v-for="item in scope.row.roles" :key="item.id">{{item.name}} </span>
           </template>
         </el-table-column>
-
-        <el-table-column label="操作" width="120">
+        <el-table-column label="操作" width="120" align="center">
           <template slot-scope="scope">
             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>移除</el-button>
           </template>
@@ -61,6 +74,13 @@ export default {
       showIsDel: false,//是否展示移除按钮
 
       idList: [],
+      textProperties: [
+        { name: '馆员姓名', code: 'Name' },
+        { name: '手机号', code: 'Phone' },
+        { name: '学工号', code: 'StudentNo' },
+      ],
+      searchTextCode: '',//文本输入code
+      searchTextValue: '',//文本输入值
     }
   },
   mounted() {
@@ -128,9 +148,11 @@ export default {
     // 查找
     handSearch() {
       //匹配文本查找项
-      if (this.select && this.select != '') {
-        this.postForm[this.select] = this.searchKey;
+      let search = {};
+      if (this.searchTextCode && this.searchTextValue) {
+        search[this.searchTextCode] = this.searchTextValue;
       }
+      this.postForm = search;
 
       this.initGetList();
     },
@@ -259,6 +281,19 @@ export default {
 /deep/ .el-table__expand-icon--expanded {
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
+}
+.search-item-box {
+  display: inline-block;
+}
+.search-item {
+  width: 150px;
+  display: inline-block;
+  margin-right: 4px;
+
+  /deep/ .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
+    width: 150px;
+  }
 }
 .line-before {
   // position: relative;
