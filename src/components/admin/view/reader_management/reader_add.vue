@@ -426,7 +426,7 @@ export default {
               requestKey = 'user-staff';
             }
             http.postJson(requestKey, { userData: this.postForm, cardData: this.cardForm }).then(res => {
-              this.$message({ message: '新增成功！', type: 'success' });
+              this.$message({ message: this.dataKey.needApprove ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
               this.$router.replace('/readerList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });

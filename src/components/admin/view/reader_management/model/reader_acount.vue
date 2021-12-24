@@ -405,14 +405,14 @@ export default {
           }
           if (this.id) {
             http.putJson('user', this.postForm).then(res => {
-              this.$message({ message: '编辑成功！', type: 'success' });
+              this.$message({ message: this.dataKey.needApprove ? '已编辑成功，请等待审核！' : '编辑成功！', type: 'success' });
               this.getData();
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
             })
           } else {
             http.postJson('user', this.postForm).then(res => {
-              this.$message({ message: '新增成功！', type: 'success' });
+              this.$message({ message: this.dataKey.needApprove ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
               this.id = res.data;
               this.getData();
             }).catch(err => {

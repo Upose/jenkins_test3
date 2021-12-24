@@ -156,7 +156,7 @@ export default {
       }
       row.edit = false;
       http.putJson('group-item', row).then(res => {
-        this.$message({ message: '编辑成功！', type: 'success' });
+        this.$message({ message: this.dataKey.needApprove ? '已编辑成功，请等待审核！' : '编辑成功！', type: 'success' });
         this.getList();
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
@@ -173,7 +173,7 @@ export default {
         return;
       }
       http.postJson('group-item', row).then(res => {
-        this.$message({ message: '新增成功！', type: 'success' });
+        this.$message({ message: this.dataKey.needApprove ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
         this.getList();
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
@@ -188,7 +188,7 @@ export default {
       }).then(() => {
         http.deleteJsonSelf('group-item', `/${row.id}`).then(res => {
           this.getList();
-          this.$message({ type: 'success', message: '删除成功!' });
+          this.$message({ type: 'success', message: this.dataKey.needApprove ? '已删除，请等待审核！' : '删除成功!' });
         }).catch(err => {
           this.$message({ type: 'error', message: this.handleError(err, '删除失败') });
         })
