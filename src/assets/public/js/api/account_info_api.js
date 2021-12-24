@@ -24,6 +24,7 @@ export default {
         'forward-region-list': baseURL + '/api/reader/region-list',//获取地址
         'forward-check-modify-reader-permit': baseURL + '/api/reader/check-modify-reader-permit',//获取修改读者信息权限
         'forward-check-card-claim-permit': baseURL + '/api/reader/check-card-claim-permit',//获取读者领卡权限
+        'forward-bind-reader-id-card': baseURL + '/api/reader/bind-reader-id-card',//修改身份证
 
         '': baseURL + '',//
 

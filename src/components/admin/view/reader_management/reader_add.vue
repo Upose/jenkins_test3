@@ -426,21 +426,13 @@ export default {
             }
             http.postJson(requestKey, { userData: this.postForm, cardData: this.cardForm }).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
-
+              this.$router.replace('/readerList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
             });
           }
         });
       });
-    },
-    // 转为馆员
-    handleChange(id) {
-      http.postJson('batch-set-user-as-staff', [id]).then(res => {
-        this.$message({ type: 'success', message: '转为馆员成功!' });
-      }).catch(err => {
-        this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败') });
-      })
     },
     refChangeCardSecret(val) {
       var newStr = val || '';

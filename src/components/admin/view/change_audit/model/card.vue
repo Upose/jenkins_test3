@@ -20,7 +20,7 @@
 
     <div class="t-p">
       <el-table stripe ref="singleTable" :data="isAuth('approve:cardClaimList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
-        <el-table-column label="IP" align="center" width="58" type="index"></el-table-column>
+        <el-table-column label="序号" align="center" width="58" type="index"></el-table-column>
         <el-table-column prop="changeTime" label="申请时间">
           <template slot-scope="scope">
             <span>{{ setTime(scope.row.applyTime) }}</span>

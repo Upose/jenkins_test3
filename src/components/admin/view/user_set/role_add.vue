@@ -106,6 +106,10 @@ export default {
         this.$message({ type: 'error', message: '获取设置失败!' });
       })
     },
+    // 重置
+    reset() {
+      location.reload();
+    },
     //表单提交
     submitForm() {
       this.$refs["form"].validate(ok => {

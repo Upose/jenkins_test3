@@ -181,6 +181,10 @@ export default {
     removeCoumn(index) {
       this.ruleList.splice(index, 1)
     },
+    // 重置
+    reset() {
+      location.reload();
+    },
     //表单提交
     submitForm() {
       var validRules = this.ruleList.filter(x => { return x.propertyId && x.propertyValue });

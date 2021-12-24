@@ -18,6 +18,7 @@
       <el-button @click="dialogVisible = false">取 消</el-button>
       <el-button type="primary" @click="sub">确 定</el-button>
     </div>
+    <!-- 导出提示 -->
     <el-dialog width="30%" title="结果导出" :visible.sync="innerVisible" append-to-body>
       <div v-if="exportData">
         共{{exportData.totalCount}}条数据，共{{exportData.totalPages}}页，当前可导出第{{this.curPageIndex}}页
@@ -54,6 +55,10 @@ export default {
   props: [],
   methods: {
     show(searchform, pagedata, type) {
+      this.postForm = {
+        properties: [],
+        exportType: 0,
+      }
       this.dialogVisible = true;
       this.searchForm = searchform;
       this.pageData = pagedata;
@@ -75,10 +80,15 @@ export default {
       let parms = this.postForm.exportType == 1 ? { ...this.postForm, ...this.searchForm, ...this.pageData } : { ...this.postForm, ...this.searchForm, pageIndex: this.curPageIndex }
       http.postJson(url, parms).then(res => {
         this.exportData = res.data;
+        if(this.postForm.exportType==0){
+          this.innerVisible = true;
+        }else{
+          this.submitForm();
+        }
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
-      this.innerVisible = true;
+      
     },
     // 下载第几页
     // submitFormPage(){

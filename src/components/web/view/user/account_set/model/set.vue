@@ -6,7 +6,7 @@
       <span class="img"><img v-show="form.idCardIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">身份证号</span>
       <span class="content">{{form.idCard}}</span>
-      <!-- <span class="use" @click="$refs.set_phone.show()" v-if="isEdit('User_IdCard')">修改身份证</span> -->
+      <span class="use" @click="$refs.set_idCard.show()" v-if="isEdit('User_IdCard')">修改身份证</span>
     </div>
     <div class="set-item">
       <span class="img"><img v-show="form.mobileIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
@@ -38,16 +38,18 @@
     <!-- 弹窗组件 -->
     <set_phone ref="set_phone" @change="getInfo"></set_phone>
     <emil ref="emil" @change="getInfo"></emil>
+    <set_idCard ref="set_idCard" @change="getInfo"></set_idCard>
   </div>
 </template>
 
 <script>
 import set_phone from '@/components/web/view/user/account_set/model/dialog/set_phone'
 import emil from '@/components/web/view/user/account_set/model/dialog/emil'
+import set_idCard from '@/components/web/view/user/account_set/model/dialog/set_idCard'
 export default {
   name: "index",
   props: {},
-  components: { set_phone, emil },
+  components: { set_phone, emil,set_idCard },
   data() {
     return {
       form: {},

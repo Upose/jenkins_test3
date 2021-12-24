@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editdiv">
-      <el-form ref="readerForm" :model="postForm" label-width="140px" :rules="readerRules">
+      <el-form ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules">
         <el-form-item label="单位名称" prop="unit">
           <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
         </el-form-item>
@@ -565,7 +565,7 @@ export default {
   font-size: 14px;
 }
 .editdiv {
-  width: 60%;
+  width: 65%;
   float: left;
 }
 .editdiv ul {
@@ -734,6 +734,7 @@ export default {
 .divStyle {
   width: 95%;
   float: left;
+  min-width: 220px;
 }
 /deep/ .el-form-item__content {
   line-height: 1;

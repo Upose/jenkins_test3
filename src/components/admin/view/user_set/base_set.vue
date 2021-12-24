@@ -107,7 +107,7 @@ export default {
     },
     // 重置
     reset() {
-      this.getData();
+      location.reload();
     },
     //表单提交
     submitForm() {

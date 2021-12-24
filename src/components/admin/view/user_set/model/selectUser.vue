@@ -6,14 +6,14 @@
       <div class="select-user check-box">
         <div class="box-title">选择用户</div>
         <div class="check-list">
-          <el-tabs :tab-position="'left'" style="height: 200px;" v-if="dataKey">
-            <el-tab-pane label="类型">
+          <el-tabs v-model="active" :tab-position="'left'" style="height: 200px;" v-if="dataKey">
+            <el-tab-pane label="类型" name="type">
               <el-checkbox :indeterminate="isUserTypeIndeterminate" v-model="checkUserTypeAll" @change="handleCheckAllUserTypeChange">全部读者</el-checkbox>
               <el-checkbox-group v-model="checkedUserTypes" @change="handleCheckedUserTypeChange">
                 <el-checkbox v-for="item in dataKey.userTypeList" :label="item.code" :key="item.groupItemId">{{item.name}}</el-checkbox>
               </el-checkbox-group>
             </el-tab-pane>
-            <el-tab-pane label="分组">
+            <el-tab-pane label="分组" name="group">
               <el-checkbox :indeterminate="isGroupListIndeterminate" v-model="checkGroupListAll" @change="handleCheckAllGroupListChange">全部读者</el-checkbox>
               <el-checkbox-group v-model="checkedGroupList" @change="handleCheckedGroupListChange">
                 <el-checkbox v-for="item in dataKey.groupList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
@@ -50,7 +50,8 @@ export default {
       dataKey: null,
       type: null,
       allUserTypes: [],
-      allGroupList: []
+      allGroupList: [],
+      active: 'type'
     }
   },
   mounted() {
@@ -73,9 +74,32 @@ export default {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
+    initData() {
+      var urlCode = '';
+      switch (this.type) {
+        case 0:
+          urlCode = 'card-claim-reader';
+          break;
+        case 1:
+          urlCode = 'info-append-reader';
+          break;
+      }
+      http.getJson(urlCode,).then(res => { //学生专区
+        let listtype = res.data.filter(x => { return x.readerType == 0; }).map(x => { return x.refID; });
+        let listgroup = res.data.filter(x => { return x.readerType == 1; }).map(x => { return x.refID; });
+
+        this.checkedUserTypes = [...new Set(this.allUserTypes.filter((num) => listtype.includes(num)))];
+        this.checkedGroupList = [...new Set(this.allGroupList.filter((num) => listgroup.includes(num)))];
+        
+        this.active = (this.checkedUserTypes.length == 0 && this.checkedGroupList.length > 0) ? 'group' : 'type';
+        this.handleCheckedUserTypeChange(this.checkedUserTypes);
+        this.handleCheckedGroupListChange(this.checkedGroupList);
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败' });
+      })
+    },
     handleCheckAllUserTypeChange(val) {
       this.checkedUserTypes = val ? this.allUserTypes : [];
-      debugger
       this.isUserTypeIndeterminate = false;
     },
     handleCheckAllGroupListChange(val) {
@@ -125,28 +149,7 @@ export default {
       this.checkedUserTypes = [];
       this.checkedGroupList = [];
     },
-    initData() {
-      var urlCode = '';
-      switch (this.type) {
-        case 0:
-          urlCode = 'card-claim-reader';
-          break;
-        case 1:
-          urlCode = 'info-append-reader';
-          break;
-      }
-      var $this = this;
 
-      http.getJson(urlCode,).then(res => { //学生专区
-        $this.checkedUserTypes = res.data.filter(x => { return x.readerType == 0; }).map(x => { return x.refID; });
-        $this.checkedGroupList = res.data.filter(x => { return x.readerType == 1; }).map(x => { return x.refID; });
-
-        $this.handleCheckedUserTypeChange($this.checkedUserTypes);
-        $this.handleCheckedGroupListChange($this.checkedGroupList);
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败' });
-      })
-    },
   },
 }
 </script>

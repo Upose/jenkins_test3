@@ -29,7 +29,7 @@
                 <el-tabs v-model="activeName" style="width:950px">
                   <el-tab-pane label="选择" name="选择">
                     <div class="rule-box" v-if="dataKey">
-                      <div class="search-box">
+                      <!-- <div class="search-box">
                         <el-select v-model="searchForm.type" placeholder="读者类型" class="search-item" clearable>
                           <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                         </el-select>
@@ -43,7 +43,6 @@
                           <el-option v-for="item in initSelect('User_SourceFrom')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                         </el-select>
                         <el-date-picker v-model="searchForm.LastLoginEndCompareTime" type="date" placeholder="最近登录日期" class="search-item" clearable></el-date-picker>
-                        <!-- <el-date-picker v-model="searchForm.name" type="date" placeholder="注册日期" class="search-item"></el-date-picker> -->
                         <el-date-picker v-model="searchForm.ExpireDate" type="date" placeholder="截止日期" class="search-item" clearable></el-date-picker>
                         <el-input v-model="searchForm.name" placeholder="读者姓名" class="search-item" clearable></el-input>
                         <el-input v-model="searchForm.cardIdentityNo" placeholder="统一登录号" class="search-item" clearable></el-input>
@@ -52,6 +51,47 @@
                         <el-input v-model="searchForm.studentNo" placeholder="学号" class="search-item" clearable></el-input>
                         <el-input v-model="searchForm.cardNo" placeholder="读者卡号" class="search-item" clearable></el-input>
                         <el-button type="primary" @click="handleSearch" size="medium">查找</el-button>
+                      </div> -->
+                      <div class="search-box" v-if="dataKey">
+                        <!-- 属性组选择 -->
+                        <div class="search-item-box" v-for="item in selectProperties" :key="item.code">
+                          <div class="search-item" v-if="!item.external">
+                            <!-- <el-date-picker v-model="searchForm[item.code]" type="date" :placeholder="item.name" v-if="!item.external && item.type==2"></el-date-picker> -->
+                            <!-- 属性组是非选择 -->
+                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="!item.external && item.type==3" clearable>
+                              <el-option label="是" :value="true"></el-option>
+                              <el-option label="否" :value="false"></el-option>
+                            </el-select>
+                            <!-- 属性组单选选择 -->
+                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable>
+                              <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                            </el-select>
+                            <!-- 属性组部门选择 -->
+                            <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>
+                          </div>
+                        </div>
+                        <!-- 文本输入 -->
+                        <div class="search-item-box" v-if="textProperties.length">
+                          <div class="search-item" style="width:300px">
+                            <el-input placeholder="请输入" size="medium" v-model="searchTextValue" style="width:300px" clearable>
+                              <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
+                                <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                              </el-select>
+                            </el-input>
+                          </div>
+                        </div>
+                        <!-- 日期选择 -->
+                        <div class="search-item-box" v-if="dateRangeProperties.length">
+                          <div class="search-item w400">
+                            <div class="date-checkbox">
+                              <el-select v-model="searchDateCode" placeholder="请选择" size="medium" clearable>
+                                <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                              </el-select>
+                              <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                            </div>
+                          </div>
+                        </div>
+                        <el-button type="primary" size="medium" icon="el-icon-search" @click="handleSearch">查找</el-button>
                       </div>
                       <el-table :data="tableData" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange">
                         <el-table-column type="selection" width="48"></el-table-column>
@@ -164,7 +204,20 @@ export default {
     return {
       id: this.$route.query.id,
       dataKey: null,
+      // 系统属性code
+      sysArrt: ['User_Name', 'User_SourceFrom', 'User_NickName', 'User_StudentNo', 'User_Unit', 'User_Edu', 'User_Depart', 'User_Title', 'User_College', "User_CollegeDepart", 'User_Grade', 'User_Major', 'User_Class', 'User_Type', 'User_Status', 'User_Phone', 'User_IdCard', 'User_Email', 'User_Birthday', 'User_Gender', 'User_AddrDetail', 'User_Addr', 'User_CreateTime', 'Card_No', 'User_LeaveTime', 'User_Photo', 'Card_BarCode', 'Card_PhysicNo', 'Card_Type', 'Card_IdentityNo', 'Card_Status', 'Card_IsPrincipal', 'Card_ExpireDate', 'Card_IssueDate', 'Card_Deposit'],
+      // 系统属性code对应字段名称
+      sysArrtKey: ['name', 'sourceFrom', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'collegeDepart', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'createTime', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit'],
+      selectProperties: [],//属性组选择列表
+      textProperties: [],//文本输入列表
+      dateRangeProperties: [],//日期选择列表
+      searchTextCode: '',//文本输入code
+      searchTextValue: '',//文本输入值
+      searchDateCode: '',//日期选择code
+      searchDateValue: '',//日期选择值
+      depList: [],//部门列表
       searchForm: {},
+      postSearch:{},
       postForm: {
         name: '',
         desc: '',
@@ -198,8 +251,9 @@ export default {
       },
     };
   },
-  mounted() {
+  created() {
     this.initData();
+    this.getDepList()
   },
   methods: {
     initData() {
@@ -213,8 +267,19 @@ export default {
     },
     // 获取初始数据
     getKey() {
-      http.getJson('user-group-init-data').then(res => {
+      http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        this.dataKey.canSearchProperties.forEach(item => {
+          if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
+            this.textProperties.push(item);
+          }
+          if (!item.external && item.type == 2) {
+            this.dateRangeProperties.push(item);
+          }
+          if (!item.external && (item.type == 4 || item.type == 3)) {
+            this.selectProperties.push(item);
+          }
+        });
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -235,10 +300,18 @@ export default {
     },
     // 获取列表数据
     getList() {
-      http.getJson('table-data', { ...this.searchForm, ...this.pageData }).then(res => {
+      http.getJson('table-data', { ...this.postSearch, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 获取列表数据
+    getDepList() {
+      http.getJson('org-list').then(res => {
+        this.depList = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -249,6 +322,26 @@ export default {
         pageIndex: 1,
         pageSize: 50,
       }
+      // 处理筛选项
+      let search = {};
+      for (const item in this.searchForm) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(item)];
+        search[index] = this.searchForm[item];
+      }
+      if (this.searchTextCode && this.searchTextValue) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
+        search[index] = this.searchTextValue;
+      }
+      if (this.searchDateCode && this.searchDateValue) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchDateCode)];
+        index = (index || '').replace('Date', '');
+        index = (index || '').replace('Time', '');
+        search[index + 'StartTime'] = this.searchDateValue[0];
+        search[index + 'EndTime'] = this.searchDateValue[1];
+      }
+
+      // this.searchForm = search;
+      this.postSearch = search;
       this.getList();
     },
     // 匹配键值对
@@ -299,14 +392,7 @@ export default {
         this.rightListImp = val;
       }
     },
-    // 获取初始数据
-    getKey() {
-      http.getJson('user-init-data').then(res => {
-        this.dataKey = res.data;
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      })
-    },
+    
     // 切换
     handleTab() {
       this.activeName = this.activeName == '选择' ? '导入' : '选择';
@@ -421,10 +507,46 @@ export default {
   padding: 20px;
 }
 .search-item {
-  width: 170px;
+  width: 150px;
   margin-bottom: 10px;
+  margin-right: 10px;
 }
 /deep/ .el-table .warning-row {
   background: rgb(243, 208, 208);
+}
+.search-item-box{
+  display: inline-block;
+}
+.date-checkbox {
+  width: 400px;
+  display: flex;
+  align-items: center;
+  // display: inline-block;
+
+  /deep/ .el-select {
+    width: 130px;
+    color: #909399;
+
+    .el-input__inner {
+      background: #f5f7fa;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border: 1px solid #e4e6fc !important;
+      border-right: 0;
+      color: #909399;
+    }
+  }
+  /deep/ .el-date-editor {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 270px;
+
+    .el-range-separator {
+      width: 30px;
+    }
+  }
+}
+.w400{
+  width: 400px;
 }
 </style>

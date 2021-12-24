@@ -134,11 +134,7 @@ export default {
     },
     // 重置
     reset() {
-      if (this.id > 0) {
-        this.getData();
-      } else {
-        this.$refs['ruleForm'].resetFields();
-      }
+      location.reload();
     },
     //表单提交
     submitForm() {

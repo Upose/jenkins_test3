@@ -31,19 +31,19 @@ export default {
   data () {
     return {
       // pagedata:{},//当前页
-      pageSizes:[]
+      pageSizes:[10,20,50,100,150,200]
     }
   },
   mounted(){
     // 如果每页条数设置小于50 条数下拉选择框增加当前条数
-    if(this.pagedata.pageSize < 50){
-      // let sizeList = [50,100,150,200];
-      // sizeList.unshift(this.pagedata.pageSize);
-      // this.pageSizes = sizeList;
-      this.pageSizes = [5,6,7,8,9,10,20,50,100,150,200];
-    }else{
-      this.pageSizes = [50,100,150,200];
-    }
+    // if(this.pagedata.pageSize < 50){
+    //   // let sizeList = [50,100,150,200];
+    //   // sizeList.unshift(this.pagedata.pageSize);
+    //   // this.pageSizes = sizeList;
+    //   this.pageSizes = [5,6,7,8,9,10,20,50,100,150,200];
+    // }else{
+    //   this.pageSizes = [50,100,150,200];
+    // }
   },
   methods:{
       SizeChange(val) {
