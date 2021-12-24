@@ -49,13 +49,13 @@
                 <el-form-item label="卡密码" prop="secret">
                   <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
                   <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
-                    <template slot="suffix" v-if="isAuth('card:setSecret')">
+                    <template slot="append" v-if="isAuth('card:setSecret')">
                       <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
                     </template>
                   </el-input>
                 </el-form-item>
                 <el-form-item label="押金" prop="deposit">
-                  <el-input v-model="cardForm.deposit" placeholder="请输入"></el-input>
+                  <el-input v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="卡类型" prop="type">
                   <el-select v-model="cardForm.type" placeholder="请选择" clearable>

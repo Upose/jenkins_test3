@@ -59,6 +59,8 @@ export default {
   },
   methods: {
     show(type) {
+      this.checkedUserTypes = [];
+      this.checkedGroupList = [];
       this.type = type;
       this.dialogBulk = true
       this.getKey();

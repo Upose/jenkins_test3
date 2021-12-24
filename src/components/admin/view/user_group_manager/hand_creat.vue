@@ -417,6 +417,9 @@ export default {
         return '';
       }
     },
+    reset(){
+      location.reload();
+    },
     //表单提交
     submitForm() {
       let list = this.activeName == '选择' ? this.chanceData : this.chanceDataImp;

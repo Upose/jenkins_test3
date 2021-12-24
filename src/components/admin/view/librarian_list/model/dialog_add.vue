@@ -3,13 +3,13 @@
     <el-alert title="临时馆员只能登录管理后台，如需登录前台请先添加读者信息" type="warning" show-icon></el-alert>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" v-if="dataKey">
       <el-form-item label="读者名称" prop="name">
-        <el-input v-model="ruleForm.name" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="学工号" prop="studentNo">
-        <el-input v-model="ruleForm.studentNo" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="单位名称" prop="unit">
-        <el-input v-model="ruleForm.unit" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="学历" prop="edu">
         <el-select v-model="ruleForm.edu" placeholder="请选择">
@@ -31,16 +31,16 @@
         <el-cascader :options="departList" v-model="depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
       </el-form-item>
       <el-form-item label="手机" prop="phone">
-        <el-input v-model="ruleForm.phone" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit ></el-input>
       </el-form-item>
       <el-form-item label="身份证号" prop="idCard">
-        <el-input v-model="ruleForm.idCard" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="账号" prop="account">
-        <el-input v-model="ruleForm.account" placeholder="请输入"></el-input>
+        <el-input v-model="ruleForm.account" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="ruleForm.password" placeholder="请输入" show-password></el-input>
+        <el-input v-model="ruleForm.password" placeholder="请输入" show-password clearable maxlength="30" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="ruleForm.gender">
