@@ -71,6 +71,7 @@ export default {
   created() {
     bus.$on("collapse", (msg) => {
       this.$root.collapse = msg;
+      this.$forceUpdate();
     });
 
     this.initData();

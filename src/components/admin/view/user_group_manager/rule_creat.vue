@@ -80,6 +80,7 @@ export default {
   created() {
     bus.$on("collapse", (msg) => {
       this.$root.collapse = msg;
+      this.$forceUpdate();
     });
   },
   components: { footerPage, serviceLMenu, breadcrumb },
