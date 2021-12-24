@@ -19,7 +19,7 @@
                 <div class="read-title">读者卡信息</div>
                 <el-form-item label="选择用户" v-if="!id&&!userId" prop="userId">
                   <el-select @change="refChangeCardSecret" v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
-                    <el-option v-for="item in userList" :key="item.id" :label="item.name+'_'+item.phone" :value="item.id"></el-option>
+                    <el-option v-for="item in userList" :key="item.id" :label="item.name+' '+item.phone" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="读者卡号" prop="no">
@@ -300,8 +300,9 @@ export default {
             this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
             http.postJson('card', this.cardForm).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
-              this.id = res.data;
-              this.getData();
+              // this.id = res.data;
+              // this.getData();
+              this.$router.replace('/readerCardList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
             })

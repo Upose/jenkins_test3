@@ -150,8 +150,9 @@ export default {
           } else {
             http.postJson('property', this.postForm).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
-              this.id = res.data;
-              this.getData();
+              // this.id = res.data;
+              // this.getData();
+              this.$router.replace('/attributeList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
             })
