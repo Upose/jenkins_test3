@@ -249,7 +249,7 @@ export default {
     remoteMethod(query) {
       if (query !== '') {
         this.loading = true;
-        http.getJson('user-select-list-data', { keyword: query, pageIndex: 1, pageSize: 50 }).then(res => {
+        http.getJson('user-select-list-data', { keyword: query, pageIndex: 1, pageSize: 20 }).then(res => {
           this.userList = res.data.items;
           this.loading = false;
         }).catch(err => {

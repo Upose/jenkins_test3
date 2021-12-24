@@ -216,7 +216,7 @@ export default {
     initGetList() {
       this.pageData = {
         pageIndex: 1,
-        pageSize: 50,
+        pageSize: 20,
       }
       this.getList();
     },

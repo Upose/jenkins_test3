@@ -93,7 +93,7 @@ export default {
       postForm: {},//列表查询参数
       pageData: {
         pageIndex: 1,
-        pageSize: 50,
+        pageSize: 20,
       },//分页参数
       tableData: [],//列表项
       multipleSelection: [],//勾选列表

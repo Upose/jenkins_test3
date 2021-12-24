@@ -226,7 +226,7 @@ export default {
       },//列表查询参数
       pageData: {
         pageIndex: 1,
-        pageSize: 50,
+        pageSize: 20,
       },//分页参数
 
       // 选择
@@ -320,7 +320,7 @@ export default {
     handleSearch() {
       this.pageData = {
         pageIndex: 1,
-        pageSize: 50,
+        pageSize: 20,
       }
       // 处理筛选项
       let search = {};

@@ -337,7 +337,7 @@ export default {
     },
     // 获取用户组列表
     getGrounpList() {
-      http.getJson('group-table-data', { pageIndex: 1, pageSize: 500 }).then(res => {
+      http.getJson('group-table-data', { pageIndex: 1, pageSize: 200 }).then(res => {
         this.grounpList = res.data.items;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });

@@ -33,7 +33,7 @@ export default {
       dataKey: null,
       pageData: {
         pageIndex: 1,
-        pageSize: 50,
+        pageSize: 20,
       },//分页参数
       tableData: [],//列表项
       postForm: {},
