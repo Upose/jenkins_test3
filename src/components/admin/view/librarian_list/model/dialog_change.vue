@@ -40,6 +40,7 @@ export default {
       http.postJson('batch-set-department', { userIds: userIds, depart: this.depart }).then(res => {
         this.$message({ type: 'success', message: '变动成功!' });
         this.dialogVisible = false;
+        this.$emit('getList');
       }).catch(err => {
         this.$message({ type: 'error', message: '变动失败!' });
       })

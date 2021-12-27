@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <dialog_change ref="dialog_change" :departList="departList" :userList="multipleSelection"></dialog_change>
+    <dialog_change ref="dialog_change" :departList="departList" :userList="multipleSelection" @getList="getList"></dialog_change>
     <dialog_add ref="dialog_add" :dataKey="dataKey" :departList="departList"></dialog_add>
   </div>
 </template>
