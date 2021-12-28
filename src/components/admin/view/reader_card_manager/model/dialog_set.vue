@@ -8,7 +8,7 @@
         <el-input v-model="form.classFullName" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="任务参数">
-        <el-input type="textarea" v-model="form.taskParam" clearable maxlength="200" show-word-limit></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 2}" v-model="form.taskParam" clearable maxlength="200" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="适配器程序集名称" prop="adapterAssemblyFullName">
         <el-input v-model="form.adapterAssemblyFullName" clearable maxlength="100" show-word-limit></el-input>
@@ -17,13 +17,13 @@
         <el-input v-model="form.adapterClassFullName" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="适配器参数">
-        <el-input type="textarea" v-model="form.adapterParm" clearable maxlength="200" show-word-limit></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 2}" v-model="form.adapterParm" clearable maxlength="200" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="Cron表达式" prop="cron">
         <el-input v-model="form.cron" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="Cron说明">
-        <el-input type="textarea" v-model="form.cronRemark" clearable maxlength="200" show-word-limit></el-input>
+        <el-input type="textarea" :autosize="{ minRows: 2}" v-model="form.cronRemark" clearable maxlength="200" show-word-limit></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer">
