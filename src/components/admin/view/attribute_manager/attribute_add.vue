@@ -153,7 +153,7 @@ export default {
               this.$message({ message: this.dataKey.needApprove ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
               // this.id = res.data;
               // this.getData();
-              this.$router.replace('/attributeList');
+              this.$router.replace('/admin_attributeList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
             })

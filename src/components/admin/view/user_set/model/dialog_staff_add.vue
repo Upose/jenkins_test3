@@ -189,11 +189,11 @@ export default {
     },
     // 编辑属性
     handleEdit(row) {
-      this.$router.push({ path: '/attributeAdd', query: { id: row.id } });
+      this.$router.push({ path: '/admin_attributeAdd', query: { id: row.id } });
     },
     // 编辑属性组
     handleEditGroup() {
-      this.$router.push({ path: '/contentEdit', query: { columnId: this.id } });
+      this.$router.push({ path: '/admin_contentEdit', query: { columnId: this.id } });
     },
     //变更选择数据
     handleSelectionChange(val) {

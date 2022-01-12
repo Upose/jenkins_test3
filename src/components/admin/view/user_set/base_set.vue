@@ -103,7 +103,7 @@ export default {
     // 切换
     handleClick() {
       if (this.activeName == 'auth') {
-        this.$router.push('/authSet')
+        this.$router.push('/admin_authSet')
       }
     },
     // 重置

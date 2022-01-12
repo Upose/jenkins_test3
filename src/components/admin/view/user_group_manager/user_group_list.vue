@@ -100,7 +100,7 @@ export default {
     // 页面子权限判定
     isAuth(name){
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/userGroupList'));
+      let curAuth = authList.find(item=>(item.router == '/admin_userGroupList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
       let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
       return curSonAuth?true:false;
@@ -160,9 +160,9 @@ export default {
     // 编辑
     handleSet(row) {
       if (row.sourceFrom == 0) {
-        this.$router.push({ path: '/ruleCreat', query: { id: row.id } })
+        this.$router.push({ path: '/admin_ruleCreat', query: { id: row.id } })
       }else{
-        this.$router.push({ path: '/handCreat', query: { id: row.id } })
+        this.$router.push({ path: '/admin_handCreat', query: { id: row.id } })
       }
     },
     // 删除
@@ -190,7 +190,7 @@ export default {
     },
     // 用户列表
     handleUser(row){
-      this.$router.push({path:'/userList',query:{id:row.id,sourceFrom:row.sourceFrom}})
+      this.$router.push({path:'/admin_userList',query:{id:row.id,sourceFrom:row.sourceFrom}})
     }
   },
 }

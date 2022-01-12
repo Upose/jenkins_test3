@@ -244,7 +244,7 @@ export default {
         });
     },
     forgetNav() {
-      this.$router.push('/forgetPassword');
+      this.$router.push('/web_forgetPassword');
     }
   }
 }

@@ -1,6 +1,7 @@
 /***前台 项目接口地址-用户中心-账户设置 */
 
-var baseURL = 'http://192.168.21.43:8011';//请求前端地址
+// var baseURL = 'http://192.168.21.43:8011';//请求前端地址
+var baseURL = 'http://192.168.21.46:8000/usermanage';//请求前端地址
 
 export default {
     postUrl: {

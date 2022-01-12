@@ -1,7 +1,9 @@
 /***前台 项目接口地址-用户中心-个人图书馆 */
 
-var baseURL = 'http://192.168.21.23:5023';//请求前端地址 服务中台
-var baseURL1 = 'http://192.168.21.48:7005';//请求前端地址 应用中心
+// var baseURL = 'http://192.168.21.23:5023';//请求前端地址 服务中台
+// var baseURL1 = 'http://192.168.21.48:7005';//请求前端地址 应用中心
+var baseURL = 'http://192.168.21.46:8000/scenemanage';//请求前端地址 服务中台
+var baseURL1 = 'http://192.168.21.46:8000/appcenter';//请求前端地址 应用中心
 
 export default {
     postUrl: {

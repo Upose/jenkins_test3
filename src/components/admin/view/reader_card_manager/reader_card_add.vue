@@ -303,7 +303,7 @@ export default {
               this.$message({ message: '新增成功！', type: 'success' });
               // this.id = res.data;
               // this.getData();
-              this.$router.replace('/readerCardList');
+              this.$router.replace('/admin_readerCardList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
             })

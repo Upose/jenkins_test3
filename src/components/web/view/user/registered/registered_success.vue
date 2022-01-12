@@ -8,7 +8,7 @@
             <i class="el-icon-success"></i>
             <span>注册成功</span>
           </p>
-          <button class="btn main_bg" @click="$router.push('/loginAccount')">马 上 登 录</button>
+          <button class="btn main_bg" @click="$router.push('/web_loginAccount')">马 上 登 录</button>
           <p class="login-tip">（{{countDown}}s后回到登录页）</p>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default {
           this.countDown -= 1;
         } else {
           clearInterval(fnCountDown);
-          this.$router.push('/loginAccount')
+          this.$router.push('/web_loginAccount')
         }
       }, 1000);
     }

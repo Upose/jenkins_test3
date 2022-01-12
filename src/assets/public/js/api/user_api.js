@@ -2,9 +2,16 @@
 
 var baseURL = 'http://192.168.21.43:8011';//请求前端地址
 var baseURL1 = 'http://192.168.21.43:8021';//请求前端地址
+var baseURL3 = 'http://192.168.21.48:7005';//请求前端地址
+// var baseURL = 'http://192.168.21.46:8000/usermanage';//请求前端地址
+// var baseURL1 = 'http://192.168.21.46:8000/usermanage';//请求前端地址
+
 
 export default {
     postUrl: {
+        'getmgrtopmenu': baseURL3 + '/api/baseinfo/getmgrtopmenu',//属性初始化数据
+
+
         'init-data': baseURL + '/api/property/init-data',//属性初始化数据
         'list-data': baseURL + '/api/property/list-data',//获取属性列表数据
         'property': baseURL + '/api/property',// get:获取属性详情 delete:删除属性 post:创建自定义属性 put:编辑自定义属性

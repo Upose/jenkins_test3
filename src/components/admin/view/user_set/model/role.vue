@@ -68,7 +68,7 @@ export default {
     // 页面子权限判定
     isAuth(name){
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/userSet'));
+      let curAuth = authList.find(item=>(item.router == '/admin_userSet'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
       let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
       return curSonAuth?true:false;
@@ -110,7 +110,7 @@ export default {
     },
     // 新增角色
     handleAdd() {
-      this.$router.push('/roleAdd');
+      this.$router.push('/admin_roleAdd');
     },
     // 选择日期
     handleDate() {
@@ -158,7 +158,7 @@ export default {
     },
     // 编辑权限
     handleEditAuth(row) {
-      this.$router.push({ path: '/roleAdd', query: { id: row.id } });
+      this.$router.push({ path: '/admin_roleAdd', query: { id: row.id } });
     },
     // 编辑馆员
     handleEditStaff(row) {

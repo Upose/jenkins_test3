@@ -10,7 +10,7 @@
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title"><span class="tab-nav" @click="$router.push('/readerCardList')">读者卡管理</span><span class="tab-nav current">同步日志</span></h1>
+            <h1 class="search-title"><span class="tab-nav" @click="$router.push('/admin_readerCardList')">读者卡管理</span><span class="tab-nav current">同步日志</span></h1>
           </div>
           <!--顶部查询 end-->
           <div class="table-w">

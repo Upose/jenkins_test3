@@ -151,7 +151,7 @@ export default {
     // 页面子权限判定
     isAuth(name){
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/readerList'));
+      let curAuth = authList.find(item=>(item.router == '/admin_readerList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
       let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
       return curSonAuth?true:false;
@@ -343,12 +343,12 @@ export default {
     },
     clickRow(item, row) {
       if (item.code == "User_Name" && this.isAuth('reader:detail')) {
-        this.$router.push({ path: '/readerManagement', query: { id: row.id } })
+        this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
       }
     },
     // 编辑
     handleSet(row) {
-      this.$router.push({ path: '/readerManagement', query: { id: row.id } })
+      this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
     },
     // 删除
     handleDel(row) {
@@ -380,11 +380,11 @@ export default {
     },
     /** 新增读者 */
     handAdd() {
-      this.$router.push('/readerAdd');
+      this.$router.push('/admin_readerAdd');
     },
     // 导入
     importExcel() {
-      this.$router.push('/importUser');
+      this.$router.push('/admin_importUser');
     },
 
     //导出excel

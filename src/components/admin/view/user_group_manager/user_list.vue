@@ -198,14 +198,14 @@ export default {
     },
     // 查看
     handleLook(row) {
-      this.$router.push({ path: '/readerManagement', query: { id: row.id } })
+      this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
     },
     // 添加用户
     handAdd() {
       if (this.sourceFrom == 0) {
-        this.$router.push({ path: '/ruleCreat', query: { id: this.id } })
+        this.$router.push({ path: '/admin_ruleCreat', query: { id: this.id } })
       } else {
-        this.$router.push({ path: '/handCreat', query: { id: this.id } })
+        this.$router.push({ path: '/admin_handCreat', query: { id: this.id } })
       }
     },
     // 多选

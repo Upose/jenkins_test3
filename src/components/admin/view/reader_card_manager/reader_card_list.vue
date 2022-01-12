@@ -10,7 +10,7 @@
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav" @click="$router.push('/readerCardSnyc')">同步日志</span></h1>
+            <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav" @click="$router.push('/admin_readerCardSnyc')">同步日志</span></h1>
             <div class="search-term" v-if="dataKey">
               <div class="search-item-box">
                 <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
@@ -309,7 +309,7 @@ export default {
 
     // 编辑
     handleSet(row) {
-      this.$router.push({ path: '/readerCardEdit', query: { id: row.id } })
+      this.$router.push({ path: '/admin_readerCardEdit', query: { id: row.id } })
     },
     // 删除
     handleDel(row) {
@@ -330,7 +330,7 @@ export default {
     },
     /** 新增读者卡 */
     handAdd() {
-      this.$router.push('/readerCardAdd');
+      this.$router.push('/admin_readerCardAdd');
     },
     //导出excel
     exportExcel() {

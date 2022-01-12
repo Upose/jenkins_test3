@@ -26,6 +26,7 @@
 
 <script>
 import bus from '@/assets/public/js/bus';
+import http from '@/assets/public/js/http';
 export default {
   name: 'test',
   data() {
@@ -53,7 +54,18 @@ export default {
       ],
     }
   },
+  created () {
+    // this.getHead();
+  },
   methods: {
+    getHead(){
+      http.getJson('getmgrtopmenu').then(res => {
+        res.data.propertyFor = "1";
+        this.postForm = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      });
+    },
     // 侧边栏折叠展开
     collapseChage() {
       this.$root.collapse = !this.$root.collapse;

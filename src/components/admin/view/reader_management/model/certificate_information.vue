@@ -227,11 +227,11 @@ export default {
     },
     // 添加卡片
     handleAdd() {
-      this.$router.push({ path: '/readerCardAdd', query: { userId: this.id } })
+      this.$router.push({ path: '/admin_readerCardAdd', query: { userId: this.id } })
     },
     // 查看
     handleLook(item) {
-      this.$router.push({ path: '/readerCardEdit', query: { id: item.id } })
+      this.$router.push({ path: '/admin_readerCardEdit', query: { id: item.id } })
     },
     // 重置密码
     handleResetPass(item) {

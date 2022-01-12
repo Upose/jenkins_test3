@@ -184,7 +184,7 @@ export default {
     },
     // 编辑
     handleSet(row) {
-      this.$router.push({ path: '/readerManagement', query: { id: row.id } })
+      this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
     },
     // 删除
     handleDel(row) {
@@ -205,7 +205,7 @@ export default {
     },
     // 添加馆员
     handleAdd() {
-      this.$router.push({ path: '/readerAdd', query: { type: 'staff' } });
+      this.$router.push({ path: '/admin_readerAdd', query: { type: 'staff' } });
     },
     // 查找
     handSearch() {

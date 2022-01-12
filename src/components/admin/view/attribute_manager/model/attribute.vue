@@ -99,7 +99,7 @@ export default {
     // 页面子权限判定
     isAuth(name){
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/attributeList'));
+      let curAuth = authList.find(item=>(item.router == '/admin_attributeList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
       let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
       return curSonAuth?true:false;
@@ -170,18 +170,18 @@ export default {
     },
     // 新增属性
     handleAdd(row) {
-      this.$router.push({ path: '/attributeAdd', query: { id: row.id } });
+      this.$router.push({ path: '/admin_attributeAdd', query: { id: row.id } });
     },
     // 编辑属性
     handleEdit(row) {
-      this.$router.push({ path: '/attributeAdd', query: { id: row.id } });
+      this.$router.push({ path: '/admin_attributeAdd', query: { id: row.id } });
     },
     // 编辑属性组
     handleEditGroup(row) {
       if (row.code == 'User_Depart') {
-        this.$router.push({ path: '/attributeDepManager', query: { id: row.propertyGroupID, name: row.name } });
+        this.$router.push({ path: '/admin_attributeDepManager', query: { id: row.propertyGroupID, name: row.name } });
       } else {
-        this.$router.push({ path: '/attributeGroupManager', query: { id: row.propertyGroupID, name: row.name } });
+        this.$router.push({ path: '/admin_attributeGroupManager', query: { id: row.propertyGroupID, name: row.name } });
       }
     },
 
