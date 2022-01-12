@@ -1,16 +1,12 @@
 /***后台管理系统 项目接口地址-用户中心 */
-
-var baseURL = 'http://192.168.21.43:8011';//请求前端地址
-var baseURL1 = 'http://192.168.21.43:8021';//请求前端地址
-var baseURL3 = 'http://192.168.21.48:7005';//请求前端地址
-// var baseURL = 'http://192.168.21.46:8000/usermanage';//请求前端地址
-// var baseURL1 = 'http://192.168.21.46:8000/usermanage';//请求前端地址
+var baseURL = process.env.VUE_APP_BASE_API + 'usermanage';//请求前端地址 用户中心
+var baseURL1 = process.env.VUE_APP_BASE_API + 'appcenter';//请求前端地址 应用中心
 
 
 export default {
     postUrl: {
-        'getmgrtopmenu': baseURL3 + '/api/baseinfo/getmgrtopmenu',//属性初始化数据
-
+        'getmgrtopmenu': baseURL1 + '/api/baseinfo/getmgrtopmenu',//获取顶部导航栏
+        'getbaseinfo': baseURL1 + '/api/baseinfo/getbaseinfo',//获取应用基础信息
 
         'init-data': baseURL + '/api/property/init-data',//属性初始化数据
         'list-data': baseURL + '/api/property/list-data',//获取属性列表数据
@@ -37,7 +33,6 @@ export default {
         'card-claim-table-data': baseURL + '/api/data-approve/card-claim-table-data',//获取读者领卡列表数据
         'approve-card-claim': baseURL + '/api/data-approve/approve-card-claim',//审批读者领卡信息
         'card-claim-detail-info': baseURL + '/api/data-approve/card-claim-detail-info',//读者领卡详情
-        '': baseURL + '',//
 
         'user-init-data': baseURL + '/api/user/init-data',//用户初始化数据
         'table-data': baseURL + '/api/user/table-data',//获取用户表格数据
@@ -67,10 +62,6 @@ export default {
         'set-sync-card-config': baseURL + '/api/card/set-sync-card-config',//设置同步设置配置项
         'add-sync-card-task':baseURL+'/api/card/set-sync-card-task',//添加读者临时同步任务
 
-
-
-
-
         'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
         'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据
         'user-card-list-data': baseURL + '/api/card/user-card-list-data',//获取用户读者卡信息
@@ -98,8 +89,6 @@ export default {
         'group-users': baseURL + '/api/user-group/group-users',//删除用户到用户组1103
         'user-to-group': baseURL + '/api/user-group/user-to-group',//添加用户到用户组
         'user-group-brief-info': baseURL + '/api/user-group/group-brief-info',//获取用户组简要信息
-        '': baseURL + '',//
-
 
         'set-init-data': baseURL + '/api/basic-config/init-data',//获取初始化数据
         'basic-config': baseURL + '/api/basic-config/basic-config',//获取用户配置信息
@@ -122,19 +111,11 @@ export default {
         'user-role': baseURL + '/api/role/user-role',//删除用户角色
         'set-user-roles': baseURL + '/api/role/set-user-roles',//设置用户角色
 
-
-        'login-list-data': baseURL1 + '/api/login-config/list-data',//获取登录设置列表
-        'set-is-open': baseURL1 + '/api/login-config/set-is-open',//设置是否开启
-
-
         'org-list': baseURL + '/api/property-group/org-list',//获取组织机构
         'org': baseURL + '/api/property-group/org',//创建、修改、删除组织机构
 
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
 
         'user-permission-tree': baseURL + '/api/sys-menu/user-permission-tree',//获取当前登录用户应用权限
-        '': baseURL + '',//
-        '': baseURL + '',//
-
     },
 }

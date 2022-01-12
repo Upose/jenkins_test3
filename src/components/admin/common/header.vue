@@ -11,7 +11,7 @@
     </div> -->
     <div class="m-box-list" :class="{'logo-collapse-left':$root.collapse}">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane :label="item.title" :name="index" v-for="(item,index) in dataList" :key="index"></el-tab-pane>
+        <el-tab-pane :label="item.appName" :name="index" v-for="(item,index) in dataList" :key="index"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="login-msg-warp">
@@ -54,14 +54,18 @@ export default {
       ],
     }
   },
-  created () {
-    // this.getHead();
+  created() {
+    this.getHead();
   },
   methods: {
-    getHead(){
+    getHead() {
       http.getJson('getmgrtopmenu').then(res => {
-        res.data.propertyFor = "1";
-        this.postForm = res.data;
+        this.dataList = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      });
+      http.getJson('getbaseinfo').then(res => {
+        // this.dataList = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       });
@@ -72,7 +76,8 @@ export default {
       bus.$emit('collapse', this.$root.collapse);
     },
     handleClick(tab, event) {
-      this.$router.push(this.dataList[this.activeName].url);
+      // console.log(tab);
+      location.href = this.dataList[tab.index].backendUrl;
     },
     outLogin() {
       // this.$store.commit('logout');

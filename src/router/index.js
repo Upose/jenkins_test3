@@ -7,6 +7,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    { path:'*',redirect:'/admin_userManager'},
     {
       path: '/web',
       name: 'index',
