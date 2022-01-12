@@ -21,8 +21,8 @@
           <div class="table-w">
             <h2 class="m-title">
               <div class="r-btn">
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/ruleCreat')" v-if="isAuth('userGroup:create')">规则新建用户组</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/handCreat')" v-if="isAuth('userGroup:create')">手动新建用户组</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/admin_ruleCreat')" v-if="isAuth('userGroup:create')">规则新建用户组</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/admin_handCreat')" v-if="isAuth('userGroup:create')">手动新建用户组</el-button>
               </div>
             </h2>
             <div class="t-p">
