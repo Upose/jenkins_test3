@@ -6,7 +6,7 @@
         <div v-if="!isEdit">
           <div class="top-right">
             <span class="item"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
-            <span class="item" @click="$router.push('/admin_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
+            <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
             <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
           </div>
           <div class="top-content">

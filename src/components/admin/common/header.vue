@@ -64,11 +64,6 @@ export default {
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       });
-      http.getJson('getbaseinfo').then(res => {
-        // this.dataList = res.data;
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      });
     },
     // 侧边栏折叠展开
     collapseChage() {

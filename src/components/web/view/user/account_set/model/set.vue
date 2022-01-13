@@ -1,5 +1,5 @@
 <template>
-  <div class="set-box">
+  <div class="set-box" v-if="dataKey">
     <el-alert title="完成以下认证信息，可以加强您账户的安全性" type="warning" show-icon></el-alert>
     <h1>姓名：{{form.name}}</h1>
     <div class="set-item">
