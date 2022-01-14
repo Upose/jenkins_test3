@@ -7,7 +7,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/', redirect: '/admin_userManager' },
+    //{ path: '/', redirect: '/admin_userManager' },
     {
       path: '/web',
       name: 'index',
@@ -24,7 +24,7 @@ export default new Router({
     },
     {
       path: '/404',
-      name: '/404',
+      name: '404',
       component: r => require.ensure([], () => r(require('@/components/404')), 'index'),
     },
     {//重定向中间件
@@ -45,10 +45,6 @@ export default new Router({
           axios({
             url: ticketHref,
             method: 'get',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + localStorage.getItem('BasicToken')
-            },
           })
             .then(x => {
 

@@ -133,7 +133,7 @@ class ApplicationBuilder {
                     localStorage.setItem('COM+', current);
 
                     //   window.open(this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.origin),'_blank');
-                    window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(window.location.href.split('#')[0])
+                    window.location.href = this._casBase + '/cas/login?service=' + encodeURIComponent(`${window.location.origin}${window.location.pathname}`)
                     // window.close();
                 }
                 return Promise.reject(error);
@@ -172,7 +172,9 @@ class ApplicationBuilder {
                     throw new Error('在调用此方法前，必须先调用configureOrgInfo以配置机构信息');
                 if (axios == null)
                     throw new Error("请确保该调用该方法是,axios已被初始化");
-                this
+                
+                axios.defaults.loaded=true;
+                    this
                     .withDomainAndToken() //给api请求加上域名部分
                     .withCors() //跨域请求
                     .withToken() //带上token
