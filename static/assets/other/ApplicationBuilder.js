@@ -87,7 +87,7 @@ class ApplicationBuilder {
         if (axios) {
             axios.defaults.retry = 1; //重试次数
             axios.defaults.retryDelay = 1000; //重试延时
-            axios.defaults.shouldRetry = (error) => error.response.status == 401; //401重试
+            axios.defaults.shouldRetry = (error) => error && error.response && error.response.status == 401; //401重试
             axios.interceptors.response.use(response => {
                 return response;
             }, error => {
@@ -172,9 +172,9 @@ class ApplicationBuilder {
                     throw new Error('在调用此方法前，必须先调用configureOrgInfo以配置机构信息');
                 if (axios == null)
                     throw new Error("请确保该调用该方法是,axios已被初始化");
-                
-                axios.defaults.loaded=true;
-                    this
+
+                axios.defaults.loaded = true;
+                this
                     .withDomainAndToken() //给api请求加上域名部分
                     .withCors() //跨域请求
                     .withToken() //带上token

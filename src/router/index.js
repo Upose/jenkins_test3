@@ -28,13 +28,13 @@ export default new Router({
       component: r => require.ensure([], () => r(require('@/components/404')), 'index'),
     },
     {//重定向中间件
-      path: '*',
+      path: '/',
       name: 'reset',
       beforeEnter: (to, from, next) => {
         let originUrl = localStorage.getItem('COM+');
         localStorage.removeItem('COM+');
         if (originUrl == null) {
-          next('/404');
+          next('/admin_userManager');
           return;
         }
         let ticketRegex = /\?ticket=([^#]+)#/;
@@ -62,12 +62,15 @@ export default new Router({
                 next(originUrl);
                 return;
               }
+            }).catch(err => {
+              next('/404');
             })
-
-          //fetch(ticketHref).then(x=>console.log(x));
         }
-        next('/404');
       }
     },
+    {
+      path: '*',
+      redirect: '/404',
+    }
   ]
 })
