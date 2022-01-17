@@ -207,7 +207,7 @@ export default {
     },
     // 获取应用列表
     getApplyList() {
-      this.http.getJson('forward-personal-app-list').then((res) => {
+      this.http.getJsonSelf('forward-personal-app-list',`/1`).then((res) => {
         this.applyList = res.data;
       }).catch((err) => {
         this.$message({ type: "error", message: "获取应用信息失败!" });

@@ -1,6 +1,6 @@
 <template>
   <div class="web-warp" :class="skin_template">
-    <div class="header_sys_temp1">
+    <div :class="headerTemplateCode">
       <div id="zt_header_sys"></div>
     </div>
     <div class="content-warp">
@@ -23,6 +23,8 @@ export default {
   data() {
     return {
       skin_template: this.$store.state.skin_template || 'template1',
+      headerTemplateCode:'',
+      footerTemplateCode:''
     }
   },
   created() { },
@@ -32,7 +34,11 @@ export default {
   methods: {
     getHeadFoot() {
       this.http.getJson('getbaseinfo').then(res => {
+        this.headerTemplateCode = res.data.headerFooterInfo.headerTemplateCode;
+        this.footerTemplateCode = res.data.headerFooterInfo.footerTemplateCode;
+        
         this.addTemp(res.data.headerFooterInfo.headerRouter);
+        this.addTemp(res.data.headerFooterInfo.footerRouter);
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       });
