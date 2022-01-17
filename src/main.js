@@ -101,12 +101,17 @@ const i18n = new VueI18n({
 //   }
 //   next('/404');
 // })
+let timer = setInterval(() => {
+  if (axios && axios.defaults && axios.defaults.loaded) {
+    clearInterval(timer);
+    new Vue({
+      el: '#zt_user_center_sys',
+      router,
+      i18n,
+      store,
+      components: { App },
+      template: '<App/>'
+    })
+  }
+}, 100);
 
-new Vue({
-  el: '#zt_user_center_sys',
-  router,
-  i18n,
-  store,
-  components: { App },
-  template: '<App/>'
-})

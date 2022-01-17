@@ -7,7 +7,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/', redirect: '/admin_userManager' },
+    //{ path: '/', redirect: '/admin_userManager' },
     {
       path: '/web',
       name: 'index',
@@ -24,17 +24,17 @@ export default new Router({
     },
     {
       path: '/404',
-      name: '/404',
+      name: '404',
       component: r => require.ensure([], () => r(require('@/components/404')), 'index'),
     },
     {//重定向中间件
-      path: '*',
+      path: '/',
       name: 'reset',
       beforeEnter: (to, from, next) => {
         let originUrl = localStorage.getItem('COM+');
         localStorage.removeItem('COM+');
         if (originUrl == null) {
-          next('/404');
+          next('/admin_userManager');
           return;
         }
         let ticketRegex = /\?ticket=([^#]+)#/;
@@ -45,10 +45,6 @@ export default new Router({
           axios({
             url: ticketHref,
             method: 'get',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + localStorage.getItem('BasicToken')
-            },
           })
             .then(x => {
 
@@ -66,12 +62,15 @@ export default new Router({
                 next(originUrl);
                 return;
               }
+            }).catch(err => {
+              next('/404');
             })
-
-          //fetch(ticketHref).then(x=>console.log(x));
         }
-        next('/404');
       }
     },
+    {
+      path: '*',
+      redirect: '/404',
+    }
   ]
 })
