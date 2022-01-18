@@ -91,7 +91,8 @@
                 <span class="font-w" slot="reference">···</span>
               </el-popover>
             </div>
-            <div :class="item.appWidget.widgetCode">
+            <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0].topCount}','sortType':'${item.appPlateItems[0].sortType}','id':'${item.appPlateItems[0].id}'}]`">
+            <!-- <div :class="item.appWidget.widgetCode"> -->
               <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
@@ -283,7 +284,7 @@ export default {
           this.applyIdList.push(data.appId);
           let parm = {
             appId: data.appId,
-            appPlateItems: [],
+            appPlateItems: [res.data.appColumn],
             appWidget: data,
             height: 39,
             id: '',
