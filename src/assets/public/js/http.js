@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import qs from 'qs'
 var token = 'Bearer ' + window.localStorage['token'];
-axios.defaults.timeout = 50000;
+axios.defaults.timeout = 20000;
 
 import api from '@/assets/public/js/api';
 // console.log(api.postUrl)
@@ -9,6 +9,20 @@ export default {
   postUrl: api.postUrl,
   error: function (msg) {
     console.error(msg);
+  },
+  responseOk: function (response, resolve, reject) {
+    const result = response.data;
+    if (result.statusCode == 200) {
+      resolve(result);
+    } else if (result.statusCode == 400) {
+      Vue.prototype.$message({ type: 'error', message: result.errors });
+    } else {
+      this.error(result.errors);
+      reject(result);
+    }
+  },
+  responseError: function (err, resolve, reject) {
+    reject(err);
   },
   //不带token的get方法  --- json
   noGet: function (url, data) {
@@ -21,15 +35,9 @@ export default {
           'Content-Type': 'application/json'
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -44,16 +52,9 @@ export default {
           'Content-Type': 'application/json'
         },
       }).then(response => {
-        const result = response.data;
-
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -66,18 +67,12 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -90,18 +85,12 @@ export default {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -115,20 +104,11 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          
         },
       }).then(response => {
-
-        const result = response.data;
-
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -141,19 +121,12 @@ export default {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          
-        },
-      }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
 
-          this.error(result.errors);
-          reject(result);
-        }
+        },
+      }).then(response => {
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -171,18 +144,12 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -200,18 +167,12 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -222,18 +183,12 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'text/plain',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -246,18 +201,12 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -269,18 +218,12 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -292,18 +235,12 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -315,18 +252,12 @@ export default {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
@@ -340,26 +271,20 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data',
-          
+
         },
       }).then(response => {
-        const result = response.data;
-        if (result.statusCode == 200) {
-          resolve(result);
-        } else {
-          this.error(result.errors);
-          reject(result);
-        }
+        this.responseOk(response, resolve, reject);
       }).catch(err => {
-        reject(err);
+        this.responseError(err, resolve, reject);
       });
     });
   },
   linkTo: function (url) {
     window.location.href = this.postUrl[url];
   },
-   // 下载文件  文件流-转为excel
-   importFile: function (url, data = {}, name = '用户数据模板') {
+  // 下载文件  文件流-转为excel
+  importFile: function (url, data = {}, name = '用户数据模板') {
     return new Promise((resolve, reject) => {
       axios({
         url: this.postUrl[url],
@@ -367,7 +292,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          
+
         },
         responseType: 'blob' // 表明返回服务器返回的数据类型
       }).then(response => {

@@ -10,7 +10,7 @@
             <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
           </div>
           <div class="top-content">
-            <div class="avatar"><img :src="imgPath+form.photo" alt=""></div>
+            <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
             <div class="name">
               <span class="text">{{form.name}}</span>
               <!-- <span class="leave">LV8</span> -->
@@ -50,14 +50,14 @@
             <div class="app-content">
               <div class="re-box">
                 <div class="app-box">
-                  <div class="app" v-for="(item,index) in appList" :key="item.appId" v-if="index<4"><img :src="item.appIcon" alt=""></div>
+                  <div class="app" v-for="(item,index) in appList" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
                 </div>
                 <p class="title-name">应用中心</p>
               </div>
               <div class="item-box">
                 <div class="app-item" v-for="item in appList" :key="item.appId">
                   <div class="app">
-                    <img :src="item.appIcon" alt="">
+                    <img :src="imgUrl+item.appIcon" alt="">
                   </div>
                   <p class="title-name">{{item.appName}}</p>
                 </div>
@@ -134,7 +134,7 @@ export default {
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
       applyIdList: [],//模板appid列表
-      imgPath: process.env.VUE_APP_IMG_URL,//图片域名
+      imgUrl: process.env.VUE_APP_IMG_URL,//图片域名
       setTime: timeFormat,
     }
   },
