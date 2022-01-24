@@ -120,7 +120,7 @@ export default {
       activeName: "first",
       showToStaff: true,
 
-      imgPath:process.env.VUE_APP_IMG_URL,//图片域名前缀
+      imgPath:localStorage.getItem('fileUrl'),//图片域名前缀
     }
   },
   mounted() {
@@ -197,7 +197,7 @@ export default {
     imgUrl(imgList) {
       console.log(imgList)
       this.dialogUPimg = false;
-      this.iconUrl = process.env.VUE_APP_IMG_URL + imgList[0];
+      this.iconUrl = localStorage.getItem('fileUrl') + imgList[0];
       this.postForm.photo = imgList[0];
     },
     //图片上传-弹窗关闭

@@ -175,7 +175,7 @@ export default {
         ]
       },
       addrList: [],
-      uploadUrl: process.env.VUE_APP_IMG_URL + 'api/file/upload-file',
+      uploadUrl: localStorage.getItem('fileUrl') + '/api/file/upload-file',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] },
       fileList: [],
     }
@@ -270,7 +270,7 @@ export default {
     },
     // 下载附件
     downloadFile(url) {
-      window.open(process.env.VUE_APP_IMG_URL + url);
+      window.open(localStorage.getItem('fileUrl') + url);
     },
     refChangeCardSecret(val) {
       var userId = val || '';

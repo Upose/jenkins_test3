@@ -83,7 +83,7 @@ export default {
     return {
       form: {},
       dataKey: null,
-      imgPath: process.env.VUE_APP_IMG_URL,
+      imgPath: localStorage.getItem('fileUrl'),
       addrList: [],
       updateReaderInfo: false,
     };

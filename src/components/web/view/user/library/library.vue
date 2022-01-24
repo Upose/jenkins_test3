@@ -134,7 +134,7 @@ export default {
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
       applyIdList: [],//模板appid列表
-      imgUrl: process.env.VUE_APP_IMG_URL,//图片域名
+      imgUrl: localStorage.getItem('fileUrl'),//图片域名
       setTime: timeFormat,
     }
   },

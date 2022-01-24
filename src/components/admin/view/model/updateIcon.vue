@@ -49,11 +49,11 @@ export default {
       dialogSelectimg: false,
       iconList: [],//默认图标列表
 
-      imgPath:process.env.VUE_APP_IMG_URL,//图片域名前缀
+      imgPath:localStorage.getItem('fileUrl'),//图片域名前缀
     }
   },
   created() {
-    console.log(process.env.VUE_APP_IMG_URL)
+    console.log(localStorage.getItem('fileUrl'))
   },
   mounted() {
 
@@ -91,7 +91,7 @@ export default {
     imgUrl(imgList) {
       // console.log(imgList)
       this.dialogUPimg = false;
-      this.iconUrl = process.env.VUE_APP_IMG_URL + imgList[0];
+      this.iconUrl = localStorage.getItem('fileUrl') + imgList[0];
       this.$emit('coverUrl', imgList[0]);
     },
     //图片上传-弹窗关闭

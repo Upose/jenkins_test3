@@ -6,7 +6,7 @@
     <div class="content-warp">
       <router-view></router-view>
     </div>
-    <div class="footer_sys_temp1">
+    <div :class="footerTemplateCode">
       <div id="zt_footer_sys"></div>
     </div>
     <!-- <div class="template-warp">
