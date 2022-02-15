@@ -7,7 +7,7 @@ var baseURL1 = process.env.VUE_APP_BASE_API + 'appcenter';//请求前端地址 �
 
 export default {
     postUrl: {
-        'forward-getmycollectionapps': baseURL1 + '/api/userapplication/getmycollectionapps',//获取我的收藏应用
+        'forward-getmycollectionapps': baseURL1 + '/api/baseinfo/getmycollectionapps',//获取我的收藏应用
 
         'forward-scene-detail': baseURL + '/api/scene-manage/scene-detail',//获取场景详情
         'forward-personal-scene-detail': baseURL + '/api/scene/personal-scene-detail',//获取当前用户的个人中心场景

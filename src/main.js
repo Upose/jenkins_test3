@@ -29,13 +29,12 @@ const i18n = new VueI18n({
   }
 })
 // 获取文件站点域名
-if (!localStorage.getItem('fileUrl')) {
-  http.getJson('getbaseinfo').then(res => {
-    localStorage.setItem('fileUrl', res.data.orgInfo.fileUrl);
-  }).catch(err => {
-    this.$message({ type: 'error', message: '获取初始数据失败!' });
-  });
-}
+http.getJson('getbaseinfo').then(res => {
+  localStorage.setItem('fileUrl', res.data.orgInfo.fileUrl);
+}).catch(err => {
+  this.$message({ type: 'error', message: '获取初始数据失败!' });
+});
+
 
 let timer = setInterval(() => {
   if (axios && axios.defaults && axios.defaults.loaded) {

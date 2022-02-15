@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <!-- <header class="header"></header> -->
     <div class="content-box" :class="isEdit?'no-background':''">
-      <div class="content">
+      <div class="lib-content">
         <div v-if="!isEdit">
           <div class="top-right">
-            <span class="item"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
+            <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
             <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
             <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
           </div>
@@ -45,24 +44,24 @@
           <div class="apply">
             <div class="title-box">
               <span class="left">我的应用</span>
-              <span class="right">应用中心</span>
+              <span class="right" @click="linkTo(appData.appCenterRouteCode)">应用中心</span>
             </div>
             <div class="app-content">
               <div class="re-box">
                 <div class="app-box">
-                  <div class="app" v-for="(item,index) in appList" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
+                  <div class="app" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
                 </div>
                 <p class="title-name">应用中心</p>
               </div>
               <div class="item-box">
-                <div class="app-item" v-for="item in appList" :key="item.appId">
+                <div class="app-item" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<6" @click="linkTo(item.frontUrl)">
                   <div class="app">
                     <img :src="imgUrl+item.appIcon" alt="">
                   </div>
                   <p class="title-name">{{item.appName}}</p>
                 </div>
               </div>
-              <span class="right-arr">
+              <span class="right-arr" @click="linkTo(appData.myAppRouteCode)">
                 <i class="el-icon-arrow-right"></i>
                 <p>更多</p>
               </span>
@@ -92,7 +91,7 @@
               </el-popover>
             </div>
             <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0].topCount}','sortType':'${item.appPlateItems[0].sortType}','id':'${item.appPlateItems[0].id}'}]`">
-            <!-- <div :class="item.appWidget.widgetCode"> -->
+              <!-- <div :class="item.appWidget.widgetCode"> -->
               <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
@@ -124,12 +123,15 @@ export default {
   components: { dialog_card },
   data() {
     return {
+      baseUrl:process.env.VUE_APP_BASE_API,
+
+
       isEdit: false,//是否编辑状态
       dataKey: null,//键值对数据
       form: {},//读者信息
       cardList: [],//读者卡信息
       principal: {},//主卡
-      appList: [],//我的应用列表
+      appData: [],//我的应用列表
       tempParm: {},//模板总数据
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
@@ -186,7 +188,7 @@ export default {
     // 获取我的应用
     getMyApp() {
       this.http.getJson('forward-getmycollectionapps').then((res) => {
-        this.appList = res.data;
+        this.appData = res.data;
       }).catch((err) => {
         this.$message({ type: "error", message: "获取应用信息失败!" });
       });
@@ -208,7 +210,7 @@ export default {
     },
     // 获取应用列表
     getApplyList() {
-      this.http.getJsonSelf('forward-personal-app-list',`/1`).then((res) => {
+      this.http.getJsonSelf('forward-personal-app-list', `/1`).then((res) => {
         this.applyList = res.data;
       }).catch((err) => {
         this.$message({ type: "error", message: "获取应用信息失败!" });
@@ -260,9 +262,9 @@ export default {
         // console.log(elid);
         let obj = list.find(item => (item.appId == elid));
         obj.yIndex = i;
-        if ((i+1) % 2 == 0) {
+        if ((i + 1) % 2 == 0) {
           obj.xIndex = 1;
-        }else{
+        } else {
           obj.xIndex = 0;
         }
         parmList.push(obj);
@@ -270,7 +272,7 @@ export default {
       // console.log(parmList);
       let parm = this.tempParm;
       parm.sceneScreens[0].sceneApps = parmList;
-      this.http.postJson('forward-save-personal-scene',parm).then((res) => {
+      this.http.postJson('forward-save-personal-scene', parm).then((res) => {
         this.$message({ type: "success", message: "保存设置成功!" });
       }).catch((err) => {
         this.$message({ type: "error", message: "保存设置失败!" });
@@ -353,6 +355,9 @@ export default {
         } //onEnd
       });
     },
+    linkTo(url){
+      window.location.href = url;
+    }
   }
 }
 </script>
@@ -377,12 +382,11 @@ export default {
   width: 100%;
   background: url("../../../../../assets/web/img/l-bg.png") no-repeat #eeeeee;
   padding-bottom: 80px;
-  .content {
+  .lib-content {
     width: 1200px;
     margin: 0 auto;
     position: relative;
     padding-top: 24px;
-    overflow: hidden;
   }
 }
 .no-background {
@@ -609,7 +613,7 @@ export default {
       width: 24px;
       height: 24px;
       border-radius: 8px;
-      background: #e3f2ff;
+      // background: #e3f2ff;
       display: inline-block;
       img {
         width: 100%;
@@ -620,17 +624,33 @@ export default {
   .title-name {
     margin-top: 8px;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .item-box {
     width: 930px;
     display: flex;
     .app-item {
-      margin-right: 62px;
+      width: 80px;
+      margin: 0 20px;
+      cursor: pointer;
+      &:hover{
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
       .app {
         width: 62px;
         height: 62px;
         border-radius: 16px;
-        background: #e3f2ff;
+        margin: 0 auto;
+        img{
+          width: 100%;
+          height: 100%;
+        }
+        // background: #e3f2ff;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
       }
     }
   }
@@ -651,6 +671,7 @@ export default {
 }
 .all-temp-box {
   margin-top: 24px;
+  overflow: hidden;
 }
 .tmp-box {
   width: 588px;
