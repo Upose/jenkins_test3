@@ -286,7 +286,8 @@ export default {
           this.applyIdList.push(data.appId);
           let parm = {
             appId: data.appId,
-            appPlateItems: [res.data.appColumn],
+            parentSceneAppId:data.appColumn.parentSceneAppId,
+            appPlateItems: [data.appColumn],
             appWidget: data,
             height: 39,
             id: '',
