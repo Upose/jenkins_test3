@@ -41,12 +41,12 @@
         </el-table-column>
         <el-table-column prop="content" label="操作" width="160" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="scope.row.status == 0&&isAuth('approve:readerApprove')">审核</el-button>
+            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-edit-outline" round v-if="scope.row.status == 0&&isAuth('approve:readerApprove')">审核</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="content" label="详细日志" width="160" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('approve:readerDetail')">详细记录</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-view" round v-if="isAuth('approve:readerDetail')">详细记录</el-button>
           </template>
         </el-table-column>
       </el-table>

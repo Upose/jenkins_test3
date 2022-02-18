@@ -25,7 +25,7 @@
         </el-table-column>
         <el-table-column prop="content" label="操作日志">
           <template slot-scope="scope">
-            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-edit" round>查看日志</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-view" round>查看日志</el-button>
           </template>
         </el-table-column>
       </el-table>

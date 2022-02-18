@@ -45,11 +45,10 @@
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('userGroup:delete')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('userGroup:update')">编辑</el-button>
-                    <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('userGroup:userList')">用户列表</el-button>
+                    <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-tickets" round v-if="isAuth('userGroup:userList')">用户列表</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->
                   </template>
                 </el-table-column>
-
               </el-table>
               <!--<el-button size="small" class="default-btn-n-border next-btn">下一页</el-button>-->
               <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
