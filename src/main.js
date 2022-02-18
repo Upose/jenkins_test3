@@ -2,8 +2,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import '@/assets/public/font/iconfont/iconfont.css'
-
 import store from './router/store'
 import Debounce from '@/assets/public/js/debounce'
 import http from '@/assets/public/js/http';

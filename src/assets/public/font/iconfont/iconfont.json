@@ -2,7 +2,7 @@
   "id": "3145988",
   "name": "智图3.0后台管理",
   "font_family": "iconfont",
-  "css_prefix_text": "vip-",
+  "css_prefix_text": "el-icon-vip-",
   "description": "",
   "glyphs": [
     {
