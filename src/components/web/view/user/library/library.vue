@@ -549,6 +549,7 @@ export default {
     }
     .app-select {
       border-color: #458dda;
+      color: #458dda;
       position: relative;
 
       &::after {

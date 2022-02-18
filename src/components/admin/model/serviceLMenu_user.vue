@@ -48,7 +48,11 @@ export default {
     }
   },
   created() {
-    this.getAuth();
+    if (this.$store.getters.authList && this.$store.getters.authList.length > 0) {
+      this.auth = this.$store.getters.authList;
+    }else{
+      this.getAuth();
+    }
   },
   methods: {
     getAuth() {
