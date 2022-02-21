@@ -2,8 +2,8 @@
   <div>
     <div class="m-title search-term-table">
       <el-input placeholder="馆员名称" size="medium" v-model="postForm.name" class="width136" clearable></el-input>
-      <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
-      <!-- <el-button type="primary" size="medium" icon="el-icon-search" @click="handleAdd">新增馆员</el-button> -->
+      <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+      <!-- <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleAdd">新增馆员</el-button> -->
     </div>
 
     <div class="t-p">

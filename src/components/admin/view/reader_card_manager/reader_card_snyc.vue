@@ -17,7 +17,7 @@
             <h2 class="m-title">
               <!-- <div class="search-term" style="float:left">
                 <el-input v-model="postForm.Name" placeholder="姓名" style="width:180px" clearable></el-input>
-                <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
+                <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div> -->
               <div class="r-btn">
                 <el-button type="primary" size="medium" @click="$refs.dialog_set.show()">同步配置</el-button>
