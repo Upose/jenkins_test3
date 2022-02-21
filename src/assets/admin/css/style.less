@@ -1,5 +1,4 @@
 @charset "UTF-8";
-// @import url(./elementui-theme/index.css);
 html,
 body {
   margin: 0;
@@ -43,6 +42,7 @@ body,
   top: 0;
   bottom: 0;
   overflow-y: auto;
+  z-index: 15;
   transition: left 0.3s ease-in-out;
 }
 
@@ -50,22 +50,24 @@ body,
   padding: 0;
 }
 
-.el-aside {
-  position: relative;
+// .el-aside {
+//   position: relative;
+//   .header-warp{
+//     width: 245px;
+//   }
+//   &::after {
+//     content: "";
+//     right: 8px;
+//     top: 5px;
+//     bottom: 0;
+//     width: 8px;
+//     z-index: 8;
+//     position: absolute;
+//     box-shadow: 4px 0px 8px rgba(0, 0, 0, 0.03);
+//   }
 
-  &::after {
-    content: "";
-    right: 8px;
-    top: 5px;
-    bottom: 0;
-    width: 8px;
-    z-index: 8;
-    position: absolute;
-    box-shadow: 4px 0px 8px rgba(0, 0, 0, 0.03);
-  }
-
-  z-index: 9;
-}
+//   z-index: 9;
+// }
 
 .fold-menu {
   &::after {
@@ -953,4 +955,7 @@ iframe {
       border-color: @fff;
     }
   }
+}
+.iconfont{
+  font-size:inherit;
 }
