@@ -5,7 +5,7 @@
        url('iconfont.ttf?t=1645175173722') format('truetype');
 }
 
-[class^="el-icon-vip-"],[class*="el-icon-vip-"] {
+.iconfont {
   font-family: "iconfont" !important;
   /* font-size: 14px; */
   font-style: normal;

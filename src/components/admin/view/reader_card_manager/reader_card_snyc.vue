@@ -43,7 +43,7 @@
                 <!-- <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column> -->
                 <el-table-column prop="content" label="同步结果" width="140">
                   <template slot-scope="scope">
-                    <el-button @click="handleDetail(scope.row)" type="text" size="mini" icon="el-icon-vip-yulan" round>查看</el-button>
+                    <el-button @click="handleDetail(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>

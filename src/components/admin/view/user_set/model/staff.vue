@@ -31,7 +31,7 @@
         <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <!-- <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button> -->
-            <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="isAuth('setting:staffRoleSet')">修改角色</el-button>
+            <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('setting:staffRoleSet')">修改角色</el-button>
           </template>
         </el-table-column>
       </el-table>

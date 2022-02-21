@@ -190,8 +190,8 @@
               </el-form>
             </div>
             <div class="btn_box">
-              <el-button type="info"  plain @click="$router.back()" icon="el-icon-vip-quxiao">取消</el-button>
-              <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1"> 保存</el-button>
+              <el-button type="info"  plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1"> 保存</el-button>
             </div>
           </div>
         </div>

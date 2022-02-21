@@ -43,8 +43,8 @@
                 <el-switch v-model="postForm.unique"></el-switch>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-vip-chushi" size="medium" @click="reset">重置</el-button>
-                <el-button icon="el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm">保存</el-button>
+                <el-button icon="iconfont el-icon-vip-chushi" size="medium" @click="reset">重置</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm">保存</el-button>
               </el-form-item>
             </div>
           </el-form>

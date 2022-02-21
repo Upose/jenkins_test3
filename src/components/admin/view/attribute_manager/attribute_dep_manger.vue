@@ -44,13 +44,13 @@
                   <template slot-scope="scope">
                     <template>
                       <!-- 正常按钮 -->
-                      <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-vip-shanchu-1" class="operate-red-btn" round v-show="!scope.row.new">删除</el-button>
-                      <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-show="!scope.row.edit&&!scope.row.new">编辑</el-button>
-                      <el-button @click="handleSub(scope.row)" type="text" size="mini" icon="el-icon-vip-wancheng" round v-show="scope.row.edit&&!scope.row.new">确定</el-button>
-                      <el-button @click="handleAddChild(scope.row)" type="text" size="mini" icon="el-icon-vip-tianjia2" round v-show="!scope.row.edit&&!scope.row.new">新增子部门</el-button>
+                      <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-show="!scope.row.new">删除</el-button>
+                      <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-show="!scope.row.edit&&!scope.row.new">编辑</el-button>
+                      <el-button @click="handleSub(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-wancheng" round v-show="scope.row.edit&&!scope.row.new">确定</el-button>
+                      <el-button @click="handleAddChild(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-tianjia2" round v-show="!scope.row.edit&&!scope.row.new">新增子部门</el-button>
                       <!-- 新增时按钮 -->
                       <!-- <el-button class="operate-red-btn" @click="handleCancalAdd(scope.row)" type="text" size="mini" icon="el-icon-minus" round v-show="scope.row.new">取消新增</el-button> -->
-                      <el-button @click="handleAdd(scope.row)" type="text" size="mini" icon="el-icon-vip-wancheng" round v-show="scope.row.new">确认新增</el-button>
+                      <el-button @click="handleAdd(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-wancheng" round v-show="scope.row.new">确认新增</el-button>
                     </template>
                     <!-- <template v-else>系统内置</template> -->
                   </template>

@@ -157,7 +157,7 @@
         </el-form-item>
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保存</el-button>
       </div>
     </div>
     <div class="reader-right">
@@ -196,8 +196,8 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editVisible = false" icon="el-icon-vip-quxiao">取消</el-button>
-        <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保存</el-button>
+        <el-button @click="editVisible = false" icon="iconfont el-icon-vip-quxiao">取消</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保存</el-button>
       </span>
     </el-dialog>
   </div>

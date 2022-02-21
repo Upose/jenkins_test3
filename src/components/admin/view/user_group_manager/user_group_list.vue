@@ -43,8 +43,8 @@
                 </el-table-column>
                 <el-table-column prop="content" label="操作" width="300">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('userGroup:delete')">删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="isAuth('userGroup:update')">编辑</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('userGroup:delete')">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('userGroup:update')">编辑</el-button>
                     <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-tickets" round v-if="isAuth('userGroup:userList')">用户列表</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->
                   </template>

@@ -37,12 +37,12 @@
         </el-table-column>
         <el-table-column prop="content" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="scope.row.status == 0&&isAuth('approve:cardClaimApprove')">审核</el-button>
+            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="scope.row.status == 0&&isAuth('approve:cardClaimApprove')">审核</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="content" label="详细日志">
           <template slot-scope="scope">
-            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-vip-yulan" round v-if="isAuth('approve:cardClaimDetail')">详细记录</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('approve:cardClaimDetail')">详细记录</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -129,7 +129,7 @@
         </el-form-item>
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保 存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保 存</el-button>
       </div>
     </div>
     <div class="reader-right">

@@ -166,8 +166,8 @@
 
               </el-form-item>
               <el-form-item>
-                <el-button size="medium" @click="reset" icon="el-icon-vip-chushi">重 置</el-button>
-                <el-button icon="el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun">保 存</el-button>
+                <el-button size="medium" @click="reset" icon="iconfont el-icon-vip-chushi">重 置</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun">保 存</el-button>
               </el-form-item>
             </el-form>
           </div>

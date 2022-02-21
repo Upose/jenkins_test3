@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="certificate-title">
-      <el-button type="primary" class="serach-btn" @click="handleAdd" icon="el-icon-vip-tianjia2">添加卡片</el-button>
+      <el-button type="primary" class="serach-btn" @click="handleAdd" icon="iconfont el-icon-vip-tianjia2">添加卡片</el-button>
     </div>
     <div class="certificate-box" v-for="(item,index) in tableData" :key="index">
       <div class="certificate-box-top">
@@ -9,9 +9,9 @@
         <span class="status">{{getKeyValue(item.status)}}</span>
         <span class="times">有效期：{{dateChangeFormat(item.expireDate)}}</span>
         <span class="card" v-if="item.isPrincipal">主卡</span>
-        <el-button class="caozuo" @click="handleEditPass(item)" v-if="isAuth('card:setSecret')" icon="el-icon-vip-bianji">修改密码</el-button>
-        <el-button class="caozuo" @click="handleResetPass(item)" v-if="isAuth('card:setSecret')" icon="el-icon-vip-chushi">重置密码</el-button>
-        <el-button class="caozuo" @click="handleLook(item)" icon="el-icon-vip-yulan">查看</el-button>
+        <el-button class="caozuo" @click="handleEditPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-bianji">修改密码</el-button>
+        <el-button class="caozuo" @click="handleResetPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-chushi">重置密码</el-button>
+        <el-button class="caozuo" @click="handleLook(item)" icon="iconfont el-icon-vip-yulan">查看</el-button>
         <el-button class="caozuo" @click="shouqi(index,'tableData')">
           <i class="el-icon-arrow-up" v-if="item.showBox"></i><span v-if="item.showBox">收起</span>
           <i class="el-icon-arrow-down" v-if="item.showBox==false"></i><span v-if="item.showBox==false">展开</span>

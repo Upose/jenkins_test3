@@ -6,8 +6,8 @@
       </el-form-item>
     </el-form>
     <div slot="footer">
-      <el-button @click="dialogVisible = false" icon="el-icon-vip-quxiao">取 消</el-button>
-      <el-button type="primary" @click="sub" icon="el-icon-vip-baocun1">保 存</el-button>
+      <el-button @click="dialogVisible = false" icon="iconfont el-icon-vip-quxiao">取 消</el-button>
+      <el-button type="primary" @click="sub" icon="iconfont el-icon-vip-baocun1">保 存</el-button>
     </div>
   </el-dialog>
 </template>
