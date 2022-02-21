@@ -31,8 +31,8 @@
                 </el-tree>
               </el-form-item>
               <el-form-item>
-                <el-button icon="el-icon-close" size="medium" @click="reset">重置</el-button>
-                <el-button icon="el-icon-check" size="medium" type="primary" @click="submitForm">保存</el-button>
+                <el-button icon="el-icon-vip-chushi" size="medium" @click="reset">重 置</el-button>
+                <el-button icon="el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm">保 存</el-button>
               </el-form-item>
             </el-form>
           </div>

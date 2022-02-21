@@ -10,7 +10,7 @@
           </el-input>
         </div>
         <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
-        <el-button type="primary" size="medium" icon="el-icon-plus" @click="handleAdd">添加馆员</el-button>
+        <el-button type="primary" size="medium" icon="el-icon-vip-tianjia2" @click="handleAdd">添加馆员</el-button>
       </div>
     </div>
 
@@ -35,7 +35,7 @@
         </el-table-column>
         <el-table-column label="操作" width="120" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>移除</el-button>
+            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-vip-shanchu-1" class="operate-red-btn" round>移除</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -157,10 +157,7 @@
         </el-form-item>
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm">
-          <!-- <img src="@/assets/admin/img/userManager/icon-bc2x.png" /> -->
-          <span>保存</span>
-        </el-button>
+        <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保存</el-button>
       </div>
     </div>
     <div class="reader-right">
@@ -199,14 +196,8 @@
         </div>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="editVisible = false" class="btns quxiao">
-          <img src="@/assets/admin/img/userManager/quxiao.png" />
-          <span>取消</span>
-        </el-button>
-        <el-button type="primary" @click="submitForm" class="btns">
-          <img src="@/assets/admin/img/userManager/icon-bc2x.png" />
-          <span>保存</span>
-        </el-button>
+        <el-button @click="editVisible = false" icon="el-icon-vip-quxiao">取消</el-button>
+        <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保存</el-button>
       </span>
     </el-dialog>
   </div>

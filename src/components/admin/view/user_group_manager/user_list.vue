@@ -82,7 +82,7 @@
                 </el-table-column> -->
                 <el-table-column prop="content" label="操作" width="260">
                   <template slot-scope="scope">
-                    <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="el-icon-edit" round>查看</el-button>
+                    <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="el-icon-vip-yulan" round>查看</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->
                   </template>
                 </el-table-column>

@@ -30,10 +30,7 @@
                   </el-select>
                 </el-input>
               </div>
-              <el-button type="primary" class="searchs" @click="handSearch">
-                <i class="el-icon-search"></i>
-                <span>查找</span>
-              </el-button>
+              <el-button type="primary" class="searchs" @click="handSearch" icon="el-icon-search">查找</el-button>
             </div>
             <!-- <el-input class="handle-input duzhe" v-model="name" placeholder="馆员姓名" clearable></el-input> -->
 
@@ -60,8 +57,8 @@
               </el-table-column>
               <el-table-column label="操作" width="200">
                 <template slot-scope="scope">
-                  <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('staff:delete')">删除</el-button>
-                  <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('staff:detail')">查看</el-button>
+                  <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('staff:delete')">删除</el-button>
+                  <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="isAuth('staff:detail')">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>

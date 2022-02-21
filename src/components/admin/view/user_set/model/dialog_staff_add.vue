@@ -37,7 +37,7 @@
       <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
     </div>
     <div slot="footer">
-      <el-button type="primary" @click="submitForm">确 定</el-button>
+      <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保 存</el-button>
     </div>
   </el-dialog>
 </template>

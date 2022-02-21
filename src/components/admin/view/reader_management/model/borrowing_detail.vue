@@ -15,7 +15,7 @@
         <el-input v-model="postForm.collectPlace" placeholder="馆藏地" class="w150"></el-input>
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" placeholder="归还时间" class="w150"></el-date-picker>
-        <el-button type="primary" @click="getList">查找</el-button>
+        <el-button type="primary" @click="getList" icon="el-icon-search">查找</el-button>
       </div>
     </div>
     <div class="login-list">

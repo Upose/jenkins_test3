@@ -19,13 +19,13 @@
         <el-table-column prop="content" label="操作" align="center">
           <template slot-scope="scope">
             <!-- <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button> -->
-            <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('propertyGroup:edit')">编辑</el-button>
+            <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="isAuth('propertyGroup:edit')">编辑</el-button>
             <!-- <el-button @click="handleEditGroup(scope.row)" type="text" size="mini" icon="el-icon-edit" v-if="scope.row.type == 3" round>编辑属性组</el-button> -->
           </template>
         </el-table-column>
         <el-table-column prop="content" label="操作日志" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-edit" round>查看日志</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="el-icon-vip-yulan" round>查看日志</el-button>
           </template>
         </el-table-column>
       </el-table>

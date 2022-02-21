@@ -3,7 +3,7 @@
     <div class="m-title search-term-table">
       <el-input placeholder="角色名称" size="medium" v-model="postForm.keyword" class="width136" clearable></el-input>
       <el-button type="primary" size="medium" icon="el-icon-search" @click="handSearch">查找</el-button>
-      <el-button type="primary" size="medium" icon="el-icon-search" @click="handleAdd">新增角色</el-button>
+      <el-button type="primary" size="medium" icon="el-icon-vip-tianjia2" @click="handleAdd">新增角色</el-button>
     </div>
 
     <div class="t-p">
@@ -19,9 +19,9 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:roleDelete')">删除</el-button>
-            <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="el-icon-edit" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:rolePermissionSet')">编辑权限</el-button>
-            <el-button @click="handleEditStaff(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('setting:roleStaffSet')">编辑馆员</el-button>
+            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-vip-shanchu-1" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:roleDelete')">删除</el-button>
+            <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:rolePermissionSet')">编辑权限</el-button>
+            <el-button @click="handleEditStaff(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="isAuth('setting:roleStaffSet')">编辑馆员</el-button>
           </template>
         </el-table-column>
       </el-table>

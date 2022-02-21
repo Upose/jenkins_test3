@@ -129,10 +129,7 @@
         </el-form-item>
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm">
-          <!-- <img src="@/assets/admin/img/userManager/icon-bc2x.png" /> -->
-          <span>保存</span>
-        </el-button>
+        <el-button type="primary" @click="submitForm" icon="el-icon-vip-baocun1">保 存</el-button>
       </div>
     </div>
     <div class="reader-right">

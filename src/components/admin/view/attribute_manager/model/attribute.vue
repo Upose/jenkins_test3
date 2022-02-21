@@ -53,10 +53,10 @@
           <template slot-scope="scope">
             <div v-if="scope.row.approveStatus == 1">
               <template v-if="!scope.row.sysBuildIn">
-                <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round v-if="isAuth('property:delete')">删除</el-button>
-                <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="isAuth('property:update')">编辑</el-button>
+                <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('property:delete')">删除</el-button>
+                <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" round v-if="isAuth('property:update')">编辑</el-button>
               </template>
-              <el-button @click="handleEditGroup(scope.row)" type="text" size="mini" icon="el-icon-edit" v-if="scope.row.type == 4&&isAuth('propertyGroup:edit')" round>编辑属性组</el-button>
+              <el-button @click="handleEditGroup(scope.row)" type="text" size="mini" icon="el-icon-vip-bianji" v-if="scope.row.type == 4&&isAuth('propertyGroup:edit')" round>编辑属性组</el-button>
             </div>
             <span v-else>
               审批中...
