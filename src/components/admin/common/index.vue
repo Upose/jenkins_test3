@@ -23,7 +23,7 @@ export default {
 
 <style lang="less">
 @import "../../../assets/admin/css/elementui-theme/index.css";//elementui自定义主题样式
-@import '../../../assets/admin/font/iconfont/iconfont.css';
+@import '../../../assets/admin/font/iconfont.css';
 @import "../../../assets/admin/css/color.less";
 @import "../../../assets/admin/css/style.less";
 @import "../../../assets/admin/css/table.less";
