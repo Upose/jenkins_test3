@@ -3,48 +3,25 @@
   <div class="header-warp">
     <div class="m-menu">
       <div class="m-text">
-        <span class="m">用户管理</span>
+        <span class="m">用户中心</span>
         <span class="v">v1.0.0</span>
       </div>
     </div>
     <div class="s-menu">
       <div class="s-row" :class="isActive(item.router)?'active':''" :title="item.name" @click="openPage(item.router)" v-for="(item,index) in auth" :key="index+'menu'">
-        <i class="el-icon-s-ticket"></i>
+        <i class="iconfont el-icon-vip-daohanglanmu"></i>
         <span>{{item.name}}</span>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import bus from '@/assets/public/js/bus';
 export default {
   name: 'test',
-  // props: ['isActive'],
-  // created(){
-  //   // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-  //   bus.$on('collapse', msg => {
-  //     this.$root.collapse = msg;
-      // this.$forceUpdate();
-  //   })
-  // },
   data() {
     return {
       default_img: require('@/assets/admin/img/upload/user-img.png'),
-      dataList: [
-        { icon: 'el-icon-warning-outline', title: '用户管理', url: '/userManager' },
-        { icon: 'el-icon-warning-outline', title: '读者管理', url: '/readerList' },
-        { icon: 'el-icon-warning-outline', title: '馆员管理', url: '/librarianManagement' },
-        { icon: 'el-icon-warning-outline', title: '读者卡管理', url: '/readerCardList' },
-        { icon: 'el-icon-warning-outline', title: '属性管理', url: '/attributeList' },
-        { icon: 'el-icon-warning-outline', title: '用户组管理', url: '/userGroupList' },
-        { icon: 'el-icon-warning-outline', title: '变动审核', url: '/changeAudit' },
-        { icon: 'el-icon-warning-outline', title: '管理设置', url: '/userSet' },
-        // {icon:'el-icon-warning-outline',title:'登录设置',url:'/loginSettings'},
-      ],
-
-      auth: [],
-      curAuth: '/userManager',
+      auth:[]
     }
   },
   created() {
@@ -58,16 +35,10 @@ export default {
     getAuth() {
       this.http.getJson('user-permission-tree').then(res => {
         this.auth = res.data.permissionNodes;
-        this.$store.commit('setAuthList',res.data.permissionNodes);
+        this.$store.commit('setAuthList', res.data.permissionNodes);
       }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
+        this.$message({ type: 'error', message: '获取侧边栏数据失败!' });
       })
-    },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
     },
     openPage(url) {
       this.$router.push(url)
@@ -87,13 +58,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less"; /**颜色配置 */
-@import "../../../assets/admin/css/style.less";
-.m-menu {
+@import "../../../assets/admin/css/color.less";/**颜色配置 */
+.m-menu{
   padding-left: 20px;
   padding-top: 22px;
   padding-bottom: 22px;
-  .m-text {
+  .m-text{
     display: inline-block;
     vertical-align: middle;
     width: 200px;
@@ -101,34 +71,34 @@ export default {
     background: @F4F7FC;
     opacity: 1;
     border-radius: 8px;
-    position: relative;
+    position:relative;
     padding-left: 30px;
-    padding-top: 17px;
-    &::after {
-      content: "";
+    padding-top:17px;
+    &::after{
+      content: '';
       position: absolute;
       height: 40px;
       width: 2px;
       top: 17px;
-      background-color: @6677EF;
+      background-color:@6677EF;
     }
-    span {
+    span{
       display: block;
       color: @6677EF;
       padding-left: 16px;
     }
-    .m {
+    .m{
       font-size: 24px;
       font-weight: bold;
     }
-    .v {
+    .v{
       display: block;
       font-size: 12px;
     }
   }
 }
-.s-menu {
-  .s-row {
+.s-menu{
+  .s-row{
     height: 40px;
     line-height: 40px;
     font-size: 13px;
@@ -138,101 +108,101 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    i {
+    i{
       visibility: visible;
-      transition: visibility 0s 0.3s;
+      transition: visibility 0s .3s;
       margin-right: 8px;
     }
-    &:hover {
+    &:hover{
       cursor: pointer;
       width: 245px;
-      z-index: 9;
-      background: #ffffff;
+      z-index: 20;
+      background: #FFFFFF;
       position: relative;
       color: @6777EF !important;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
       border-radius: 0px 3px 3px 0px;
-      transition: width 0.3s ease-in-out;
-      &:after {
-        content: "";
+      transition: width .3s ease-in-out;
+      &:after{
+        content: '';
         display: block;
         width: 2px;
         height: 15px;
         position: absolute;
         right: 0;
-        top: 13px;
+        top:13px;
         background-color: @6777EF;
       }
     }
   }
-  .active {
+  .active{
     width: 245px;
-    z-index: 9;
-    background: #ffffff;
+    z-index: 20;
+    background: #FFFFFF;
     position: relative;
     color: @6777EF !important;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
     border-radius: 0px 3px 3px 0px;
-    transition: width 0.3s ease-in-out;
-    &:after {
-      content: "";
+    transition: width .3s ease-in-out;
+    &:after{
+      content: '';
       display: block;
       width: 2px;
       height: 15px;
       position: absolute;
-      right: 0;
-      top: 13px;
+      right: 0px;
+      top:13px;
       background-color: @6777EF;
     }
   }
 }
 /***折叠后菜单**/
-.fold-menu {
-  .s-row {
-    padding: 0;
+.fold-menu{
+  .s-row{
+    padding:0;
     font-size: 12px;
     font-weight: 400;
-    span {
+    span{
       width: 60px;
       display: inline-block;
       overflow: hidden;
       overflow: hidden;
-      text-overflow: ellipsis;
+      text-overflow:ellipsis;
       white-space: nowrap;
       margin-left: 10px;
     }
-    i {
+    i{
       margin-right: 0;
       display: none;
     }
-    &:hover {
+    &:hover{
       width: 80px;
-      transition: width 0.3s ease-in-out;
+      transition: width .3s ease-in-out;
     }
   }
-  .active {
-    width: 80px;
-    transition: width 0.3s ease-in-out;
+  .active{
+    width:80px;
+    transition: width .3s ease-in-out;
   }
-  .m-menu {
+  .m-menu{
     padding-left: 6px;
-    .m-text {
+    .m-text{
       width: 70px;
       height: 39px;
       padding-left: 0;
-      padding-top: 4px;
-      border-radius: 3px;
-      &::after {
+      padding-top:4px;
+      border-radius:3px;
+      &::after{
         height: 28px;
         top: 4px;
       }
-      span {
+      span{
         padding-left: 4px;
       }
-      .m {
+      .m{
         font-size: 13px;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow:ellipsis;
         white-space: nowrap;
       }
     }

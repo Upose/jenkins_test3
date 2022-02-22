@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3145988 */
-  src: url('iconfont.woff2?t=1645433447441') format('woff2'),
-       url('iconfont.woff?t=1645433447441') format('woff'),
-       url('iconfont.ttf?t=1645433447441') format('truetype');
+  src: url('iconfont.woff2?t=1645507938883') format('woff2'),
+       url('iconfont.woff?t=1645507938883') format('woff'),
+       url('iconfont.ttf?t=1645507938883') format('truetype');
 }
 
 .iconfont {
@@ -13,12 +13,32 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.el-icon-vip-switch-off:before {
-  content: "\e666";
+.el-icon-vip-shouqi:before {
+  content: "\e667";
 }
 
-.el-icon-vip-jianhao:before {
-  content: "\e667";
+.el-icon-vip-zhankai:before {
+  content: "\e670";
+}
+
+.el-icon-vip-shiyong:before {
+  content: "\e671";
+}
+
+.el-icon-vip-xinxi:before {
+  content: "\e672";
+}
+
+.el-icon-vip-guanli:before {
+  content: "\e673";
+}
+
+.el-icon-vip-jianhao1:before {
+  content: "\e66f";
+}
+
+.el-icon-vip-switch-off:before {
+  content: "\e666";
 }
 
 .el-icon-vip-off-min:before {
