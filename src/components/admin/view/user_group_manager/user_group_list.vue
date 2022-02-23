@@ -13,7 +13,7 @@
             <h1 class="search-title">用户组管理</h1>
             <div class="search-term" v-if="dataKey">
               <el-input v-model="postForm.keyWord" placeholder="用户组名称" style="width:180px"></el-input>
-              <el-date-picker v-model="postForm.CreateStartTime" type="date" placeholder="创建日期" style="width:180px" @change="postForm.CreateEndTime = postForm.CreateStartTime"></el-date-picker>
+              <el-date-picker v-model="date" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" style="width:280px" @change="postForm.CreateEndTime=date[1]; postForm.CreateStartTime=date[0]"></el-date-picker>
               <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
             </div>
           </div>
@@ -85,6 +85,7 @@ export default {
     return {
       dataKey: null,
       postForm: {},//列表查询参数
+      date: '',
       pageData: {
         pageIndex: 1,
         pageSize: 20,
@@ -97,12 +98,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_userGroupList'));
+      let curAuth = authList.find(item => (item.router == '/admin_userGroupList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     initData() {
       //   this.getSysAttr()
@@ -160,7 +161,7 @@ export default {
     handleSet(row) {
       if (row.sourceFrom == 0) {
         this.$router.push({ path: '/admin_ruleCreat', query: { id: row.id } })
-      }else{
+      } else {
         this.$router.push({ path: '/admin_handCreat', query: { id: row.id } })
       }
     },
@@ -188,8 +189,8 @@ export default {
       this.$router.push(path);
     },
     // 用户列表
-    handleUser(row){
-      this.$router.push({path:'/admin_userList',query:{id:row.id,sourceFrom:row.sourceFrom}})
+    handleUser(row) {
+      this.$router.push({ path: '/admin_userList', query: { id: row.id, sourceFrom: row.sourceFrom } })
     }
   },
 }

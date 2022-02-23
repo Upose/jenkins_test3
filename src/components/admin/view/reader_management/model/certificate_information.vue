@@ -68,9 +68,6 @@
         <span class="status">{{getKeyValue(item.status)}}</span>
         <span class="times">有效期：{{dateChangeFormat(item.expireDate)}}</span>
         <span class="card" v-if="item.isPrincipal">主卡</span>
-        <!-- <el-button class="caozuo" @click="handleEditPass(item)"><i class="el-icon-edit"></i><span>修改密码</span></el-button>
-        <el-button class="caozuo" @click="handleResetPass(item)"><img src="@/assets/admin/img/userManager/chongzhi.png" /><span>重置密码</span></el-button>
-        <el-button class="caozuo" @click="handleLook(item)"><i class="el-icon-view"></i><span>查看</span></el-button> -->
         <span>{{getKeyStatus(item.approveStatus)}}</span>
         <el-button class="caozuo" @click="shouqi(index,'logList')">
           <i class="el-icon-arrow-up" v-if="item.showBox"></i><span v-if="item.showBox">收起</span>

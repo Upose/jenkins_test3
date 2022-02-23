@@ -4,7 +4,7 @@
       <div class="librarianList-left">
         <div class="left-title">
           <span class="zhuzhi">组织架构</span>
-          <router-link class="xinzeng" :to="{path:'/attributeDepManager'}">新增</router-link>
+          <router-link class="xinzeng" :to="{path:'/admin_attributeDepManager'}">新增</router-link>
         </div>
         <div class="left-box">
           <el-tree :data="departList" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true"></el-tree>
