@@ -114,7 +114,7 @@ export default {
     vertical-align: middle;
     margin-left: 16px;
     i {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
   /**box-菜单**/
