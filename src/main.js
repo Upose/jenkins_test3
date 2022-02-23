@@ -34,31 +34,29 @@ const i18n = new VueI18n({
 let timer = setInterval(() => {
   if (axios && axios.defaults && axios.defaults.loaded) {
     clearInterval(timer);
-    if (axios && axios.defaults && axios.defaults.loaded) {
-      // 获取 应用基础信息 每隔十分钟更新一次信息
-      if (!localStorage.getItem('baseinfo_time_stamp') || (parseInt(localStorage.getItem('baseinfo_time_stamp')) + 10 * 60 * 1000) < new Date().getTime()) {
+    // 获取 应用基础信息 每隔十分钟更新一次信息
+    if (!localStorage.getItem('baseinfo_time_stamp') || (parseInt(localStorage.getItem('baseinfo_time_stamp')) + 10 * 60 * 1000) < new Date().getTime()) {
+      getbaseinfoFun();
+    } else {
+      if (localStorage.getItem('token') && !localStorage.getItem('userInfo')) {
         getbaseinfoFun();
-      } else {
-        if (localStorage.getItem('token') && !localStorage.getItem('userInfo')) {
-          getbaseinfoFun();
-        }
       }
-      function getbaseinfoFun() {
-        http.getJson('getbaseinfo').then(res => {
-          if (res.data) {
-            localStorage.setItem('fileUrl', res.data.orgInfo.fileUrl);
-            localStorage.setItem('headerFooterInfo', JSON.stringify(res.data.headerFooterInfo));
-            localStorage.setItem('orgInfo', JSON.stringify(res.data.orgInfo));
-            if (res.data && res.data.userInfo) {
-              localStorage.setItem('userInfo', JSON.stringify(res.data.userInfo));
-            }
-            localStorage.setItem('baseinfo_time_stamp', new Date().getTime());
+    }
+    function getbaseinfoFun() {
+      http.getJson('getbaseinfo').then(res => {
+        if (res.data) {
+          localStorage.setItem('fileUrl', res.data.orgInfo.fileUrl);
+          localStorage.setItem('headerFooterInfo', JSON.stringify(res.data.headerFooterInfo));
+          localStorage.setItem('orgInfo', JSON.stringify(res.data.orgInfo));
+          if (res.data && res.data.userInfo) {
+            localStorage.setItem('userInfo', JSON.stringify(res.data.userInfo));
           }
-        }).catch(err => {
-          alert('基础数据获取失败');
-          // this.$message({ type: 'error', message: '获取基础数据失败!' });
-        });
-      }
+          localStorage.setItem('baseinfo_time_stamp', new Date().getTime());
+        }
+      }).catch(err => {
+        alert('基础数据获取失败');
+        // this.$message({ type: 'error', message: '获取基础数据失败!' });
+      });
     }
     new Vue({
       el: '#zt_user_center_sys',

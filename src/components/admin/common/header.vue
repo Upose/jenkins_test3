@@ -10,7 +10,9 @@
       </el-tabs>
     </div>
     <div class="login-msg-warp">
-      <div class="u-img-w"><el-image class="u-img" v-if="userInfo" :src="fileUrl+userInfo.photo||default_img" :fit="'contain'"></el-image></div>
+      <div class="u-img-w">
+        <el-image class="u-img" v-if="userInfo" :src="fileUrl+userInfo.photo||default_img" :fit="'contain'"></el-image>
+      </div>
       <span class="u-name">{{userInfo.name||''}}</span>
       <i class="iconfont el-icon-vip-tuichu loginOut" title="退出登录" @click="outLogin()"></i>
     </div>
@@ -24,8 +26,8 @@ export default {
   name: 'test',
   data() {
     return {
-      userInfo:JSON.parse(window.localStorage.getItem('userInfo')||'{}'),
-      fileUrl:localStorage.getItem('fileUrl'),
+      userInfo: {},
+      fileUrl: localStorage.getItem('fileUrl'),
       activeName: 0,
       default_img: require('@/assets/admin/img/upload/user-img.png'),
       logoList: {
@@ -37,6 +39,7 @@ export default {
     }
   },
   created() {
+    this.userInfo = JSON.parse(window.localStorage.getItem('userInfo') || '{}');
     this.getHead();
   },
   methods: {
@@ -73,90 +76,90 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
+@import "../../../assets/admin/css/color.less"; /**颜色配置 */
 @import "../../../assets/admin/css/style.less";
-.header-warp{
+.header-warp {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
   color: @6C757D;
   height: 40px;
   z-index: 25;
   position: relative;
   background-color: @fff;
-  a{
+  a {
     color: @6C757D;
   }
-  .logo-w{
+  .logo-w {
     vertical-align: middle;
     display: inline-block;
-    padding:0 10px;
+    padding: 0 10px;
     width: 240px;
     height: 100%;
-    transition: width .3s ease-in-out;
-    a{
+    transition: width 0.3s ease-in-out;
+    a {
       color: #fff;
       margin-left: 10px;
       display: block;
       height: 100%;
-      line-height:40px;
+      line-height: 40px;
       width: 100%;
       display: flex;
       align-items: center;
     }
   }
-  .logo-collapse{
+  .logo-collapse {
     width: 80px;
   }
-  .m-cut{
+  .m-cut {
     font-size: 24px;
     vertical-align: middle;
-    margin-left:16px;
-    i{
+    margin-left: 16px;
+    i {
       font-size: 14px;
     }
   }
   /**box-菜单**/
-  .m-box-list{
+  .m-box-list {
     display: inline-block;
     height: 100%;
-    vertical-align:middle;
+    vertical-align: middle;
     position: absolute;
     left: 300px;
     right: 200px;
-    transition: left .3s ease-in-out;
-    .m-box{
+    transition: left 0.3s ease-in-out;
+    .m-box {
       line-height: 40px;
       margin-right: 20px;
       font-size: 13px;
       font-weight: 500;
-      font-family:'Microsoft YaHei';
-      &:first-child{
+      font-family: "Microsoft YaHei";
+      &:first-child {
         margin-left: 16px;
       }
-      &:last-child{
+      &:last-child {
         margin-right: 0;
       }
-      i{
+      i {
         font-size: 24px;
         vertical-align: middle;
       }
-      span.name{
+      span.name {
         vertical-align: middle;
       }
     }
   }
-  .logo-collapse-left{
-    left:140px;
-    transition: left .3s ease-in-out;
+  .logo-collapse-left {
+    left: 140px;
+    transition: left 0.3s ease-in-out;
   }
-  
+
   /**用户信息-退出登录**/
-  .login-msg-warp{
+  .login-msg-warp {
     position: absolute;
-    right:24px;
+    right: 24px;
     top: 0;
     z-index: 9;
     line-height: 40px;
-    .u-img-w{
+    .u-img-w {
       width: 30px;
       height: 30px;
       display: inline-block;
@@ -164,46 +167,46 @@ export default {
       background-color: @C2C8C0;
       border-radius: 50%;
       overflow: hidden;
-      .u-img{
+      .u-img {
         width: 30px;
         height: 30px;
         padding: 3px;
-        /deep/.el-image__inner{
+        /deep/.el-image__inner {
           border-radius: 50%;
         }
       }
     }
-    .u-name{
+    .u-name {
       font-size: 14px;
       margin: 0 8px;
     }
-    .loginOut{
+    .loginOut {
       cursor: pointer;
       font-size: 14px;
       vertical-align: middle;
-      &:hover{
+      &:hover {
         color: #000;
       }
     }
   }
 }
 /**重置样式**/
-/deep/.el-tabs__item.is-active{
-  color:@6C757D;
+/deep/.el-tabs__item.is-active {
+  color: @6C757D;
 }
-/deep/.el-tabs__item{
-  color:@6C757D;
+/deep/.el-tabs__item {
+  color: @6C757D;
 }
-/deep/.el-tabs__item:hover{
-  color:@6777EF;
+/deep/.el-tabs__item:hover {
+  color: @6777EF;
 }
-/deep/.el-tabs__active-bar{
-  display:none;
+/deep/.el-tabs__active-bar {
+  display: none;
 }
-/deep/.el-tabs__content{
-  display:none;
+/deep/.el-tabs__content {
+  display: none;
 }
-/deep/.el-tabs__nav-wrap::after{
-  height:0;
+/deep/.el-tabs__nav-wrap::after {
+  height: 0;
 }
 </style>
