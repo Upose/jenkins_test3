@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="导入数据" :visible.sync="dialogVisible" width="400px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="导入数据" :visible.sync="dialogVisible" width="400px" :before-close="dialogBeforeClose">
     <div>
       <el-upload class="upload-demo" drag :action="uploadUrl" :headers="myHeaders" ref="upload" :auto-upload="false" :on-success="uploadSuccess">
         <i class="el-icon-upload"></i>

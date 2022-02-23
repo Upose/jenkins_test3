@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="审核" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="审核" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item label="审批">
         <el-radio-group v-model="postFrom.passed">

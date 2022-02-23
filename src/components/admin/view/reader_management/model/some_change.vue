@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="批量修改" :visible.sync="dialogVisible" width="500px">
+  <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="500px">
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="学历">
         <!-- <el-checkbox v-model="b"></el-checkbox> -->

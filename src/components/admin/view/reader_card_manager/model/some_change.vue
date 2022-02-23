@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="批量修改" :visible.sync="dialogVisible" width="500px">
+  <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="500px">
     <el-form :model="postForm" label-width="120px">
       <el-form-item label="卡类型">
         <el-select v-model="postForm.type" placeholder="请选择" clearable>

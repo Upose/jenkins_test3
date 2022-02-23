@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="设置信息编辑项" :visible.sync="dialogVisible" width="700px">
+  <el-dialog append-to-body title="设置信息编辑项" :visible.sync="dialogVisible" width="700px">
     <!-- <el-checkbox-group v-model="postForm"> -->
       <el-checkbox :key="item.id" v-for="item in list" class="info-item" v-model="item.isCheck" :disabled="!item.isEnable">{{item.propertyName}} <span v-if="item.isRequired||item.isUnique">(<span v-if="item.isRequired">必填</span> <span v-if="item.isUnique">唯一</span>)</span></el-checkbox>
     <!-- </el-checkbox-group> -->

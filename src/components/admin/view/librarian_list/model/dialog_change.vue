@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="变动组织" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="变动组织" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item label="选择部门">
         <el-cascader :options="departList" v-model="depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>

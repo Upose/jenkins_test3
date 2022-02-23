@@ -87,7 +87,7 @@
                </div>
           </div>
         </div><!---content end--->
-        <el-dialog :title="titles" :visible.sync="editVisible" width="26%" :modal-append-to-body="false"  :close-on-click-modal="false">
+        <el-dialog append-to-body :title="titles" :visible.sync="editVisible" width="26%" :modal-append-to-body="false"  :close-on-click-modal="false">
             <el-form ref="form" :model="form" label-width="70px">
                <div class="tables">
                   <div class="search-div">

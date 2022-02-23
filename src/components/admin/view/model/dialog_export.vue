@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="导出数据" :visible.sync="dialogVisible" width="800px">
+  <el-dialog append-to-body title="导出数据" :visible.sync="dialogVisible" width="800px">
     <el-form :model="form" label-width="20px">
       <div class="ex-title">选择导出字段<span>导出字段越多，速度越慢</span></div>
       <el-form-item label="">
@@ -19,7 +19,7 @@
       <el-button type="primary" @click="sub" icon="iconfont el-icon-vip-wancheng">确 定</el-button>
     </div>
     <!-- 导出提示 -->
-    <el-dialog width="30%" title="结果导出" :visible.sync="innerVisible" append-to-body>
+    <el-dialog append-to-body width="30%" title="结果导出" :visible.sync="innerVisible" append-to-body>
       <div v-if="exportData">
         共{{exportData.totalCount}}条数据，共{{exportData.totalPages}}页，当前可导出第{{this.curPageIndex}}页
       </div>

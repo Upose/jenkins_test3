@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改日志记录" :visible.sync="dialogVisible" width="900px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="修改日志记录" :visible.sync="dialogVisible" width="900px" :before-close="dialogBeforeClose">
     <!-- <div class="form-box">
       <el-form ref="form" :model="postFrom" label-width="0px">
         <el-form-item label="">

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="添加临时馆员" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="添加临时馆员" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-alert title="临时馆员只能登录管理后台，如需登录前台请先添加读者信息" type="warning" show-icon></el-alert>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" v-if="dataKey">
       <el-form-item label="读者名称" prop="name">

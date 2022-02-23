@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="同步日志详情" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="同步日志详情" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
     <div class="pre-line">
         {{detail}}
     </div>

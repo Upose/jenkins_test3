@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="详细记录" :visible.sync="dialogVisible" width="500px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="详细记录" :visible.sync="dialogVisible" width="500px" :before-close="dialogBeforeClose">
     <div>
         <el-form ref="form" :model="form" label-width="90px" class="detail">
         <el-form-item label="读者卡号">

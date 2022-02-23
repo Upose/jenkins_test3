@@ -70,7 +70,7 @@
           </div>
         </div>
         <!---content end--->
-        <el-dialog title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
+        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
           <UpdateImg @imgUrl="imgUrl"></UpdateImg>
         </el-dialog>
         <footerPage class="top20"></footerPage>

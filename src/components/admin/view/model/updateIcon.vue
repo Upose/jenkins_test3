@@ -14,11 +14,11 @@
       </div>
     </div>
     <!-- 更新图标选择 -->
-    <el-dialog title="图片上传"  append-to-body :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
+    <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
       <UpdateImg @imgUrl="imgUrl" :imgWidth="coverWidth" :imgHeight="coverHeight"></UpdateImg>
     </el-dialog>
     <!-- 默认图标选择 -->
-    <el-dialog title="图片选择" append-to-body :visible.sync="dialogSelectimg" width="540px" :close-on-click-modal="false" :before-close="selectImgClose">
+    <el-dialog append-to-body title="图片选择" :visible.sync="dialogSelectimg" width="540px" :close-on-click-modal="false" :before-close="selectImgClose">
       <p class="el-form-img-box-hint">点击图标即可选中所需要的图标</p>
       <div class="c-l">
         <div class="el-form-img-box" v-for="(i,index) in iconList" :key="index" @click="selectImgClick(i)">

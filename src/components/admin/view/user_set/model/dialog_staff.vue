@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="编辑馆员" :visible.sync="dialogVisible" width="80%">
+  <el-dialog append-to-body title="编辑馆员" :visible.sync="dialogVisible" width="80%">
     <div class="m-title search-term-table">
       <div class="search-term">
         <div class="search-item-box">

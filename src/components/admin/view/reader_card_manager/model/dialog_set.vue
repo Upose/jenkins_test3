@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="同步配置" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="同步配置" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-form :model="form" ref="form" label-width="140px" :rules="rules">
       <el-form-item label="任务程序集名称" prop="assemblyFullName">
         <el-input v-model="form.assemblyFullName" clearable maxlength="100" show-word-limit></el-input>

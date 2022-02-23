@@ -134,12 +134,13 @@ var ApplicationBuilder = /** @class */ (function () {
         var _this = this;
         if (axios) {
             axios.interceptors.response.use(undefined, function (error) {
-                if (error.response.status == 403) {
+                if (error.response.status == 403 && error.response.headers.unauth) {
                     localStorage.removeItem('token');
                     var current = window.location.href;
                     localStorage.setItem('COM+', current);
-                    window.open(_this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart()), '_blank');
-                    window.close();
+                    window.location.href = _this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart());
+                    // window.open(_this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart()), '_blank');
+                    // window.close();
                 }
                 return MyPromise.reject(error);
             });
