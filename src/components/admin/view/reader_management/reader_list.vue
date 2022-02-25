@@ -60,6 +60,7 @@
               <div class="r-btn">
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('reader:batchUpdate')">批量修改</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('reader:create')">新增读者</el-button>
+                <el-button type="primary" size="medium" @click="handleMergeReader" v-if="isAuth('reader:export')">合并读者</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('reader:export')">导出数据</el-button>
                 <el-button type="primary" size="medium" @click="importExcel" v-if="isAuth('reader:import')">导入数据</el-button>
               </div>
@@ -371,12 +372,26 @@ export default {
     handMathChange() {
       if (!this.multipleSelection.length) {
         this.$message({
-          message: '请勾选需要修改的读者卡！',
+          message: '请勾选需要修改的读者！',
           type: 'warning'
         })
         return;
       }
       this.$refs.someChange.show();
+    },
+    // 合并读者
+    handleMergeReader(){
+      if (!this.multipleSelection.length) {
+        this.$message({
+          message: '请勾选需要合并的读者！',
+          type: 'warning'
+        })
+        return;
+      }
+      let list = this.multipleSelection.map(item => {
+        return item.id;
+      });
+      this.$router.push({path:'/admin_mergeReader',query:{list:JSON.stringify(list)}})
     },
     /** 新增读者 */
     handAdd() {

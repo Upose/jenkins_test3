@@ -45,9 +45,15 @@
           <!-- <el-input v-model="postForm.addr" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input> -->
           <el-cascader :options="addrList" v-model="postForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
         </el-form-item>
-        <el-form-item label="所在院系" prop="college">
+        <el-form-item label="所在学院" prop="college">
           <el-select v-model="postForm.college" placeholder="请选择" clearable>
             <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所在系" prop="collegeDepart">
+          <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable>
+            <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -395,9 +401,24 @@ export default {
             this.postForm.photo = this.iconUrl
           }
           if (this.id) {
-            http.putJson('user', this.postForm).then(res => {
-              this.$message({ message: this.dataKey.needApprove ? '已编辑成功，请等待审核！' : '编辑成功！', type: 'success' });
-              this.getData();
+            http.postJson('with-merge', this.postForm).then(res => {
+              if (res.data = '00000000-0000-0000-0000-000000000000') {
+                this.$confirm('该手机账号已被占用，是否需要将读者进行合并操作？?', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning'
+                }).then(() => {
+                  this.$router.push({ path: '/admin_mergeReader', query: { id: this.id } })
+                }).catch(() => {
+                  // this.$message({
+                  //   type: 'info',
+                  //   message: '已取消删除'
+                  // })
+                })
+              } else {
+                this.$message({ message: this.dataKey.needApprove ? '已编辑成功，请等待审核！' : '编辑成功！', type: 'success' });
+                this.getData();
+              }
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
             })

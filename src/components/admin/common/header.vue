@@ -109,13 +109,10 @@ export default {
   .logo-collapse {
     width: 80px;
   }
-  .m-cut {
-    font-size: 24px;
+  .m-cut{
+    font-size: 16px;
     vertical-align: middle;
-    margin-left: 16px;
-    i {
-      font-size: 16px;
-    }
+    margin-left:16px;
   }
   /**box-菜单**/
   .m-box-list {

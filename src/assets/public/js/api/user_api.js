@@ -61,6 +61,9 @@ export default {
         'sync-card-log-table-data': baseURL + '/api/card/sync-card-log-table-data',//获取同步日志
         'set-sync-card-config': baseURL + '/api/card/set-sync-card-config',//设置同步设置配置项
         'add-sync-card-task':baseURL+'/api/card/set-sync-card-task',//添加读者临时同步任务
+        'merge-info':baseURL+'/api/user/merge-info',//获取用户数据需要合并信息 get:/{userid} post
+        'merge-user-info':baseURL+'/api/user/merge-user-info',//合并读者消息
+        'with-merge':baseURL+'/api/user/with-merge',//编辑用户信息
 
         'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
         'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据

@@ -65,6 +65,12 @@ export default {
             meta: { title: '新增读者', keepAlive: true }
         },
         {
+            path: '/admin_mergeReader',
+            name: 'admin_mergeReader',
+            component: r => require.ensure([], () => r(require('@/components/admin/view/reader_management/merge_reader')), 'merge_reader'),
+            meta: { title: '合并读者', keepAlive: true }
+        },
+        {
             path: '/admin_readerCardList',
             name: 'admin_readerCardList',
             component: r => require.ensure([], () => r(require('@/components/admin/view/reader_card_manager/reader_card_list')), 'reader_card_list'),
