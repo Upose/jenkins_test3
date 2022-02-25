@@ -194,11 +194,9 @@ export default {
     initData() {
       if (this.$route.query.id) {
         this.userId = this.$route.query.id;
-        this.userNumber = 1;
         this.getList();
       } else {
         this.userList = JSON.parse(this.$route.query.list);
-        this.userNumber = this.userList.length;
         this.postList();
       }
     },
@@ -208,6 +206,7 @@ export default {
         this.tableData = res.data;
         this.tableData[0].isMainCard = true;
         this.userData = { ...res.data[0] };
+        this.userNumber = this.tableData.length;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -218,6 +217,7 @@ export default {
         this.tableData = res.data;
         this.tableData[0].isMainCard = true;
         this.userData = { ...res.data[0] };
+        this.userNumber = this.tableData.length;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -255,7 +255,7 @@ export default {
       })
       http.postJson('merge-user-info', { ...this.userData, cardIds: cardIds }).then(res => {
         this.$message({ type: 'success', message: '合并成功!' });
-        // this.$router.back();
+        this.$router.back();
       }).catch(err => {
         this.$message({ type: 'error', message: '合并失败!' });
       })

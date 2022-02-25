@@ -66,7 +66,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
                   <template slot-scope="scope">

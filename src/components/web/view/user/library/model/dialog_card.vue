@@ -3,7 +3,7 @@
     <div>
       <div class="card" v-for="item in cardList" :key="item.id">
         <el-checkbox :checked="item.isPrincipal" class="c-box" @change="handleChange(item)"></el-checkbox>
-        <h6>{{item.userName}}（{{getKeyValue(item.type,'Card_Type')}}）</h6>
+        <h6>{{item.userName}}<span v-if="item.type">（{{getKeyValue(item.type,'Card_Type')}}）</span></h6>
         <p>{{item.no}}</p>
         <p>有效期至 {{setTime(item.expireDate)}}</p>
         <span class="green" v-if="item.status==1">{{getKeyValue(item.status)}}</span>

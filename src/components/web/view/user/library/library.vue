@@ -33,7 +33,7 @@
               </span>
             </div>
             <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
-              <h6>{{principal.userName}}（{{getKeyValue(principal.type,'Card_Type')}}）</h6>
+              <h6>{{principal.userName}}<span v-if="principal.type">（{{getKeyValue(principal.type,'Card_Type')}}）</span></h6>
               <p>{{principal.no}}</p>
               <p>有效期至 {{setTime(principal.expireDate)}}</p>
               <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
@@ -47,7 +47,7 @@
               <span class="right" @click="linkTo(appData.appCenterRouteCode)">应用中心</span>
             </div>
             <div class="app-content">
-              <div class="re-box">
+              <div class="re-box" @click="linkTo(appData.appCenterRouteCode)">
                 <div class="app-box">
                   <div class="app" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
                 </div>
@@ -500,6 +500,7 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
+    cursor: pointer;
 
     h6 {
       font-size: 18px;
@@ -610,6 +611,7 @@ export default {
     justify-content: space-evenly;
     align-items: center;
     align-content: space-evenly;
+    cursor: pointer;
 
     .app {
       width: 24px;
@@ -636,6 +638,7 @@ export default {
     .app-item {
       width: 80px;
       margin: 0 20px;
+      padding: 5px;
       cursor: pointer;
       &:hover{
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -646,13 +649,13 @@ export default {
         border-radius: 16px;
         margin: 0 auto;
         img{
-          width: 100%;
-          height: 100%;
+          width: 50%;
+          height: 50%;
         }
-        // background: #e3f2ff;
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
+        background: #e3f2ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

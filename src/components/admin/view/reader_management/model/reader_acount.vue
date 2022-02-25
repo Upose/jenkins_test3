@@ -96,7 +96,7 @@
         <el-form-item label="学号" prop="studentNo">
           <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
         </el-form-item>
-        <el-form-item label="手机" prop="phone">
+        <el-form-item label="手机" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
           <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit>
             <template slot="append">
               <div v-if="postForm.mobileIdentity">
@@ -108,6 +108,7 @@
               </div>
             </template>
           </el-input>
+          <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone">手机号重复</div>
         </el-form-item>
         <!-- <el-form-item label="第三方信息">
           <el-select v-model="postForm.usertype" placeholder="请选择">
@@ -115,7 +116,7 @@
             </el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="身份证" prop="idCard">
+        <el-form-item label="身份证" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
           <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit>
             <template slot="append">
               <div v-if="postForm.idCardIdentity">
@@ -127,6 +128,7 @@
               </div>
             </template>
           </el-input>
+          <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard">身份证号重复</div>
         </el-form-item>
         <el-form-item label="邮箱" prop="email" class="youxiang">
           <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit>
@@ -217,6 +219,7 @@ export default {
       postForm: null,
       dataKey: null,
       properties: null,
+      mergeInfo:null,//合并信息提示
       readerRules: {
         name: [
           { required: true, message: '必填项', trigger: 'blur' }
@@ -402,7 +405,7 @@ export default {
           }
           if (this.id) {
             http.postJson('with-merge', this.postForm).then(res => {
-              if (res.data = '00000000-0000-0000-0000-000000000000') {
+              if (!res.data.success) {
                 this.$confirm('该手机账号已被占用，是否需要将读者进行合并操作？?', '提示', {
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
@@ -410,10 +413,9 @@ export default {
                 }).then(() => {
                   this.$router.push({ path: '/admin_mergeReader', query: { id: this.id } })
                 }).catch(() => {
-                  // this.$message({
-                  //   type: 'info',
-                  //   message: '已取消删除'
-                  // })
+                  this.mergeInfo = res.data;
+                  this.mergeInfo.phone = this.postForm.phone;
+                  this.mergeInfo.idCard = this.postForm.idCard;
                 })
               } else {
                 this.$message({ message: this.dataKey.needApprove ? '已编辑成功，请等待审核！' : '编辑成功！', type: 'success' });
