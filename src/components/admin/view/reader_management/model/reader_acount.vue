@@ -219,7 +219,7 @@ export default {
       postForm: null,
       dataKey: null,
       properties: null,
-      mergeInfo:null,//合并信息提示
+      mergeInfo: null,//合并信息提示
       readerRules: {
         name: [
           { required: true, message: '必填项', trigger: 'blur' }

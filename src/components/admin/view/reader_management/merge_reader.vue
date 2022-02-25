@@ -53,14 +53,16 @@
                         <thead class="has-gutter">
                           <tr class="">
                             <th colspan="1" rowspan="1" class="el-table_1_column_1   is-leaf" style="height:120px">
-                              <div class="cell card_title">
-                                读者卡{{item.sort}}
-                                <div>设为主卡：<el-switch v-model="item.isMainCard" @change="handleChangeMainCard(item.sort)"></el-switch>
+                              <div v-if="item.cardId">
+                                <div class="cell card_title">
+                                  读者卡信息
+                                  <div>设为主卡：<el-switch v-model="item.isMainCard" @change="handleChangeMainCard(item.sort)"></el-switch>
+                                  </div>
                                 </div>
+                                <div class="cell">卡号：{{item.cardNo}}</div>
+                                <div class="cell">卡类型：{{item.cardTypeName}}</div>
+                                <div class="cell">卡状态：{{item.cardStatusName}}</div>
                               </div>
-                              <div class="cell">卡号：{{item.cardNo}}</div>
-                              <div class="cell">卡类型：{{item.cardTypeName}}</div>
-                              <div class="cell">卡状态：{{item.cardStatusName}}</div>
                             </th>
                           </tr>
                         </thead>
@@ -180,7 +182,7 @@ export default {
     return {
       userId: '',
       userList: [],
-      userNumber:1,//选择读者数量
+      userNumber: 1,//选择读者数量
       titleList: ['姓名', '读者类型', '职称', '学院', '系', '专业', '年级', '生日', '性别', '学历', '部门', '手机号', '身份证号', '地址', '读者状态'],
       tableData: [],//列表项
       userData: {},//有效信息
@@ -250,12 +252,19 @@ export default {
     },
     // 确认并合并
     handleMerge() {
-      let cardIds = this.tableData.map(item => {
-        return item.cardId;
+      let userIds = this.tableData.map(item => {
+        return item.id;
       })
-      http.postJson('merge-user-info', { ...this.userData, cardIds: cardIds }).then(res => {
+      http.postJson('merge-user-info', { ...this.userData, userIds: userIds }).then(res => {
         this.$message({ type: 'success', message: '合并成功!' });
-        this.$router.back();
+        if (this.userId) {
+            // this.$router.replace({ path: '/admin_readerManagement', query: { id: res.data } })
+            this.$route.query.newId = res.data;
+            this.$router.back();
+        } else {
+          this.$router.back();
+        }
+
       }).catch(err => {
         this.$message({ type: 'error', message: '合并失败!' });
       })
@@ -288,7 +297,7 @@ export default {
 .bg_check > td {
   background: #c9d0ff !important;
 }
-.color-g{
-    color: @6777EF;
+.color-g {
+  color: @6777EF;
 }
 </style>

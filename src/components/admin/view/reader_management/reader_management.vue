@@ -93,6 +93,8 @@ import borrowingDetail from "./model/borrowing_detail"
 import Intergral from "../Integral_details/Integral_details"
 import Certificate from "./model/certificate_information"
 import useLog from "./model/use_log"
+
+let newId = null;
 export default {
   name: 'index',
   created() {
@@ -120,10 +122,21 @@ export default {
       activeName: "first",
       showToStaff: true,
 
-      imgPath:localStorage.getItem('fileUrl'),//图片域名前缀
+      imgPath: localStorage.getItem('fileUrl'),//图片域名前缀
     }
   },
+  beforeRouteEnter(to, from, next) {
+    // 从读者合并页返回，获取新的读者id
+    if (from.query.newId) {
+      newId = from.query.newId
+    }
+    next();
+  },
   mounted() {
+    if (newId) {
+      this.id = newId;
+      newId = null;
+    }
     this.initData();
   },
   methods: {
@@ -136,12 +149,12 @@ export default {
       }
     },
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_readerList'));
+      let curAuth = authList.find(item => (item.router == '/admin_readerList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {
