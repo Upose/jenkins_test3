@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      uploadUrl: process.env.VUE_APP_BASE_API + 'usermanage/api/user-group/import-group-user',
+      uploadUrl: window.apiDomainAndPort + 'usermanage/api/user-group/import-group-user',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] }
     }
   },

@@ -138,9 +138,7 @@ var ApplicationBuilder = /** @class */ (function () {
                     localStorage.removeItem('token');
                     var current = window.location.href;
                     localStorage.setItem('COM+', current);
-                    window.location.href = _this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart());
-                    // window.open(_this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart()), '_blank');
-                    // window.close();
+                    window.location.href = _this._casBase + '/cas/login?service=' + encodeURIComponent(_this.oriinalPart())
                 }
                 return MyPromise.reject(error);
             });
@@ -196,6 +194,7 @@ var ApplicationBuilder = /** @class */ (function () {
         if (casBaseUrl == null)
             throw new Error('请正确配置cas地址');
         this._casBase = casBaseUrl;
+        window.casBaseUrl = casBaseUrl;
         return this;
     };
     /**配置默认的token请求服务 */
@@ -206,6 +205,7 @@ var ApplicationBuilder = /** @class */ (function () {
     /**配置api接口的域名和端口部分 */
     ApplicationBuilder.prototype.configureApiBase = function (apiDomainAndPort) {
         this._apiDomainAndPort = apiDomainAndPort;
+        window.apiDomainAndPort = apiDomainAndPort;
         return this;
     };
     /**添加默认的axios请求中间件

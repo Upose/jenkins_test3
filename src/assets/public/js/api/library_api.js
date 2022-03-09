@@ -2,8 +2,8 @@
 
 // var baseURL = 'http://192.168.21.23:5023';//请求前端地址 服务中台
 // var baseURL1 = 'http://192.168.21.48:7005';//请求前端地址 应用中心
-var baseURL = process.env.VUE_APP_BASE_API + 'scenemanage';//请求前端地址 服务中台
-var baseURL1 = process.env.VUE_APP_BASE_API + 'appcenter';//请求前端地址 应用中心
+var baseURL = '/scenemanage';//请求前端地址 服务中台
+var baseURL1 = '/appcenter';//请求前端地址 应用中心
 
 export default {
     postUrl: {

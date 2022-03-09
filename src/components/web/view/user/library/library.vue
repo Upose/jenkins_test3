@@ -54,7 +54,7 @@
                 <p class="title-name">应用中心</p>
               </div>
               <div class="item-box">
-                <div class="app-item" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<6" @click="linkTo(item.frontUrl)">
+                <div class="app-item" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<7" @click="linkTo(item.frontUrl)">
                   <div class="app">
                     <img :src="imgUrl+item.appIcon" alt="">
                   </div>
@@ -91,7 +91,6 @@
               </el-popover>
             </div>
             <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0].topCount}','sortType':'${item.appPlateItems[0].sortType}','id':'${item.appPlateItems[0].id}'}]`">
-              <!-- <div :class="item.appWidget.widgetCode"> -->
               <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
@@ -123,7 +122,7 @@ export default {
   components: { dialog_card },
   data() {
     return {
-      baseUrl:process.env.VUE_APP_BASE_API,
+      baseUrl:window.apiDomainAndPort,
 
 
       isEdit: false,//是否编辑状态
