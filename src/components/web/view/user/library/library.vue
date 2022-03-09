@@ -612,16 +612,20 @@ export default {
     align-items: center;
     align-content: space-evenly;
     cursor: pointer;
+    &:hover{
+      opacity: .8;
+    }
 
     .app {
       width: 24px;
       height: 24px;
       border-radius: 8px;
-      // background: #e3f2ff;
+      background: #e3f2ff;
       display: inline-block;
       img {
-        width: 100%;
-        height: 100%;
+        width: 50%;
+        height: 50%;
+        margin: 25% 0 0 25%;
       }
     }
   }
