@@ -15,6 +15,10 @@ export default {
   data () {
     return {}
   },
+  created () {
+    // 设置网页标题
+    document.title = '用户中心';
+  },
   methods:{
     
   }

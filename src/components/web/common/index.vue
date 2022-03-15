@@ -72,10 +72,6 @@ export default {
   }
 }
 </script>
-<style lang="less">
-@import "../../../assets/web/css/color.less"; //引入主题颜色文件
-</style>
-
 <style scoped lang="less">
 .web-warp {
   min-width: 1200px;

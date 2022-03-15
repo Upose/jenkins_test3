@@ -12,13 +12,13 @@
             <span class="nav-item" :class="tab=='card'?'active child_border_color':''" @click="tab='card'">我的读者证</span>
           </div>
           <div v-show="tab=='info'">
-              <info></info>
+            <info></info>
           </div>
           <div v-show="tab=='set'">
-              <set></set>
+            <set></set>
           </div>
           <div v-show="tab=='card'">
-              <card></card>
+            <card></card>
           </div>
         </div>
       </div>
@@ -31,13 +31,15 @@ import info from './model/info'
 import set from './model/set'
 import card from './model/card'
 export default {
-  components: { info,set,card },
+  components: { info, set, card },
   data() {
     return {
-      tab:'info'
+      tab: 'info'
     }
   },
   created() {
+    // 设置网页标题
+    document.title = '账号设置-用户中心-' + JSON.parse(localStorage.getItem('orgInfo')).orgName + '图书馆';
 
   },
   methods: {
@@ -47,7 +49,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('../../../../../assets/web/css/user.less');
+@import url("../../../../../assets/web/css/user.less");
 .header {
   width: 100%;
   height: 96px;
@@ -102,6 +104,5 @@ export default {
       font-weight: bold;
     }
   }
-  
 }
 </style>
