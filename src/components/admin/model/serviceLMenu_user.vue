@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="s-menu">
-      <div class="s-row" :class="isActive(item.router)?'active':''" :title="item.name" @click="openPage(item.router)" v-for="(item,index) in auth" :key="index+'menu'">
+      <div class="s-row" :class="item.router==leftRouter?'active':''" :title="item.name" @click="openPage(item.router)" v-for="(item,index) in auth" :key="index+'menu'">
         <i class="iconfont el-icon-vip-daohanglanmu"></i>
         <span>{{item.name}}</span>
       </div>
@@ -21,13 +21,26 @@ export default {
   data() {
     return {
       default_img: require('@/assets/admin/img/upload/user-img.png'),
-      auth:[]
+      auth: [],
+      leftRouter: '/admin_userManager'
+    }
+  },
+  watch: {
+    // 监听侧边栏列表-用于侧边栏选中状态
+    auth() {
+      if (this.auth.length > 0) {
+        this.auth.forEach(item => {
+          if (item.router == this.$route.path) {
+            this.leftRouter = this.$route.path;
+          }
+        })
+      }
     }
   },
   created() {
     if (this.$store.getters.authList && this.$store.getters.authList.length > 0) {
       this.auth = this.$store.getters.authList;
-    }else{
+    } else {
       this.getAuth();
     }
   },
@@ -42,28 +55,18 @@ export default {
     },
     openPage(url) {
       this.$router.push(url)
-      window.localStorage.setItem('path_url', url);
-    },
-    //是否当前菜单
-    isActive(url) {
-      var cu_href = window.localStorage.getItem('path_url');
-      if (url == cu_href) {
-        return true;
-      } else {
-        return false;
-      }
     },
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
-.m-menu{
+@import "../../../assets/admin/css/color.less"; /**颜色配置 */
+.m-menu {
   padding-left: 20px;
   padding-top: 22px;
   padding-bottom: 22px;
-  .m-text{
+  .m-text {
     display: inline-block;
     vertical-align: middle;
     width: 200px;
@@ -71,34 +74,34 @@ export default {
     background: @F4F7FC;
     opacity: 1;
     border-radius: 8px;
-    position:relative;
+    position: relative;
     padding-left: 30px;
-    padding-top:17px;
-    &::after{
-      content: '';
+    padding-top: 17px;
+    &::after {
+      content: "";
       position: absolute;
       height: 40px;
       width: 2px;
       top: 17px;
-      background-color:@6677EF;
+      background-color: @6677EF;
     }
-    span{
+    span {
       display: block;
       color: @6677EF;
       padding-left: 16px;
     }
-    .m{
+    .m {
       font-size: 24px;
       font-weight: bold;
     }
-    .v{
+    .v {
       display: block;
       font-size: 12px;
     }
   }
 }
-.s-menu{
-  .s-row{
+.s-menu {
+  .s-row {
     height: 40px;
     line-height: 40px;
     font-size: 13px;
@@ -108,101 +111,101 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    i{
+    i {
       visibility: visible;
-      transition: visibility 0s .3s;
+      transition: visibility 0s 0.3s;
       margin-right: 8px;
     }
-    &:hover{
+    &:hover {
       cursor: pointer;
       width: 245px;
       z-index: 20;
-      background: #FFFFFF;
+      background: #ffffff;
       position: relative;
       color: @6777EF !important;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
       border-radius: 0px 3px 3px 0px;
-      transition: width .3s ease-in-out;
-      &:after{
-        content: '';
+      transition: width 0.3s ease-in-out;
+      &:after {
+        content: "";
         display: block;
         width: 2px;
         height: 15px;
         position: absolute;
         right: 0;
-        top:13px;
+        top: 13px;
         background-color: @6777EF;
       }
     }
   }
-  .active{
+  .active {
     width: 245px;
     z-index: 20;
-    background: #FFFFFF;
+    background: #ffffff;
     position: relative;
     color: @6777EF !important;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
     border-radius: 0px 3px 3px 0px;
-    transition: width .3s ease-in-out;
-    &:after{
-      content: '';
+    transition: width 0.3s ease-in-out;
+    &:after {
+      content: "";
       display: block;
       width: 2px;
       height: 15px;
       position: absolute;
       right: 0px;
-      top:13px;
+      top: 13px;
       background-color: @6777EF;
     }
   }
 }
 /***折叠后菜单**/
-.fold-menu{
-  .s-row{
-    padding:0;
+.fold-menu {
+  .s-row {
+    padding: 0;
     font-size: 12px;
     font-weight: 400;
-    span{
+    span {
       width: 60px;
       display: inline-block;
       overflow: hidden;
       overflow: hidden;
-      text-overflow:ellipsis;
+      text-overflow: ellipsis;
       white-space: nowrap;
       margin-left: 10px;
     }
-    i{
+    i {
       margin-right: 0;
       display: none;
     }
-    &:hover{
+    &:hover {
       width: 80px;
-      transition: width .3s ease-in-out;
+      transition: width 0.3s ease-in-out;
     }
   }
-  .active{
-    width:80px;
-    transition: width .3s ease-in-out;
+  .active {
+    width: 80px;
+    transition: width 0.3s ease-in-out;
   }
-  .m-menu{
+  .m-menu {
     padding-left: 6px;
-    .m-text{
+    .m-text {
       width: 70px;
       height: 39px;
       padding-left: 0;
-      padding-top:4px;
-      border-radius:3px;
-      &::after{
+      padding-top: 4px;
+      border-radius: 3px;
+      &::after {
         height: 28px;
         top: 4px;
       }
-      span{
+      span {
         padding-left: 4px;
       }
-      .m{
+      .m {
         font-size: 13px;
         overflow: hidden;
-        text-overflow:ellipsis;
+        text-overflow: ellipsis;
         white-space: nowrap;
       }
     }

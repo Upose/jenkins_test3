@@ -34,12 +34,14 @@
               </span>
             </div>
             <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
-              <h6>{{principal.userName}}<span v-if="principal.type">（{{getKeyValue(principal.type,'Card_Type')}}）</span></h6>
-              <p>{{principal.no}}</p>
+              <div>
+                <h6>{{principal.userName}}<span v-if="getKeyValue(principal.type,'Card_Type')">（{{getKeyValue(principal.type,'Card_Type')}}）</span></h6>
+                <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+                <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+                <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+              </div>
+              <p class="font18">{{principal.no}}</p>
               <p>有效期至 {{setTime(principal.expireDate)}}</p>
-              <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
-              <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
-              <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
             </div>
           </div>
           <div class="apply">
@@ -121,10 +123,10 @@ import { timeFormat } from "@/assets/public/js/util";
 import breadCrumbs from '../../../model/breadCrumbs';
 
 export default {
-  components: { dialog_card,breadCrumbs },
+  components: { dialog_card, breadCrumbs },
   data() {
     return {
-      baseUrl:window.apiDomainAndPort,
+      baseUrl: window.apiDomainAndPort,
 
 
       isEdit: false,//是否编辑状态
@@ -290,7 +292,7 @@ export default {
           this.applyIdList.push(data.appId);
           let parm = {
             appId: data.appId,
-            parentSceneAppId:data.appColumn.parentSceneAppId,
+            parentSceneAppId: data.appColumn.parentSceneAppId,
             appPlateItems: [data.appColumn],
             appWidget: data,
             height: 39,
@@ -360,7 +362,7 @@ export default {
         } //onEnd
       });
     },
-    linkTo(url){
+    linkTo(url) {
       window.location.href = url;
     }
   }
@@ -499,41 +501,50 @@ export default {
   .card {
     width: 300px;
     height: 125px;
-    background: url('../../../../../assets/web/img/card-bg.png') no-repeat;
+    background: url("../../../../../assets/web/img/card-bg.png") no-repeat;
     background-size: 100%;
-    height: 100%;
+    // height: 100%;
     border-radius: 16px;
-    padding: 20px;
+    padding: 20px 20px 20px 0;
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
-    &::before{
+    &::before {
       position: absolute;
       right: 0;
       top: 0;
-      content: '我的读者卡';
+      content: "我的读者卡";
       padding: 4px 14px;
-      background: rgba(255, 255, 255, .5);
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 0 16px 0 16px;
       color: #616161;
     }
 
     h6 {
       font-size: 18px;
+      background: #fff;
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 0 50px 50px 0;
     }
     p {
-      color: #666;
+      color: #606060;
       margin-top: 8px;
+      padding-left: 20px;
     }
-    span {
-      position: absolute;
-      top: 20px;
-      right: 0;
+    .font18{
+      font-size: 18px;
+    }
+    &>div>span {
+      // position: absolute;
+      // top: 20px;
+      // right: 0;
+      display: inline-block;
       padding: 6px 10px 6px 14px;
       color: #4fcd92;
       background: #e5f8ef;
-      border-radius: 20px 0 0 20px;
+      border-radius: 20px;
     }
   }
 }
@@ -558,7 +569,7 @@ export default {
 
     span {
       padding: 10px 16px;
-      border-radius: 3px;
+      border-radius: 5px;
       border: 1px solid #ddd;
       margin: 0 20px 20px 0;
       cursor: pointer;
@@ -569,6 +580,8 @@ export default {
       border-color: #458dda;
       color: #458dda;
       position: relative;
+      background: url("../../../../../assets/web/img/active-bottom.png")
+        no-repeat right bottom;
 
       &::after {
         position: absolute;
@@ -629,8 +642,8 @@ export default {
     align-items: center;
     align-content: space-evenly;
     cursor: pointer;
-    &:hover{
-      opacity: .8;
+    &:hover {
+      opacity: 0.8;
     }
 
     .app {
@@ -661,7 +674,7 @@ export default {
       margin: 0 20px;
       padding: 5px;
       cursor: pointer;
-      &:hover{
+      &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
       }
       .app {
@@ -669,7 +682,7 @@ export default {
         height: 62px;
         border-radius: 16px;
         margin: 0 auto;
-        img{
+        img {
           width: 50%;
           height: 50%;
         }
