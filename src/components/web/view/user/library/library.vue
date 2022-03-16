@@ -2,6 +2,7 @@
   <div class="container">
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="lib-content">
+        <breadCrumbs :blist="[{name:'我的图书馆'}]"></breadCrumbs>
         <div v-if="!isEdit">
           <div class="top-right">
             <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
@@ -117,9 +118,10 @@ import Sortable from "sortablejs";
 
 import dialog_card from '@/components/web/view/user/library/model/dialog_card';
 import { timeFormat } from "@/assets/public/js/util";
+import breadCrumbs from '../../../model/breadCrumbs';
 
 export default {
-  components: { dialog_card },
+  components: { dialog_card,breadCrumbs },
   data() {
     return {
       baseUrl:window.apiDomainAndPort,
@@ -384,6 +386,7 @@ export default {
 .content-box {
   width: 100%;
   background: url("../../../../../assets/web/img/l-bg.png") no-repeat #eeeeee;
+  background-size: 100% 320px;
   padding-bottom: 80px;
   .lib-content {
     width: 1200px;
@@ -495,14 +498,26 @@ export default {
   }
   .card {
     width: 300px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.9);
+    height: 125px;
+    background: url('../../../../../assets/web/img/card-bg.png') no-repeat;
+    background-size: 100%;
+    height: 100%;
     border-radius: 16px;
     padding: 20px;
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
+    &::before{
+      position: absolute;
+      right: 0;
+      top: 0;
+      content: '我的读者卡';
+      padding: 4px 14px;
+      background: rgba(255, 255, 255, .5);
+      border-radius: 0 16px 0 16px;
+      color: #616161;
+    }
 
     h6 {
       font-size: 18px;
