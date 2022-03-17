@@ -4,10 +4,14 @@
 // var baseURL1 = 'http://192.168.21.48:7005';//请求前端地址 应用中心
 var baseURL = '/scenemanage';//请求前端地址 服务中台
 var baseURL1 = '/appcenter';//请求前端地址 应用中心
+var baseURL2 = '/scenemanage';//请求前端地址 服务中台
 
 export default {
     postUrl: {
         'forward-getmycollectionapps': baseURL1 + '/api/baseinfo/getmycollectionapps',//获取我的收藏应用
+
+
+        'forward-set-personal-default-scene': baseURL2 + '/api/scene/set-personal-default-scene',//设置/取消个人默认首页 /{sceneid}/{isdefault}
 
         'forward-scene-detail': baseURL + '/api/scene-manage/scene-detail',//获取场景详情
         'forward-personal-scene-detail': baseURL + '/api/scene/personal-scene-detail',//获取当前用户的个人中心场景
