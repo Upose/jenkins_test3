@@ -76,7 +76,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div>
+          <!-- <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div> -->
           <div class="chance">
             <div class="title-box">
               <span class="left">选择应用</span>
@@ -551,7 +551,7 @@ export default {
     left: 170px;
     color: #666;
     span {
-      margin-right: 20px;
+      margin-right: 10px;
       padding: 8px 10px;
       border: 1px solid #ececec;
       border-radius: 20px;
@@ -613,7 +613,7 @@ export default {
   border-radius: 16px;
   // padding: 25px;
   overflow: hidden;
-  margin-top: 24px;
+  margin-top: 44px;
   .chance-app {
     padding: 24px 20px 40px;
 
@@ -893,5 +893,8 @@ export default {
     bottom: 0;
     border: 1px dashed #aaa;
   }
+}
+/deep/ .my-breadCrumbs{
+  position: absolute;
 }
 </style>

@@ -2,8 +2,8 @@
   <div class="container">
     <!-- <header class="header"></header> -->
     <div class="content-box">
+      <breadCrumbs :blist="[{name:'账号设置'}]"></breadCrumbs>
       <div class="content">
-        <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div>
         <div class="info-box">
           <div class="title">账号设置</div>
           <div class="nav-box">
@@ -27,11 +27,12 @@
   </div>
 </template>
 <script>
-import info from './model/info'
-import set from './model/set'
-import card from './model/card'
+import info from './model/info';
+import set from './model/set';
+import card from './model/card';
+import breadCrumbs from '../../../model/breadCrumbs';
 export default {
-  components: { info, set, card },
+  components: { info, set, card, breadCrumbs },
   data() {
     return {
       tab: 'info'
@@ -63,12 +64,13 @@ export default {
 .content-box {
   width: 100%;
   background: #eeeeee;
+  padding-top: 20px;
 
   .content {
     width: 1200px;
     height: 100%;
     margin: 0 auto;
-    padding-bottom: 20px;
+    padding: 20px 0 20px;
   }
 }
 .breadCrumbs {

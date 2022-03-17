@@ -39,7 +39,7 @@ export default {
 .my-breadCrumbs {
   width: 1200px;
   margin: 0 auto;
-  position: absolute;
+  // position: absolute;
   div {
     display: inline-block;
   }
