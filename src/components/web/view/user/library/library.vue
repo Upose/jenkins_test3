@@ -423,11 +423,14 @@ export default {
   background: #eeeeee;
 }
 .top-right {
-  display: flex;
-  justify-content: end;
-  margin-bottom: 20px;
-  align-items: center;
-  align-content: center;
+  // display: flex;
+  // justify-content: end;
+  // margin-bottom: 20px;
+  // align-items: center;
+  // align-content: center;
+  position: absolute;
+  right: 0;
+  top: 15px;
 
   span {
     margin-left: 20px;
@@ -467,6 +470,7 @@ export default {
 .top-content {
   height: 205px;
   position: relative;
+  margin-top: 40px;
   .top-content-title-box {
     position: relative;
     display: inline-block;
