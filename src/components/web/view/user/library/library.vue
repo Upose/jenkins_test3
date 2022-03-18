@@ -44,7 +44,7 @@
                 <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
                 <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
               </div>
-              <p class="font18">{{principal.no}}</p>
+              <p class="font18">卡号 {{principal.no}}</p>
               <p>有效期至 {{setTime(principal.expireDate)}}</p>
             </div>
           </div>
