@@ -131,10 +131,16 @@ export default {
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
     },
-    // 是否可编辑
+    // 是否不可编辑
     isEdit(code) {
-      let item = this.dataKey.readerEditProperties.find(item => (item.propertyCode == code));
-      return item ? false : true;
+      let isedit = true;
+      if (this.updateReaderInfo) {
+        let item = this.dataKey.readerEditProperties.find(item => (item.propertyCode == code));
+        isedit = item ? false : true;
+      } else {
+        isedit = true;
+      }
+      return isedit;
     },
     // 更换头像
     handleAvatar() {

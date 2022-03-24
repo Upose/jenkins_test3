@@ -98,10 +98,10 @@ let newId = null;
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging, AuthSystem, ReaderAcount, Intergral, Certificate, borrowingDetail, useLog, UpdateImg },
   data() {
