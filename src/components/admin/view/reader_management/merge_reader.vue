@@ -172,10 +172,10 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
   components: { footerPage, serviceLMenu, breadcrumb },
   data() {
