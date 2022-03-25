@@ -64,6 +64,7 @@ export default {
     },
     // 键值对匹配
     getKeyValue(val) {
+      if (!this.dataKey) return;
       for (const key in this.dataKey.cardStatus) {
         if(this.dataKey.cardStatus[key] == val){
           return key;

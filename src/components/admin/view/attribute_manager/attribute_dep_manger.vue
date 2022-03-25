@@ -121,6 +121,7 @@ export default {
     },
     // 键值对匹配
     getKeyValue(val) {
+      if (!this.dataKey) return;
       let status = '无'
       for (const key in this.dataKey.groupItemApproveStatus) {
         if (this.dataKey.groupItemApproveStatus[key] == val) {

@@ -144,6 +144,7 @@ export default {
     },
     // 数据处理
     getKeyValue(val) {
+      if (!this.dataKey) return;
       let value = '';
       // let curItem = this.dataKey.sourceFrom.find((item) => (item == val));
       for (const item in this.dataKey.sourceFrom) {

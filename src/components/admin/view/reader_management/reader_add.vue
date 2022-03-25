@@ -389,6 +389,7 @@ export default {
     },
     // 初始化下拉列表
     initSelect(code) {
+      if (!this.dataKey) return;
       if (this.dataKey && this.dataKey.groupSelect) {
         let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
         if (select) {

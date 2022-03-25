@@ -89,6 +89,7 @@ export default {
     },
     // 键值对匹配
     getKeyValue(val) {
+      if (!this.dataKey) return;
       for (const key in this.dataKey.propertyType) {
         if (this.dataKey.propertyType[key] == val) {
           return key;
