@@ -5,7 +5,7 @@
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
         <serviceLMenu :isActive="4"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}" v-loading="loading">
         <breadcrumb :cuMenu="'总导航管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
@@ -61,7 +61,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
                   <template slot-scope="scope">
@@ -103,6 +103,7 @@ import someChange from './model/some_change'
 export default {
   name: 'index',
   created() {
+    debugger
     // bus.$on('collapse', msg => {
     //   this.$root.collapse = msg;
     //   this.$forceUpdate();

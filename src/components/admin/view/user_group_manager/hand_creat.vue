@@ -5,7 +5,7 @@
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="6"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }" v-loading="loading1">
         <breadcrumb :cuMenu="'栏目管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
@@ -203,7 +203,8 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, uploadFile },
   data() {
     return {
-      loading:false,
+      loading: false,
+      loading1: false,
       id: this.$route.query.id,
       dataKey: null,
       // 系统属性code
@@ -219,7 +220,7 @@ export default {
       searchDateValue: '',//日期选择值
       depList: [],//部门列表
       searchForm: {},
-      postSearch:{},
+      postSearch: {},
       postForm: {
         name: '',
         desc: '',
@@ -260,7 +261,7 @@ export default {
   methods: {
     initData() {
       this.getKey();
-      this.getList();
+      // this.getList();
       if (this.id) {
         this.getData();
       } else {
@@ -269,6 +270,7 @@ export default {
     },
     // 获取初始数据
     getKey() {
+      this.loading1 = true;
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
         this.dataKey.canSearchProperties.forEach(item => {
@@ -282,7 +284,9 @@ export default {
             this.selectProperties.push(item);
           }
         });
+        this.loading1 = false;
       }).catch(err => {
+        this.loading1 = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -398,7 +402,7 @@ export default {
         this.rightListImp = val;
       }
     },
-    
+
     // 切换
     handleTab() {
       this.activeName = this.activeName == '选择' ? '导入' : '选择';
@@ -423,7 +427,7 @@ export default {
         return '';
       }
     },
-    reset(){
+    reset() {
       location.reload();
     },
     //表单提交
@@ -523,7 +527,7 @@ export default {
 /deep/ .el-table .warning-row {
   background: rgb(243, 208, 208);
 }
-.search-item-box{
+.search-item-box {
   display: inline-block;
 }
 .date-checkbox {
@@ -555,7 +559,7 @@ export default {
     }
   }
 }
-.w400{
+.w400 {
   width: 400px;
 }
 </style>
