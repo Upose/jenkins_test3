@@ -1,6 +1,6 @@
 <template>
-  <div v-if="dataKey">
-    <div class="user-box">
+  <div>
+    <div class="user-box" v-if="!loading">
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="头像">
           <div class="avatar" :class="isEdit('User_Photo')?'c-n':''" @click="handleAvatar">
@@ -33,7 +33,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="edu-box">
+    <div class="edu-box" v-if="!loading">
       <h2 class="edu-title">学历信息</h2>
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="学历">
@@ -67,7 +67,11 @@
       <el-button type="info" size="medium">取消</el-button>
       <el-button class="btn_bg_color child_border_color" type="primary" size="medium" @click="subForm">保存</el-button>
     </div>
-
+    <!--加载中-->
+    <div class="temp-loading" v-if="loading"></div>
+    <!--暂无数据-->
+    <div class="web-empty-data" v-else-if="form.length==0" :style="{background: 'url('+fileUrl+'/public/image/data-empty.png) no-repeat center'}">
+    </div>
     <!-- 组件 -->
     <UpdateImg ref="UpdateImg" @imgUrl="imgUrl"></UpdateImg>
   </div>
@@ -81,6 +85,7 @@ export default {
   components: { UpdateImg },
   data() {
     return {
+      loading: true,
       form: {},
       dataKey: null,
       imgPath: localStorage.getItem('fileUrl'),
@@ -122,7 +127,9 @@ export default {
     getInfo() {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
+        this.loading = false;
       }).catch((err) => {
+        this.loading = false;
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
     },

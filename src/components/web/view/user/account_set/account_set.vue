@@ -80,6 +80,7 @@ export default {
   width: 100%;
   background: #ffffff;
   border-radius: 16px;
+  min-height: 700px;
 
   .title {
     width: 100%;
