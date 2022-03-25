@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editdiv">
-      <el-form ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules">
+      <el-form v-loading="loading" ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules">
         <el-form-item label="单位名称" prop="unit">
           <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
         </el-form-item>
@@ -216,6 +216,7 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
+      loading:false,
       postForm: null,
       dataKey: null,
       properties: null,
@@ -349,6 +350,7 @@ export default {
     },
     // 获取数据
     getData() {
+      this.loading = true;
       http.getJsonSelf('user-for-edit', `/${this.id}`).then(res => {
         this.rebuildFormData(res.data);
         this.postForm = res.data;
@@ -356,7 +358,9 @@ export default {
         if (this.postForm.isStaff) {
           this.$emit('hide-to-staff');
         }
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取设置失败!' });
       })
     },

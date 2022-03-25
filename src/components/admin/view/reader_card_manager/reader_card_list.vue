@@ -61,7 +61,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
                   <template slot-scope="scope">
@@ -111,6 +111,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {
+      loading:false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -168,12 +169,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('card-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="editdiv">
+    <div class="editdiv" v-loading="loading">
       <el-form ref="form" :model="postForm" label-width="100px">
         <el-form-item label="单位名称">
           <el-input v-model="postForm.unit"></el-input>
@@ -188,6 +188,7 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
+      loading:false,
       postForm: null,
       dataKey: null,
       properties:null
@@ -216,10 +217,13 @@ export default {
     },
     // 获取数据
     getData() {
+      this.loading = true;
       http.getJsonSelf('user', `/${this.id}`).then(res => {
         this.postForm = res.data;
         this.properties = res.data.properties;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取设置失败!' });
       })
     },

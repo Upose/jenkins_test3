@@ -36,7 +36,7 @@
 
           </div>
           <div>
-            <el-table :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="55" align="center"></el-table-column>
               <el-table-column label="姓名" prop="name" width="100" align="center" show-overflow-tooltip></el-table-column>
               <el-table-column label="工号" prop="studentNo" width="110" align="center" show-overflow-tooltip></el-table-column>
@@ -86,6 +86,7 @@ export default {
   components: { paging, updateIcon, dialog_change, dialog_add },
   data() {
     return {
+      loading:false,
       dataKey: {},
       pageData: {
         pageIndex: 1,
@@ -137,13 +138,16 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('staff1-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

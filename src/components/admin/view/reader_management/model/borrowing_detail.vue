@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="login-list">
-      <el-table :data="tableData" border style="width: 100%" class="list-table">
+      <el-table v-loading="loading" :data="tableData" border style="width: 100%" class="list-table">
         <el-table-column label="题名" prop="title"></el-table-column>
         <el-table-column label="索书号" prop="searchNo"></el-table-column>
         <el-table-column label="馆藏地" prop="collectPlace"></el-table-column>
@@ -36,6 +36,7 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
+      loading:false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -54,11 +55,14 @@ export default {
   methods: {
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('user-borrow-table-data', { userID: this.id, ...this.postForm, ...this.pageData }).then(res => {
         this.borrowData = res.data;
         let list = res.data.items || [];
         this.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

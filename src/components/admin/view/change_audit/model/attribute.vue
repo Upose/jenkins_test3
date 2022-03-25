@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="m-title search-term-table">
+    <div class="m-title search-term-table" v-if="dataKey">
       <el-select class="width136" v-model="postForm.type" size="medium" placeholder="操作类型" clearable>
         <el-option :value="item" :label="index" v-for="(item,index) in dataKey.propertyLogType" :key="index"></el-option>
       </el-select>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="t-p">
-      <el-table stripe ref="singleTable" :data="isAuth('approve:propertyList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('approve:propertyList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column label="序号" align="center" width="58" type="index"></el-table-column>
         <el-table-column prop="changeTime" label="修改时间" width="150" align="center" show-overflow-tooltip>
           <template slot-scope="scope">
@@ -76,6 +76,7 @@ export default {
   props: ['dataKey'],
   data() {
     return {
+      loading:false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -108,13 +109,16 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('property-change-log-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

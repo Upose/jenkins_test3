@@ -8,7 +8,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="tableData" style="width:100%" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe>
+    <el-table v-loading="loading" :data="tableData" style="width:100%" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe>
       <el-table-column prop="title" label="时间" width="150" align="center" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ setTime(scope.row.changeTime,'分') }}</span>
@@ -30,6 +30,7 @@ export default {
   //   props: ['id'],
   data() {
     return {
+      loading: false,
       id: '',
       dialogVisible: false,
       name: '',
@@ -58,11 +59,14 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('property-change-log', { ...{ groupId: this.id }, ...this.postFrom, ...this.pageData }).then(res => {
         this.tableData = res.data.logs.items;
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.logs.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

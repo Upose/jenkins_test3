@@ -66,7 +66,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
                   <template slot-scope="scope">
@@ -115,6 +115,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, someChange, dialog_export },
   data() {
     return {
+      loading: false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -150,12 +151,12 @@ export default {
       this.getList();
     },
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_readerList'));
+      let curAuth = authList.find(item => (item.router == '/admin_readerList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {
@@ -222,12 +223,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -381,7 +385,7 @@ export default {
       this.$refs.someChange.show();
     },
     // 合并读者
-    handleMergeReader(){
+    handleMergeReader() {
       if (!this.multipleSelection.length) {
         this.$message({
           message: '请勾选需要合并的读者！',
@@ -392,7 +396,7 @@ export default {
       let list = this.multipleSelection.map(item => {
         return item.id;
       });
-      this.$router.push({path:'/admin_mergeReader',query:{list:JSON.stringify(list)}})
+      this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
     },
     /** 新增读者 */
     handAdd() {

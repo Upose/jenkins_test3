@@ -200,6 +200,7 @@ export default {
     },
     // 获取状态
     getKeyValue(status) {
+      if(!status) return;
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == 'Card_Status'));
       let obj = select.groupItems.find(item => (item.value == status));
       return obj ? obj.key : '';

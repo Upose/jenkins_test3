@@ -7,7 +7,7 @@
     </div>
 
     <div class="t-p">
-      <el-table stripe ref="singleTable" :data="isAuth('setting:roleList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('setting:roleList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column prop="code" label="编码" align="center" width="180px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="name" label="角色名称" align="center" width="150px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="staffCount" label="馆员" align="center" width="100px"></el-table-column>
@@ -45,6 +45,7 @@ export default {
   components: { paging, dialog_staff },
   data() {
     return {
+      loading:false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -75,13 +76,16 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('role-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

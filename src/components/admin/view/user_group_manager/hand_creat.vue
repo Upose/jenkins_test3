@@ -93,7 +93,7 @@
                         </div>
                         <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch">查找</el-button>
                       </div>
-                      <el-table :data="tableData" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange">
+                      <el-table v-loading="loading" :data="tableData" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange">
                         <el-table-column type="selection" width="48"></el-table-column>
                         <el-table-column prop="name" label="姓名" width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
@@ -195,14 +195,15 @@ import uploadFile from './model/uploadFile'
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging, uploadFile },
   data() {
     return {
+      loading:false,
       id: this.$route.query.id,
       dataKey: null,
       // 系统属性code
@@ -302,11 +303,14 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('table-data', { ...this.postSearch, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

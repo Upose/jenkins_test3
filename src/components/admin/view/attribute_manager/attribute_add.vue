@@ -9,7 +9,7 @@
         <breadcrumb :cuMenu="'应用中心'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content">
-          <el-form :model="postForm" :rules="rules" ref="ruleForm" label-width="170px" class="admin-form">
+          <el-form :model="postForm" :rules="rules" ref="ruleForm" label-width="170px" class="admin-form" v-if="dataKey">
             <h1 class="s-b-border-title">{{(id&&id!='')?'编辑':'新增'}}用户属性</h1>
             <div class="form-content">
               <el-form-item label="属性名称" prop="name">

@@ -48,7 +48,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
                 <el-table-column prop="name" label="姓名" width="120" align="center" show-overflow-tooltip></el-table-column>
@@ -120,6 +120,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export },
   data() {
     return {
+      loading:false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -164,12 +165,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('basic-user-table-data', { GroupID: this.id, ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

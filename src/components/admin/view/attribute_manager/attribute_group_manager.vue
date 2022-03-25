@@ -20,7 +20,7 @@
           <div class="table-w">
             <div class="t-p">
               <div class="name">属性组名：{{name}}</div>
-              <el-table stripe ref="singleTable" :data="postForm.tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+              <el-table v-loading="loading" stripe ref="singleTable" :data="postForm.tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
                 <!-- <el-table-column type="selection" width="45"></el-table-column> -->
                 <!-- <el-table-column label="序号" align="center" width="58" type="index"></el-table-column> -->
                 <el-table-column label="分组名称">
@@ -76,14 +76,15 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging },
   data() {
     return {
+      loading: false,
       dataKey: null,
       id: this.$route.query.id,//属性id
       name: this.$route.query.name,//属性id
@@ -108,6 +109,7 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJsonSelf('list-item-data', `/${this.id}`).then(res => {
         this.groupData = res.data;
         let list = res.data.items || [];
@@ -124,7 +126,9 @@ export default {
           });
         }
         this.postForm.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
