@@ -102,13 +102,6 @@ import someChange from './model/some_change'
 
 export default {
   name: 'index',
-  created() {
-    debugger
-    // bus.$on('collapse', msg => {
-    //   this.$root.collapse = msg;
-    //   this.$forceUpdate();
-    // })
-  },
   components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {

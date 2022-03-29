@@ -153,6 +153,7 @@ export default {
     },
     // 键值对匹配
     getKeyValue(name, val) {
+      if (!this.dataKey) return;
       for (const key in this.dataKey[name]) {
         if (this.dataKey[name][key] == val) {
           return key;

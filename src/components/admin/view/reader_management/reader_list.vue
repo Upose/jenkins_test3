@@ -106,12 +106,6 @@ import dialog_export from '../model/dialog_export'
 
 export default {
   name: 'index',
-  created() {
-    // this.// bus.$on('collapse', msg => {
-    //   this.$root.collapse = msg;
-    //   this.$forceUpdate();
-    // })
-  },
   components: { footerPage, serviceLMenu, breadcrumb, paging, someChange, dialog_export },
   data() {
     return {
