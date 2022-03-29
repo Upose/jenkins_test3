@@ -1,7 +1,7 @@
 /***后台路由 */
 async function beforeEnterImplAsync(to, from, next) {
     let response = await axios({
-        url: '/appcenter/api/baseinfo/getauthinfo?appcode=navigation',
+        url: '/appcenter/api/baseinfo/getauthinfo?appcode=usermanage',
         method: 'get'
     }).then(x => x.data);
     if (response.data.canAdmin) { next(); return }

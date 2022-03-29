@@ -22,7 +22,7 @@ export default {
   name: 'index',
   data() {
     return {
-      skin_template: this.$store.state.skin_template || 'template1',
+      skin_template: (JSON.parse(localStorage.getItem('headerFooterInfo'))).themeColor || 'template1',
       headerTemplateCode:'',
       footerTemplateCode:''
     }
