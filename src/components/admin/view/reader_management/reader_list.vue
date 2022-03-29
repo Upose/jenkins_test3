@@ -107,7 +107,6 @@ import dialog_export from '../model/dialog_export'
 export default {
   name: 'index',
   created() {
-    debugger
     // this.// bus.$on('collapse', msg => {
     //   this.$root.collapse = msg;
     //   this.$forceUpdate();
