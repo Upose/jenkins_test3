@@ -23,6 +23,11 @@ export default new Router({
       children: adminRouter.router,
     },
     {
+      path: '/403',
+      name: '403',
+      component: r => require.ensure([], () => r(require('@/components/403')), 'index'),
+    },
+    {
       path: '/404',
       name: '404',
       component: r => require.ensure([], () => r(require('@/components/404')), 'index'),

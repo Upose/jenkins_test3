@@ -1,4 +1,12 @@
 /***门户路由 */
+async function beforeEnterImplAsync(to, from, next) {
+  let response = await axios({
+    url: '/appcenter/api/baseinfo/getauthinfo?appcode=navigation',
+    method: 'get'
+  }).then(x => x.data);
+  if (response.data.canWeb) { next(); return }
+  next({ name: '403' })
+}
 export default {
   router: [
     {
@@ -14,5 +22,8 @@ export default {
       meta: { title: "个人图书馆", keepAlive: true }
     },
 
-  ]
+  ].map(x => {
+    x.beforeEnter = beforeEnterImplAsync;
+    return x;
+  })
 };
