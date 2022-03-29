@@ -40,7 +40,7 @@ export default {
   },
   created() {
     // 设置网页标题
-    document.title = '账号设置-用户中心-' + JSON.parse(localStorage.getItem('orgInfo')).orgName + '图书馆';
+    document.title = '账号设置-用户中心-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
   },
   methods: {
