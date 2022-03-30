@@ -33,7 +33,6 @@ export default {
   props: ['dataKey', 'cardList'],
   data() {
     return {
-      dataKey: null,
       id: '',
       dialogVisible: false,
       postForm: {

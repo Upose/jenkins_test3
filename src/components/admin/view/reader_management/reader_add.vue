@@ -117,7 +117,7 @@
                   <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="手机" prop="phone">
-                  <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit @input="refChangeCardSecret"></el-input>
+                  <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit @blur="refChangeCardSecret"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证" prop="idCard">
                   <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
@@ -203,7 +203,7 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
@@ -322,9 +322,9 @@ export default {
   props: ['id'],
   created() {
   },
-  beforeMount () {
+  beforeMount() {
   },
-  mounted () {
+  mounted() {
     this.initData();
   },
   methods: {
@@ -432,11 +432,9 @@ export default {
         });
       });
     },
-    refChangeCardSecret(val) {
-      var newStr = val || '';
-      if (newStr.length <= 6) {
-        this.cardForm.secret = val;
-      } else {
+    refChangeCardSecret() {
+      var newStr = this.postForm.phone || '';
+      if (newStr.length == 11 && (!this.cardForm.secret || this.cardForm.secret == '')) {
         this.cardForm.secret = newStr.substring(newStr.length - 6);
       }
     },
