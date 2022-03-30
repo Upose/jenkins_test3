@@ -148,6 +148,7 @@ export default {
     }
   },
   created() {
+    debugger
     // 设置网页标题
     document.title = '个人图书馆-用户中心-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
