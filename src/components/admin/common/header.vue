@@ -30,12 +30,8 @@ export default {
       fileUrl: localStorage.getItem('fileUrl'),
       activeName: 0,
       default_img: require('@/assets/admin/img/upload/user-img.png'),
-      logoList: {
-        show: localStorage.getItem('fileUrl')+'/uploads/cqu/scene/admin-logo-min.png',
-        hide: localStorage.getItem('fileUrl')+'/uploads/cqu/scene/admin-logo-text.png',
-      },
+      logoList: {},
       dataList: [],
-
     }
   },
   created() {
@@ -45,10 +41,14 @@ export default {
   methods: {
     getHead() {
       http.getJson('getmgrtopmenu').then(res => {
-        this.dataList = res.data;
+        this.dataList = res.data.appMenuList;
+        this.logoList = {
+          show: localStorage.getItem('fileUrl') + res.data.simpleLogoUrl,
+          hide: localStorage.getItem('fileUrl') + res.data.logoUrl,
+        }
       }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      });
+          this.$message({ type: 'error', message: '获取数据失败!' });
+        });
     },
     // 侧边栏折叠展开
     collapseChage() {
@@ -67,7 +67,7 @@ export default {
         localStorage.removeItem('token');
         let current = window.location.href;
         localStorage.setItem('COM+', current);
-        location.href = window.casBaseUrl+'/cas/logout?service=' + encodeURIComponent(window.location);
+        location.href = window.casBaseUrl + '/cas/logout?service=' + encodeURIComponent(window.location);
       }).catch(() => {
       });
     },
@@ -109,10 +109,10 @@ export default {
   .logo-collapse {
     width: 80px;
   }
-  .m-cut{
+  .m-cut {
     font-size: 16px;
     vertical-align: middle;
-    margin-left:16px;
+    margin-left: 16px;
   }
   /**box-菜单**/
   .m-box-list {
