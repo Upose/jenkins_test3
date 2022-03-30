@@ -6,40 +6,45 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     token: undefined,//token参数
-    language:'zh-CN',//语言
-    skin_template:'template1',
-    authList:[],
+    language: 'zh-CN',//语言
+    skin_template: 'template1',
+    authList: [],
+    appInfo: {},//应用名及版本号信息
   },
   getters: {
     token: (state) => state.token,
-    language: (state) => state.language||'zh-CN',
-    authList:(state)=>state.authList
+    language: (state) => state.language || 'zh-CN',
+    authList: (state) => state.authList,
+    appInfo: (state) => state.appInfo
   },
   mutations: {
     login: (state, data) => {
       state.token = data.token || undefined;
-      sessionStorage.setItem('token',data.token);
+      sessionStorage.setItem('token', data.token);
     },
     logout: (state) => {
       state.token = undefined;
       sessionStorage.clear();
     },
-    setLanguage:(state,data)=>{
+    setLanguage: (state, data) => {
       state.language = data.language || 'zh-CN';
-      sessionStorage.setItem('language',data.language);
+      sessionStorage.setItem('language', data.language);
     },
-    setSkinTemplate:(state,data)=>{
-      console.log(state,data);
+    setSkinTemplate: (state, data) => {
+      console.log(state, data);
       state.skin_template = data.skin_template || 'template1';
-      sessionStorage.setItem('skin_template',data.skin_template);
+      sessionStorage.setItem('skin_template', data.skin_template);
     },
-    getSession:(state)=>{
+    getSession: (state) => {
       state.token = sessionStorage.getItem('token') || undefined;
       state.language = sessionStorage.getItem('language') || 'zh-CN';
       state.skin_template = sessionStorage.getItem('skin_template') || 'template1';
     },
-    setAuthList:(state,data)=>{
+    setAuthList: (state, data) => {
       state.authList = data;
+    },
+    setAppInfo: (state, data) => {
+      state.appInfo = data;
     }
   },
 });
