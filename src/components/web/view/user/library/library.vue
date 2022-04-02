@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="lib-content">
-        <breadCrumbs :blist="[{name:'我的图书馆'}]"></breadCrumbs>
+        <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
         <div v-if="!isEdit">
           <div class="top-right">
             <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
@@ -11,7 +11,7 @@
             <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
           </div>
           <div class="top-content">
-            <div class="top-content-title-box child_bg">我的图书馆 <i class="top-content-title-box-right child_bg"></i></div>
+            <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div>
             <div class="top-content-user-box">
               <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
               <div class="name">
@@ -131,6 +131,7 @@ export default {
   data() {
     return {
       baseUrl: window.apiDomainAndPort,
+      userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
 
 
       isEdit: false,//是否编辑状态
@@ -148,9 +149,8 @@ export default {
     }
   },
   created() {
-    debugger
     // 设置网页标题
-    document.title = '个人图书馆-用户中心-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
+    document.title = JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName + '-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
     this.getKey();
     this.getInfo();
@@ -899,7 +899,7 @@ export default {
     border: 1px dashed #aaa;
   }
 }
-/deep/ .my-breadCrumbs{
+/deep/ .my-breadCrumbs {
   position: absolute;
 }
 </style>

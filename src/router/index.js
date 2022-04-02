@@ -14,6 +14,18 @@ export default new Router({
       component: r => require.ensure([], () => r(require('@/components/web/common/index')), 'index'),
       meta: { title: '首页', keepAlive: true },
       children: webRouter.router,
+      async beforeEnter(to, from, next) {
+        if (localStorage.getItem('token')) {
+          let response = await axios({
+            url: '/appcenter/api/baseinfo/getauthinfo?appcode=usermanage',
+            method: 'get'
+          }).then(x => x.data);
+          if (response.data.canWeb) { next(); return }
+          next({ name: '403' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/admin',
@@ -21,6 +33,18 @@ export default new Router({
       component: r => require.ensure([], () => r(require('@/components/admin/common/index')), 'index'),
       meta: { title: '首页', keepAlive: true },
       children: adminRouter.router,
+      async beforeEnter(to, from, next) {
+        if (localStorage.getItem('token')) {
+          let response = await axios({
+            url: '/appcenter/api/baseinfo/getauthinfo?appcode=usermanage',
+            method: 'get'
+          }).then(x => x.data);
+          if (response.data.canAdmin) { next(); return }
+          next({ name: '403' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/403',

@@ -3,8 +3,8 @@
   <div class="header-warp">
     <div class="m-menu">
       <div class="m-text">
-        <span class="m">{{appInfo.appName || '用户中心'}}</span>
-        <span class="v">{{appInfo.appVersion || 'v3.0.0'}}</span>
+        <span class="m">{{appInfo.appName}}</span>
+        <span class="v">{{appInfo.appVersion}}</span>
       </div>
     </div>
     <div class="s-menu">
@@ -21,34 +21,18 @@ export default {
   data() {
     return {
       default_img: require('@/assets/admin/img/upload/user-img.png'),
-      auth: [],
-      appInfo: {},//应用信息 应用名、版本号
+      auth: this.$store.getters.authList,
+      leftRouter: this.$route.meta.parentRoute,//侧边栏选中
+      appInfo: this.$store.getters.appInfo,//应用信息
     }
   },
   created() {
-    // 应用信息
-    if (this.$store.getters.appInfo && Object.keys(this.$store.getters.appInfo).length > 0) {
-      this.appInfo = this.$store.getters.appInfo;
-    } else {
-      this.getAppInfo();
-    }
     // 侧边栏
-    if (this.$store.getters.authList && this.$store.getters.authList.length > 0) {
-      this.auth = this.$store.getters.authList;
-    } else {
+    if (!this.$store.getters.authList || this.$store.getters.authList.length == 0) {
       this.getAuth();
     }
   },
   methods: {
-    // 获取应用名 版本号
-    getAppInfo() {
-      this.http.getJson('getcurrentappinfo', { appcode: 'usermanage' }).then(res => {
-        this.appInfo = res.data;
-        this.$store.commit('setAppInfo', res.data);
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取侧边栏数据失败!' });
-      })
-    },
     getAuth() {
       this.http.getJson('user-permission-tree').then(res => {
         this.auth = res.data.permissionNodes;

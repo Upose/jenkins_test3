@@ -40,7 +40,7 @@ export default {
   },
   created() {
     // 设置网页标题
-    document.title = '账号设置-用户中心-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
+    document.title = '账号设置-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
   },
   methods: {

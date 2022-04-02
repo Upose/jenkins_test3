@@ -16,17 +16,15 @@
 import http from "@/assets/public/js/http";
 export default {
   name: 'breadcrumbPage',
-  created() {
-  },
   props: ['cuMenu', 'fontColor'],
   data() {
     return {
-      breadcrumbList: []
+      breadcrumbList: [{ name: this.$store.getters.appInfo.appName }, ...this.$route.meta.title]
     }
   },
+  created() {
+  },
   mounted() {
-    //   this.initData();
-    this.breadcrumbList = this.$route.meta.title;
   },
   methods: {
     toWorkbench() {
