@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="s-menu">
-      <div class="s-row" :class="isActive(item.router)?'active':''" :title="item.name" @click="openPage(item.router)" v-for="(item,index) in auth" :key="index+'menu'">
+      <div class="s-row" :class="item.router==leftRouter?'active':''" :title="item.name" @click="openPage(item.router)" v-for="(item,index) in auth" :key="index+'menu'">
         <i class="iconfont el-icon-vip-daohanglanmu"></i>
         <span>{{item.name}}</span>
       </div>
@@ -44,15 +44,6 @@ export default {
     openPage(url) {
       this.$router.push(url)
       window.localStorage.setItem('path_url', url);
-    },
-    //是否当前菜单
-    isActive(url) {
-      var cu_href = window.localStorage.getItem('path_url');
-      if (url == cu_href) {
-        return true;
-      } else {
-        return false;
-      }
     },
   },
 }
