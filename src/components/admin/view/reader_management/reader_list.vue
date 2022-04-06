@@ -23,7 +23,7 @@
                     <el-option label="否" :value="false"></el-option>
                   </el-select>
                   <!-- 属性组单选选择 -->
-                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable>
+                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)">
                     <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                   <!-- 属性组部门选择 -->
@@ -111,6 +111,7 @@ export default {
     return {
       loading: false,
       dataKey: null,
+      groupSelect: [],//筛选项数据
       postForm: {},//列表查询参数
       pageData: {
         pageIndex: 1,
@@ -137,6 +138,9 @@ export default {
   mounted() {
     this.initData();
   },
+  beforeDestroy() {
+
+  },
   methods: {
     initData() {
       //   this.getSysAttr()
@@ -156,6 +160,21 @@ export default {
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+            isScroll: false
+          };
+          if (item.groupItems.length > 200) {
+            data.groupItems = item.groupItems.slice(0, 200);
+            data.isScroll = true;
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
         this.dataKey.canSearchProperties.forEach(item => {
           if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
             this.textProperties.push(item);
@@ -242,6 +261,29 @@ export default {
       this.pageData[data.key] = data.value;
       this.getList();
     },
+    // 初始化下拉列表
+    initSelect(code) {
+      if (this.groupSelect.length == 0) return;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
+      return select.groupItems;
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+        })
+      } else {
+        curList = allList.slice(0, 200);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+        }
+      })
+    },
     // 查找
     handSearch() {
       // console.log(this.searchDateValue);
@@ -267,12 +309,7 @@ export default {
       // console.log(search);
       this.initGetList();
     },
-    // 初始化下拉列表
-    initSelect(code) {
-      if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
-    },
+
     // 数据处理
     getKeyValue(code, row) {
       let value = '';
