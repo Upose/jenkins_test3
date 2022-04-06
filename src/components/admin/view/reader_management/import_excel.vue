@@ -48,7 +48,7 @@
                 <el-table-column prop="addrDetail" label="详细地址" align="left" width="260" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cardNo" label="卡号" align="center" width="150" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cardTypeName" label="卡类型" align="center" width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column label="错误提示" min-width="200" show-overflow-tooltip>
+                <el-table-column label="错误提示" min-width="200" align="center" show-overflow-tooltip fixed="right">
                   <template slot-scope="scope">
                     <span v-if="scope.row.error">{{scope.row.errorMsg}}</span>
                   </template>
