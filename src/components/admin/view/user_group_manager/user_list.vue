@@ -41,6 +41,7 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
+                <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
@@ -91,6 +92,7 @@
             </div>
           </div>
           <!--管理页列表 end--->
+          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection"></someChange>
           <dialog_export ref="dialog_export"></dialog_export>
         </div>
         <!---顶部查询板块 end--->
@@ -107,7 +109,8 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
-import dialog_export from '../model/dialog_export'
+import dialog_export from '../model/dialog_export';
+import someChange from '../model/some_change';
 
 export default {
   name: 'index',
@@ -117,10 +120,10 @@ export default {
     //   this.$forceUpdate();
     // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -130,7 +133,8 @@ export default {
       tableData: [],//列表项
       id: this.$route.query.id,
       sourceFrom: this.$route.query.sourceFrom,
-      briefInfo: {}
+      briefInfo: {},
+      multipleSelection:[]
     }
   },
   filters: {
@@ -215,6 +219,17 @@ export default {
     // 多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    // 批量修改
+    handMathChange() {
+      if (!this.multipleSelection.length) {
+        this.$message({
+          message: '请勾选需要修改的读者！',
+          type: 'warning'
+        })
+        return;
+      }
+      this.$refs.someChange.show();
     },
     /** 批量删除 */
     handMathDel() {

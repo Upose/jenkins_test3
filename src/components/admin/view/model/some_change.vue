@@ -121,7 +121,7 @@ export default {
       }
       http.putJson('batch-update', this.postForm).then(res => {
         this.dialogVisible = false;
-        this.$message({ message: '修改成功！', type: 'success' });
+        this.$message({ message: '修改成功' + this.dataKey.needApprove ? '，等待审核！' : '！', type: 'success' });
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '修改失败') });
       })
@@ -130,6 +130,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../../../../assets/admin/css/color.less"; /**颜色配置 */
-@import "../../../../../assets/admin/css/form.less";
+@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/form.less";
 </style>

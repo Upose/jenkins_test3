@@ -102,8 +102,8 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
-import someChange from './model/some_change'
-import dialog_export from '../model/dialog_export'
+import someChange from '../model/some_change';
+import dialog_export from '../model/dialog_export';
 
 export default {
   name: 'index',

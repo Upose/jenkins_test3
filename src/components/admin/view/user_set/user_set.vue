@@ -11,7 +11,7 @@
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">
-              用户属性管理
+              管理设置
             </h1>
             <div class="search-term">
               <div class="check-box">
