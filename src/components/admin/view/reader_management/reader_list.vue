@@ -166,11 +166,9 @@ export default {
           let data = {
             groupCode: item.groupCode,
             groupItems: [],
-            isScroll: false
           };
           if (item.groupItems.length > 200) {
             data.groupItems = item.groupItems.slice(0, 200);
-            data.isScroll = true;
           } else {
             data.groupItems = item.groupItems;
           }

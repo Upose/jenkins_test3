@@ -47,8 +47,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="专业">
-          <el-select v-model="form.major" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Major')">
+          <el-select v-model="form.major" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Major')" filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
             <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+            <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="年级">
@@ -57,8 +58,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="班级">
-          <el-select v-model="form.class" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Class')">
+          <el-select v-model="form.class" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Class')" filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
             <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+            <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -88,6 +90,7 @@ export default {
       loading: true,
       form: {},
       dataKey: null,
+      groupSelect: [],
       imgPath: localStorage.getItem('fileUrl'),
       addrList: [],
       updateReaderInfo: false,
@@ -105,9 +108,46 @@ export default {
     getKey() {
       this.http.getJson('forward-init-data').then((res) => {
         this.dataKey = res.data;
+        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+          };
+          if (item.groupItems.length > 200) {
+            data.groupItems = item.groupItems.slice(0, 200);
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
+        console.log("🚀 ~ file: info.vue ~ line 122 ~ this.http.getJson ~ this.groupSelect", this.groupSelect)
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
+    },
+    // 初始化下拉列表
+    initSelect(code) {
+      if (!this.dataKey) return;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
+      return select.groupItems;
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+        })
+      } else {
+        curList = allList.slice(0, 200);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+        }
+      })
     },
     // 获取用户修改信息权限
     checkModifyReaderPermit() {
@@ -133,12 +173,7 @@ export default {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
     },
-    // 初始化下拉列表
-    initSelect(code) {
-      if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
-    },
+
     // 是否不可编辑
     isEdit(code) {
       let isedit = true;
