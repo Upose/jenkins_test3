@@ -5,33 +5,33 @@
       <div class="form-content">
         <el-form-item label="开启敏感信息">
           <el-switch v-model="postForm.sensitiveFilter"></el-switch>
-          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('SensitiveInfoVisitor')">指定馆员</el-button>
-          <div class="tips">设定后，读者敏感信息只有指定馆员才可查看</div>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('SensitiveInfoVisitor')">授权馆员</el-button>
+          <div class="tips">设定后，读者敏感信息只有授权馆员才可查看</div>
         </el-form-item>
         <el-form-item label="开启读者注册审批">
           <el-switch disabled v-model="postForm.UserRegister"></el-switch>
-          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('UserRegisterApprover')">指定审核人</el-button>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('UserRegisterApprover')">授权审核人</el-button>
           <div class="tips">设定后，读者注册审批后才生效</div>
         </el-form-item>
         <el-form-item label="开启读者修改审批">
           <el-switch v-model="postForm.userInfoConfirm"></el-switch>
-          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('UserChangeLogApprover')">指定审核人</el-button>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('UserChangeLogApprover')">授权审核人</el-button>
           <div class="tips">设定后，读者信息变动需审批后才生效</div>
         </el-form-item>
         <el-form-item label="开启读者属性修改审批">
           <el-switch v-model="postForm.propertyConfirm"></el-switch>
-          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('PropertyChangeLogApprover')">指定审核人</el-button>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('PropertyChangeLogApprover')">授权审核人</el-button>
           <div class="tips">设定后，读者属性修改需审批后才生效</div>
         </el-form-item>
-        <el-form-item label="允许读者申领读者卡">
+        <el-form-item label="允许读者认领读者卡">
           <el-switch v-model="postForm.cardClaim"></el-switch>
-          <el-button type="primary" size="medium" class="mr" @click="$refs.selectUser.show(0)">指定读者</el-button>
-          <el-button type="primary" size="medium" @click="$refs.Dialog_staff.show('CardClaimApprover')">指定审核人</el-button>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.selectUser.show(0)">授权读者</el-button>
+          <el-button type="primary" size="medium" @click="$refs.Dialog_staff.show('CardClaimApprover')">授权审核人</el-button>
           <div class="tips">设定后，读者可主动认领未关联的读者卡，认领后需馆员审核</div>
         </el-form-item>
         <el-form-item label="开放读者完善个人信息">
           <el-switch v-model="postForm.userInfoSupply"></el-switch>
-          <el-button type="primary" size="medium" class="mr" @click="$refs.selectUser.show(1)">指定读者</el-button>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.selectUser.show(1)">授权读者</el-button>
           <el-button type="primary" size="medium" @click="$refs.Dialog_set.show()">设置信息编辑项</el-button>
           <div class="tips">设定后，读者可修改完善个人必填项信息</div>
         </el-form-item>
