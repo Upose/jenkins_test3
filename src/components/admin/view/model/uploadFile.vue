@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      uploadUrl: window.apiDomainAndPort + 'usermanage/api/user/import-user',
+      uploadUrl: window.apiDomainAndPort + '/usermanage/api/user/import-user',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] }
     }
   },
