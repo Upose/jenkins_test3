@@ -225,6 +225,6 @@ h1 {
   margin: 30px 0 20px;
 }
 .font-f{
-  color: #fff;
+  color: #fff !important;
 }
 </style>
