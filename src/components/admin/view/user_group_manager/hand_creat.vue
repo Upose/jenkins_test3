@@ -42,7 +42,7 @@
                             <!-- 属性组单选选择 -->
                             <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)">
                               <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                              <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.code).length==200"></el-option>
+                              <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.code).length==200"></el-option>
                             </el-select>
                             <!-- 属性组部门选择 -->
                             <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>

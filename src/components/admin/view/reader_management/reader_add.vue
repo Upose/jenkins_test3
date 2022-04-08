@@ -35,7 +35,7 @@
                   <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
                     <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="出生日期" prop="birthday">
@@ -46,7 +46,7 @@
                   <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')">
                     <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="所在地" prop="addr">
@@ -67,14 +67,14 @@
                   <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
                     <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="所在系" prop="collegeDepart">
                   <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')">
                     <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="最后登录日期" prop="lastLoginTime">
@@ -85,7 +85,7 @@
                   <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
                     <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="离校日期" prop="leaveTime">
@@ -96,26 +96,26 @@
                   <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
                     <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
                   <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
                     <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="班级" prop="class">
                   <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
                     <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="用户类型" prop="type">
                   <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
                     <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="头像" prop="photo">
@@ -143,7 +143,7 @@
                   </el-radio-group>
                   <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.propertyCode)">
                     <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                    <el-option label="如未找到请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.propertyCode).length==200"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.propertyCode).length==200"></el-option>
                   </el-select>
                   <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
                   <div v-if="item.propertyType == 6">
