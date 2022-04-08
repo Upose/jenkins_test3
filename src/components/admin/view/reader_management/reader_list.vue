@@ -396,7 +396,7 @@ export default {
       }).then(() => {
         http.deleteJsonSelf('user', `/${row.id}`).then(res => {
           this.getList();
-          this.$message({ type: 'success', message: '删除成功!' });
+          this.$message({ type: 'success', message: this.dataKey.needApprove ? '删除成功，等待审核！' : '删除成功!' });
         }).catch(err => {
           console.log(err);
         })

@@ -3,28 +3,33 @@
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="学历">
         <!-- <el-checkbox v-model="b"></el-checkbox> -->
-        <el-select v-model="postForm.edu" placeholder="请选择" clearable>
+        <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
           <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="院系">
-        <el-select v-model="postForm.college" placeholder="请选择" clearable>
+        <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
           <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="专业">
-        <el-select v-model="postForm.major" placeholder="请选择" clearable>
+        <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
           <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年级">
-        <el-select v-model="postForm.grade" placeholder="请选择" clearable>
+        <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
           <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="班级">
-        <el-select v-model="postForm.class" placeholder="请选择" clearable>
+        <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
           <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="性别">
@@ -33,13 +38,15 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户类型">
-        <el-select v-model="postForm.type" placeholder="请选择" clearable>
+        <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
           <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="postForm.status" placeholder="请选择" clearable>
+        <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
           <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="离校日期">
@@ -58,10 +65,11 @@ import http from "@/assets/public/js/http";
 
 export default {
   name: 'preview',
-  props: ['dataKey', 'userList'],
+  props: ['userList'],
   data() {
     return {
-      dataKey: {},
+      dataKey: null,
+      groupSelect: [],
       id: '',
       dialogVisible: false,
       postForm: {
@@ -87,7 +95,7 @@ export default {
   },
   // components: { paging },
   mounted() {
-    // this.getKey()
+    this.getKey()
   },
   methods: {
     // 显示弹窗
@@ -98,15 +106,46 @@ export default {
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+          };
+          if (item.groupItems.length > 200) {
+            data.groupItems = item.groupItems.slice(0, 200);
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
+        console.log("🚀 ~ file: some_change.vue ~ line 121 ~ http.getJson ~ this.groupSelect", this.groupSelect)
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 初始化下拉列表
     initSelect(code) {
-      if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      if (!this.groupSelect.length) return;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+        })
+      } else {
+        curList = allList.slice(0, 200);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+        }
+      })
     },
     //表单提交
     submitForm() {
