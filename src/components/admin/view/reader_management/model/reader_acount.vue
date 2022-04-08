@@ -9,9 +9,10 @@
           <el-input v-model="postForm.nickName" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="学历" prop="edu">
-          <el-select v-model="postForm.edu" placeholder="请选择" clearable>
+          <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
             <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
@@ -20,9 +21,10 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="职称" prop="title">
-          <el-select v-model="postForm.title" placeholder="请选择" clearable>
+          <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')">
             <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="出生日期" prop="birthday">
@@ -46,24 +48,27 @@
           <el-cascader :options="addrList" v-model="postForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
         </el-form-item>
         <el-form-item label="所在学院" prop="college">
-          <el-select v-model="postForm.college" placeholder="请选择" clearable>
+          <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
             <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="所在系" prop="collegeDepart">
-          <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable>
+          <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')">
             <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="详细地址" prop="addrDetail">
           <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="专业" prop="major">
-          <el-select v-model="postForm.major" placeholder="请选择" clearable>
+          <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
             <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="离校日期" prop="leaveTime">
@@ -71,33 +76,37 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="年级" prop="grade">
-          <el-select v-model="postForm.grade" placeholder="请选择" clearable>
+          <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
             <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="status">
-          <el-select v-model="postForm.status" placeholder="请选择" clearable>
+          <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
             <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="班级" prop="class">
-          <el-select v-model="postForm.class" placeholder="请选择" clearable>
+          <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
             <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="用户类型" prop="type">
-          <el-select v-model="postForm.type" placeholder="请选择" clearable>
+          <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
             <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="学号" prop="studentNo">
           <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="手机" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
-          <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit>
+          <el-input v-model="postForm.phone" placeholder="请输入" maxlength="11" show-word-limit>
             <template slot="append">
               <div v-if="postForm.mobileIdentity">
                 <span class="yuan"></span>
@@ -117,7 +126,7 @@
           </el-select>
         </el-form-item> -->
         <el-form-item label="身份证" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
-          <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit>
+          <el-input v-model="postForm.idCard" placeholder="请输入" maxlength="30" show-word-limit>
             <template slot="append">
               <div v-if="postForm.idCardIdentity">
                 <span class="yuan"></span>
@@ -131,7 +140,7 @@
           <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard">身份证号重复</div>
         </el-form-item>
         <el-form-item label="邮箱" prop="email" class="youxiang">
-          <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit>
+          <el-input v-model="postForm.email" placeholder="请输入" maxlength="30" show-word-limit>
             <template slot="append">
               <div v-if="postForm.emailIdentity">
                 <span class="yuan"></span>
@@ -151,8 +160,9 @@
             <el-radio :label="'true'">是</el-radio>
             <el-radio :label="'false'">否</el-radio>
           </el-radio-group>
-          <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable>
+          <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)">
             <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.code).length==200"></el-option>
           </el-select>
           <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
           <div v-if="item.propertyType == 6">
@@ -219,6 +229,7 @@ export default {
       loading:false,
       postForm: null,
       dataKey: null,
+      groupSelect:[],
       properties: null,
       mergeInfo: null,//合并信息提示
       readerRules: {
@@ -310,6 +321,19 @@ export default {
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+          };
+          if (item.groupItems.length > 200) {
+            data.groupItems = item.groupItems.slice(0, 200);
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
         var groupInfo = this.dataKey.groupSelect.find(x => {
           return x.groupCode == "User_Groups";
         });
@@ -367,8 +391,25 @@ export default {
     // 初始化下拉列表
     initSelect(code) {
       if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      let select = this.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+        })
+      } else {
+        curList = allList.slice(0, 200);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+        }
+      })
     },
     // 添加到用户组
     handleAddGrounp(id) {
@@ -622,7 +663,8 @@ export default {
 }
 .right-box {
   width: 100%;
-  display: table;
+  // display: table;
+  overflow: hidden;
   margin: 2% 0 6% 0;
   .grounpSel {
     border-color: #6777ef;
@@ -637,7 +679,7 @@ export default {
   font-size: 13px;
   text-align: center;
   padding: 6px 13px;
-  margin: 2% 2% 0 0;
+  margin: 10px 10px 0 0;
   cursor: pointer;
   border-radius: 3px;
 }
