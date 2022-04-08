@@ -119,7 +119,6 @@ export default {
           }
           this.groupSelect.push(data);
         });
-        console.log("🚀 ~ file: some_change.vue ~ line 121 ~ http.getJson ~ this.groupSelect", this.groupSelect)
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
