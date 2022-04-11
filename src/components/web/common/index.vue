@@ -33,15 +33,12 @@ export default {
   },
   methods: {
     getHeadFoot() {
-      this.http.getJson('getbaseinfo').then(res => {
-        this.headerTemplateCode = res.data.headerFooterInfo.headerTemplateCode;
-        this.footerTemplateCode = res.data.headerFooterInfo.footerTemplateCode;
-        
-        this.addTemp(res.data.headerFooterInfo.headerRouter);
-        this.addTemp(res.data.headerFooterInfo.footerRouter);
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      });
+      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo'));
+      this.headerTemplateCode = headerFooterInfo.headerTemplateCode;
+      this.footerTemplateCode = headerFooterInfo.footerTemplateCode;
+
+      this.addTemp(headerFooterInfo.headerRouter);
+      this.addTemp(headerFooterInfo.footerRouter);
     },
     addTemp(url) {
       this.addStyle(url + '/component.css');
