@@ -71,7 +71,7 @@
                 <el-table-column type="selection" width="45"></el-table-column>
                 <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item">
                   <template slot-scope="scope">
-                    <span @click="clickRow(item,scope.row)">{{getKeyValue(item.code,scope.row)}}</span>
+                    <span @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="content" label="操作" width="260">
@@ -503,5 +503,12 @@ export default {
 }
 /deep/ .el-input {
   margin-bottom: 0 !important;
+}
+.cu-p{
+  cursor: pointer;
+  &:hover{
+    color: @6777EF;
+    text-decoration: underline;
+  }
 }
 </style>
