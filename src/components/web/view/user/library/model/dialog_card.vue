@@ -106,7 +106,7 @@ export default {
     color: #666;
     margin-top: 8px;
   }
-  span {
+  &>span {
     position: absolute;
     top: 20px;
     right: 0;
