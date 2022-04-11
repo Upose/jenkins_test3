@@ -52,26 +52,26 @@
               <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
-                <el-table-column prop="name" label="姓名" width="120" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="cardNo" label="读者卡号" width="140" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="studentNo" label="学号" width="140" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="type" label="用户类型" width="140" align="center" show-overflow-tooltip>
+                <el-table-column prop="name" label="姓名" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="cardNo" label="读者卡号" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="studentNo" label="学号" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="type" label="用户类型" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_Type',scope.row.type)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="idCard" label="身份证" width="180" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="status" label="状态" width="100" align="center" show-overflow-tooltip>
+                <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="status" label="状态" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_Status',scope.row.status)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="sourceFrom" label="用户来源" width="140" align="center" show-overflow-tooltip>
+                <el-table-column prop="sourceFrom" label="用户来源" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="添加日期" width="140" align="center" show-overflow-tooltip>
+                <el-table-column prop="createTime" label="添加日期" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime)}}
                   </template>

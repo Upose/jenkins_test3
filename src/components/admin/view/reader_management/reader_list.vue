@@ -34,7 +34,7 @@
               <!-- 文本输入 -->
               <div class="search-item-box" v-if="textProperties.length">
                 <div class="search-item" style="width:300px">
-                  <el-input placeholder="请输入" size="medium" v-model="searchTextValue" style="width:300px" clearable>
+                  <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
                     <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
                       <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
@@ -45,14 +45,14 @@
               <div class="search-item-box" v-if="dateRangeProperties.length">
                 <div class="search-item w400">
                   <div class="date-checkbox">
-                    <el-select v-model="searchDateCode" placeholder="请选择" size="medium" clearable>
+                    <el-select v-model="searchDateCode" placeholder="请选择" clearable>
                       <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
-                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                   </div>
                 </div>
               </div>
-              <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+              <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
@@ -500,5 +500,8 @@ export default {
 }
 .w400 {
   width: 400px;
+}
+/deep/ .el-input {
+  margin-bottom: 0 !important;
 }
 </style>
