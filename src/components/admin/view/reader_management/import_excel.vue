@@ -22,7 +22,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table ref="singleTable" :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" :row-class-name="tableRowClassName">
+              <el-table v-loading="loading" ref="singleTable" :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" :row-class-name="tableRowClassName">
                 <!-- <el-table-column type="selection" width="45"></el-table-column> -->
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
                 <el-table-column prop="userName" label="姓名" align="center" width="120" show-overflow-tooltip></el-table-column>
@@ -48,7 +48,7 @@
                 <el-table-column prop="addrDetail" label="详细地址" align="left" width="260" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cardNo" label="卡号" align="center" width="150" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cardTypeName" label="卡类型" align="center" width="120" show-overflow-tooltip></el-table-column>
-                <el-table-column label="错误提示" min-width="200" show-overflow-tooltip>
+                <el-table-column label="错误提示" min-width="200" align="center" show-overflow-tooltip fixed="right">
                   <template slot-scope="scope">
                     <span v-if="scope.row.error">{{scope.row.errorMsg}}</span>
                   </template>
@@ -71,7 +71,7 @@
 <script>
 import axios from 'axios';
 
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
@@ -82,14 +82,15 @@ import uploadFile from '../model/uploadFile'
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging, uploadFile },
   data() {
     return {
+      loading:false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -108,9 +109,7 @@ export default {
   },
   methods: {
     initData() {
-      //   this.getSysAttr()
-      //   this.getKey();
-      //   this.getList();
+        this.getKey();
     },
     // 获取初始数据
     getKey() {
@@ -130,12 +129,15 @@ export default {
     },
     // 获取列表数据
     getList(id) {
+      this.loading = true;
       this.batchid = id;
       http.getJson('import-temp-user-data', { BatchId: this.batchid, ...this.pageData }).then(res => {
         this.tableData = [...res.data.items, ...this.tableData];
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -151,7 +153,7 @@ export default {
     sub() {
       http.postJsonSelf('import-user-confirm', `/${this.batchid}`).then(res => {
         if (res.data) {
-          this.$message({ type: 'success', message: `导入成功：${res.data.sucCount}条，失败：${res.data.errCount}条!` });
+          this.$message({ type: 'success', message: `导入成功：${res.data.sucCount}条，失败：${res.data.errCount}条,${this.dataKey.needApprove?'等待审核':''}!` });
           this.tableData = [];
         }
       }).catch(err => {

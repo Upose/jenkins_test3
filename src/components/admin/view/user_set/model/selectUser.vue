@@ -5,7 +5,7 @@
       <!-- <h1 class="d-title"><i class="el-icon-menu"></i> <span>已选标签：2021年毕业生</span></h1> -->
       <div class="select-user check-box">
         <div class="box-title">选择用户</div>
-        <div class="check-list">
+        <div class="check-list" v-loading="loading">
           <el-tabs v-model="active" :tab-position="'left'" style="height: 200px;" v-if="dataKey">
             <el-tab-pane label="类型" name="type">
               <el-checkbox :indeterminate="isUserTypeIndeterminate" v-model="checkUserTypeAll" @change="handleCheckAllUserTypeChange">全部读者</el-checkbox>
@@ -38,6 +38,7 @@ export default {
   props: ['editPower_data'],
   data() {
     return {
+      loading:false,
       postForm: {},
       dialogBulk: false,
       checkUserTypeAll: false,
@@ -77,6 +78,7 @@ export default {
       })
     },
     initData() {
+      this.loading = true;
       var urlCode = '';
       switch (this.type) {
         case 0:
@@ -96,7 +98,9 @@ export default {
         this.active = (this.checkedUserTypes.length == 0 && this.checkedGroupList.length > 0) ? 'group' : 'type';
         this.handleCheckedUserTypeChange(this.checkedUserTypes);
         this.handleCheckedGroupListChange(this.checkedGroupList);
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败' });
       })
     },

@@ -47,6 +47,13 @@ export default {
     },
     //提交
     subForm() {
+      if (this.newPwd != this.newPwdTwo) {
+        this.$message({
+          message: '两次密码不一致，请确认！',
+          type: 'warning'
+        })
+        return
+      }
       this.http.postJson('forward-change-card-password', { cardID: this.id, prePwd: this.prePwd, newPwd: this.newPwd }).then((res) => {
         this.$message({ type: "success", message: "修改成功!" });
         this.dialogVisible = false;

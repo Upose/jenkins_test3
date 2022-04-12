@@ -5,7 +5,7 @@
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="6"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }" v-loading="loading1">
         <breadcrumb :cuMenu="'栏目管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
@@ -26,32 +26,9 @@
                 <el-input type="textarea" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择读者">
-                <el-tabs v-model="activeName" style="width:950px">
+                <el-tabs v-model="activeName" style="min-width:930px">
                   <el-tab-pane label="选择" name="选择">
                     <div class="rule-box" v-if="dataKey">
-                      <!-- <div class="search-box">
-                        <el-select v-model="searchForm.type" placeholder="读者类型" class="search-item" clearable>
-                          <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                        </el-select>
-                        <el-select v-model="searchForm.status" placeholder="状态" class="search-item" clearable>
-                          <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                        </el-select>
-                        <el-select v-model="searchForm.College" placeholder="院系" class="search-item" clearable>
-                          <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                        </el-select>
-                        <el-select v-model="searchForm.SourceFrom" placeholder="用户来源" class="search-item" clearable>
-                          <el-option v-for="item in initSelect('User_SourceFrom')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                        </el-select>
-                        <el-date-picker v-model="searchForm.LastLoginEndCompareTime" type="date" placeholder="最近登录日期" class="search-item" clearable></el-date-picker>
-                        <el-date-picker v-model="searchForm.ExpireDate" type="date" placeholder="截止日期" class="search-item" clearable></el-date-picker>
-                        <el-input v-model="searchForm.name" placeholder="读者姓名" class="search-item" clearable></el-input>
-                        <el-input v-model="searchForm.cardIdentityNo" placeholder="统一登录号" class="search-item" clearable></el-input>
-                        <el-input v-model="searchForm.phone" placeholder="手机号" class="search-item" clearable></el-input>
-                        <el-input v-model="searchForm.idCard" placeholder="读者身份证/护照" class="search-item" clearable></el-input>
-                        <el-input v-model="searchForm.studentNo" placeholder="学号" class="search-item" clearable></el-input>
-                        <el-input v-model="searchForm.cardNo" placeholder="读者卡号" class="search-item" clearable></el-input>
-                        <el-button type="primary" @click="handleSearch" size="medium">查找</el-button>
-                      </div> -->
                       <div class="search-box" v-if="dataKey">
                         <!-- 属性组选择 -->
                         <div class="search-item-box" v-for="item in selectProperties" :key="item.code">
@@ -63,8 +40,9 @@
                               <el-option label="否" :value="false"></el-option>
                             </el-select>
                             <!-- 属性组单选选择 -->
-                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable>
+                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)">
                               <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                              <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.code).length==200"></el-option>
                             </el-select>
                             <!-- 属性组部门选择 -->
                             <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>
@@ -93,43 +71,45 @@
                         </div>
                         <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch">查找</el-button>
                       </div>
-                      <el-table :data="tableData" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange">
+                      <div class="btn-box">
+                        <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
+                        <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
+                      </div>
+                      <el-table v-loading="loading" :data="tableData" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange">
                         <el-table-column type="selection" width="48"></el-table-column>
-                        <el-table-column prop="name" label="姓名" width="75" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机" width="95" align="center" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="type" label="用户类型" width="95" align="center" show-overflow-tooltip>
+                        <el-table-column prop="phone" label="手机" min-width="95" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="type" label="用户类型" min-width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{getKeyValue('User_Type',scope.row.type)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="prop" label="注册日期" width="115" align="center" show-overflow-tooltip>
+                        <el-table-column prop="prop" label="注册日期" min-width="115" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{setTime(scope.row.createTime) }}
                           </template>
                         </el-table-column>
                       </el-table>
 
-                      <el-table :data="chanceData" style="width: 320px;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
+                      <el-table :data="chanceData" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
                         <el-table-column type="selection" width="48"></el-table-column>
-                        <el-table-column prop="name" label="姓名" width="75" align="center" show-overflow-tooltip>
+                        <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{scope.row.name || scope.row.userName}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
+                        <el-table-column prop="sourceFrom" label="用户来源" min-width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机" width="95" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="phone" label="手机" min-width="95" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
-                      <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
-                      <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
                       <paging style="text-align:left;padding-left:40px" :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
                     </div>
                   </el-tab-pane>
@@ -140,17 +120,20 @@
                         <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload">下载模板</el-button>
                         <el-button type="primary" size="medium" @click="$refs.uploadFile.show()">导入数据</el-button>
                       </div>
-
-                      <el-table :data="tableDataImp" style="width: 520px" class="table-box" height="600px" @selection-change="handleAddChange" :row-class-name="tableRowClassName">
+                      <div class="btn-box">
+                        <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
+                        <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
+                      </div>
+                      <el-table :data="tableDataImp" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange" :row-class-name="tableRowClassName">
                         <el-table-column type="selection" width="48"></el-table-column>
-                        <el-table-column prop="name" label="姓名" width="85" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="name" label="姓名" min-width="85" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
 
-                      <el-table :data="chanceDataImp" style="width: 320px;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
+                      <el-table :data="chanceDataImp" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
                         <el-table-column type="selection" width="48"></el-table-column>
-                        <el-table-column prop="name" label="姓名" width="85" align="center" show-overflow-tooltip>
+                        <el-table-column prop="name" label="姓名" min-width="85" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{scope.row.name || scope.row.userName}}
                           </template>
@@ -158,8 +141,6 @@
                         <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
-                      <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
-                      <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
                     </div>
                   </el-tab-pane>
                 </el-tabs>
@@ -195,16 +176,19 @@ import uploadFile from './model/uploadFile'
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging, uploadFile },
   data() {
     return {
+      loading: false,
+      loading1: false,
       id: this.$route.query.id,
       dataKey: null,
+      groupSelect: [],
       // 系统属性code
       sysArrt: ['User_Name', 'User_SourceFrom', 'User_NickName', 'User_StudentNo', 'User_Unit', 'User_Edu', 'User_Depart', 'User_Title', 'User_College', "User_CollegeDepart", 'User_Grade', 'User_Major', 'User_Class', 'User_Type', 'User_Status', 'User_Phone', 'User_IdCard', 'User_Email', 'User_Birthday', 'User_Gender', 'User_AddrDetail', 'User_Addr', 'User_CreateTime', 'Card_No', 'User_LeaveTime', 'User_Photo', 'Card_BarCode', 'Card_PhysicNo', 'Card_Type', 'Card_IdentityNo', 'Card_Status', 'Card_IsPrincipal', 'Card_ExpireDate', 'Card_IssueDate', 'Card_Deposit'],
       // 系统属性code对应字段名称
@@ -218,7 +202,7 @@ export default {
       searchDateValue: '',//日期选择值
       depList: [],//部门列表
       searchForm: {},
-      postSearch:{},
+      postSearch: {},
       postForm: {
         name: '',
         desc: '',
@@ -259,17 +243,30 @@ export default {
   methods: {
     initData() {
       this.getKey();
-      this.getList();
+      // this.getList();
       if (this.id) {
         this.getData();
-      } else {
-
       }
     },
     // 获取初始数据
     getKey() {
+      this.loading1 = true;
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+          };
+          if (item.groupItems.length > 200) {
+            data.groupItems = item.groupItems.slice(0, 200);
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
+        // 筛选项分类
         this.dataKey.canSearchProperties.forEach(item => {
           if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
             this.textProperties.push(item);
@@ -281,13 +278,16 @@ export default {
             this.selectProperties.push(item);
           }
         });
+        this.loading1 = false;
       }).catch(err => {
+        this.loading1 = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 初始化下拉列表
     initSelect(code) {
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
+      if (!this.dataKey) return;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
     },
     // 获取数据
@@ -301,11 +301,14 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('table-data', { ...this.postSearch, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -344,6 +347,23 @@ export default {
       // this.searchForm = search;
       this.postSearch = search;
       this.getList();
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+        })
+      } else {
+        curList = allList.slice(0, 200);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+        }
+      })
     },
     // 匹配键值对
     getKeyValue(code, value) {
@@ -393,7 +413,7 @@ export default {
         this.rightListImp = val;
       }
     },
-    
+
     // 切换
     handleTab() {
       this.activeName = this.activeName == '选择' ? '导入' : '选择';
@@ -418,7 +438,7 @@ export default {
         return '';
       }
     },
-    reset(){
+    reset() {
       location.reload();
     },
     //表单提交
@@ -430,14 +450,14 @@ export default {
       if (this.id) {
         http.putJson('user-group', this.postForm).then(res => {
           this.$message({ message: '编辑成功！', type: 'success' });
-          // this.getData();
+          this.$router.back();
         }).catch(err => {
           this.$message({ type: 'error', message: '编辑失败!' });
         })
       } else {
         http.postJson('user-group', this.postForm).then(res => {
           this.$message({ message: '新增成功！', type: 'success' });
-          // this.getData();
+          this.$router.back();
         }).catch(err => {
           this.$message({ type: 'error', message: '新增失败!' });
         })
@@ -476,7 +496,7 @@ export default {
   width: 500px;
 }
 .rule-box {
-  width: 910px;
+  min-width: 910px;
   //   padding: 20px 0;
   border-radius: 3px;
   border: 1px solid #ddd;
@@ -496,16 +516,18 @@ export default {
   display: inline-block;
   vertical-align: top;
 }
+.btn-box {
+  padding-bottom: 20px;
+}
 .add-btn {
-  position: absolute;
-  top: 400px;
-  left: 528px;
+  // position: absolute;
+  // top: 400px;
+  margin-left: 49%;
 }
 .cal-btn {
-  position: absolute;
-  top: 460px;
-  left: 528px;
-  margin: 0;
+  // position: absolute;
+  // top: 460px;
+  margin-left: 8%;
 }
 .search-box {
   padding: 20px;
@@ -518,7 +540,7 @@ export default {
 /deep/ .el-table .warning-row {
   background: rgb(243, 208, 208);
 }
-.search-item-box{
+.search-item-box {
   display: inline-block;
 }
 .date-checkbox {
@@ -550,7 +572,7 @@ export default {
     }
   }
 }
-.w400{
+.w400 {
   width: 400px;
 }
 </style>

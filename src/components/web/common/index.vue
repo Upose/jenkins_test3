@@ -22,7 +22,7 @@ export default {
   name: 'index',
   data() {
     return {
-      skin_template: this.$store.state.skin_template || 'template1',
+      skin_template: (JSON.parse(localStorage.getItem('headerFooterInfo'))).themeColor || 'template1',
       headerTemplateCode:'',
       footerTemplateCode:''
     }
@@ -33,15 +33,12 @@ export default {
   },
   methods: {
     getHeadFoot() {
-      this.http.getJson('getbaseinfo').then(res => {
-        this.headerTemplateCode = res.data.headerFooterInfo.headerTemplateCode;
-        this.footerTemplateCode = res.data.headerFooterInfo.footerTemplateCode;
-        
-        this.addTemp(res.data.headerFooterInfo.headerRouter);
-        this.addTemp(res.data.headerFooterInfo.footerRouter);
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      });
+      let headerFooterInfo = JSON.parse(localStorage.getItem('headerFooterInfo'));
+      this.headerTemplateCode = headerFooterInfo.headerTemplateCode;
+      this.footerTemplateCode = headerFooterInfo.footerTemplateCode;
+
+      this.addTemp(headerFooterInfo.headerRouter);
+      this.addTemp(headerFooterInfo.footerRouter);
     },
     addTemp(url) {
       this.addStyle(url + '/component.css');
@@ -72,10 +69,6 @@ export default {
   }
 }
 </script>
-<style lang="less">
-@import "../../../assets/web/css/color.less"; //引入主题颜色文件
-</style>
-
 <style scoped lang="less">
 .web-warp {
   min-width: 1200px;

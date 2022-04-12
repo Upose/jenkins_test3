@@ -78,10 +78,10 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb },
   data() {
@@ -201,14 +201,14 @@ export default {
       if (this.id) {
         http.putJson('user-group', this.postForm).then(res => {
           this.$message({ message: '编辑成功！', type: 'success' });
-          // this.getData();
+          this.$router.back();
         }).catch(err => {
           this.$message({ type: 'error', message: '编辑失败!' });
         })
       } else {
         http.postJson('user-group', this.postForm).then(res => {
           this.$message({ message: '新增成功！', type: 'success' });
-          // this.getData();
+          this.$router.back();
         }).catch(err => {
           this.$message({ type: 'error', message: '新增失败!' });
         })

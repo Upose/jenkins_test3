@@ -8,7 +8,7 @@
         </el-form-item>
       </el-form>
     </div> -->
-    <el-table :data="tableData" style="width:100%" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe>
+    <el-table v-loading="loading" :data="tableData" style="width:100%" class="admin-table" border :header-cell-style="{background:'#F1F3F7'}" stripe>
       <el-table-column prop="fieldCode" label="字段编码"></el-table-column>
       <el-table-column prop="fieldName" label="字段名称"></el-table-column>
       <el-table-column label="类型">
@@ -33,6 +33,7 @@ export default {
   props: ['dataKey'],
   data() {
     return {
+      loading:false,
       dataKey: sessionStorage.getItem('user_dataKey'),
       type: '',
       urlData: '',
@@ -65,11 +66,14 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJsonSelf(this.urlData[this.type].url,this.urlData[this.type].datas).then(res => {
         this.tableData = res.data;
         //分页所需  数据总条数
         // this.pageData.totalCount = res.data.logs.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

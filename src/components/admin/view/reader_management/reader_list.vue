@@ -5,7 +5,7 @@
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}" v-loading="loading">
         <breadcrumb :cuMenu="'读者管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
@@ -23,8 +23,9 @@
                     <el-option label="否" :value="false"></el-option>
                   </el-select>
                   <!-- 属性组单选选择 -->
-                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable>
+                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)">
                     <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.code).length==200"></el-option>
                   </el-select>
                   <!-- 属性组部门选择 -->
                   <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>
@@ -33,7 +34,7 @@
               <!-- 文本输入 -->
               <div class="search-item-box" v-if="textProperties.length">
                 <div class="search-item" style="width:300px">
-                  <el-input placeholder="请输入" size="medium" v-model="searchTextValue" style="width:300px" clearable>
+                  <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
                     <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
                       <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
@@ -44,14 +45,14 @@
               <div class="search-item-box" v-if="dateRangeProperties.length">
                 <div class="search-item w400">
                   <div class="date-checkbox">
-                    <el-select v-model="searchDateCode" placeholder="请选择" size="medium" clearable>
+                    <el-select v-model="searchDateCode" placeholder="请选择" clearable>
                       <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
-                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                   </div>
                 </div>
               </div>
-              <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+              <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
@@ -68,9 +69,9 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
+                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item">
                   <template slot-scope="scope">
-                    <span @click="clickRow(item,scope.row)">{{getKeyValue(item.code,scope.row)}}</span>
+                    <span @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="content" label="操作" width="260">
@@ -95,27 +96,23 @@
 </template>
 
 <script>
-// import bus from '@/assets/public/js/bus';
+// // import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
-import someChange from './model/some_change'
-import dialog_export from '../model/dialog_export'
+import someChange from '../model/some_change';
+import dialog_export from '../model/dialog_export';
 
 export default {
   name: 'index',
-  created() {
-    this.bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
-  },
   components: { footerPage, serviceLMenu, breadcrumb, paging, someChange, dialog_export },
   data() {
     return {
+      loading: false,
       dataKey: null,
+      groupSelect: [],//筛选项数据
       postForm: {},//列表查询参数
       pageData: {
         pageIndex: 1,
@@ -142,6 +139,9 @@ export default {
   mounted() {
     this.initData();
   },
+  beforeDestroy() {
+
+  },
   methods: {
     initData() {
       //   this.getSysAttr()
@@ -150,17 +150,31 @@ export default {
       this.getList();
     },
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_readerList'));
+      let curAuth = authList.find(item => (item.router == '/admin_readerList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+          };
+          if (item.groupItems.length > 200) {
+            data.groupItems = item.groupItems.slice(0, 200);
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
+        // 筛选项分类
         this.dataKey.canSearchProperties.forEach(item => {
           if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
             this.textProperties.push(item);
@@ -222,12 +236,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -243,6 +260,29 @@ export default {
     pageChange(data) {
       this.pageData[data.key] = data.value;
       this.getList();
+    },
+    // 初始化下拉列表
+    initSelect(code) {
+      if (this.groupSelect.length == 0) return;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
+      return select.groupItems;
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+        })
+      } else {
+        curList = allList.slice(0, 200);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+        }
+      })
     },
     // 查找
     handSearch() {
@@ -269,11 +309,7 @@ export default {
       // console.log(search);
       this.initGetList();
     },
-    // 初始化下拉列表
-    initSelect(code) {
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
-    },
+
     // 数据处理
     getKeyValue(code, row) {
       let value = '';
@@ -360,7 +396,7 @@ export default {
       }).then(() => {
         http.deleteJsonSelf('user', `/${row.id}`).then(res => {
           this.getList();
-          this.$message({ type: 'success', message: '删除成功!' });
+          this.$message({ type: 'success', message: this.dataKey.needApprove ? '删除成功，等待审核！' : '删除成功!' });
         }).catch(err => {
           console.log(err);
         })
@@ -380,7 +416,7 @@ export default {
       this.$refs.someChange.show();
     },
     // 合并读者
-    handleMergeReader(){
+    handleMergeReader() {
       if (!this.multipleSelection.length) {
         this.$message({
           message: '请勾选需要合并的读者！',
@@ -391,7 +427,7 @@ export default {
       let list = this.multipleSelection.map(item => {
         return item.id;
       });
-      this.$router.push({path:'/admin_mergeReader',query:{list:JSON.stringify(list)}})
+      this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
     },
     /** 新增读者 */
     handAdd() {
@@ -464,5 +500,15 @@ export default {
 }
 .w400 {
   width: 400px;
+}
+/deep/ .el-input {
+  margin-bottom: 0 !important;
+}
+.cu-p{
+  cursor: pointer;
+  &:hover{
+    color: @6777EF;
+    text-decoration: underline;
+  }
 }
 </style>

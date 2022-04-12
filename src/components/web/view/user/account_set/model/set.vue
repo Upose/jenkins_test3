@@ -6,19 +6,19 @@
       <span class="img"><img v-show="form.idCardIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">身份证号</span>
       <span class="content">{{form.idCard}}</span>
-      <span class="use" @click="$refs.set_idCard.show()" v-if="isEdit('User_IdCard')">修改身份证</span>
+      <span class="use" @click="$refs.set_idCard.show()" v-if="!isEdit('User_IdCard')">修改身份证</span>
     </div>
     <div class="set-item">
       <span class="img"><img v-show="form.mobileIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">手机号码</span>
       <span class="content">{{form.phone}}</span>
-      <span class="use" @click="$refs.set_phone.show()" v-if="isEdit('User_Phone')">修改手机</span>
+      <span class="use" @click="$refs.set_phone.show()" v-if="!isEdit('User_Phone')">修改手机</span>
     </div>
     <div class="set-item">
       <span class="img"><img v-show="form.emailIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">常用邮箱</span>
       <span class="content">{{form.email}}</span>
-      <span class="use" @click="$refs.emil.show()" v-if="isEdit('User_Email')">修改邮箱</span>
+      <span class="use" @click="$refs.emil.show()" v-if="!isEdit('User_Email')">修改邮箱</span>
     </div>
 
     <!-- <h1>社交账号绑定</h1>
@@ -49,16 +49,18 @@ import set_idCard from '@/components/web/view/user/account_set/model/dialog/set_
 export default {
   name: "index",
   props: {},
-  components: { set_phone, emil,set_idCard },
+  components: { set_phone, emil, set_idCard },
   data() {
     return {
       form: {},
       dataKey: null,
+      updateReaderInfo: false
     };
   },
   created() {
     this.getInfo();
     this.getKey();
+    this.checkModifyReaderPermit();
   },
   mounted() { },
   methods: {
@@ -78,10 +80,22 @@ export default {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
     },
-    // 是否可编辑
+    // 获取用户修改信息权限
+    checkModifyReaderPermit() {
+      this.http.getJson('forward-check-modify-reader-permit').then((res) => {
+        this.updateReaderInfo = res.data;
+      });
+    },
+    // 是否不可编辑
     isEdit(code) {
-      let item = this.dataKey.readerEditProperties.find(item => (item.propertyCode == code));
-      return item ? true : false;
+      let isedit = true;
+      if (this.updateReaderInfo) {
+        let item = this.dataKey.readerEditProperties.find(item => (item.propertyCode == code));
+        isedit = item ? false : true;
+      } else {
+        isedit = true;
+      }
+      return isedit;
     },
   },
 };

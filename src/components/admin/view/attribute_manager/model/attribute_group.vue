@@ -6,7 +6,7 @@
       </div>
     </div> -->
     <div class="t-p">
-      <el-table stripe ref="singleTable" :data="isAuth('propertyGroup:list')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('propertyGroup:list')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <!-- <el-table-column type="selection" width="45"></el-table-column> -->
         <el-table-column label="序号" align="center" width="58" type="index"></el-table-column>
         <el-table-column prop="name" label="标准化属性" align="center" show-overflow-tooltip></el-table-column>
@@ -44,6 +44,7 @@ export default {
   components: { paging, dialogLog },
   data() {
     return {
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -63,12 +64,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_attributeList'));
+      let curAuth = authList.find(item => (item.router == '/admin_attributeList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {
@@ -80,15 +81,19 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('group-list-data').then(res => {
         let list = res.data || [];
         this.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 键值对匹配
     getKeyValue(val) {
+      if (!this.dataKey) return;
       for (const key in this.dataKey.propertyType) {
         if (this.dataKey.propertyType[key] == val) {
           return key;

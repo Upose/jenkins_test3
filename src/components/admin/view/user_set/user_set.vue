@@ -11,7 +11,7 @@
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">
-              用户属性管理
+              管理设置
             </h1>
             <div class="search-term">
               <div class="check-box">
@@ -52,10 +52,10 @@ import bauthSet from './auth_set';
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging,baseSet,bauthSet  },
   data() {

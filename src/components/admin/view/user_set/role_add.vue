@@ -19,16 +19,18 @@
           <!-- 目录 -->
           <div class="content-box">
             <el-form ref="form" :model="postForm" label-width="150px" :rules="formRules">
-              <el-form-item label="角色名称" prop="name" class="w500">
-                <el-input v-model="postForm.name" maxlength="10" show-word-limit></el-input>
+              <el-form-item label="角色名称" prop="name">
+                <el-input class="w500" v-model="postForm.name" maxlength="10" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="角色描述" prop="remark" class="w500">
-                <el-input type="textarea" v-model="postForm.remark" maxlength="100" show-word-limit></el-input>
+              <el-form-item label="角色描述" prop="remark">
+                <el-input class="w500" type="textarea" v-model="postForm.remark" maxlength="100" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="选择权限" class="w500">
-                <el-tree :data="auth" :default-checked-keys="postForm.menuIds" ref="tree" show-checkbox node-key="id" default-expand-all :props="defaultProps">
-                  <!-- <el-tree :data="data" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps"> -->
-                </el-tree>
+              <el-form-item label="选择权限">
+                <div class="tree-box w500">
+                  <el-tree :data="auth" :default-checked-keys="postForm.menuIds" ref="tree" show-checkbox node-key="id" default-expand-all :props="defaultProps">
+                    <!-- <el-tree :data="data" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps"> -->
+                  </el-tree>
+                </div>
               </el-form-item>
               <el-form-item>
                 <el-button icon="iconfont el-icon-vip-chushi" size="medium" @click="reset">重 置</el-button>
@@ -55,10 +57,10 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb },
   data() {
@@ -152,5 +154,12 @@ export default {
 }
 .w500 {
   width: 500px;
+}
+.tree-box{
+  height: 500px;
+  overflow-y: scroll;
+  border: 1px solid  #dcdfe6;
+  border-radius: 4px;
+  padding: 10px 0;
 }
 </style>

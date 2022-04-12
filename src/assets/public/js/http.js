@@ -130,6 +130,24 @@ export default {
       });
     });
   },
+  //带token的put方法  --- json
+  putJsonSelf: function (url, data) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: this.postUrl[url]+data,
+        // data: data,
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+
+        },
+      }).then(response => {
+        this.responseOk(response, resolve, reject);
+      }).catch(err => {
+        this.responseError(err, resolve, reject);
+      });
+    });
+  },
   //带token的get方法  --- plain ；data参数是在调用时拼接好的（如：id=1&name=张三）
   getPlain: function (url, data) {
     var get_url = '';

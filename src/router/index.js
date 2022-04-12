@@ -14,6 +14,18 @@ export default new Router({
       component: r => require.ensure([], () => r(require('@/components/web/common/index')), 'index'),
       meta: { title: '首页', keepAlive: true },
       children: webRouter.router,
+      async beforeEnter(to, from, next) {
+        if (localStorage.getItem('token')) {
+          let response = await axios({
+            url: '/appcenter/api/baseinfo/getauthinfo?appcode=usermanage',
+            method: 'get'
+          }).then(x => x.data);
+          if (response.data.canWeb) { next(); return }
+          next({ name: '403' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/admin',
@@ -21,6 +33,23 @@ export default new Router({
       component: r => require.ensure([], () => r(require('@/components/admin/common/index')), 'index'),
       meta: { title: '首页', keepAlive: true },
       children: adminRouter.router,
+      async beforeEnter(to, from, next) {
+        if (localStorage.getItem('token')) {
+          let response = await axios({
+            url: '/appcenter/api/baseinfo/getauthinfo?appcode=usermanage',
+            method: 'get'
+          }).then(x => x.data);
+          if (response.data.canAdmin) { next(); return }
+          next({ name: '403' })
+        } else {
+          next()
+        }
+      }
+    },
+    {
+      path: '/403',
+      name: '403',
+      component: r => require.ensure([], () => r(require('@/components/403')), 'index'),
     },
     {
       path: '/404',
@@ -41,7 +70,7 @@ export default new Router({
         let regexResult = ticketRegex.exec(location.href);
         if (regexResult.length > 1) {
           let ticket = regexResult[1];
-          let ticketHref = `${process.env.VUE_APP_BASE_API}useridentify/api/third-part-auth/cas-proxy?ticket=${ticket}&service=${encodeURIComponent(originUrl)}`;
+          let ticketHref = `${window.apiDomainAndPort}/useridentify/api/third-part-auth/cas-proxy?ticket=${ticket}&service=${encodeURIComponent(originUrl)}`;
           axios({
             url: ticketHref,
             method: 'get',

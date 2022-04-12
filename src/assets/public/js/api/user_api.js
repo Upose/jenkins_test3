@@ -1,12 +1,13 @@
 /***后台管理系统 项目接口地址-用户中心 */
-var baseURL = process.env.VUE_APP_BASE_API + 'usermanage';//请求前端地址 用户中心
-var baseURL1 = process.env.VUE_APP_BASE_API + 'appcenter';//请求前端地址 应用中心
+var baseURL = '/usermanage';//请求前端地址 用户中心
+var baseURL1 = '/appcenter';//请求前端地址 应用中心
 
 
 export default {
     postUrl: {
         'getmgrtopmenu': baseURL1 + '/api/baseinfo/getmgrtopmenu',//获取顶部导航栏
         'getbaseinfo': baseURL1 + '/api/baseinfo/getbaseinfo',//获取应用基础信息
+        'getcurrentappinfo': baseURL1 + '/api/baseinfo/getcurrentappinfo',//根据routecode获取当前应用的名称和版本号
 
         'init-data': baseURL + '/api/property/init-data',//属性初始化数据
         'list-data': baseURL + '/api/property/list-data',//获取属性列表数据

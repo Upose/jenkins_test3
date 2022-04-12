@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
@@ -75,10 +75,10 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging },
   data() {
@@ -144,6 +144,7 @@ export default {
     },
     // 数据处理
     getKeyValue(val) {
+      if (!this.dataKey) return;
       let value = '';
       // let curItem = this.dataKey.sourceFrom.find((item) => (item == val));
       for (const item in this.dataKey.sourceFrom) {

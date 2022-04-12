@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
@@ -40,10 +40,10 @@ import staff from "./model/staff";
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
   components: { footerPage, serviceLMenu, breadcrumb,role ,staff},
   data() {

@@ -2,43 +2,50 @@
   <div class="container">
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="lib-content">
+        <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
         <div v-if="!isEdit">
           <div class="top-right">
             <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
             <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
-            <span class="set-item"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
+            <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
+            <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
           </div>
           <div class="top-content">
-            <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
-            <div class="name">
-              <span class="text">{{form.name}}</span>
-              <!-- <span class="leave">LV8</span> -->
-            </div>
-            <div class="w-q">
-              <img src="../../../../../assets/web/img/wex.png" alt="">
-              <img src="../../../../../assets/web/img/qq.png" alt="">
-            </div>
-            <div class="certification">
-              <span>
-                <img src="../../../../../assets/web/img/phone-i.png" alt="">
-                {{form.mobileIdentity?'已认证':'未认证'}}
-              </span>
-              <span>
-                <img src="../../../../../assets/web/img/id-i.png" alt="">
-                {{form.idCardIdentity?'已认证':'未认证'}}
-              </span>
-              <span>
-                <img src="../../../../../assets/web/img/icon_msg.png" alt="">
-                {{form.emailIdentity?'已认证':'未认证'}}
-              </span>
+            <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div>
+            <div class="top-content-user-box">
+              <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
+              <div class="name">
+                <span class="text">{{form.name}}</span>
+                <!-- <span class="leave">LV8</span> -->
+                <div class="w-q">
+                  <img src="../../../../../assets/web/img/wex.png" alt="">
+                  <img src="../../../../../assets/web/img/qq.png" alt="">
+                </div>
+              </div>
+              <div class="certification">
+                <span>
+                  <img src="../../../../../assets/web/img/phone-i.png" alt="">
+                  {{form.mobileIdentity?'已认证':'未认证'}}
+                </span>
+                <span>
+                  <img src="../../../../../assets/web/img/id-i.png" alt="">
+                  {{form.idCardIdentity?'已认证':'未认证'}}
+                </span>
+                <span>
+                  <img src="../../../../../assets/web/img/icon_msg.png" alt="">
+                  {{form.emailIdentity?'已认证':'未认证'}}
+                </span>
+              </div>
             </div>
             <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
-              <h6>{{principal.userName}}<span v-if="principal.type">（{{getKeyValue(principal.type,'Card_Type')}}）</span></h6>
-              <p>{{principal.no}}</p>
+              <div>
+                <h6>{{principal.userName}}<span v-if="getKeyValue(principal.type,'Card_Type')">（{{getKeyValue(principal.type,'Card_Type')}}）</span></h6>
+                <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+                <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+                <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+              </div>
+              <p class="font18">卡号 {{principal.no}}</p>
               <p>有效期至 {{setTime(principal.expireDate)}}</p>
-              <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
-              <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
-              <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
             </div>
           </div>
           <div class="apply">
@@ -54,7 +61,7 @@
                 <p class="title-name">应用中心</p>
               </div>
               <div class="item-box">
-                <div class="app-item" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<6" @click="linkTo(item.frontUrl)">
+                <div class="app-item" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<7" @click="linkTo(item.frontUrl)">
                   <div class="app">
                     <img :src="imgUrl+item.appIcon" alt="">
                   </div>
@@ -69,7 +76,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div>
+          <!-- <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div> -->
           <div class="chance">
             <div class="title-box">
               <span class="left">选择应用</span>
@@ -91,7 +98,6 @@
               </el-popover>
             </div>
             <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0].topCount}','sortType':'${item.appPlateItems[0].sortType}','id':'${item.appPlateItems[0].id}'}]`">
-              <!-- <div :class="item.appWidget.widgetCode"> -->
               <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
@@ -118,12 +124,14 @@ import Sortable from "sortablejs";
 
 import dialog_card from '@/components/web/view/user/library/model/dialog_card';
 import { timeFormat } from "@/assets/public/js/util";
+import breadCrumbs from '../../../model/breadCrumbs';
 
 export default {
-  components: { dialog_card },
+  components: { dialog_card, breadCrumbs },
   data() {
     return {
-      baseUrl:process.env.VUE_APP_BASE_API,
+      baseUrl: window.apiDomainAndPort,
+      userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
 
 
       isEdit: false,//是否编辑状态
@@ -141,6 +149,9 @@ export default {
     }
   },
   created() {
+    // 设置网页标题
+    document.title = JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName + '-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
+
     this.getKey();
     this.getInfo();
     this.getCard();
@@ -239,6 +250,24 @@ export default {
       document.getElementsByTagName("body")[0].appendChild(js_element);
     },
 
+    // 设为首页
+    handleSetIndex() {
+      this.http.putJsonSelf('forward-set-personal-default-scene', `/${this.tempParm.id}/1`).then((res) => {
+        // this.$message({ type: "success", message: "保存设置成功!" });
+        this.tempParm.isPersonalIndex = true;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "设为主页失败!" });
+      });
+    },
+    // 取消设为主页
+    handleCancalSetIndex() {
+      this.http.putJsonSelf('forward-set-personal-default-scene', `/${this.tempParm.id}/0`).then((res) => {
+        // this.$message({ type: "success", message: "保存设置成功!" });
+        this.tempParm.isPersonalIndex = false;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "取消失败!" });
+      });
+    },
     // 编辑个人图书馆
     handleEdit() {
       this.isEdit = true;
@@ -286,7 +315,7 @@ export default {
           this.applyIdList.push(data.appId);
           let parm = {
             appId: data.appId,
-            parentSceneAppId:data.appColumn.parentSceneAppId,
+            parentSceneAppId: data.appColumn.parentSceneAppId,
             appPlateItems: [data.appColumn],
             appWidget: data,
             height: 39,
@@ -356,7 +385,7 @@ export default {
         } //onEnd
       });
     },
-    linkTo(url){
+    linkTo(url) {
       window.location.href = url;
     }
   }
@@ -382,6 +411,7 @@ export default {
 .content-box {
   width: 100%;
   background: url("../../../../../assets/web/img/l-bg.png") no-repeat #eeeeee;
+  background-size: 100% 320px;
   padding-bottom: 80px;
   .lib-content {
     width: 1200px;
@@ -394,11 +424,14 @@ export default {
   background: #eeeeee;
 }
 .top-right {
-  display: flex;
-  justify-content: end;
-  margin-bottom: 20px;
-  align-items: center;
-  align-content: center;
+  // display: flex;
+  // justify-content: end;
+  // margin-bottom: 20px;
+  // align-items: center;
+  // align-content: center;
+  position: absolute;
+  right: 0;
+  top: 15px;
 
   span {
     margin-left: 20px;
@@ -418,8 +451,10 @@ export default {
   }
 
   .set-item {
-    width: 98px;
-    height: 28px;
+    // width: 98px;
+    // height: 28px;
+    display: inline-block;
+    padding: 0 8px;
     background: rgba(0, 0, 0, 0.25);
     opacity: 1;
     border-radius: 16px;
@@ -434,12 +469,43 @@ export default {
   }
 }
 .top-content {
-  height: 160px;
+  height: 205px;
   position: relative;
-
+  margin-top: 40px;
+  .top-content-title-box {
+    position: relative;
+    display: inline-block;
+    width: 220px;
+    height: 50px;
+    color: #fff;
+    line-height: 50px;
+    font-size: 24px;
+    font-weight: 530;
+    padding-left: 70px;
+    border-radius: 6px 0 0 6px;
+    margin-bottom: 6px;
+    .top-content-title-box-right {
+      position: absolute;
+      right: -30px;
+      top: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      transform: skew(30deg);
+    }
+  }
+  .top-content-user-box {
+    position: relative;
+    background: #fff;
+    width: 736px;
+    height: 138px;
+    border: 1px solid #e1e1e1;
+    border-radius: 16px;
+    padding: 20px 30px;
+  }
   .avatar {
-    width: 124px;
-    height: 124px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     overflow: hidden;
     background: #ddd;
@@ -451,12 +517,12 @@ export default {
   }
   .name {
     position: absolute;
-    left: 146px;
-    top: 0;
+    left: 170px;
+    top: 20px;
 
     .text {
       font-size: 24px;
-      font-weight: bold;
+      font-weight: 550;
     }
     .leave {
       height: 22px;
@@ -471,52 +537,69 @@ export default {
     }
   }
   .w-q {
-    position: absolute;
-    top: 50px;
-    left: 146px;
+    // position: absolute;
+    // top: 50px;
+    // left: 146px;
+    margin-left: 20px;
+    display: inline-block;
     cursor: pointer;
 
     img {
       width: 30px;
       height: 30px;
-      margin-right: 10px;
+      margin-right: 2px;
     }
   }
   .certification {
     position: absolute;
-    top: 100px;
-    left: 146px;
+    top: 80px;
+    left: 170px;
     color: #666;
     span {
-      margin-right: 20px;
+      margin-right: 10px;
+      padding: 8px 10px;
+      border: 1px solid #ececec;
+      border-radius: 20px;
     }
   }
   .card {
-    width: 300px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.9);
+    width: 440px;
+    height: 190px;
+    background: url("../../../../../assets/web/img/card-bg.png") no-repeat;
+    background-size: 100%;
+    // height: 100%;
     border-radius: 16px;
-    padding: 20px;
+    padding: 20px 20px 20px 0;
     position: absolute;
     top: 0;
     right: 0;
     cursor: pointer;
 
     h6 {
-      font-size: 18px;
+      font-size: 20px;
+      background: #fff;
+      display: inline-block;
+      padding: 8px 30px;
+      border-radius: 0 50px 50px 0;
+      margin-left: 20px;
+      margin-top: 15px;
+      color: #606060;
     }
     p {
-      color: #666;
+      color: #606060;
       margin-top: 8px;
+      padding-left: 50px;
     }
-    span {
-      position: absolute;
-      top: 20px;
-      right: 0;
-      padding: 6px 10px 6px 14px;
-      color: #4fcd92;
-      background: #e5f8ef;
-      border-radius: 20px 0 0 20px;
+    .font18 {
+      font-size: 26px;
+      margin-top: 30px;
+    }
+    & > div > span {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-left: 10px;
+      font-weight: 560;
     }
   }
 }
@@ -535,13 +618,13 @@ export default {
   border-radius: 16px;
   // padding: 25px;
   overflow: hidden;
-  margin-top: 24px;
+  margin-top: 44px;
   .chance-app {
     padding: 24px 20px 40px;
 
     span {
       padding: 10px 16px;
-      border-radius: 3px;
+      border-radius: 5px;
       border: 1px solid #ddd;
       margin: 0 20px 20px 0;
       cursor: pointer;
@@ -552,6 +635,8 @@ export default {
       border-color: #458dda;
       color: #458dda;
       position: relative;
+      background: url("../../../../../assets/web/img/active-bottom.png")
+        no-repeat right bottom;
 
       &::after {
         position: absolute;
@@ -612,16 +697,20 @@ export default {
     align-items: center;
     align-content: space-evenly;
     cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
 
     .app {
       width: 24px;
       height: 24px;
       border-radius: 8px;
-      // background: #e3f2ff;
+      background: #e3f2ff;
       display: inline-block;
       img {
-        width: 100%;
-        height: 100%;
+        width: 50%;
+        height: 50%;
+        margin: 25% 0 0 25%;
       }
     }
   }
@@ -640,7 +729,7 @@ export default {
       margin: 0 20px;
       padding: 5px;
       cursor: pointer;
-      &:hover{
+      &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
       }
       .app {
@@ -648,7 +737,7 @@ export default {
         height: 62px;
         border-radius: 16px;
         margin: 0 auto;
-        img{
+        img {
           width: 50%;
           height: 50%;
         }
@@ -784,16 +873,16 @@ export default {
   }
 }
 .green {
-  color: #4fcd92;
-  background: #e5f8ef;
+  color: #fff;
+  background: #4fcd92;
 }
 .yellow {
-  color: #ffa520;
-  background: #fff2dd;
+  color: #fff;
+  background: #ffa520;
 }
 .gery {
-  color: #555;
-  background: #eee;
+  color: #fff;
+  background: #555;
 }
 
 .tmp-box {
@@ -809,5 +898,8 @@ export default {
     bottom: 0;
     border: 1px dashed #aaa;
   }
+}
+/deep/ .my-breadCrumbs {
+  position: absolute;
 }
 </style>

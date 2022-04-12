@@ -36,21 +36,21 @@
 
           </div>
           <div>
-            <el-table :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
-              <el-table-column type="selection" width="55" align="center"></el-table-column>
-              <el-table-column label="姓名" prop="name" width="100" align="center" show-overflow-tooltip></el-table-column>
-              <el-table-column label="工号" prop="studentNo" width="110" align="center" show-overflow-tooltip></el-table-column>
-              <el-table-column label="部门" prop="departName" min-width="120" align="left" show-overflow-tooltip></el-table-column>
-              <el-table-column label="职称" prop="title" width="80" align="center" show-overflow-tooltip></el-table-column>
-              <el-table-column label="手机号码" prop="phone" width="120" align="center" show-overflow-tooltip></el-table-column>
-              <el-table-column label="主卡号" prop="cardNo" width="110" align="center" show-overflow-tooltip></el-table-column>
+            <el-table v-loading="loading" :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
+              <el-table-column type="selection" width="45" align="center"></el-table-column>
+              <el-table-column label="姓名" prop="name" align="center" show-overflow-tooltip></el-table-column>
+              <el-table-column label="工号" prop="studentNo" align="center" show-overflow-tooltip></el-table-column>
+              <el-table-column label="部门" prop="departName" align="left" show-overflow-tooltip></el-table-column>
+              <el-table-column label="职称" prop="title" align="center" show-overflow-tooltip></el-table-column>
+              <el-table-column label="手机号码" prop="phone" align="center" show-overflow-tooltip></el-table-column>
+              <el-table-column label="主卡号" prop="cardNo" align="center" show-overflow-tooltip></el-table-column>
 
-              <el-table-column label="卡状态" prop="cardStatus" width="100" align="center" show-overflow-tooltip>
+              <el-table-column label="卡状态" prop="cardStatus" align="center" show-overflow-tooltip>
                 <template slot-scope="scope">
                   {{getKeyValue('Card_Status',scope.row.cardStatus) }}
                 </template>
               </el-table-column>
-              <el-table-column label="截止日期" prop="cardExpireDate" width="130" align="center" show-overflow-tooltip>
+              <el-table-column label="截止日期" prop="cardExpireDate" align="center" show-overflow-tooltip>
                 <template slot-scope="scope">
                   {{setTime(scope.row.cardExpireDate,'日')}}
                 </template>
@@ -86,7 +86,8 @@ export default {
   components: { paging, updateIcon, dialog_change, dialog_add },
   data() {
     return {
-      dataKey: {},
+      loading: false,
+      dataKey: null,
       pageData: {
         pageIndex: 1,
         pageSize: 20,
@@ -137,13 +138,16 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('staff1-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -170,6 +174,7 @@ export default {
     },
     // 初始化下拉列表
     initSelect(code) {
+      if (!this.dataKey) return;
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
     },
@@ -240,19 +245,23 @@ export default {
 <style scoped lang="less">
 .librarianList {
   width: 100%;
-  display: table;
+  display: flex;
+  justify-content: space-between;
 }
 .librarianList-left,
 .librarianList-right {
-  float: left;
+  // float: left;
   padding-bottom: 30px;
 }
 .librarianList-left {
-  width: 22%;
+  width: 15%;
+  max-width: 22%;
 }
 .librarianList-right {
-  width: 77%;
-  padding: 0 20px 30px;
+  width: 85%;
+  min-width: 78%;
+  padding-left: 10px;
+  // padding: 0 20px 30px;
 }
 .left-title {
   width: 100%;
@@ -555,5 +564,14 @@ export default {
   .el-date-editor.el-input__inner {
     width: 150px;
   }
+}
+.list-table {
+  border-left: 1px solid #ebeef5;
+  border-right: 1px solid #ebeef5;
+}
+/deep/ .el-tree-node__content{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

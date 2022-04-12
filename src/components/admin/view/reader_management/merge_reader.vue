@@ -21,7 +21,7 @@
             <div class="t-p">
               <div class="coml-body">
                 <div class="coml-box" style="width:80px">
-                  <div class="el-table admin-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition">
+                  <div v-loading="loading" class="el-table admin-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition">
                     <div class="el-table__header-wrapper">
                       <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 1573px;">
                         <thead class="has-gutter">
@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
@@ -172,14 +172,15 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
   components: { footerPage, serviceLMenu, breadcrumb },
   data() {
     return {
+      loading:false,
       userId: '',
       userList: [],
       userNumber: 1,//选择读者数量
@@ -204,23 +205,29 @@ export default {
     },
     // 获取列表数据
     postList() {
+      this.loading = true;
       http.postJson('merge-info', this.userList).then(res => {
         this.tableData = res.data;
         this.tableData[0].isMainCard = true;
         this.userData = { ...res.data[0] };
         this.userNumber = this.tableData.length;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJsonSelf('merge-info', `/${this.$route.query.id}`).then(res => {
         this.tableData = res.data;
         this.tableData[0].isMainCard = true;
         this.userData = { ...res.data[0] };
         this.userNumber = this.tableData.length;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

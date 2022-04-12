@@ -22,7 +22,7 @@
                 <el-button type="primary" style="float:right;margin-bottom:10px" @click="handleAddDep">新增部门</el-button>
               </div>
 
-              <el-table class="admin-table" stripe ref="singleTable" :data="tableData" border row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">>
+              <el-table v-loading="loading" class="admin-table" stripe ref="singleTable" :data="tableData" border row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">>
                 <el-table-column label="部门名称">
                   <template slot-scope="scope">
                     <el-input v-if="scope.row.edit || scope.row.new" v-model="scope.row.name" placeholder="" maxlength="20" clearable show-word-limit></el-input>
@@ -79,14 +79,15 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 export default {
   name: "index",
   created() {
-    bus.$on("collapse", (msg) => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    });
+    // bus.$on("collapse", (msg) => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // });
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging },
   data() {
     return {
+      loading: false,
       dataKey: null,
       id: this.$route.query.id,//属性id
       name: this.$route.query.name,//属性id
@@ -109,18 +110,22 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('org-list').then(res => {
         let list = res.data || [];
         list.forEach(item => {
           item.edit = false;
         })
         this.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 键值对匹配
     getKeyValue(val) {
+      if (!this.dataKey) return;
       let status = '无'
       for (const key in this.dataKey.groupItemApproveStatus) {
         if (this.dataKey.groupItemApproveStatus[key] == val) {

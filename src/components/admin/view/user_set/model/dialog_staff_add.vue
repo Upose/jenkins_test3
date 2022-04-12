@@ -14,7 +14,7 @@
     </div>
 
     <div class="t-p">
-      <el-table @selection-change="handleSelectionChange" ref="selectTable" :data="tableData" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" @selection-change="handleSelectionChange" ref="selectTable" :data="tableData" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column label="姓名" prop="name" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column label="部门" prop="departName" show-overflow-tooltip align="center"></el-table-column>
@@ -54,6 +54,7 @@ export default {
   components: { paging },
   data() {
     return {
+      loading:false,
       dialogVisible: false,
       dataKey: null,
       pageData: {
@@ -93,13 +94,16 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('staff-table-data', { ...this.parms, ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

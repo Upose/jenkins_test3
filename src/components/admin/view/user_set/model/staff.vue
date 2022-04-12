@@ -3,11 +3,11 @@
     <div class="m-title search-term-table">
       <el-input placeholder="馆员名称" size="medium" v-model="postForm.name" class="width136" clearable></el-input>
       <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
-      <!-- <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleAdd">新增馆员</el-button> -->
+      <el-button type="primary" size="medium" icon="iconfont el-icon-vip-tianjia2" @click="handleAdd">添加馆员</el-button>
     </div>
 
     <div class="t-p">
-      <el-table :data="isAuth('setting:staffList')?tableData:[]" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" :data="isAuth('setting:staffList')?tableData:[]" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
         <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
         <el-table-column label="姓名" prop="name" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column label="部门" prop="departName" show-overflow-tooltip align="center"></el-table-column>
@@ -58,6 +58,7 @@ export default {
   components: { paging, dialog_change_role },
   data() {
     return {
+      loading:false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -88,13 +89,16 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('staff-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -121,33 +125,6 @@ export default {
 
       this.initGetList();
     },
-    // 选择日期
-    handleDate() {
-      // console.log(val);
-      this.postForm.ChangeEndTime = this.date;
-      this.postForm.ChangeStartTime = this.date;
-    },
-    // 键值对匹配
-    getKeyValue(name, val) {
-      for (const key in this.dataKey[name]) {
-        if (this.dataKey[name][key] == val) {
-          return key;
-        }
-      }
-    },
-    // 日期格式化
-    getDate(date) {
-      var dateList = date.split('T');
-      return dateList[0] + ' ' + dateList[1].substring(0, 5);
-    },
-    // 审核
-    handleAudit(row) {
-      this.$refs.dialogAudit.show('reader', row.id);
-    },
-    // 查看日志
-    handleLog(row) {
-      this.$refs.dialogUserLog.show('reader', row.id);
-    },
     // 删除
     handleDel(row) {
       this.$confirm('请谨慎执行删除操作, 是否继续?', '提示', {
@@ -165,18 +142,11 @@ export default {
         this.$message({ type: 'info', message: '已取消删除!' });
       });
     },
-    // 新增属性
-    handleAdd(row) {
-      this.$router.push({ path: '/admin_attributeAdd', query: { id: row.id } });
+    // 添加馆员
+    handleAdd() {
+      this.$router.push({ path: '/admin_readerAdd', query: { type: 'staff' } });
     },
-    // 编辑属性
-    handleEdit(row) {
-      this.$router.push({ path: '/admin_attributeAdd', query: { id: row.id } });
-    },
-    // 编辑属性组
-    handleEditGroup() {
-      this.$router.push({ path: '/admin_contentEdit', query: { columnId: this.id } });
-    },
+    // 修改角色
     handleSet(row) {
       this.$refs.dialog_change_role.show(row.id);
     }

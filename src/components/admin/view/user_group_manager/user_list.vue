@@ -41,6 +41,7 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
+                <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
@@ -48,29 +49,29 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
-                <el-table-column prop="name" label="姓名" width="120" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="cardNo" label="读者卡号" width="140" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="studentNo" label="学号" width="140" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="type" label="用户类型" width="140" align="center" show-overflow-tooltip>
+                <el-table-column prop="name" label="姓名" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="cardNo" label="读者卡号" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="studentNo" label="学号" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="type" label="用户类型" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_Type',scope.row.type)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="idCard" label="身份证" width="180" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="status" label="状态" width="100" align="center" show-overflow-tooltip>
+                <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="status" label="状态" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_Status',scope.row.status)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="sourceFrom" label="用户来源" width="140" align="center" show-overflow-tooltip>
+                <el-table-column prop="sourceFrom" label="用户来源" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="添加日期" width="140" align="center" show-overflow-tooltip>
+                <el-table-column prop="createTime" label="添加日期" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime)}}
                   </template>
@@ -91,6 +92,7 @@
             </div>
           </div>
           <!--管理页列表 end--->
+          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection"></someChange>
           <dialog_export ref="dialog_export"></dialog_export>
         </div>
         <!---顶部查询板块 end--->
@@ -101,25 +103,27 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
-import dialog_export from '../model/dialog_export'
+import dialog_export from '../model/dialog_export';
+import someChange from '../model/some_change';
 
 export default {
   name: 'index',
   created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
+    // bus.$on('collapse', msg => {
+    //   this.$root.collapse = msg;
+    //   this.$forceUpdate();
+    // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {
+      loading: false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -129,7 +133,8 @@ export default {
       tableData: [],//列表项
       id: this.$route.query.id,
       sourceFrom: this.$route.query.sourceFrom,
-      briefInfo: {}
+      briefInfo: {},
+      multipleSelection:[]
     }
   },
   filters: {
@@ -164,12 +169,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('basic-user-table-data', { GroupID: this.id, ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -211,6 +219,17 @@ export default {
     // 多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    // 批量修改
+    handMathChange() {
+      if (!this.multipleSelection.length) {
+        this.$message({
+          message: '请勾选需要修改的读者！',
+          type: 'warning'
+        })
+        return;
+      }
+      this.$refs.someChange.show();
     },
     /** 批量删除 */
     handMathDel() {

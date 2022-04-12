@@ -6,29 +6,29 @@
       </div>
     </div>
     <div class="t-p">
-      <el-table stripe ref="singleTable" :data=" isAuth('property:list')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data=" isAuth('property:list')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <!-- <el-table-column type="selection" width="45"></el-table-column> -->
         <el-table-column label="序号" align="center" width="58" type="index"></el-table-column>
-        <el-table-column prop="name" align="center" label="属性名称" show-overflow-tooltip width="130"></el-table-column>
-        <el-table-column prop="code" align="center" label="标识符" show-overflow-tooltip width="150"></el-table-column>
+        <el-table-column prop="name" align="center" label="属性名称" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="code" align="center" label="标识符" show-overflow-tooltip></el-table-column>
         <el-table-column label="类型" align="center" width="100" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ getKeyValue(scope.row.type) }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="intro" label="描述" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="required" align="center" label="必填" width="100">
+        <el-table-column prop="required" align="center" label="必填">
           <template slot-scope="scope">
             <span>{{ scope.row.required?'是':'否'}}</span>
           </template>
         </el-table-column>
 
-        <el-table-column prop="unique" align="center" label="唯一" width="100">
+        <el-table-column prop="unique" align="center" label="唯一">
           <template slot-scope="scope">
             <span>{{ scope.row.unique?'唯一':'不唯一'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="showOnTable" label="列表是否展示" align="center" width="130">
+        <el-table-column prop="showOnTable" label="列表是否展示" align="center">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.showOnTable?'是':'否'}}</span> -->
             <span>
@@ -36,7 +36,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="canSearch" label="是否可检索" align="center" width="130">
+        <el-table-column prop="canSearch" label="是否可检索" align="center">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.canSearch?'是':'否'}}</span> -->
             <span v-if="scope.row.sysBuildIn == 1">
@@ -44,7 +44,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="描述对象" align="center" width="130" show-overflow-tooltip>
+        <el-table-column label="描述对象" align="center" show-overflow-tooltip>
           <template slot-scope="scope">
             <span>{{ scope.row.forReader?'读者 ':''}} {{ scope.row.forCard?'读者卡':''}}</span>
           </template>
@@ -79,6 +79,7 @@ export default {
   components: { paging, dialogLog },
   data() {
     return {
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -97,12 +98,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_attributeList'));
+      let curAuth = authList.find(item => (item.router == '/admin_attributeList'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {
@@ -114,15 +115,19 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('list-data').then(res => {
         let list = res.data || [];
         this.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 键值对匹配
     getKeyValue(val) {
+      if (!this.dataKey) return;
       for (const key in this.dataKey.propertyType) {
         if (this.dataKey.propertyType[key] == val) {
           return key;

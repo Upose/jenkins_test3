@@ -1,6 +1,6 @@
 <template>
   <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="500px">
-    <el-form :model="postForm" label-width="120px">
+    <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="卡类型">
         <el-select v-model="postForm.type" placeholder="请选择" clearable>
           <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
@@ -33,7 +33,6 @@ export default {
   props: ['dataKey', 'cardList'],
   data() {
     return {
-      dataKey: {},
       id: '',
       dialogVisible: false,
       postForm: {
@@ -71,6 +70,7 @@ export default {
     },
     // 初始化下拉列表
     initSelect(code) {
+      if (!this.dataKey) return;
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
     },

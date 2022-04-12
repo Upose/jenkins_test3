@@ -1,51 +1,138 @@
 <template>
   <div class="page-warp">
-    <p class="error-hint">出错了，您访问的页面无法找到! 可能网页已经被关闭或者输入的网址错误！</p>
-    <button class="back" @click="window.history.go(-1);">返回上一页</button>
-    <div class="img-404"></div>
+    <div class="txt-content">
+      <div class="txt-left">
+        <div class="error-hint">
+          <span class="err-title">出错啦！</span>
+          <span>抱歉，您访问的页面不存在。</span>
+        </div>
+        <button class="go-flush" @click="goBack()">返回上一页</button>
+        <button class="go-home" @click="goHome()">回到首页</button>
+      </div>
+      <div class="img-404">
+        <img src="@/assets/public/img/404.gif">
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: '404page',
-  data () {
-    return {}
+  beforeRouteEnter(to, from, next) {
+    if (from.fullPath.indexOf('admin') > -1) {
+      this.home = 'admin';
+    }
+    next();
   },
-  mounted(){},
-  methods:{},
+  data() {
+    return {
+      code: 'index',
+      path: '/#/index',
+      home: 'web',
+    }
+  },
+  mounted() {
+    if (this.home == 'web') {
+      this.code = 'index';
+      this.path = '/#/index?page=1';
+    } else {
+      this.code = 'workbench'
+      this.path = '/workbench/#/admin_workbench';
+    }
+  },
+  methods: {
+    linkTo(code, url) {
+      if (url) {
+        let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
+        let info = urlInfo.find(item => item.code == code);
+        window.location.href = info.path + url;
+      }
+    },
+    goHome() {
+      this.linkTo(this.code, this.path);
+    },
+    goBack() {
+      window.history.go(-1);
+    }
+  },
 }
 </script>
 
 <style lang="less" scoped>
-.page-warp{
-    text-align: center;
+.page-warp {
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/public/img/404-bg1.png),
+    url(../assets/public/img/404-bg2.png);
+  background-position: 100% 0%, 0% 100%;
+  background-repeat: no-repeat;
+  .txt-content {
+    width: 1000px;
+    height: 500px;
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-left: -302px;
-    margin-top: -287px;
+    margin-top: -250px;
+    margin-left: -500px;
+  }
 }
-.error-hint{
-    color: #555;
-    font-size: 18px;
-    line-height: 38px;
+.error-hint {
+  font-size: 26px;
+  font-weight: 400;
+  color: #737373;
+  padding-bottom: 70px;
+  .err-title {
+    display: block;
+    font-size: 45px;
+    font-family: PingFang SC;
+    font-weight: bold;
+    color: #333333;
+  }
 }
-.img-404{
-    background-image: url(../assets/public/img/404.png);
-    background-position: center;
-    height: 440px;
-    background-repeat: no-repeat;
+.go-flush {
+  width: 140px;
+  height: 44px;
+  background: #be3c3c;
+  opacity: 1;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  outline: none;
+  border: none;
 }
-.back{
-    outline: none;
-    width: 140px;
-    height: 36px;
-    line-height: 24px;
-    color: #fff;
-    font-size: 18px;
-    background: #5a5a5a;
-    border: 0;
-    margin:30px 0;
+.go-home {
+  margin-left: 20px;
+  width: 140px;
+  height: 44px;
+  background: #fff;
+  opacity: 1;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+  outline: none;
+  border: 1px solid #d4d4d4;
+}
+.go-flush,
+.go-home {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.txt-left {
+  float: left;
+  margin-top: 125px;
+}
+.img-404 {
+  float: right;
+  width: 550px;
+  height: 500px;
+  background-image: url(../assets/public/img/404.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-position-y: -1px;
 }
 </style>

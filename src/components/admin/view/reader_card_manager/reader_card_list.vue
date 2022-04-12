@@ -5,7 +5,7 @@
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
         <serviceLMenu :isActive="4"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}" v-loading="loading">
         <breadcrumb :cuMenu="'总导航管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
@@ -63,7 +63,7 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item" :width="getColumnWidth(item)">
+                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item">
                   <template slot-scope="scope">
                     <span>{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import bus from '@/assets/public/js/bus';
+// import bus from '@/assets/public/js/bus';;
 import http from "@/assets/public/js/http";
 import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
@@ -102,15 +102,10 @@ import someChange from './model/some_change'
 
 export default {
   name: 'index',
-  created() {
-    bus.$on('collapse', msg => {
-      this.$root.collapse = msg;
-      this.$forceUpdate();
-    })
-  },
   components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {
+      loading:false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -168,12 +163,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('card-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -263,6 +261,7 @@ export default {
     },
     // 初始化下拉列表
     initSelect(code) {
+      if (!this.dataKey) return;
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
       return select ? select.groupItems : false;
     },
