@@ -5,7 +5,7 @@
         <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
         <div v-if="!isEdit">
           <div class="top-right">
-            <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
+            <span class="item" v-if="form.isStaff" @click="linkTo('/appcenter/#/admin_appInfo','appcenter')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
             <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
             <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
             <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
@@ -385,8 +385,13 @@ export default {
         } //onEnd
       });
     },
-    linkTo(url) {
-      window.location.href = url;
+    linkTo(url, code) {
+      if (code) {
+        let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == code)
+        window.open(info.path + url);
+      } else {
+        window.open(url);
+      }
     }
   }
 }
