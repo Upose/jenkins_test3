@@ -775,6 +775,9 @@ export default {
 .tmp-box {
   width: 588px;
   height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
   float: left;
   margin-right: 24px;
   margin-bottom: 24px;
