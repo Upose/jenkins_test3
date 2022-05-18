@@ -225,5 +225,15 @@ export default {
                 parentRoute: '/admin_userSet'
             },
         },
+        {
+            path: '/admin_userTagList',
+            name: 'admin_userTagList',
+            component: r => require.ensure([], () => r(require('@/components/admin/view/user_tag/user_tag')), 'user_tag'),
+            meta: {
+                title: [{ name: '标签管理' }],
+                keepAlive: true,
+                parentRoute: '/admin_userTagList'
+            },
+        },
     ]
 }
