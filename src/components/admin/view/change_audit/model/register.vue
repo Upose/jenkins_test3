@@ -38,7 +38,7 @@
             <span>{{ getKeyValue('propertyLogStatus',scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作">
+        <el-table-column prop="content" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="scope.row.status == 0&&isAuth('approve:registerApprove')">审核</el-button>
           </template>
@@ -67,7 +67,7 @@ import dialogAudit from "./dialog/dialog_audit";
 
 export default {
   name: 'index',
-  components: { paging, dialogLog, dialogAudit,dialogUserLog },
+  components: { paging, dialogLog, dialogAudit, dialogUserLog },
   props: ['dataKey'],
   data() {
     return {
@@ -92,12 +92,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_changeAudit'));
+      let curAuth = authList.find(item => (item.router == '/admin_changeAudit'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取列表数据
     getList() {
@@ -155,11 +155,11 @@ export default {
     },
     // 审核
     handleAudit(row) {
-      this.$refs.dialogAudit.show('register',row.id);
+      this.$refs.dialogAudit.show('register', row.id);
     },
     // 查看日志
     handleLog(row) {
-      this.$refs.dialogUserLog.show('register',row.id);
+      this.$refs.dialogUserLog.show('register', row.id);
     },
     // 删除
     handleDel(row) {

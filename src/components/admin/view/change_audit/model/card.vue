@@ -35,7 +35,7 @@
             <span>{{ getKeyValue('cardClaimStatus',scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作">
+        <el-table-column prop="content" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="scope.row.status == 0&&isAuth('approve:cardClaimApprove')">审核</el-button>
           </template>
@@ -66,7 +66,7 @@ export default {
   props: ['dataKey'],
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -89,12 +89,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_changeAudit'));
+      let curAuth = authList.find(item => (item.router == '/admin_changeAudit'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取列表数据
     getList() {

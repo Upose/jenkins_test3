@@ -16,7 +16,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="count" label="数量"></el-table-column>
-        <el-table-column prop="content" label="操作">
+        <el-table-column prop="content" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>删除</el-button>
             <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round>编辑</el-button>
@@ -41,7 +41,7 @@ import dialogLog from "./dialog/dialog_log";
 
 export default {
   name: 'index',
-  components: { paging,dialogLog },
+  components: { paging, dialogLog },
   data() {
     return {
       dataKey: null,
@@ -129,7 +129,7 @@ export default {
     },
     // 查看日志
     handleLog(row) {
-      this.$refs.dialogLog.show(row.id,1);
+      this.$refs.dialogLog.show(row.id, 1);
     },
     // 新增属性
     handleAdd(row) {
@@ -137,7 +137,7 @@ export default {
     },
     // 编辑属性
     handleEdit(row) {
-      this.$router.push({ path: '/admin_attributeGroupManager', query: { id: row.id,name:row.name } });
+      this.$router.push({ path: '/admin_attributeGroupManager', query: { id: row.id, name: row.name } });
     },
     // 编辑属性组
     handleEditGroup() {

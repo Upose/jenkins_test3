@@ -27,7 +27,7 @@
                   <el-switch v-model="scope.row.isOpen" :disabled="!scope.row.enable" @change="handleStatus(scope.row)"></el-switch>
                 </template>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                   <el-button type="text" icon="el-icon-edit" class="rzxx" @click="addInfo(scope.row)" v-if="scope.row.needConfig&&scope.row.isOpen&&scope.row.enable">添加认证信息</el-button>
                 </template>
@@ -166,7 +166,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
-      }).then(()=> {
+      }).then(() => {
         http.postJson('set-is-open', {
           id: row.id,
           isOpen: row.isOpen,
