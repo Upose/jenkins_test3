@@ -1,8 +1,8 @@
 <template>
   <el-dialog title="切换主卡" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
-      <div class="card" v-for="item in cardList" :key="item.id">
-        <el-checkbox :checked="item.isPrincipal" class="c-box" @change="handleChange(item)"></el-checkbox>
+      <div class="card" v-for="(item,index) in cardList" :key="item.id">
+        <el-checkbox :checked="item.isPrincipal" class="c-box" @change="handleChange(index)"></el-checkbox>
         <h6>{{item.userName}}<span v-if="item.type">（{{getKeyValue(item.type,'Card_Type')}}）</span></h6>
         <p>{{item.no}}</p>
         <p>有效期至 {{setTime(item.expireDate)}}</p>
@@ -43,30 +43,31 @@ export default {
     },
     // 键值对匹配
     getKeyValue(val, code = 'Card_Status') {
+      if (!val || !this.dataKey) return
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
       let items = select.groupItems.find(item => (item.value == val))
       return items ? items.key : '';
     },
     // 选择
-    handleChange(val) {
-      if (!val.isPrincipal) {
-        this.cardList.forEach(item => {
-          item.isPrincipal = false;
-        })
-        val.isPrincipal = true;
-      } else {
-        val.isPrincipal = false;
-      }
+    handleChange(ind) {
+      // if (this.cardList[ind].isPrincipal) {
+      //   this.$message.warning('不能取消选择主卡！')
+      //   return
+      // }
+      // this.cardList.forEach((item) => {
+      //   item.isPrincipal = false;
+      // })
+      this.cardList[ind].isPrincipal = !this.cardList[ind].isPrincipal
     },
     // 设为主卡
     handleSet() {
       let id = '';
       this.cardList.forEach(item => {
-        if(item.isPrincipal){
+        if (item.isPrincipal) {
           id = item.id;
         }
       })
-      if(id==''){
+      if (id == '') {
         this.$message({
           message: '请选择读者卡！',
           type: 'warning'
@@ -106,7 +107,7 @@ export default {
     color: #666;
     margin-top: 8px;
   }
-  &>span {
+  & > span {
     position: absolute;
     top: 20px;
     right: 0;

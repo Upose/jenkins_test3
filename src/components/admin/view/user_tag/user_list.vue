@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 14:07:48
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-18 15:38:45
+ * @LastEditTime: 2022-05-18 17:05:16
  * @Description: 标签管理-用户列表
 -->
 <template>
@@ -23,16 +23,6 @@
                 <p>{{briefInfo.count}}人<span>|</span>{{briefInfo.percent|showPercent}}</p>
                 <p class="total">总人数{{briefInfo.totalCount}}</p>
               </div>
-              <el-popover placement="top" width="160" v-model="visible">
-                <template v-if="briefInfo.sourceFrom==1"><span>手动创建</span></template>
-                <template v-else>
-                  <span :key="index" v-for="(rule,index) in briefInfo.rules">{{rule.propertyName}}{{rule.compareType?'等于':'不等于'}}{{rule.propertyValue}}{{rule.unionWay?'与':'或'}}</span>
-                </template>
-                <div class="look" slot="reference">
-                  <i class="el-icon-question"></i>
-                  <span>查看标签规则</span>
-                </div>
-              </el-popover>
               <div style="width:15em">更新时间：{{setTime(briefInfo.lastSyncTime,'分')}}</div>
             </div>
           </div>
