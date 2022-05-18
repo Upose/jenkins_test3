@@ -45,7 +45,7 @@ export default {
         'user-log-table-data': baseURL + '/api/user/user-log-table-data',//获取用户行为日志
         'by-id-for-edit': baseURL + '/api/user/by-id-for-edit',//获取用户数据用于编辑展示，不掩饰敏感信息
         'user': baseURL + '/api/user',//获取、删除、编辑、创建用户详情
-        'user-staff':baseURL+'/api/user/staff',//创建馆员
+        'user-staff': baseURL + '/api/user/staff',//创建馆员
         'user-for-edit': baseURL + '/api/user/by-id-for-edit',//获取用户编辑详情
         'batch-update': baseURL + '/api/user/batch-update',//用户信息批量修改
         'batch-set-user-as-staff': baseURL + '/api/user/batch-set-user-as-staff',//批量设置用户为馆员
@@ -61,10 +61,10 @@ export default {
         'sync-card-config': baseURL + '/api/card/sync-card-config',//获取同步设置配置项
         'sync-card-log-table-data': baseURL + '/api/card/sync-card-log-table-data',//获取同步日志
         'set-sync-card-config': baseURL + '/api/card/set-sync-card-config',//设置同步设置配置项
-        'add-sync-card-task':baseURL+'/api/card/set-sync-card-task',//添加读者临时同步任务
-        'merge-info':baseURL+'/api/user/merge-info',//获取用户数据需要合并信息 get:/{userid} post
-        'merge-user-info':baseURL+'/api/user/merge-user-info',//合并读者消息
-        'with-merge':baseURL+'/api/user/with-merge',//编辑用户信息
+        'add-sync-card-task': baseURL + '/api/card/set-sync-card-task',//添加读者临时同步任务
+        'merge-info': baseURL + '/api/user/merge-info',//获取用户数据需要合并信息 get:/{userid} post
+        'merge-user-info': baseURL + '/api/user/merge-user-info',//合并读者消息
+        'with-merge': baseURL + '/api/user/with-merge',//编辑用户信息
 
         'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
         'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据
@@ -114,6 +114,17 @@ export default {
         'role-users': baseURL + '/api/role/role-users',//添加角色馆员
         'user-role': baseURL + '/api/role/user-role',//删除用户角色
         'set-user-roles': baseURL + '/api/role/set-user-roles',//设置用户角色
+
+        /**
+         * 用户标签
+         */
+        'tag-table-data': baseURL + '/api/user-tag/table-data',//标签列表
+        'tag-category-data': baseURL + '/api/user-tag/tag-category-data',//查询标签分类列表
+        'toggle-tag-status': baseURL + '/api/user-tag/toggle-tag-status',//修改状态
+        'tag-brief-info': baseURL + '/api/user-tag/tag-brief-info',//简要信息/{tagid}
+        'user-tag': baseURL + '/api/user-tag',//删除标签/{tagId}
+        '': baseURL + '',//
+
 
         'org-list': baseURL + '/api/property-group/org-list',//获取组织机构
         'org': baseURL + '/api/property-group/org',//创建、修改、删除组织机构

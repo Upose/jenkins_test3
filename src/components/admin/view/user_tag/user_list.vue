@@ -1,4 +1,10 @@
-<!---数据库导航-总导航管理-->
+<!--
+ * @Author: huyu
+ * @Date: 2022-05-18 14:07:48
+ * @LastEditors: huyu
+ * @LastEditTime: 2022-05-18 15:38:45
+ * @Description: 标签管理-用户列表
+-->
 <template>
   <div class="admin-warp-page">
     <el-container>
@@ -24,7 +30,7 @@
                 </template>
                 <div class="look" slot="reference">
                   <i class="el-icon-question"></i>
-                  <span>查看用户组规则</span>
+                  <span>查看标签规则</span>
                 </div>
               </el-popover>
               <div style="width:15em">更新时间：{{setTime(briefInfo.lastSyncTime,'分')}}</div>
@@ -32,12 +38,11 @@
           </div>
           <!--顶部查询 end-->
           <div class="table-w">
-            <h2 class="m-title">
+            <!-- <h2 class="m-title">
               <div class="search-term" style="float:left" v-if="dataKey">
                 <el-input v-model="postForm.Name" placeholder="姓名" style="width:180px" clearable></el-input>
                 <el-input v-model="postForm.CardNo" placeholder="读者卡号" style="width:180px" clearable></el-input>
                 <el-input v-model="postForm.StudentNo" placeholder="学号" style="width:180px" clearable></el-input>
-                <!-- <el-date-picker v-model="postForm.CreateStartTime" type="date" placeholder="创建日期" style="width:180px" @change="postForm.CreateEndTime = postForm.CreateStartTime"></el-date-picker> -->
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
@@ -45,12 +50,12 @@
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
-                <!-- <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button> -->
+                <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
               </div>
-            </h2>
+            </h2> -->
             <div class="t-p">
-              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
-                <el-table-column type="selection" width="45"></el-table-column>
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" ref="singleTable" stripe :data="tableData" border class="admin-table">
+                <!-- <el-table-column type="selection" width="45"></el-table-column> -->
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
                 <el-table-column prop="name" label="姓名" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="cardNo" label="读者卡号" align="center" show-overflow-tooltip></el-table-column>
@@ -161,7 +166,7 @@ export default {
       })
     },
     getBriefInfo() {
-      http.getJsonSelf('user-group-brief-info', `/${this.id}`).then(res => {
+      http.getJsonSelf('tag-brief-info', `/${this.id}`).then(res => {
         this.briefInfo = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
@@ -170,7 +175,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('basic-user-table-data', { GroupID: this.id, ...this.postForm, ...this.pageData }).then(res => {
+      http.getJson('basic-user-table-data', { TagId: this.id, ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
