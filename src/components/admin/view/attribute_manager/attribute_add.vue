@@ -13,7 +13,7 @@
             <h1 class="s-b-border-title">{{(id&&id!='')?'编辑':'新增'}}用户属性</h1>
             <div class="form-content">
               <el-form-item label="属性名称" prop="name">
-                <el-input v-model="postForm.name" placeholder="请输入属性名称" maxlength="20" clearable show-word-limit></el-input>
+                <el-input v-model="postForm.name" placeholder="请输入属性名称" maxlength="10" clearable show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="描述对象" prop="propertyFor">
                 <el-checkbox label="label" v-model="postForm.forReader">读者</el-checkbox>
@@ -23,7 +23,7 @@
                 <el-input v-model="postForm.code" :disabled="(id&&id!='')?true:false" maxlength="20" clearable show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="属性说明">
-                <el-input v-model="postForm.intro" maxlength="50" clearable show-word-limit></el-input>
+                <el-input v-model="postForm.intro" maxlength="100" clearable show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="属性类型">
                 <el-radio-group v-model="postForm.type" :disabled="(id&&id!='')?true:false">

@@ -100,7 +100,7 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
-                  <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
+                  <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
                     <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
                     <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
                   </el-select>
@@ -179,7 +179,7 @@
                   <el-date-picker v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
-                  <el-select v-model="cardForm.status" placeholder="请选择" clearable>
+                  <el-select v-model="cardForm.status" placeholder="请选择">
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)">
                     </el-option>
                   </el-select>
@@ -232,7 +232,7 @@ export default {
       },
       cardForm: {},
       dataKey: null,
-      groupSelect:[],
+      groupSelect: [],
       properties: null,
       readerRules: {
         name: [

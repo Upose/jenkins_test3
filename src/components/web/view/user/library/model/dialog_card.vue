@@ -1,8 +1,8 @@
 <template>
   <el-dialog title="切换主卡" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
-      <div class="card" v-for="(item,index) in cardList" :key="item.id">
-        <el-checkbox :checked="item.isPrincipal" class="c-box" @change="handleChange(index)"></el-checkbox>
+      <div class="card" v-for="(item,index) in curCardList" :key="item.id">
+        <el-checkbox v-model="item.isPrincipal" class="c-box" @change="handleChange(index)"></el-checkbox>
         <h6>{{item.userName}}<span v-if="item.type">（{{getKeyValue(item.type,'Card_Type')}}）</span></h6>
         <p>{{item.no}}</p>
         <p>有效期至 {{setTime(item.expireDate)}}</p>
@@ -25,6 +25,11 @@ export default {
   name: "index",
   props: ['dataKey', 'cardList'],
   components: {},
+  computed: {
+    curCardList() {
+      return this.cardList
+    }
+  },
   data() {
     return {
       dialogVisible: false,
@@ -50,19 +55,15 @@ export default {
     },
     // 选择
     handleChange(ind) {
-      // if (this.cardList[ind].isPrincipal) {
-      //   this.$message.warning('不能取消选择主卡！')
-      //   return
-      // }
-      // this.cardList.forEach((item) => {
-      //   item.isPrincipal = false;
-      // })
-      this.cardList[ind].isPrincipal = !this.cardList[ind].isPrincipal
+      this.curCardList.forEach((item) => {
+        item.isPrincipal = false;
+      })
+      this.curCardList[ind].isPrincipal = !this.curCardList[ind].isPrincipal
     },
     // 设为主卡
     handleSet() {
       let id = '';
-      this.cardList.forEach(item => {
+      this.curCardList.forEach(item => {
         if (item.isPrincipal) {
           id = item.id;
         }
@@ -76,6 +77,7 @@ export default {
       }
       this.http.postJsonSelf('forward-set-principal-card', `/${id}`).then((res) => {
         this.$message({ type: "success", message: "设为主卡成功!" });
+        this.dialogVisible = false
       }).catch((err) => {
         this.$message({ type: "error", message: "设为主卡失败!" });
       });
