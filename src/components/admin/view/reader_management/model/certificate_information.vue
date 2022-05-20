@@ -41,12 +41,12 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item label="状态" prop="status">
-              <el-select disabled v-model="item.status" placeholder="请选择">
+              <el-select disabled v-model="item.status" placeholder="请选择" style="width:100%">
                 <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="卡类型" prop="type">
-              <el-select disabled v-model="item.type" placeholder="请选择">
+              <el-select disabled v-model="item.type" placeholder="请选择" style="width:100%">
                 <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
@@ -304,7 +304,7 @@ export default {
 }
 
 .certificate-box {
-  width: 900px;
+  width: 1000px;
   display: table;
   margin-top: 1.5%;
   min-width: 720px;

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-20 15:18:21
+ * @LastEditTime: 2022-05-20 16:14:28
  * @Description: 
 -->
 <template>
@@ -10,22 +10,22 @@
     <div class="integral-box">
       <div class="integral-num">
         <span>总积分：</span>
-        <span>{{integralData.totalPoints}}</span>
+        <span>{{integralData.userScore}}</span>
       </div>
       <div class="integral-num">
         <span>消耗积分：</span>
-        <span>{{integralData.consumePoints}}</span>
+        <span>{{integralData.consumeScore}}</span>
       </div>
       <div class="integral-num">
         <span>过期积分：</span>
-        <span>{{integralData.expirePoints}}</span>
+        <span>{{integralData.overdueScore}}</span>
       </div>
-      <el-input class="handle-input mr10 inputs" v-model="postForm.keyword" placeholder="发生事件"></el-input>
-      <el-select v-model="postForm.changeType" placeholder="变更方式" class="selects">
+      <el-input class="handle-input mr10 inputs" v-model="postForm.keyword" placeholder="发生事件" clearable></el-input>
+      <el-select v-model="postForm.type" placeholder="变更方式" class="selects" clearable>
         <el-option v-for="item in changetypeOption" :key="item.value" :label="item.key" :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker v-model="postForm.startTime" type="date" value-format="yyyy-MM-dd" @change="postForm.endTime=postForm.startTime" placeholder="选择日期" class="times">
+      <el-date-picker v-model="postForm.triggerStartTime" type="date" value-format="yyyy-MM-dd" @change="postForm.triggerEndTime=postForm.triggerStartTime" placeholder="选择日期" class="times">
       </el-date-picker>
       <el-button type="primary" class="serach-btn" @click="handleSearch">查找</el-button>
     </div>
@@ -36,28 +36,37 @@
             {{scope.$index+1}}
           </template>
         </el-table-column>
-        <el-table-column label="积分变化" prop="points" width="100" align="center"></el-table-column>
-        <el-table-column label="时间" prop="changeTime" width="180" align="center">
+        <el-table-column label="积分变化" prop="score" width="100" align="center">
           <template slot-scope="scope">
-            {{setTime(scope.row.changeTime,'分')}}
+            {{scope.row.score>0?'+'+scope.row.score:scope.row.score}}
+          </template>
+        </el-table-column>
+        <el-table-column label="时间" prop="triggerTime" width="180" align="center">
+          <template slot-scope="scope">
+            {{setTime(scope.row.triggerTime,'分')}}
           </template>
         </el-table-column>
         <el-table-column label="事件" prop="eventName"></el-table-column>
       </el-table>
-      <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
     </div>
+    <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
+
   </div>
 </template>
 <script>
 import http from "@/assets/public/js/http";
+import paging from "@/components/admin/model/paging";
 export default {
+  components: {
+    paging
+  },
   data() {
     return {
       loading: false,
       dataKey: null,
       changetypeOption: [
         { key: '加积分', value: 1 },
-        { key: '减积分', value: 0 },
+        { key: '减积分', value: -1 },
       ],
       pageData: {
         pageIndex: 1,
@@ -72,15 +81,25 @@ export default {
   mounted() {
     // this.getKey();
     this.getList();
+    this.getData();
   },
   methods: {
+    // 获取数据
+    getData() {
+      http.getJson('reader-score-summary', { userID: this.id }).then(res => {
+        this.integralData = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('user-points-table-data', { userID: this.id, ...this.postForm, ...this.pageData }).then(res => {
+      http.getJson('reader-event-score-table-data', { userID: this.id, ...this.postForm, ...this.pageData }).then(res => {
         this.integralData = res.data;
         let list = res.data.items || [];
         this.tableData = list;
+        this.pageData.totalCount = res.data.totalCount;
         this.loading = false;
       }).catch(err => {
         this.loading = false;

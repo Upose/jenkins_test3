@@ -273,12 +273,12 @@ export default {
   display: table;
   margin: 2% auto;
 }
-/deep/ .el-input,
-/deep/ .el-select,
-.divStyle {
-  width: 35%;
-  float: left;
-}
+// /deep/ .el-input,
+// /deep/ .el-select,
+// .divStyle {
+//   width: 35%;
+//   float: left;
+// }
 .divStyle {
   height: 40px;
   line-height: 40px;
@@ -293,9 +293,9 @@ export default {
   color: #6c757d;
   margin-left: 5%;
 }
-/deep/ .el-select .el-input {
-  width: 100%;
-}
+// /deep/ .el-select .el-input {
+//   width: 100%;
+// }
 .reader-left,
 .reader-middle {
   float: left;

@@ -65,6 +65,8 @@ export default {
         'merge-info': baseURL + '/api/user/merge-info',//获取用户数据需要合并信息 get:/{userid} post
         'merge-user-info': baseURL + '/api/user/merge-user-info',//合并读者消息
         'with-merge': baseURL + '/api/user/with-merge',//编辑用户信息
+        'reader-event-score-table-data': baseURL + '/api/reader/reader-event-score-table-data',//积分明细
+        'reader-score-summary': baseURL + '/api/reader/reader-score-summary',//积分信息
 
         'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
         'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据
