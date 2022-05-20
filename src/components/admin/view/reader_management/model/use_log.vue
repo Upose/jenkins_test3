@@ -14,23 +14,28 @@
       <el-table v-loading="loading" :data="tableData" border style="width: 100%" class="list-table">
         <el-table-column label="序号" prop="sort"></el-table-column>
         <el-table-column label="时间" prop="eventTime">
-            <template slot-scope="scope">
-                {{dateChangeFormat(scope.row.eventTime)}}
-            </template>
+          <template slot-scope="scope">
+            {{dateChangeFormat(scope.row.eventTime)}}
+          </template>
         </el-table-column>
         <el-table-column label="事件" prop="eventName"></el-table-column>
         <el-table-column label="日志来源" prop="logFrom"></el-table-column>
         <el-table-column label="日志说明" prop="logDesc"></el-table-column>
       </el-table>
     </div>
+    <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
   </div>
 </template>
 <script>
 import http from "@/assets/public/js/http";
+import paging from "@/components/admin/model/paging";
 export default {
+  components: {
+    paging
+  },
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -54,6 +59,7 @@ export default {
         this.borrowData = res.data;
         let list = res.data.items || [];
         this.tableData = list;
+        this.pageData.totalCount = res.data.totalCount;
         this.loading = false;
       }).catch(err => {
         this.loading = false;
@@ -61,7 +67,7 @@ export default {
       })
     },
     // 时间格式化
-    dateChangeFormat(date,format = 'YYYY-mm-dd HH:MM') {
+    dateChangeFormat(date, format = 'YYYY-mm-dd HH:MM') {
       date = new Date(date);
       const dataItem = {
         'Y+': date.getFullYear().toString(),
@@ -139,11 +145,11 @@ export default {
 /deep/ .el-table th.el-table__cell > .cell {
   padding-left: 8%;
 }
-/deep/ .el-input__inner {
-  height: 37px;
-  line-height: 37px;
-}
-.w150{
+// /deep/ .el-input__inner {
+//   height: 37px;
+//   line-height: 37px;
+// }
+.w150 {
   width: 150px;
   margin-right: 10px;
 }

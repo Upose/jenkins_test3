@@ -36,11 +36,11 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
-        pageSize: 20,
+        pageSize: 10000,
       },//分页参数
       tableData: [],//列表项
       postForm: {},
@@ -130,7 +130,7 @@ export default {
   height: 37px;
   line-height: 37px;
 }
-.w150{
+.w150 {
   width: 150px;
   margin-right: 10px;
 }

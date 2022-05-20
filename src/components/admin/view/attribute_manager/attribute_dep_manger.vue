@@ -40,7 +40,7 @@
                     <span v-else-if="!scope.row.edit">{{ scope.row.code }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作">
+                <el-table-column prop="content" label="操作" align="center">
                   <template slot-scope="scope">
                     <template>
                       <!-- 正常按钮 -->

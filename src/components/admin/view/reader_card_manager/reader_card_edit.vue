@@ -41,7 +41,7 @@
                   <el-date-picker v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
-                  <el-select v-model="cardForm.status" placeholder="请选择" clearable>
+                  <el-select v-model="cardForm.status" placeholder="请选择">
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
                   </el-select>

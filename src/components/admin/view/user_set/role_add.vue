@@ -118,18 +118,17 @@ export default {
       this.$refs["form"].validate(ok => {
         if (ok) {
           this.postForm.menuIds = this.$refs.tree.getCheckedKeys();
-          // let parms = this.upFromData(this.postForm, [{ name: 'introduce', datas: { '使用帮助': { key: '使用帮助', value: 1 }, '资源统计': { key: '资源统计', value: 2 } } }])
           if (this.id) {
             http.putJson('role', this.postForm).then(res => {
               this.$message({ message: '编辑成功！', type: 'success' });
-              // this.getData();
+              this.$router.back();
             }).catch(err => {
               this.$message({ type: 'error', message: '编辑失败!' });
             })
           } else {
             http.postJson('role', this.postForm).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
-              // this.getData();
+              this.$router.back();
             }).catch(err => {
               this.$message({ type: 'error', message: '新增失败!' });
             })
@@ -155,10 +154,10 @@ export default {
 .w500 {
   width: 500px;
 }
-.tree-box{
+.tree-box {
   height: 500px;
   overflow-y: scroll;
-  border: 1px solid  #dcdfe6;
+  border: 1px solid #dcdfe6;
   border-radius: 4px;
   padding: 10px 0;
 }

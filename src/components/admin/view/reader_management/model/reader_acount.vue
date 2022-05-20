@@ -226,10 +226,10 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       postForm: null,
       dataKey: null,
-      groupSelect:[],
+      groupSelect: [],
       properties: null,
       mergeInfo: null,//合并信息提示
       readerRules: {
@@ -392,7 +392,7 @@ export default {
     initSelect(code) {
       if (!this.dataKey) return;
       let select = this.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      return select ? select.groupItems : [];
     },
     // 下拉列表过滤
     handleFilter(val, code) {

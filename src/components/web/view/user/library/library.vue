@@ -5,7 +5,7 @@
         <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
         <div v-if="!isEdit">
           <div class="top-right">
-            <span class="item" v-if="form.isStaff" @click="linkTo('/appcenter/#/admin_appInfo','appcenter')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
+            <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
             <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
             <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
             <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
@@ -56,17 +56,21 @@
             <div class="app-content">
               <div class="re-box" @click="linkTo(appData.appCenterRouteCode)">
                 <div class="app-box">
-                  <div class="app" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
+                  <template v-for="(item,index) in appData.appList">
+                    <div class="app" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
+                  </template>
                 </div>
                 <p class="title-name">应用中心</p>
               </div>
               <div class="item-box">
-                <div class="app-item" v-for="(item,index) in appData.appList" :key="item.appId" v-if="index<7" @click="linkTo(item.frontUrl)">
-                  <div class="app">
-                    <img :src="imgUrl+item.appIcon" alt="">
+                <template v-for="(item,index) in appData.appList">
+                  <div class="app-item" :key="item.appId" v-if="index<7" @click="linkTo(item.frontUrl)">
+                    <div class="app">
+                      <img :src="imgUrl+item.appIcon" alt="">
+                    </div>
+                    <p class="title-name">{{item.appName}}</p>
                   </div>
-                  <p class="title-name">{{item.appName}}</p>
-                </div>
+                </template>
               </div>
               <span class="right-arr" @click="linkTo(appData.myAppRouteCode)">
                 <i class="el-icon-arrow-right"></i>

@@ -20,10 +20,10 @@
           <div class="content-box">
             <el-form ref="postForm" :model="postForm" label-width="150px" :rules="rules">
               <el-form-item label="用户组名称" class="w500" prop="name">
-                <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="50" show-word-limit></el-input>
+                <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="10" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input type="textarea" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
+                <el-input type="textarea" autosize v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择">
                 <div class="rule-box" v-if="dataKey">
@@ -114,7 +114,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入用户组名称', trigger: 'blur' },
-          { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
+          { min: 2, max: 50, message: '长度在 2 到 10 个字符', trigger: 'blur' }
         ],
       },
     };

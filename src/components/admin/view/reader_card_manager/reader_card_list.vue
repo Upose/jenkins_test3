@@ -68,7 +68,7 @@
                     <span>{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" width="260">
+                <el-table-column prop="content" label="操作" width="260" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('card:delete')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('card:update')">查看</el-button>
@@ -105,7 +105,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_export, someChange },
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -414,5 +414,8 @@ export default {
 }
 .w400 {
   width: 400px;
+}
+/deep/ .el-input {
+  margin-bottom: 0 !important;
 }
 </style>
