@@ -134,7 +134,7 @@ export default {
   putJsonSelf: function (url, data) {
     return new Promise((resolve, reject) => {
       axios({
-        url: this.postUrl[url]+data,
+        url: this.postUrl[url] + data,
         // data: data,
         method: 'PUT',
         headers: {

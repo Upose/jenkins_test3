@@ -53,9 +53,9 @@
                 <el-tab-pane label="证件信息" name="second">
                   <Certificate :id="id"></Certificate>
                 </el-tab-pane>
-                <!-- <el-tab-pane label="积分明细" name="third">
-                  <Intergral></Intergral>
-                </el-tab-pane> -->
+                <el-tab-pane label="积分明细" name="third">
+                  <Intergral :id="id"></Intergral>
+                </el-tab-pane>
                 <el-tab-pane label="借阅明细" name="fourth">
                   <borrowingDetail :id="id"></borrowingDetail>
                 </el-tab-pane>
@@ -90,7 +90,7 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 import AuthSystem from "./model/authorization_system"
 import ReaderAcount from "./model/reader_acount"
 import borrowingDetail from "./model/borrowing_detail"
-import Intergral from "../Integral_details/Integral_details"
+import Intergral from "./model/Integral_details"
 import Certificate from "./model/certificate_information"
 import useLog from "./model/use_log"
 

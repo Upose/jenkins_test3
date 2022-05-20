@@ -415,4 +415,7 @@ export default {
 .w400 {
   width: 400px;
 }
+/deep/ .el-input {
+  margin-bottom: 0 !important;
+}
 </style>
