@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="certificate-title">
-      <el-button type="primary" class="serach-btn" @click="handleAdd" icon="iconfont el-icon-vip-tianjia2">添加卡片</el-button>
+      <el-button type="primary" class="serach-btn" @click="handleAdd" icon="iconfont el-icon-vip-tianjia2" v-if="isAuth('card:create')">添加卡片</el-button>
     </div>
     <div class="certificate-box" v-for="(item,index) in tableData" :key="index">
       <div class="certificate-box-top">
@@ -128,7 +128,7 @@ export default {
     return {
       showBox: true,
       tableData: [],
-      dataKey: {},
+      dataKey: null,
       logList: [],//申请记录列表
     }
   },
@@ -200,8 +200,9 @@ export default {
     },
     // 获取状态
     getKeyValue(status) {
-      if (!status) return;
+      if (!status || !this.dataKey) return;
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == 'Card_Status'));
+      if (!select) return;
       let obj = select.groupItems.find(item => (item.value == status));
       return obj ? obj.key : '';
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editdiv">
-      <el-form v-loading="loading" ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules">
+      <el-form v-loading="loading" ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules" :disabled="isAllowEdit">
         <el-form-item label="单位名称" prop="unit">
           <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
         </el-form-item>
@@ -175,7 +175,7 @@
         </el-form-item>
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('reader:update')">保存</el-button>
       </div>
     </div>
     <div class="reader-right">
@@ -279,10 +279,23 @@ export default {
     }
   },
   props: ['id', 'iconUrl'],
+  computed: {
+    isAllowEdit() {
+      return !this.isAuth('reader:update')
+    }
+  },
   created() {
     this.initData();
   },
   methods: {
+    // 页面子权限判定
+    isAuth(name) {
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item => (item.router == '/admin_readerList'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
+    },
     getDynamicRule(property) {
       var rules = [];
       if (property.required) {
