@@ -18,7 +18,7 @@
                 <span class="text">{{form.name}}</span>
                 <!-- <span class="leave">LV8</span> -->
                 <div class="w-q">
-                  <img src="../../../../../assets/web/img/wex.png" alt="">
+                  <img src="../../../../../assets/web/img/wex.png" alt="" @click="wxBind">
                   <img src="../../../../../assets/web/img/qq.png" alt="">
                 </div>
               </div>
@@ -121,23 +121,36 @@
     </div>
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
+    <dialog_code ref="dialog_code"></dialog_code>
+    <el-dialog
+      center
+      title=""
+      :visible.sync="wxdialogVisible"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      width="400px">
+      <div>请问是否确定绑定微信？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="wxdialogVisible = false">取 消</el-button>
+        <el-button type="primary" :loading="wxbindLoading" @click="getWeixin">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Sortable from "sortablejs";
 
 import dialog_card from '@/components/web/view/user/library/model/dialog_card';
+import dialog_code from '@/components/web/view/user/library/model/dialog_code';
 import { timeFormat } from "@/assets/public/js/util";
 import breadCrumbs from '../../../model/breadCrumbs';
 
 export default {
-  components: { dialog_card, breadCrumbs },
+  components: { dialog_card, breadCrumbs, dialog_code },
   data() {
     return {
       baseUrl: window.apiDomainAndPort,
       userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
-
-
       isEdit: false,//是否编辑状态
       dataKey: null,//键值对数据
       form: {},//读者信息
@@ -150,6 +163,20 @@ export default {
       applyIdList: [],//模板appid列表
       imgUrl: localStorage.getItem('fileUrl'),//图片域名
       setTime: timeFormat,
+      wxdialogVisible: false,
+      wxCode: '',
+      wxbindLoading: false,
+    }
+  },
+  watch:{
+    $route(){
+      if(this.$route.query.code) {
+        this.wxCode = this.$route.query.code;
+        this.wxdialogVisible = true;
+      } else {
+        this.wxCode = '';
+        this.wxdialogVisible = false;
+      }
     }
   },
   created() {
@@ -165,8 +192,70 @@ export default {
   mounted() {
     this.getTemp();
     this.dragSort();
+
+    if(this.$route.query.code) {
+      this.wxCode = this.$route.query.code;
+      this.wxdialogVisible = true;
+    }
   },
   methods: {
+    // 打开微信绑定
+    wxBind() {
+      // 判断是否已绑定
+      this.http.getJson('forward-reader-identity-status').then((res) => {
+        if (!res.data.weChatIdentity) {
+          this.$refs.dialog_code.show();
+        } else {
+          this.$message({ type: "warning", message: "微信已认证!" });
+        }
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取用户是否已绑定信息失败!" });
+      });
+    },
+    // 调接口，code传给后端
+    getWeixin() {
+      return new Promise((resolve, reject) => {
+        this.wxbindLoading = true;
+        let data = {
+          appid: 'wxbdc5610cc59c1631', // 暂未申请好
+          secret: '', // 暂未申请好
+          code: this.wxCode,
+          grant_type: 'authorization_code'
+        }
+        // 获取openid、unionid
+        axios({
+          url: 'https://api.weixin.qq.com/sns/oauth2/access_token',
+          params: data,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then(response => {
+          console.log(response)
+
+          let params = {
+            openId: response.openid,
+            unionId: response.unionid,
+          }
+          // 绑定用户到后端
+          this.http.postJson('forward-init-data', params).then((res) => {
+            this.$message({ type: "success", message: "用户绑定微信成功!" });
+            this.wxdialogVisible = false;
+            this.wxbindLoading = false;
+            this.$router.push({path:'/web_library'});
+          }).catch((err) => {
+            this.$message({ type: "error", message: "用户绑定微信失败!" });
+            this.wxbindLoading = false;
+            this.$router.push({path:'/web_library'});
+          });
+          
+        }).catch(err => {
+          this.$message({ type: "error", message: "用户绑定微信失败!" });
+          this.wxbindLoading = false;
+          this.$router.push({path:'/web_library'});
+        });
+      });
+    },
     // 获取键值对数据
     getKey() {
       this.http.getJson('forward-init-data').then((res) => {
