@@ -28,7 +28,7 @@
             <span>{{ scope.row.unique?'唯一':'不唯一'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="showOnTable" label="列表是否展示" align="center">
+        <el-table-column prop="showOnTable" label="列表是否展示" align="center" v-if="isAuth('property:update')">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.showOnTable?'是':'否'}}</span> -->
             <span>
@@ -36,7 +36,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="canSearch" label="是否可检索" align="center">
+        <el-table-column prop="canSearch" label="是否可检索" align="center" v-if="isAuth('property:update')">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.canSearch?'是':'否'}}</span> -->
             <span v-if="scope.row.sysBuildIn == 1">

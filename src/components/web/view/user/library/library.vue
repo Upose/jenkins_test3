@@ -256,12 +256,15 @@ export default {
 
     // 设为首页
     handleSetIndex() {
-      this.http.putJsonSelf('forward-set-personal-default-scene', `/${this.tempParm.id}/1`).then((res) => {
-        // this.$message({ type: "success", message: "保存设置成功!" });
-        this.tempParm.isPersonalIndex = true;
-      }).catch((err) => {
-        this.$message({ type: "error", message: "设为主页失败!" });
-      });
+      this.http.postJson('forward-save-personal-scene', this.tempParm).then((res) => {
+        this.http.getJson('forward-personal-scene-detail').then((res) => {
+          this.http.putJsonSelf('forward-set-personal-default-scene', `/${res.data.id}/1`).then((res) => {
+            // this.$message({ type: "success", message: "保存设置成功!" });
+            this.tempParm.isPersonalIndex = true;
+          })
+        })
+      })
+
     },
     // 取消设为主页
     handleCancalSetIndex() {

@@ -2,21 +2,21 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-20 16:14:28
+ * @LastEditTime: 2022-05-25 19:23:54
  * @Description: 
 -->
 <template>
   <div>
     <div class="integral-box">
-      <div class="integral-num">
+      <div class="integral-num" v-if="integralData">
         <span>总积分：</span>
         <span>{{integralData.userScore}}</span>
       </div>
-      <div class="integral-num">
+      <div class="integral-num" v-if="integralData">
         <span>消耗积分：</span>
         <span>{{integralData.consumeScore}}</span>
       </div>
-      <div class="integral-num">
+      <div class="integral-num" v-if="integralData">
         <span>过期积分：</span>
         <span>{{integralData.overdueScore}}</span>
       </div>
@@ -74,7 +74,7 @@ export default {
       },//分页参数
       tableData: [],//列表项
       postForm: {},
-      integralData: {}
+      integralData: null
     }
   },
   props: ['id'],

@@ -15,7 +15,7 @@ export default {
     if (result.statusCode == 200) {
       resolve(result);
     } else if (result.statusCode == 400) {
-      Vue.prototype.$message({ type: 'error', message: result.errors });
+      Vue.prototype.$message({ type: 'error', message: typeof result.errors === 'string' ? result.errors : result.errors.Code[0] });
     } else {
       this.error(result.errors);
       reject(result);

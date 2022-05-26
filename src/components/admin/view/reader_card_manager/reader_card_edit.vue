@@ -15,7 +15,7 @@
           <!--顶部查询 end-->
           <div class="login-list">
             <div class="card-box">
-              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules">
+              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules" :disabled="!isAuth('card:update')">
                 <div class="read-title">读者卡信息</div>
                 <el-form-item label="选择用户" v-if="!id&&!userId" prop="userId">
                   <el-select v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
@@ -81,7 +81,7 @@
               </el-form>
             </div>
             <div class="btn_box">
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保 存</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('card:update')">保 存</el-button>
             </div>
           </div>
         </div>
