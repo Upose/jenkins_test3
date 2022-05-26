@@ -2,6 +2,9 @@
   <div class="warp">
     <headerpage></headerpage>
     <div class="admin-warp-content">
+      <!-- <keep-alive>
+        <router-view></router-view>
+      </keep-alive> -->
       <router-view></router-view>
     </div>
     <!-- <footerpage class="footer-page"></footerpage> -->

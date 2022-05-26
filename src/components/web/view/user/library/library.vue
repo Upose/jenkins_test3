@@ -4,29 +4,43 @@
       <div class="lib-content">
         <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
         <div v-if="!isEdit">
-          <div class="top-right">
-            <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/icon_gy.png" alt=""> 馆员工作台</span>
-            <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/icon_seting.png" alt=""> 账号设置</span>
-            <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 设为主页</span>
-            <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
+          <div class="head-box">
+            <span class="title">{{userCenterName}}</span>
+            <div class="top-right">
+              <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
+              <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
+              <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/personal/icon_swzy.png" alt=""> 设为主页</span>
+              <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
+            </div>
           </div>
           <div class="top-content">
-            <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div>
+            <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
             <div class="top-content-user-box">
               <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
               <div class="name">
                 <span class="text">{{form.name}}</span>
+                <span class="grade" v-show="form.grade">{{form.grade}}</span>
                 <!-- <span class="leave">LV8</span> -->
-                <div class="w-q">
-                  <img src="../../../../../assets/web/img/wex.png" alt="" @click="wxBind">
+                <!-- <div class="w-q">
+                  <img src="../../../../../assets/web/img/wex.png" alt="">
                   <img src="../../../../../assets/web/img/qq.png" alt="">
-                </div>
+                </div> -->
               </div>
               <div class="certification">
+                <span>
+                  <img src="../../../../../assets/web/img/personal/icon_qq.png" alt="" @click="wxBind">
+                  未认证
+                </span>
+                <span>
+                  <img src="../../../../../assets/web/img/personal/icon_wx.png" alt="">
+                  {{identityList.weChatIdentity?'已认证':'未认证'}}
+                </span>
                 <span>
                   <img src="../../../../../assets/web/img/phone-i.png" alt="">
                   {{form.mobileIdentity?'已认证':'未认证'}}
                 </span>
+              </div>
+              <div class="certification certification2">
                 <span>
                   <img src="../../../../../assets/web/img/id-i.png" alt="">
                   {{form.idCardIdentity?'已认证':'未认证'}}
@@ -39,32 +53,52 @@
             </div>
             <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
               <div>
-                <h6>{{principal.userName}}<span v-if="getKeyValue(principal.type,'Card_Type')">（{{getKeyValue(principal.type,'Card_Type')}}）</span></h6>
-                <span class="green" v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
-                <span class="yellow" v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
-                <span class="gery" v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+                <div class="title">
+                  <span>我的读者卡</span>
+                  <i class="next"></i>
+                </div>
+                <div class="blue-area"></div>
+                <div class="status">
+                  <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+                  <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+                  <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+                </div>
+                <div class="list">
+                  <div class="list-item">
+                    <div class="type-name">工作证号</div>
+                    <div class="kname" :title="principal.userName">
+                      {{principal.userName}}
+                      <!-- <span v-if="getKeyValue(principal.type,'Card_Type')">（{{getKeyValue(principal.type,'Card_Type')}}）</span> -->
+                    </div>
+                  </div>
+                  <div  class="list-item">
+                    <div class="type-name">统一认证号</div>
+                    <div class="kname" :title="principal.no">
+                      {{principal.no}}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p class="font18">卡号 {{principal.no}}</p>
-              <p>有效期至 {{setTime(principal.expireDate)}}</p>
+              <p class="time">有效期至 &nbsp; {{setTime(principal.expireDate)}}</p>
             </div>
           </div>
           <div class="apply">
             <div class="title-box">
               <span class="left">我的应用</span>
-              <span class="right" @click="linkTo(appData.appCenterRouteCode)">应用中心</span>
+              <span class="right" @click="linkTo(appData.appCenterRouteCode)">应用中心<i class="el-icon-arrow-right"></i></span>
             </div>
             <div class="app-content">
-              <div class="re-box" @click="linkTo(appData.appCenterRouteCode)">
+              <!-- <div class="re-box" @click="linkTo(appData.appCenterRouteCode)">
                 <div class="app-box">
                   <template v-for="(item,index) in appData.appList">
                     <div class="app" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
                   </template>
                 </div>
                 <p class="title-name">应用中心</p>
-              </div>
+              </div> -->
               <div class="item-box">
                 <template v-for="(item,index) in appData.appList">
-                  <div class="app-item" :key="item.appId" v-if="index<7" @click="linkTo(item.frontUrl)">
+                  <div class="app-item" :key="item.appId" v-if="index<10" @click="linkTo(item.frontUrl)">
                     <div class="app">
                       <img :src="imgUrl+item.appIcon" alt="">
                     </div>
@@ -72,10 +106,10 @@
                   </div>
                 </template>
               </div>
-              <span class="right-arr" @click="linkTo(appData.myAppRouteCode)">
+              <!-- <span class="right-arr" @click="linkTo(appData.myAppRouteCode)">
                 <i class="el-icon-arrow-right"></i>
                 <p>更多</p>
-              </span>
+              </span> -->
             </div>
           </div>
         </div>
@@ -110,7 +144,7 @@
     </div>
     <!-- <footer class="footer"></footer> -->
     <!-- 编辑按钮 -->
-    <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="el-icon-edit"></i>编辑主页</div>
+    <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="icon-edit"></i>编辑主页</div>
     <div class="edit-ing-btn" v-else>
       <span class="mb" @click="handleReset">
         <i class="el-icon-refresh-left"></i>重置
@@ -166,6 +200,7 @@ export default {
       wxdialogVisible: false,
       wxCode: '',
       wxbindLoading: false,
+      identityList: {},
     }
   },
   watch:{
@@ -185,6 +220,7 @@ export default {
 
     this.getKey();
     this.getInfo();
+    this.wxBindList();
     this.getCard();
     this.getMyApp();
     this.getApplyList();
@@ -199,18 +235,23 @@ export default {
     }
   },
   methods: {
-    // 打开微信绑定
-    wxBind() {
-      // 判断是否已绑定
+    // 绑定信息
+    wxBindList() {
       this.http.getJson('forward-reader-identity-status').then((res) => {
-        if (!res.data.weChatIdentity) {
-          this.$refs.dialog_code.show();
-        } else {
-          this.$message({ type: "warning", message: "微信已认证!" });
-        }
+        this.identityList = res.data;
+        console.log(this.identityList)
       }).catch((err) => {
         this.$message({ type: "error", message: "获取用户是否已绑定信息失败!" });
       });
+    },
+    // 打开微信绑定
+    wxBind() {
+      // 判断是否已绑定
+      if (!this.identityList.weChatIdentity) {
+        this.$refs.dialog_code.show();
+      } else {
+        this.$message({ type: "warning", message: "微信已认证!" });
+      }
     },
     // 调接口，code传给后端
     getWeixin() {
@@ -274,6 +315,7 @@ export default {
     getInfo() {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
+        console.log(this.form)
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
@@ -293,6 +335,7 @@ export default {
     getMyApp() {
       this.http.getJson('forward-getmycollectionapps').then((res) => {
         this.appData = res.data;
+        console.log(this.appData)
       }).catch((err) => {
         this.$message({ type: "error", message: "获取应用信息失败!" });
       });
@@ -511,68 +554,107 @@ export default {
 }
 .content-box {
   width: 100%;
-  background: url("../../../../../assets/web/img/l-bg.png") no-repeat #eeeeee;
+  background: url("../../../../../assets/web/img/personal/top-bg.png") no-repeat #eeeeee;
   background-size: 100% 320px;
   padding-bottom: 80px;
   .lib-content {
     width: 1200px;
     margin: 0 auto;
     position: relative;
-    padding-top: 24px;
+    padding-top: 7px;
+  }
+  /deep/ .my-breadCrumbs{
+    &.main_text_color{
+      color: #333333;
+      font-size: 12px;
+    }
   }
 }
 .no-background {
   background: #eeeeee;
 }
-.top-right {
-  // display: flex;
-  // justify-content: end;
-  // margin-bottom: 20px;
-  // align-items: center;
-  // align-content: center;
-  position: absolute;
-  right: 0;
-  top: 15px;
 
-  span {
-    margin-left: 20px;
-    cursor: pointer;
-    color: #666;
-    align-items: center;
-    &:hover {
-      opacity: 0.8;
-    }
-
-    img {
-      width: 16px;
-      height: 16px;
-      position: relative;
-      top: -3px;
+.head-box{
+  position: relative;
+  margin-top: 25px;
+  height: 76px;
+  width: 1200px;
+  background: url(../../../../../assets/web/img/personal/header-bg.png) no-repeat 0 0;
+  .title{
+    display: block;
+    float: left;
+    position: relative;
+    margin-top: 38px;
+    margin-left: 98px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #A00404;
+    &:after{
+      content: '';
+      position: absolute;
+      top: 55%;
+      left: 100%;
+      margin-left: 23px;
+      width: 930px;
+      height: 1px;
+      background-image: linear-gradient(to right, #A00404 ,rgba(225,225,225, 0.1));
     }
   }
+  .top-right {
+    // display: flex;
+    // justify-content: end;
+    // margin-bottom: 20px;
+    // align-items: center;
+    // align-content: center;
+    float: right;
+    padding-top: 25px;
+    span {
+      margin-left: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333333;
+      align-items: center;
+      &:hover {
+        opacity: 0.8;
+      }
 
-  .set-item {
-    // width: 98px;
-    // height: 28px;
-    display: inline-block;
-    padding: 0 8px;
-    background: rgba(0, 0, 0, 0.25);
-    opacity: 1;
-    border-radius: 16px;
-    text-align: center;
-    color: #fff;
-    line-height: 28px;
+      img {
+        width: 16px;
+        height: 16px;
+        position: relative;
+        top: -1px;
+      }
+    }
 
-    img {
-      position: relative;
-      top: 0;
+    .set-item {
+      // width: 98px;
+      // height: 28px;
+      display: inline-block;
+      padding: 0 16px;
+      background: #E4E8F8;
+      color: #333333;
+      opacity: 1;
+      border-radius: 16px;
+      text-align: center;
+      line-height: 28px;
+
+      img {
+        position: relative;
+        top: -1px;
+        margin-right: 2px;
+      }
     }
   }
 }
 .top-content {
-  height: 205px;
+  height: 230px;
   position: relative;
-  margin-top: 40px;
+  margin-top: 24px;
+  background: #fff;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  background: url(../../../../../assets/web/img/personal/top-cont-bg.png) no-repeat 0 0;
   .top-content-title-box {
     position: relative;
     display: inline-block;
@@ -597,20 +679,22 @@ export default {
   }
   .top-content-user-box {
     position: relative;
-    background: #fff;
-    width: 736px;
+    width: 757px;
     height: 138px;
-    border: 1px solid #e1e1e1;
     border-radius: 16px;
-    padding: 20px 30px;
+    box-sizing: border-box;
+    float: left;
   }
   .avatar {
-    width: 100px;
-    height: 100px;
+    width: 147px;
+    height: 147px;
+    border: 7px solid #fff;
     border-radius: 50%;
     overflow: hidden;
     background: #ddd;
     position: absolute;
+    top: 35px;
+    left: 22px;
     img {
       width: 100%;
       height: 100%;
@@ -618,12 +702,29 @@ export default {
   }
   .name {
     position: absolute;
-    left: 170px;
-    top: 20px;
+    left: 196px;
+    top: 47px;
 
     .text {
       font-size: 24px;
-      font-weight: 550;
+      font-weight: bold;
+      color: #3A3536;
+    }
+    .grade{
+      display: inline-block;
+      padding: 0 7px;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 22px;
+      color: #FFFFFF;
+      background: #F4C05C;
+      height: 22px;
+      border: 1px solid #FFFFFF;
+      background: linear-gradient(121deg, #FFE3A4 0%, #EEAC31 100%);
+      border-radius: 4px;
+      margin-left: 13px;
+      font-weight: normal;
+      letter-spacing: 2px;
     }
     .leave {
       height: 22px;
@@ -653,54 +754,96 @@ export default {
   }
   .certification {
     position: absolute;
-    top: 80px;
-    left: 170px;
+    top: 97px;
+    left: 196px;
     color: #666;
+    &.certification2{
+      top: 139px;
+    }
     span {
       margin-right: 10px;
-      padding: 8px 10px;
-      border: 1px solid #ececec;
+      padding: 8px 12px;
+      height: 30px;
+      background: #FFFFFF;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
       border-radius: 20px;
     }
   }
   .card {
-    width: 440px;
-    height: 190px;
-    background: url("../../../../../assets/web/img/card-bg.png") no-repeat;
+    width: 413px;
+    height: 210px;
+    background: url("../../../../../assets/web/img/personal/card-bg.png") no-repeat;
     background-size: 100%;
-    // height: 100%;
     border-radius: 16px;
-    padding: 20px 20px 20px 0;
-    position: absolute;
-    top: 0;
-    right: 0;
     cursor: pointer;
-
-    h6 {
-      font-size: 20px;
-      background: #fff;
-      display: inline-block;
-      padding: 8px 30px;
-      border-radius: 0 50px 50px 0;
-      margin-left: 20px;
-      margin-top: 15px;
-      color: #606060;
+    float: left;
+    margin-left: 10px;
+    position: relative;
+    .title{
+      font-size: 14px;
+      font-weight: bold;
+      color: #3965D8;
+      padding: 6px 0 0 0;
+      text-align: center;
+      .next{
+        vertical-align: -3px;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url(../../../../../assets/web/img/personal/next.png) no-repeat center #3965D8;
+        border-radius: 50%;
+      }
     }
-    p {
-      color: #606060;
-      margin-top: 8px;
-      padding-left: 50px;
+    .blue-area{
+      width: 6px;
+      height: 30px;
+      border-radius: 0 10px 10px 0;
+      background: #3965D8;
+      position: absolute;
+      top: 72px;
+      left: 10px;
     }
-    .font18 {
-      font-size: 26px;
-      margin-top: 30px;
+    .status{
+      position: absolute;
+      top: 24px;
+      right: 15px;
+      transform:rotate(50deg);
+      span{
+        color: #584927;
+        font-size: 16px;
+      }
     }
-    & > div > span {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-left: 10px;
-      font-weight: 560;
+    .list{
+      padding-left: 40px;
+      padding-top: 22px;
+      .list-item{
+        float: left;
+        &:first-child{
+          margin-right: 45px;
+        }
+        .type-name{
+          color: #2F2C23;
+          font-size: 14px;
+          margin-bottom: 4px;
+        }
+        .kname{
+          color: #3A3536;
+          display: block;
+          font-size: 27px;
+          font-weight: bold;
+          max-width: 149px;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
+          // white-space: nowrap;
+        }
+      }
+    }
+    .time{
+      font-size: 16px;
+      color: #fff;
+      position: absolute;
+      bottom: 28px;
+      left: 40px;
     }
   }
 }
@@ -780,7 +923,7 @@ export default {
   height: 140px;
   display: flex;
   align-items: center;
-  padding: 0 25px;
+  padding: 0 20px;
 
   .re-box {
     margin-right: 74px;
@@ -827,9 +970,15 @@ export default {
     display: flex;
     .app-item {
       width: 80px;
-      margin: 0 20px;
+      margin: 0 24px;
       padding: 5px;
       cursor: pointer;
+      &:first-child{
+        margin-left: 0;
+      }
+      &:last-child{
+        margin-right: 0;
+      }
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
       }
@@ -922,24 +1071,28 @@ export default {
   }
 }
 .edit-btn {
-  width: 64px;
-  height: 92px;
-  background: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  width: 60px;
+  height: 118px;
+  background: #FFFFFF;
+  box-shadow: 0px 3px 40px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  padding: 15px;
+  padding: 25px 16px 23px 16px;
   position: fixed;
   right: 24px;
   top: 500px;
   text-align: center;
   cursor: pointer;
-  color: #666;
   z-index: 1000;
-
+  border-radius: 0px 35px 35px 35px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #2D3240;
   i {
-    font-size: 20px;
-    display: block;
-    margin-bottom: 8px;
+    width: 26px;
+    height: 24px;
+    display: inline-block;
+    margin-bottom: 2px;
+    background: url(../../../../../assets/web/img/personal/icon-edit.png);
   }
   &:hover {
     opacity: 0.9;

@@ -93,8 +93,9 @@ export default {
       tableData: [],//列表项
     }
   },
-  mounted() {
+  activated() {
     this.initData();
+    console.log(this.$route)
   },
   methods: {
     // 页面子权限判定
@@ -124,7 +125,8 @@ export default {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
-        this.pageData.totalCount = res.data.totalCount;
+        // this.pageData.totalCount = res.data.totalCount;
+        this.$set(this.pageData, 'totalCount', res.data.totalCount)
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -174,6 +176,9 @@ export default {
         type: 'warning'
       }).then(() => {
         http.deleteJsonSelf('user-group', `/${row.id}`).then(res => {
+          if (this.tableData.length == 1) {
+            this.pageData.pageIndex = 1;
+          }
           this.getList();
           this.$message({ type: 'success', message: '删除成功!' });
         }).catch(err => {
