@@ -67,7 +67,7 @@ export default {
     },
     enlarge: {
       type: String,
-      default: 1
+      default: 2
     }
   },//图片宽高
   data() {
@@ -130,22 +130,22 @@ export default {
       // 设置64像素和24像素样式
       let rgs = /\((.+?)\)/g;
       let tran = data.img.transform.match(rgs)[1];
-      tran = tran.substring(1,tran.length-1);
+      tran = tran.substring(1, tran.length - 1);
       let tranList = tran.split(',');
-      let tran64=parseFloat(tranList[0])*64/100 + 'px'+','+parseFloat(tranList[1])*64/100 + 'px'+','+parseFloat(tranList[2])*64/100 + 'px';
-      let tran24=parseFloat(tranList[0])*24/100 + 'px'+','+parseFloat(tranList[1])*24/100 + 'px'+','+parseFloat(tranList[2])*24/100 + 'px';
-      tran64 = data.img.transform.replace(tran,tran64);
-      tran24 = data.img.transform.replace(tran,tran24);
+      let tran64 = parseFloat(tranList[0]) * 64 / 100 + 'px' + ',' + parseFloat(tranList[1]) * 64 / 100 + 'px' + ',' + parseFloat(tranList[2]) * 64 / 100 + 'px';
+      let tran24 = parseFloat(tranList[0]) * 24 / 100 + 'px' + ',' + parseFloat(tranList[1]) * 24 / 100 + 'px' + ',' + parseFloat(tranList[2]) * 24 / 100 + 'px';
+      tran64 = data.img.transform.replace(tran, tran64);
+      tran24 = data.img.transform.replace(tran, tran24);
       // console.log(tran64,tran24);
       this.previews.img64 = {
-        width: parseInt(data.img.width)*64/100 + 'px',
-        height: parseInt(data.img.height)*64/100 + 'px',
-        transform:tran64
+        width: parseInt(data.img.width) * 64 / 100 + 'px',
+        height: parseInt(data.img.height) * 64 / 100 + 'px',
+        transform: tran64
       }
       this.previews.img24 = {
-        width: parseInt(data.img.width)*24/100 + 'px',
-        height: parseInt(data.img.height)*24/100 + 'px',
-        transform:tran24
+        width: parseInt(data.img.width) * 24 / 100 + 'px',
+        height: parseInt(data.img.height) * 24 / 100 + 'px',
+        transform: tran24
       }
     },
     //选择图片

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-25 19:23:54
+ * @LastEditTime: 2022-05-27 11:35:30
  * @Description: 
 -->
 <template>
@@ -96,7 +96,6 @@ export default {
     getList() {
       this.loading = true;
       http.getJson('reader-event-score-table-data', { userID: this.id, ...this.postForm, ...this.pageData }).then(res => {
-        this.integralData = res.data;
         let list = res.data.items || [];
         this.tableData = list;
         this.pageData.totalCount = res.data.totalCount;

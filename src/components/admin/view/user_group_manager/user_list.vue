@@ -41,7 +41,7 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
-                <el-button size="medium" type="primary" @click="handMathChange" v-if="isAuth('userGroup:update')">批量修改</el-button>
+                <el-button size="medium" type="primary" @click="handMathChange" v-if="isAuth('userGroup:batchUpdate')">批量修改</el-button>
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel" v-if="isAuth('userGroup:userListDeleteUser')">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('userGroup:userListAddUser')">添加用户</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('userGroup:userListExportUser')">导出数据</el-button>

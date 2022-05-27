@@ -30,13 +30,17 @@
                 <div class="middle-top">
                   <span class="names">{{postForm.name}}</span>
                   <span class="numers">{{postForm.nickName}}</span>
-                  <!-- <span class="level">LV8</span> -->
+                  <span class="level">LV{{integralData.level}}</span>
                   <!-- <span class="async">同步</span> -->
                 </div>
-                <!-- <div class="integral">
+                <div class="integral">
                   <span>当前积分：</span>
-                  <span>1241</span>
-                </div> -->
+                  <span>{{integralData.userScore}}</span>
+                </div>
+                <div class="times">
+                  <span>读者来源：</span>
+                  <span>{{getKeyValue('User_SourceFrom',postForm.sourceFrom)}}</span>
+                </div>
                 <div class="times">最近登录：{{dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.lastLoginTime)}}</div>
               </div>
               <div class="reader-right">
@@ -121,6 +125,7 @@ export default {
       },
       activeName: "first",
       showToStaff: true,
+      integralData: {},
 
       imgPath: localStorage.getItem('fileUrl'),//图片域名前缀
     }
@@ -144,6 +149,7 @@ export default {
       this.getKey();
       if (this.id) {
         this.getData();
+        this.getIntegralData();
       } else {
         this.postForm = {}
       }
@@ -171,6 +177,23 @@ export default {
       }).catch(err => {
         this.$message({ type: 'error', message: '获取设置失败!' });
       })
+    },
+    // 获取积分数据
+    getIntegralData() {
+      http.getJson('reader-score-summary', { userID: this.id }).then(res => {
+        this.integralData = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 数据处理
+    getKeyValue(code, val) {
+      if (!this.dataKey) return;
+      let value = '';
+      // let curItem = this.dataKey.sourceFrom.find((item) => (item == val));
+      let obj = this.dataKey.groupSelect.find(item => item.groupCode == code);
+      value = obj.groupItems ? obj.groupItems.find(item => item.value == val).key : '';
+      return value;
     },
     // 转为馆员
     handleChange() {
