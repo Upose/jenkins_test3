@@ -77,6 +77,7 @@ export default {
       }
       this.http.postJsonSelf('forward-set-principal-card', `/${id}`).then((res) => {
         this.$message({ type: "success", message: "设为主卡成功!" });
+        this.$emit('update');
         this.dialogVisible = false
       }).catch((err) => {
         this.$message({ type: "error", message: "设为主卡失败!" });

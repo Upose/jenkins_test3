@@ -71,7 +71,7 @@
                       <!-- <span v-if="getKeyValue(principal.type,'Card_Type')">（{{getKeyValue(principal.type,'Card_Type')}}）</span> -->
                     </div>
                   </div>
-                  <div  class="list-item">
+                  <div class="list-item">
                     <div class="type-name">统一认证号</div>
                     <div class="kname" :title="principal.no">
                       {{principal.no}}
@@ -154,15 +154,9 @@
       </span>
     </div>
     <!-- 弹窗组件 -->
-    <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
+    <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey" @update="getCard"></dialog_card>
     <dialog_code ref="dialog_code"></dialog_code>
-    <el-dialog
-      center
-      title=""
-      :visible.sync="wxdialogVisible"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      width="400px">
+    <el-dialog center title="" :visible.sync="wxdialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="400px">
       <div>请问是否确定绑定微信？</div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="wxdialogVisible = false">取 消</el-button>
@@ -203,9 +197,9 @@ export default {
       identityList: {},
     }
   },
-  watch:{
-    $route(){
-      if(this.$route.query.code) {
+  watch: {
+    $route() {
+      if (this.$route.query.code) {
         this.wxCode = this.$route.query.code;
         this.wxdialogVisible = true;
       } else {
@@ -229,7 +223,7 @@ export default {
     this.getTemp();
     this.dragSort();
 
-    if(this.$route.query.code) {
+    if (this.$route.query.code) {
       this.wxCode = this.$route.query.code;
       this.wxdialogVisible = true;
     }
@@ -283,17 +277,17 @@ export default {
             this.$message({ type: "success", message: "用户绑定微信成功!" });
             this.wxdialogVisible = false;
             this.wxbindLoading = false;
-            this.$router.push({path:'/web_library'});
+            this.$router.push({ path: '/web_library' });
           }).catch((err) => {
             this.$message({ type: "error", message: "用户绑定微信失败!" });
             this.wxbindLoading = false;
-            this.$router.push({path:'/web_library'});
+            this.$router.push({ path: '/web_library' });
           });
-          
+
         }).catch(err => {
           this.$message({ type: "error", message: "用户绑定微信失败!" });
           this.wxbindLoading = false;
-          this.$router.push({path:'/web_library'});
+          this.$router.push({ path: '/web_library' });
         });
       });
     },
@@ -554,7 +548,8 @@ export default {
 }
 .content-box {
   width: 100%;
-  background: url("../../../../../assets/web/img/personal/top-bg.png") no-repeat #eeeeee;
+  background: url("../../../../../assets/web/img/personal/top-bg.png") no-repeat
+    #eeeeee;
   background-size: 100% 320px;
   padding-bottom: 80px;
   .lib-content {
@@ -563,8 +558,8 @@ export default {
     position: relative;
     padding-top: 7px;
   }
-  /deep/ .my-breadCrumbs{
-    &.main_text_color{
+  /deep/ .my-breadCrumbs {
+    &.main_text_color {
       color: #333333;
       font-size: 12px;
     }
@@ -574,13 +569,14 @@ export default {
   background: #eeeeee;
 }
 
-.head-box{
+.head-box {
   position: relative;
   margin-top: 25px;
   height: 76px;
   width: 1200px;
-  background: url(../../../../../assets/web/img/personal/header-bg.png) no-repeat 0 0;
-  .title{
+  background: url(../../../../../assets/web/img/personal/header-bg.png)
+    no-repeat 0 0;
+  .title {
     display: block;
     float: left;
     position: relative;
@@ -588,16 +584,20 @@ export default {
     margin-left: 98px;
     font-size: 20px;
     font-weight: bold;
-    color: #A00404;
-    &:after{
-      content: '';
+    color: #a00404;
+    &:after {
+      content: "";
       position: absolute;
       top: 55%;
       left: 100%;
       margin-left: 23px;
       width: 930px;
       height: 1px;
-      background-image: linear-gradient(to right, #A00404 ,rgba(225,225,225, 0.1));
+      background-image: linear-gradient(
+        to right,
+        #a00404,
+        rgba(225, 225, 225, 0.1)
+      );
     }
   }
   .top-right {
@@ -631,7 +631,7 @@ export default {
       // height: 28px;
       display: inline-block;
       padding: 0 16px;
-      background: #E4E8F8;
+      background: #e4e8f8;
       color: #333333;
       opacity: 1;
       border-radius: 16px;
@@ -654,7 +654,8 @@ export default {
   margin-bottom: 20px;
   border-radius: 10px;
   padding: 10px;
-  background: url(../../../../../assets/web/img/personal/top-cont-bg.png) no-repeat 0 0;
+  background: url(../../../../../assets/web/img/personal/top-cont-bg.png)
+    no-repeat 0 0;
   .top-content-title-box {
     position: relative;
     display: inline-block;
@@ -708,19 +709,19 @@ export default {
     .text {
       font-size: 24px;
       font-weight: bold;
-      color: #3A3536;
+      color: #3a3536;
     }
-    .grade{
+    .grade {
       display: inline-block;
       padding: 0 7px;
       font-size: 16px;
       font-weight: 800;
       line-height: 22px;
-      color: #FFFFFF;
-      background: #F4C05C;
+      color: #ffffff;
+      background: #f4c05c;
       height: 22px;
-      border: 1px solid #FFFFFF;
-      background: linear-gradient(121deg, #FFE3A4 0%, #EEAC31 100%);
+      border: 1px solid #ffffff;
+      background: linear-gradient(121deg, #ffe3a4 0%, #eeac31 100%);
       border-radius: 4px;
       margin-left: 13px;
       font-weight: normal;
@@ -757,14 +758,14 @@ export default {
     top: 97px;
     left: 196px;
     color: #666;
-    &.certification2{
+    &.certification2 {
       top: 139px;
     }
     span {
       margin-right: 10px;
       padding: 8px 12px;
       height: 30px;
-      background: #FFFFFF;
+      background: #ffffff;
       box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
       border-radius: 20px;
     }
@@ -772,62 +773,64 @@ export default {
   .card {
     width: 413px;
     height: 210px;
-    background: url("../../../../../assets/web/img/personal/card-bg.png") no-repeat;
+    background: url("../../../../../assets/web/img/personal/card-bg.png")
+      no-repeat;
     background-size: 100%;
     border-radius: 16px;
     cursor: pointer;
     float: left;
     margin-left: 10px;
     position: relative;
-    .title{
+    .title {
       font-size: 14px;
       font-weight: bold;
-      color: #3965D8;
+      color: #3965d8;
       padding: 6px 0 0 0;
       text-align: center;
-      .next{
+      .next {
         vertical-align: -3px;
         display: inline-block;
         width: 16px;
         height: 16px;
-        background: url(../../../../../assets/web/img/personal/next.png) no-repeat center #3965D8;
+        background: url(../../../../../assets/web/img/personal/next.png)
+          no-repeat center #3965d8;
         border-radius: 50%;
       }
     }
-    .blue-area{
+    .blue-area {
       width: 6px;
       height: 30px;
       border-radius: 0 10px 10px 0;
-      background: #3965D8;
+      background: #3965d8;
       position: absolute;
       top: 72px;
       left: 10px;
     }
-    .status{
+    .status {
       position: absolute;
       top: 24px;
       right: 15px;
-      transform:rotate(50deg);
-      span{
+      transform: rotate(50deg);
+      span {
         color: #584927;
         font-size: 16px;
       }
     }
-    .list{
+    .list {
       padding-left: 40px;
       padding-top: 22px;
-      .list-item{
+      .list-item {
         float: left;
-        &:first-child{
+        &:first-child {
           margin-right: 45px;
         }
-        .type-name{
-          color: #2F2C23;
+        .type-name {
+          color: #2f2c23;
           font-size: 14px;
           margin-bottom: 4px;
         }
-        .kname{
-          color: #3A3536;
+        .kname {
+          color: #3a3536;
           display: block;
           font-size: 27px;
           font-weight: bold;
@@ -838,7 +841,7 @@ export default {
         }
       }
     }
-    .time{
+    .time {
       font-size: 16px;
       color: #fff;
       position: absolute;
@@ -973,10 +976,10 @@ export default {
       margin: 0 24px;
       padding: 5px;
       cursor: pointer;
-      &:first-child{
+      &:first-child {
         margin-left: 0;
       }
-      &:last-child{
+      &:last-child {
         margin-right: 0;
       }
       &:hover {
@@ -1073,7 +1076,7 @@ export default {
 .edit-btn {
   width: 60px;
   height: 118px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 3px 40px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 25px 16px 23px 16px;
@@ -1086,7 +1089,7 @@ export default {
   border-radius: 0px 35px 35px 35px;
   font-size: 14px;
   font-weight: 400;
-  color: #2D3240;
+  color: #2d3240;
   i {
     width: 26px;
     height: 24px;
