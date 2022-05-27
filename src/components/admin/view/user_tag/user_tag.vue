@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 10:29:18
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-18 15:36:02
+ * @LastEditTime: 2022-05-27 10:52:00
  * @Description: 标签列表
 -->
 <template>
@@ -46,7 +46,7 @@
                         {{setTime(scope.row.lastSyncTime,'分')}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="status" label="是否启用" align="center">
+                    <el-table-column prop="status" label="是否启用" align="center" v-if="isAuth('userTag:toogleTagStatus')">
                       <template slot-scope="scope">
                         <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" @change="handleCangeStatus(scope.row)"></el-switch>
                       </template>
