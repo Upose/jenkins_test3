@@ -10,14 +10,25 @@
       <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('setting:roleList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column prop="code" label="编码" align="center" width="180px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="name" label="角色名称" align="center" width="150px" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="staffCount" label="馆员" align="center" width="100px"></el-table-column>
+        <el-table-column prop="staffCount" label="馆员" align="center" width="100px">
+          <template slot-scope="scope">
+            <span class="cu-p" @click="handleEditStaff(scope.row)" v-if="isAuth('setting:roleStaffSet')">{{scope.row.staffCount}}</span>
+            <span v-else>{{scope.row.staffCount}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="permissionCount" label="权限" align="center" width="100px">
+          <template slot-scope="scope">
+            <span class="cu-p" @click="handleEditAuth(scope.row)" v-if="isAuth('setting:rolePermissionSet')">{{scope.row.permissionCount}}</span>
+            <span v-else>{{scope.row.permissionCount}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="remark" label="角色描述" align="left"></el-table-column>
         <el-table-column prop="sysBuildIn" label="系统内置" align="center" width="120px">
           <template slot-scope="scope">
             <span>{{scope.row.sysBuildIn?'是':'否'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="320">
           <template slot-scope="scope">
             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:roleDelete')">删除</el-button>
             <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:rolePermissionSet')">编辑权限</el-button>
@@ -241,5 +252,12 @@ export default {
   //   left: -19px;
   //   top: -26px;
   // }
+}
+.cu-p {
+  cursor: pointer;
+  &:hover {
+    color: #6777ef;
+    text-decoration: underline;
+  }
 }
 </style>
