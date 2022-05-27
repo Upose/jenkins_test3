@@ -16,19 +16,21 @@
 <script>
 import http from "@/assets/public/js/http";
 
-export default { 
+export default {
   data() {
     return {
       dialogVisible: false,
       id: '',
       roleList: [],
-      roleID:[]
+      roleID: []
     }
   },
-  props:['id'],
   methods: {
-    show(id) {
+    show(id, roles) {
       this.id = id;
+      this.roleID = roles.map(item => {
+        return item.id
+      })
       this.dialogVisible = true;
       this.getList();
     },
@@ -43,9 +45,12 @@ export default {
     },
     //表单提交
     submitForm() {
+      // 取交集，防止有脏数据
+      let allIds = this.roleList.map(item => { return item.id });
+      let roleIds = this.roleID.filter(item => allIds.includes(item));
       http.postJson('set-user-roles', {
-        userId:this.id,
-        roleIds:this.roleID
+        userId: this.id,
+        roleIds: roleIds
       }).then(res => {
         this.$message({ message: '修改成功！', type: 'success' });
         this.dialogVisible = false;

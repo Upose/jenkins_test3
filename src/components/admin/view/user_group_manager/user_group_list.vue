@@ -97,6 +97,9 @@ export default {
     this.initData();
     console.log(this.$route)
   },
+  mounted() {
+    this.initData();
+  },
   methods: {
     // 页面子权限判定
     isAuth(name) {

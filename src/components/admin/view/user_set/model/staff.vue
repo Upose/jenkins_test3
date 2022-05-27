@@ -58,7 +58,7 @@ export default {
   components: { paging, dialog_change_role },
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -148,7 +148,7 @@ export default {
     },
     // 修改角色
     handleSet(row) {
-      this.$refs.dialog_change_role.show(row.id);
+      this.$refs.dialog_change_role.show(row.id, row.roles);
     }
   },
 }

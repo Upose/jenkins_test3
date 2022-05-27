@@ -7,7 +7,7 @@
           <router-link class="xinzeng" :to="{path:'/admin_attributeDepManager'}">新增</router-link>
         </div>
         <div class="left-box">
-          <el-tree :data="departList" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true"></el-tree>
+          <el-tree :data="checkDep" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true"></el-tree>
         </div>
       </div>
       <div class="librarianList-right">
@@ -95,6 +95,7 @@ export default {
       tableData: [],//列表项
       multipleSelection: [],//勾选列表
       postForm: {},
+      checkDep: [],
       departList: [],
       defaultProps: {
         children: 'children',
@@ -155,6 +156,7 @@ export default {
     getDepa() {
       http.getJson('org-list').then(res => {
         this.departList = res.data;
+        this.checkDep = [{ name: '全部', fullPath: '' }, ...res.data]
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })

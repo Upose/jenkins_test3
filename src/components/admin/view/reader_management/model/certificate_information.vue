@@ -9,6 +9,7 @@
         <span class="status">{{getKeyValue(item.status)}}</span>
         <span class="times">有效期：{{dateChangeFormat(item.expireDate)}}</span>
         <span class="card" v-if="item.isPrincipal">主卡</span>
+        <span class="set-card" v-if="!item.isPrincipal" @click="handleSetCard(item)">设为主卡</span>
         <el-button class="caozuo" @click="handleEditPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-bianji">修改密码</el-button>
         <el-button class="caozuo" @click="handleResetPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-chushi">重置密码</el-button>
         <el-button class="caozuo" @click="handleLook(item)" icon="iconfont el-icon-vip-yulan">查看</el-button>
@@ -229,6 +230,15 @@ export default {
     handleAdd() {
       this.$router.push({ path: '/admin_readerCardAdd', query: { userId: this.id } })
     },
+    // 设为主卡
+    handleSetCard(val) {
+      http.putJson('card', { ...val, isPrincipal: true, secret: "******" }).then(res => {
+        this.$message({ message: '编辑成功！', type: 'success' });
+        this.getData();
+      }).catch(err => {
+        this.$message({ type: 'error', message: this.handleError(err, '编辑失败!') });
+      })
+    },
     // 查看
     handleLook(item) {
       this.$router.push({ path: '/admin_readerCardEdit', query: { id: item.id } })
@@ -339,6 +349,14 @@ export default {
 .card {
   color: #f58b58;
   margin-left: 3%;
+}
+.set-card {
+  color: #0d772f;
+  margin-left: 3%;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 .caozuo {
   height: 28px;

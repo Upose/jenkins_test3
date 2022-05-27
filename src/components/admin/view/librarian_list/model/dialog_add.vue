@@ -11,6 +11,12 @@
       <el-form-item label="单位名称" prop="unit">
         <el-input v-model="ruleForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
       </el-form-item>
+      <el-form-item label="读者类型" prop="type">
+        <el-select v-model="ruleForm.type" placeholder="请选择">
+          <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="学历" prop="edu">
         <el-select v-model="ruleForm.edu" placeholder="请选择">
           <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
@@ -31,7 +37,7 @@
         <el-cascader :options="departList" v-model="depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
       </el-form-item>
       <el-form-item label="手机" prop="phone">
-        <el-input v-model="ruleForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit ></el-input>
+        <el-input v-model="ruleForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="身份证号" prop="idCard">
         <el-input v-model="ruleForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
@@ -97,7 +103,8 @@ export default {
         "gender": "",
         "issueDate": "",
         "expireDate": "",
-        "status": ""
+        "status": "",
+        "type": ""
       },
       rules: {
         name: [
@@ -107,6 +114,9 @@ export default {
           { required: true, message: '必填项', trigger: 'blur' }
         ],
         status: [
+          { required: true, message: '必填项', trigger: 'change' }
+        ],
+        type: [
           { required: true, message: '必填项', trigger: 'change' }
         ],
         phone: [
@@ -187,5 +197,7 @@ export default {
 }
 .demo-ruleForm {
   margin-top: 20px;
+  max-height: 400px;
+  overflow-y: scroll;
 }
 </style>

@@ -90,7 +90,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, uploadFile },
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     initData() {
-        this.getKey();
+      this.getKey();
     },
     // 获取初始数据
     getKey() {
@@ -153,7 +153,7 @@ export default {
     sub() {
       http.postJsonSelf('import-user-confirm', `/${this.batchid}`).then(res => {
         if (res.data) {
-          this.$message({ type: 'success', message: `导入成功：${res.data.sucCount}条，失败：${res.data.errCount}条,${this.dataKey.needApprove?'等待审核':''}!` });
+          this.$message({ type: 'success', message: `导入成功：${res.data.sucCount}条，失败：${res.data.errCount}条!` });
           this.tableData = [];
         }
       }).catch(err => {

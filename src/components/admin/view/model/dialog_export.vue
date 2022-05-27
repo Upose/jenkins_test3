@@ -59,6 +59,7 @@ export default {
         properties: [],
         exportType: 0,
       }
+      this.curPageIndex = 1;
       this.dialogVisible = true;
       this.searchForm = searchform;
       this.pageData = pagedata;
@@ -80,15 +81,15 @@ export default {
       let parms = this.postForm.exportType == 1 ? { ...this.postForm, ...this.searchForm, ...this.pageData } : { ...this.postForm, ...this.searchForm, pageIndex: this.curPageIndex }
       http.postJson(url, parms).then(res => {
         this.exportData = res.data;
-        if(this.postForm.exportType==0){
+        if (this.postForm.exportType == 0) {
           this.innerVisible = true;
-        }else{
+        } else {
           this.submitForm();
         }
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
-      
+
     },
     // 下载第几页
     // submitFormPage(){
@@ -128,7 +129,7 @@ export default {
         properties: [],
         exportType: 0,
       },
-      this.searchForm = {};
+        this.searchForm = {};
       this.pageData = {};
       this.curPageIndex = 1;//全部导出页码
       this.type = '';
