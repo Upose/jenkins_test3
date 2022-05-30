@@ -4,7 +4,7 @@
     <div class="m-menu">
       <div class="m-text">
         <span class="m">{{appInfo.appName}}</span>
-        <span class="v">{{appInfo.appVersion}}</span>
+        <span class="v" @click="openLog(appInfo.logUrl)">{{appInfo.appVersion}}</span>
       </div>
     </div>
     <div class="s-menu">
@@ -45,6 +45,10 @@ export default {
       this.$router.push(url)
       window.localStorage.setItem('path_url', url);
     },
+    // 跳转至日志
+    openLog(url) {
+      window.location.href = url;
+    },
   },
 }
 </script>
@@ -84,6 +88,7 @@ export default {
       font-weight: bold;
     }
     .v {
+      cursor: pointer;
       display: block;
       font-size: 12px;
     }
