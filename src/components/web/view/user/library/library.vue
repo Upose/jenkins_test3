@@ -135,7 +135,7 @@
                 <span class="font-w" slot="reference">···</span>
               </el-popover>
             </div>
-            <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0].topCount}','sortType':'${item.appPlateItems[0].sortType}','id':'${item.appPlateItems[0].id}'}]`">
+            <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0]?item.appPlateItems[0].topCount:''}','sortType':'${item.appPlateItems[0]?item.appPlateItems[0].sortType:''}','id':'${item.appPlateItems[0]?item.appPlateItems[0].id:''}'}]`">
               <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
@@ -1082,7 +1082,7 @@ export default {
   padding: 25px 16px 23px 16px;
   position: fixed;
   right: 24px;
-  top: 500px;
+  top: 50vh;
   text-align: center;
   cursor: pointer;
   z-index: 1000;
@@ -1111,7 +1111,7 @@ export default {
   padding: 15px;
   position: fixed;
   right: 24px;
-  top: 500px;
+  top: 48vh;
   text-align: center;
   cursor: pointer;
   color: #666;
