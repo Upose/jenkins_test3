@@ -58,7 +58,7 @@
                   <Certificate :id="id"></Certificate>
                 </el-tab-pane>
                 <el-tab-pane label="积分明细" name="third">
-                  <Intergral :id="id"></Intergral>
+                  <Intergral :id="id" :userKey="postForm.userKey"></Intergral>
                 </el-tab-pane>
                 <el-tab-pane label="借阅明细" name="fourth">
                   <borrowingDetail :id="id"></borrowingDetail>
@@ -149,7 +149,6 @@ export default {
       this.getKey();
       if (this.id) {
         this.getData();
-        this.getIntegralData();
       } else {
         this.postForm = {}
       }
@@ -174,13 +173,14 @@ export default {
     getData() {
       http.getJsonSelf('user', `/${this.id}`).then(res => {
         this.postForm = res.data;
+        this.getIntegralData(res.data.userKey);
       }).catch(err => {
         this.$message({ type: 'error', message: '获取设置失败!' });
       })
     },
     // 获取积分数据
-    getIntegralData() {
-      http.getJson('reader-score-summary', { userID: this.id }).then(res => {
+    getIntegralData(userKey) {
+      http.getJsonSelf('reader-score-summary', `/${userKey}`).then(res => {
         this.integralData = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
