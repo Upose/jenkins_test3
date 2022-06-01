@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-27 11:35:30
+ * @LastEditTime: 2022-06-01 13:57:32
  * @Description: 
 -->
 <template>
@@ -57,6 +57,7 @@
 import http from "@/assets/public/js/http";
 import paging from "@/components/admin/model/paging";
 export default {
+  props: ['id', 'userKey'],
   components: {
     paging
   },
@@ -77,7 +78,6 @@ export default {
       integralData: null
     }
   },
-  props: ['id'],
   mounted() {
     // this.getKey();
     this.getList();
@@ -86,7 +86,7 @@ export default {
   methods: {
     // 获取数据
     getData() {
-      http.getJson('reader-score-summary', { userID: this.id }).then(res => {
+      http.getJsonSelf('reader-score-summary', `/${this.userKey}`).then(res => {
         this.integralData = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
@@ -95,7 +95,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('reader-event-score-table-data', { userID: this.id, ...this.postForm, ...this.pageData }).then(res => {
+      http.getJson('reader-event-score-table-data', { userKey: this.userKey, ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
         this.pageData.totalCount = res.data.totalCount;
@@ -112,6 +112,7 @@ export default {
     },
     // 查找
     handleSearch() {
+      this.postForm.keyword = this.postForm.keyword != '' ? this.postForm.keyword : null;
       this.initGetList();
     },
     // 初始化分页数据 并刷新列表
