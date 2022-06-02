@@ -16,15 +16,17 @@
           <div class="top-content">
             <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
             <div class="top-content-user-box">
-              <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
-              <div class="name">
-                <span class="text">{{form.name}}</span>
-                <span class="grade" v-show="form.grade">{{form.grade}}</span>
-                <!-- <span class="leave">LV8</span> -->
-                <!-- <div class="w-q">
-                  <img src="../../../../../assets/web/img/wex.png" alt="">
-                  <img src="../../../../../assets/web/img/qq.png" alt="">
-                </div> -->
+              <div class="my-name-box">
+                <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
+                <div class="name">
+                  <span class="text">{{form.name}}</span>
+                  <span class="grade" v-show="form.grade">{{form.grade}}</span>
+                  <!-- <span class="leave">LV8</span> -->
+                  <!-- <div class="w-q">
+                    <img src="../../../../../assets/web/img/wex.png" alt="">
+                    <img src="../../../../../assets/web/img/qq.png" alt="">
+                  </div> -->
+                </div>
               </div>
               <div class="certification">
                 <span>
@@ -660,25 +662,28 @@ export default {
     border-radius: 16px;
     padding: 10px;
   }
+  .my-name-box {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 16px;
+    left: 10px;
+    height: 84px;
+  }
   .avatar {
     width: 84px;
     height: 84px;
     border-radius: 50%;
     overflow: hidden;
     background: #ddd;
-    position: absolute;
-    top: 16px;
-    left: 10px;
+    margin-right: 10px;
     img {
       width: 100%;
       height: 100%;
     }
   }
   .name {
-    position: absolute;
-    left: 105px;
-    top: 47px;
-
+    width: 150px;
     .text {
       font-size: 24px;
       font-weight: bold;
@@ -728,7 +733,7 @@ export default {
   }
   .certification {
     position: absolute;
-    top: 107px;
+    top: 120px;
     left: 10px;
     color: #666;
     width: 260px;
