@@ -28,90 +28,63 @@
               </div>
               <div class="certification">
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon_qq.png" alt="" @click="wxBind">
+                  <img src="../../../../../assets/web/img/personal/icon-qq.png" alt="" @click="wxBind">
                   未认证
                 </span>
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon_wx.png" alt="">
+                  <img src="../../../../../assets/web/img/personal/icon-wx.png" alt="">
                   {{identityList.weChatIdentity?'已认证':'未认证'}}
                 </span>
                 <span>
-                  <img src="../../../../../assets/web/img/phone-i.png" alt="">
+                  <img src="../../../../../assets/web/img/personal/icon-phone.png" alt="">
                   {{form.mobileIdentity?'已认证':'未认证'}}
                 </span>
-              </div>
-              <div class="certification certification2">
                 <span>
-                  <img src="../../../../../assets/web/img/id-i.png" alt="">
+                  <img src="../../../../../assets/web/img/personal/icon-card.png" alt="">
                   {{form.idCardIdentity?'已认证':'未认证'}}
                 </span>
                 <span>
-                  <img src="../../../../../assets/web/img/icon_msg.png" alt="">
+                  <img src="../../../../../assets/web/img/personal/icon-msg.png" alt="">
                   {{form.emailIdentity?'已认证':'未认证'}}
                 </span>
               </div>
-            </div>
-            <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
-              <div>
-                <div class="title">
-                  <span>我的读者卡</span>
-                  <i class="next"></i>
-                </div>
-                <div class="blue-area"></div>
-                <div class="status">
-                  <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
-                  <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
-                  <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
-                </div>
-                <div class="list">
-                  <div class="list-item">
-                    <div class="type-name">工作证号</div>
-                    <div class="kname" :title="principal.userName">
-                      {{principal.userName}}
-                      <!-- <span v-if="getKeyValue(principal.type,'Card_Type')">（{{getKeyValue(principal.type,'Card_Type')}}）</span> -->
+              <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
+                <div>
+                  <div class="title">
+                    <span>我的读者卡</span>
+                    <i class="next"></i>
+                  </div>
+                  <!-- <div class="blue-area"></div>
+                  <div class="status">
+                    <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+                    <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+                    <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+                  </div> -->
+                  <div class="list">
+                    <div class="list-item">
+                      <div class="type-name">工作证号</div>
+                      <div class="kname" :title="principal.userName">
+                        {{principal.userName}}
+                      </div>
+                    </div>
+                    <i class="card-line"></i>
+                    <div class="list-item">
+                      <div class="type-name">统一认证号</div>
+                      <div class="kname" :title="principal.no">
+                        {{principal.no}}
+                      </div>
                     </div>
                   </div>
-                  <div class="list-item">
-                    <div class="type-name">统一认证号</div>
-                    <div class="kname" :title="principal.no">
-                      {{principal.no}}
-                    </div>
-                  </div>
                 </div>
+                <p class="time">有效期至 &nbsp; {{setTime(principal.expireDate)}}</p>
               </div>
-              <p class="time">有效期至 &nbsp; {{setTime(principal.expireDate)}}</p>
             </div>
+            <SearchBox />
+            <AppList />
+            <DatabaseList />
+            <InformList />
           </div>
-          <div class="apply">
-            <div class="title-box">
-              <span class="left">我的应用</span>
-              <span class="right" @click="linkTo(appData.appCenterRouteCode)">应用中心<i class="el-icon-arrow-right"></i></span>
-            </div>
-            <div class="app-content">
-              <!-- <div class="re-box" @click="linkTo(appData.appCenterRouteCode)">
-                <div class="app-box">
-                  <template v-for="(item,index) in appData.appList">
-                    <div class="app" :key="item.appId" v-if="index<4"><img :src="imgUrl+item.appIcon" alt=""></div>
-                  </template>
-                </div>
-                <p class="title-name">应用中心</p>
-              </div> -->
-              <div class="item-box">
-                <template v-for="(item,index) in appData.appList">
-                  <div class="app-item" :key="item.appId" v-if="index<10" @click="linkTo(item.frontUrl)">
-                    <div class="app">
-                      <img :src="imgUrl+item.appIcon" alt="">
-                    </div>
-                    <p class="title-name">{{item.appName}}</p>
-                  </div>
-                </template>
-              </div>
-              <!-- <span class="right-arr" @click="linkTo(appData.myAppRouteCode)">
-                <i class="el-icon-arrow-right"></i>
-                <p>更多</p>
-              </span> -->
-            </div>
-          </div>
+
         </div>
         <div v-else>
           <!-- <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div> -->
@@ -172,9 +145,13 @@ import dialog_card from '@/components/web/view/user/library/model/dialog_card';
 import dialog_code from '@/components/web/view/user/library/model/dialog_code';
 import { timeFormat } from "@/assets/public/js/util";
 import breadCrumbs from '../../../model/breadCrumbs';
+import AppList from './model/app-list.vue';
+import DatabaseList from './model/database-list.vue';
+import InformList from './model/inform-list.vue';
+import SearchBox from './model/search-box.vue';
 
 export default {
-  components: { dialog_card, breadCrumbs, dialog_code },
+  components: { dialog_card, breadCrumbs, dialog_code, AppList, DatabaseList, InformList, SearchBox },
   data() {
     return {
       baseUrl: window.apiDomainAndPort,
@@ -216,7 +193,6 @@ export default {
     this.getInfo();
     this.wxBindList();
     this.getCard();
-    this.getMyApp();
     this.getApplyList();
   },
   mounted() {
@@ -325,15 +301,7 @@ export default {
         this.$message({ type: "error", message: "获取读者卡信息失败!" });
       });
     },
-    // 获取我的应用
-    getMyApp() {
-      this.http.getJson('forward-getmycollectionapps').then((res) => {
-        this.appData = res.data;
-        console.log(this.appData)
-      }).catch((err) => {
-        this.$message({ type: "error", message: "获取应用信息失败!" });
-      });
-    },
+
 
     // 获取模板组件信息
     getTemp() {
@@ -550,7 +518,7 @@ export default {
   width: 100%;
   background: url("../../../../../assets/web/img/personal/top-bg.png") no-repeat
     #eeeeee;
-  background-size: 100% 320px;
+  background-size: 100% 804px;
   padding-bottom: 80px;
   .lib-content {
     width: 1200px;
@@ -631,7 +599,7 @@ export default {
       // height: 28px;
       display: inline-block;
       padding: 0 16px;
-      background: #e4e8f8;
+      background: rgba(255, 255, 255, 0.5);
       color: #333333;
       opacity: 1;
       border-radius: 16px;
@@ -647,15 +615,19 @@ export default {
   }
 }
 .top-content {
-  height: 230px;
+  width: 1200px;
+  height: 466px;
+  background: #f6f7fa;
+  border: 1px solid #ffffff;
+  box-shadow: 0px 11px 21px #d4d8e4;
+  border-radius: 16px;
   position: relative;
   margin-top: 24px;
-  background: #fff;
+  background: #f6f7fa;
   margin-bottom: 20px;
-  border-radius: 10px;
-  padding: 10px;
-  background: url(../../../../../assets/web/img/personal/top-cont-bg.png)
-    no-repeat 0 0;
+  padding: 20px;
+  // background: url(../../../../../assets/web/img/personal/top-cont-bg.png)
+  // no-repeat 0 0;
   .top-content-title-box {
     position: relative;
     display: inline-block;
@@ -680,22 +652,23 @@ export default {
   }
   .top-content-user-box {
     position: relative;
-    width: 757px;
-    height: 138px;
-    border-radius: 16px;
     box-sizing: border-box;
     float: left;
+    width: 280px;
+    height: 419px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 10px;
   }
   .avatar {
-    width: 147px;
-    height: 147px;
-    border: 7px solid #fff;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
     overflow: hidden;
     background: #ddd;
     position: absolute;
-    top: 35px;
-    left: 22px;
+    top: 16px;
+    left: 10px;
     img {
       width: 100%;
       height: 100%;
@@ -703,7 +676,7 @@ export default {
   }
   .name {
     position: absolute;
-    left: 196px;
+    left: 105px;
     top: 47px;
 
     .text {
@@ -755,45 +728,51 @@ export default {
   }
   .certification {
     position: absolute;
-    top: 97px;
-    left: 196px;
+    top: 107px;
+    left: 10px;
     color: #666;
-    &.certification2 {
-      top: 139px;
-    }
+    width: 260px;
     span {
-      margin-right: 10px;
-      padding: 8px 12px;
-      height: 30px;
+      display: inline-block;
+      margin-right: 5px;
+      padding: 4px 10px;
       background: #ffffff;
-      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #d8e0ff;
       border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 6px;
+      img {
+        vertical-align: middle;
+      }
     }
   }
   .card {
-    width: 413px;
-    height: 210px;
-    background: url("../../../../../assets/web/img/personal/card-bg.png")
+    background: url("../../../../../assets/web/img/personal/bg-card.png")
       no-repeat;
     background-size: 100%;
-    border-radius: 16px;
     cursor: pointer;
-    float: left;
-    margin-left: 10px;
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 280px;
+    height: 221px;
+    opacity: 1;
     .title {
       font-size: 14px;
       font-weight: bold;
-      color: #3965d8;
+      color: #6a5efa;
       padding: 6px 0 0 0;
       text-align: center;
+      position: absolute;
+      top: 65px;
+      left: 90px;
       .next {
         vertical-align: -3px;
         display: inline-block;
         width: 16px;
         height: 16px;
         background: url(../../../../../assets/web/img/personal/next.png)
-          no-repeat center #3965d8;
+          no-repeat center #6a5efa;
         border-radius: 50%;
       }
     }
@@ -817,27 +796,30 @@ export default {
       }
     }
     .list {
-      padding-left: 40px;
-      padding-top: 22px;
+      position: absolute;
+      top: 105px;
+      left: 25px;
+      .card-line {
+        display: block;
+        height: 0;
+        border-bottom: 1px dashed #333;
+        margin: 5px 0;
+        width: 240px;
+      }
       .list-item {
-        float: left;
-        &:first-child {
-          margin-right: 45px;
-        }
+        display: flex;
+        justify-content: center;
         .type-name {
           color: #2f2c23;
           font-size: 14px;
           margin-bottom: 4px;
+          margin-right: 6px;
         }
         .kname {
           color: #3a3536;
-          display: block;
-          font-size: 27px;
+          font-size: 14px;
           font-weight: bold;
           max-width: 149px;
-          // overflow: hidden;
-          // text-overflow: ellipsis;
-          // white-space: nowrap;
         }
       }
     }
@@ -845,10 +827,157 @@ export default {
       font-size: 16px;
       color: #fff;
       position: absolute;
-      bottom: 28px;
-      left: 40px;
+      bottom: 20px;
+      left: 65px;
     }
   }
+}
+
+.all-temp-box {
+  margin-top: 24px;
+  overflow: hidden;
+}
+.tmp-box {
+  width: 588px;
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  float: left;
+  margin-right: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  &:nth-child(2n) {
+    margin-right: 0;
+  }
+  .edit-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px dashed #aaa;
+    border-radius: 16px;
+    z-index: 100;
+
+    .edit-right {
+      position: absolute;
+      right: 20px;
+      top: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+}
+.b-n {
+  border: none;
+}
+
+.popover-content {
+  p {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
+}
+.edit-btn {
+  width: 60px;
+  height: 118px;
+  background: #ffffff;
+  box-shadow: 0px 3px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 25px 16px 23px 16px;
+  position: fixed;
+  right: 24px;
+  top: 50vh;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1000;
+  border-radius: 0px 35px 35px 35px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #2d3240;
+  i {
+    width: 26px;
+    height: 24px;
+    display: inline-block;
+    margin-bottom: 2px;
+    background: url(../../../../../assets/web/img/personal/icon-edit.png);
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+}
+.edit-ing-btn {
+  width: 64px;
+  height: 150px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  opacity: 1;
+  border-radius: 8px;
+  padding: 15px;
+  position: fixed;
+  right: 24px;
+  top: 48vh;
+  text-align: center;
+  cursor: pointer;
+  color: #666;
+  z-index: 1000;
+
+  i {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+  span {
+    display: block;
+  }
+  .mb {
+    margin-bottom: 30px;
+  }
+}
+.green {
+  color: #fff;
+  background: #4fcd92;
+}
+.yellow {
+  color: #fff;
+  background: #ffa520;
+}
+.gery {
+  color: #fff;
+  background: #555;
+}
+
+.tmp-box {
+  position: relative;
+  &:nth-child(2n) {
+    margin-right: 0;
+  }
+  .edit-mark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px dashed #aaa;
+  }
+}
+/deep/ .my-breadCrumbs {
+  position: absolute;
 }
 .apply {
   height: 200px;
@@ -1015,151 +1144,5 @@ export default {
       opacity: 0.8;
     }
   }
-}
-.all-temp-box {
-  margin-top: 24px;
-  overflow: hidden;
-}
-.tmp-box {
-  width: 588px;
-  height: 320px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #fff;
-  float: left;
-  margin-right: 24px;
-  margin-bottom: 24px;
-  position: relative;
-  &:nth-child(2n) {
-    margin-right: 0;
-  }
-  .edit-mark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 1px dashed #aaa;
-    border-radius: 16px;
-    z-index: 100;
-
-    .edit-right {
-      position: absolute;
-      right: 20px;
-      top: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 18px;
-    }
-  }
-}
-.b-n {
-  border: none;
-}
-
-.popover-content {
-  p {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 10px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &:last-child {
-      border: none;
-    }
-  }
-}
-.edit-btn {
-  width: 60px;
-  height: 118px;
-  background: #ffffff;
-  box-shadow: 0px 3px 40px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 25px 16px 23px 16px;
-  position: fixed;
-  right: 24px;
-  top: 50vh;
-  text-align: center;
-  cursor: pointer;
-  z-index: 1000;
-  border-radius: 0px 35px 35px 35px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #2d3240;
-  i {
-    width: 26px;
-    height: 24px;
-    display: inline-block;
-    margin-bottom: 2px;
-    background: url(../../../../../assets/web/img/personal/icon-edit.png);
-  }
-  &:hover {
-    opacity: 0.9;
-  }
-}
-.edit-ing-btn {
-  width: 64px;
-  height: 150px;
-  background: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-  opacity: 1;
-  border-radius: 8px;
-  padding: 15px;
-  position: fixed;
-  right: 24px;
-  top: 48vh;
-  text-align: center;
-  cursor: pointer;
-  color: #666;
-  z-index: 1000;
-
-  i {
-    font-size: 20px;
-    display: block;
-    margin-bottom: 8px;
-  }
-  &:hover {
-    opacity: 0.9;
-  }
-  span {
-    display: block;
-  }
-  .mb {
-    margin-bottom: 30px;
-  }
-}
-.green {
-  color: #fff;
-  background: #4fcd92;
-}
-.yellow {
-  color: #fff;
-  background: #ffa520;
-}
-.gery {
-  color: #fff;
-  background: #555;
-}
-
-.tmp-box {
-  position: relative;
-  &:nth-child(2n) {
-    margin-right: 0;
-  }
-  .edit-mark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 1px dashed #aaa;
-  }
-}
-/deep/ .my-breadCrumbs {
-  position: absolute;
 }
 </style>
