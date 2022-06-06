@@ -621,7 +621,7 @@ export default {
   height: 466px;
   background: #f6f7fa;
   border: 1px solid #ffffff;
-  box-shadow: 0px 11px 21px #d4d8e4;
+  box-shadow: 0px 11px 21px #b2cce5;
   border-radius: 16px;
   position: relative;
   margin-top: 24px;
