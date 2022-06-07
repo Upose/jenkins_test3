@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-07 13:50:37
+ * @LastEditTime: 2022-06-07 14:02:55
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -329,7 +329,7 @@ export default {
         let keyword = this.basicInputKeyWord || "";
         if (keyword.length >= 100) keyword = keyword.substring(0, 100);
         // let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}`;
-        let href = `/articlesearch/#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum.id}&p=${this.search.symbol}`;
+        let href = `/articlesearch/#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
         this.linkTo('articlesearch', href)
         // window.location.href = href;
         // location.reload();
