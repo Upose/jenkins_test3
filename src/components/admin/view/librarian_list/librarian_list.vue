@@ -118,6 +118,10 @@ export default {
     this.getDataKey();
     this.getList();
     // this.getDepa();
+    let dia = this.$route.query.dia || ''
+    if (this.isAuth('staff:createTemp') && dia && dia == 'dialog_add'){
+      this.$refs.dialog_add.show();
+    }
   },
   methods: {
     // 页面子权限判定

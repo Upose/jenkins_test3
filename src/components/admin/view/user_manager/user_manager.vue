@@ -15,18 +15,18 @@
                 </div>
                 <div class="box-title">读者管理</div>
                 <div class="box-words">
-                  <span @click="to('/admin_readerList')" v-if="isAuth('reader:list','/admin_readerList')">读者列表</span>
-                  <span class="grey-btn" v-else>读者列表</span>
+                  <span @click="to('/admin_readerList')" v-if="isAuth('reader:list','/admin_readerList')">读者查询</span>
+                  <span class="grey-btn" v-else>读者查询</span>
                   <span @click="to('/admin_readerAdd')" v-if="isAuth('reader:create','/admin_readerList')">新增读者</span>
                   <span class="grey-btn" v-else>新增读者</span>
-                  <span @click="to('/admin_importUser')" v-if="isAuth('reader:import','/admin_readerList')">导入读者</span>
-                  <span class="grey-btn" v-else>导入读者</span>
+                  <span @click="to('/admin_importUser')" v-if="isAuth('reader:import','/admin_readerList')">批量导入</span>
+                  <span class="grey-btn" v-else>批量导入</span>
                 </div>
                 <div class="box-words">
-                  <span @click="to('/admin_changeAudit','registered')" v-if="isAuth('approve:registerList','/admin_changeAudit')">注册审核</span>
-                  <span class="grey-btn" v-else>注册审核</span>
-                  <span @click="to('/admin_changeAudit','reader')" v-if="isAuth('approve:readerList','/admin_changeAudit')">读者修改审核</span>
-                  <span class="grey-btn" v-else>读者修改审核</span>
+                  <span @click="to('/admin_readerCardList')" v-if="isAuth('card:list','/admin_readerCardList')">卡号管理</span>
+                  <span class="grey-btn" v-else>卡号管理</span>
+                  <span @click="to('/admin_changeAudit','reader')" v-if="isAuth('approve:readerList','/admin_changeAudit')">修改审核</span>
+                  <span class="grey-btn" v-else>修改审核</span>
                 </div>
               </div>
               <div class="login-list-box">
@@ -35,8 +35,12 @@
                 </div>
                 <div class="box-title">馆员管理</div>
                 <div class="box-words">
-                  <span @click="to('/admin_librarianManagement','first')" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员通讯录</span>
-                  <span class="grey-btn" v-else>馆员通讯录</span>
+                  <span @click="to('/admin_librarianManagement','first')" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员查询</span>
+                  <span class="grey-btn" v-else>馆员查询</span>
+                  <span @click="to('/admin_readerAdd', 'staff')" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</span>
+                  <span class="grey-btn" v-else>新增馆员</span>
+                  <span @click="to('/admin_librarianManagement', 'first', 'dialog_add')" v-if="isAuth('staff:list','/admin_librarianManagement')">新增临时馆员</span>
+                  <span class="grey-btn" v-else>新增临时馆员</span>
                   <!-- <span @click="to('/admin_librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
                 </div>
               </div>
@@ -61,14 +65,17 @@
                 <div class="box-radio">
                   <img src="@/assets/admin/img/userManager/shuxing.png" />
                 </div>
-                <div class="box-title">属性管理</div>
+                <div class="box-title">读者数据标准</div>
                 <div class="box-words">
-                  <span @click="to('/admin_attributeList')" v-if="isAuth('property:list','/admin_attributeList')">属性管理</span>
-                  <span class="grey-btn" v-else>属性管理</span>
-                  <span @click="to('/admin_attributeAdd')" v-if="isAuth('property:create','/admin_attributeList')">新增属性</span>
-                  <span class="grey-btn" v-else>新增属性</span>
-                  <span @click="to('/admin_changeAudit','attribute')" v-if="isAuth('approve:propertyList','/admin_changeAudit')">属性修改审核</span>
-                  <span class="grey-btn" v-else>属性修改审核</span>
+                  <span class="grey-btn">数据源管理</span>
+                  <span @click="to('/admin_attributeList')" v-if="isAuth('property:list','/admin_attributeList')">读者信息属性</span>
+                  <span class="grey-btn" v-else>读者信息属性</span>
+                </div>
+                <div class="box-words">
+                  <span @click="to('/admin_attributeList', 'attribute_group')" v-if="isAuth('propertyGroup:list','/admin_attributeList')">属性组管理</span>
+                  <span class="grey-btn" v-else>属性组管理</span>
+                  <span @click="to('/admin_changeAudit','attribute')" v-if="isAuth('approve:propertyList','/admin_changeAudit')">属性组修改审核</span>
+                  <span class="grey-btn" v-else>属性组修改审核</span>
                 </div>
               </div>
 
@@ -78,11 +85,17 @@
                 <div class="box-radio">
                   <img src="@/assets/admin/img/userManager/biaoqian.png" />
                 </div>
-                <div class="box-title">标签与用户组</div>
+                <div class="box-title">读者分组管理</div>
                 <div class="box-words">
                   <!-- <span>标签管理</span> -->
                   <span @click="to('/admin_userGroupList')" v-if="isAuth('userGroup:list','/admin_userGroupList')">用户组管理</span>
                   <span class="grey-btn" v-else>用户组管理</span>
+                  <span @click="to('/admin_userTagList')" v-if="isAuth('userTag:list','/admin_userTagList')">标签管理</span>
+                  <span class="grey-btn" v-else>标签管理</span>
+                </div>
+                <div class="box-words">
+                  <span class="grey-btn">用户组权限</span>
+                  <span class="grey-btn">用户组追踪</span>
                 </div>
               </div>
               <div class="login-list-box">
@@ -130,14 +143,15 @@ export default {
     // 页面子权限判定
     isAuth(name, path) {
       let authList = this.$store.getters.authList;
+      console.log(authList)
       let curAuth = authList.find(item => (item.router == path));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
       let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
       return curSonAuth ? true : false;
     },
     // 前往页面
-    to(path, type) {
-      this.$router.push({ path: path, query: { type: type } })
+    to(path, type, dia) {
+      this.$router.push({ path: path, query: { type: type, dia: dia } })
     }
   },
 }

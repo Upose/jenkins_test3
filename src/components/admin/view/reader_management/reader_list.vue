@@ -123,9 +123,11 @@ export default {
       searchForm: {},//搜索项
 
       // 系统属性code
-      sysArrt: ['User_Name', 'User_SourceFrom', 'User_NickName', 'User_StudentNo', 'User_Unit', 'User_Edu', 'User_Depart', 'User_Title', 'User_College', "User_CollegeDepart", 'User_Grade', 'User_Major', 'User_Class', 'User_Type', 'User_Status', 'User_Phone', 'User_IdCard', 'User_Email', 'User_Birthday', 'User_Gender', 'User_AddrDetail', 'User_Addr', 'User_CreateTime', 'Card_No', 'User_LeaveTime', 'User_Photo', 'Card_BarCode', 'Card_PhysicNo', 'Card_Type', 'Card_IdentityNo', 'Card_Status', 'Card_IsPrincipal', 'Card_ExpireDate', 'Card_IssueDate', 'Card_Deposit'],
+      // sysArrt: ['User_Name', 'User_SourceFrom', 'User_NickName', 'User_StudentNo', 'User_Unit', 'User_Edu', 'User_Depart', 'User_Title', 'User_College', "User_CollegeDepart", 'User_Grade', 'User_Major', 'User_Class', 'User_Type', 'User_Status', 'User_Phone', 'User_IdCard', 'User_Email', 'User_Birthday', 'User_Gender', 'User_AddrDetail', 'User_Addr', 'User_CreateTime', 'Card_No', 'User_LeaveTime', 'User_Photo', 'Card_BarCode', 'Card_PhysicNo', 'Card_Type', 'Card_IdentityNo', 'Card_Status', 'Card_IsPrincipal', 'Card_ExpireDate', 'Card_IssueDate', 'Card_Deposit'],
       // 系统属性code对应字段名称
-      sysArrtKey: ['name', 'sourceFrom', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'collegeDepart', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'createTime', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit'],
+      // sysArrtKey: ['name', 'sourceFrom', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'collegeDepart', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'createTime', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit'],
+      sysArrt: [],
+      sysArrtKey: [],
       selectProperties: [],//属性组选择列表
       textProperties: [],//文本输入列表
       dateRangeProperties: [],//日期选择列表
@@ -161,6 +163,20 @@ export default {
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
+        // 处理表头
+        this.sysArrt = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+          return item.code;
+        })
+        this.sysArrtKey = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+          let icode = '';
+          let nm = item.code.split('_')
+          if (item.code.indexOf('Card_') !== -1) {
+            icode = (nm[0]).toLowerCase() + nm[1];
+          } else {
+            icode = nm.length > 1 ? nm[1].replace(nm[1][0], nm[1][0].toLowerCase()) : '';
+          }
+          return icode
+        })
         // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
         res.data.groupSelect.forEach(item => {
           let data = {
@@ -186,6 +202,7 @@ export default {
             this.selectProperties.push(item);
           }
         });
+        // console.log(this.dataKey, 'dataKey')
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })

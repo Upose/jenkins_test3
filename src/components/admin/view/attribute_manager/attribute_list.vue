@@ -63,7 +63,8 @@ export default {
       check_num: "attribute",
     };
   },
-  mounted() {
+  created() {
+    this.check_num = this.$route.query.type || 'attribute'
   },
   methods: {
     /**目录，内容切换**/

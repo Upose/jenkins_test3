@@ -25,11 +25,20 @@
                 <el-form-item label="读者卡号" prop="no">
                   <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="统一认证号" prop="identityNo">
+                <!-- <el-form-item label="统一认证号" prop="identityNo">
                   <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="条形码号" prop="barCode">
+                </el-form-item> -->
+                <!-- <el-form-item label="条形码号" prop="barCode">
                   <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item> -->
+                <el-form-item label="学号/工号" prop="studentNo">
+                  <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+                <el-form-item label="读者卡类型" prop="type">
+                  <el-select v-model="cardForm.type" placeholder="请选择" clearable>
+                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
                 <el-form-item label="物理码号" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
@@ -56,12 +65,6 @@
                 </el-form-item>
                 <el-form-item label="押金" prop="deposit">
                   <el-input v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="卡类型" prop="type">
-                  <el-select v-model="cardForm.type" placeholder="请选择" clearable>
-                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                  </el-select>
                 </el-form-item>
                 <el-form-item label="设为主卡">
                   <el-switch v-model="cardForm.isPrincipal"></el-switch>

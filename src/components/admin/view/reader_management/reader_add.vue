@@ -121,7 +121,7 @@
                 <el-form-item label="头像" prop="photo">
                   <updateIcon @coverUrl="coverUrl" :cover="postForm.photo"></updateIcon>
                 </el-form-item>
-                <el-form-item label="学号" prop="studentNo">
+                <el-form-item label="学工/工号" prop="studentNo">
                   <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="手机" prop="phone">
@@ -457,7 +457,7 @@ export default {
             if (this.$route.query.type == 'staff') {
               requestKey = 'user-staff';
             }
-            http.postJson(requestKey, { userData: this.postForm, cardData: this.cardForm }).then(res => {
+            http.postJson(requestKey, { userData: this.postForm, cardData: {...this.cardForm, studentNo: this.postForm.studentNo}}).then(res => {
               this.$message({ message: this.dataKey.needApprove && this.$route.query.type != 'staff' ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
               this.$router.replace('/admin_readerList');
             }).catch(err => {
