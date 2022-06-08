@@ -32,6 +32,7 @@ export default {
     getBaseInfo() {
       this.http.getJson('getbaseinfo').then(res => {
         if (res.data) {
+          this.$store.commit('baseinfo',res.data);
           localStorage.setItem('fileUrl', res.data.orgInfo.fileUrl);
           localStorage.setItem('headerFooterInfo', JSON.stringify(res.data.headerFooterInfo));
           localStorage.setItem('orgInfo', JSON.stringify(res.data.orgInfo));

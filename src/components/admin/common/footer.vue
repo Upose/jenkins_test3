@@ -1,39 +1,29 @@
 <template>
-  <div class="admin-footer-page">
-    版权所有© 2021-今 Chongqing weipuzhitu Data Technology Co., Ltd.,　客服热线：023-63016015
+  <div class="footer-page">
+    <span v-html="fot_html"></span>
   </div>
 </template>
 
 <script>
-import http from "@/assets/public/js/http";
 export default {
   name: 'footerPage',
-  created(){},
   data () {
     return {
-      
+      fot_html:'',
     }
   },
   mounted(){
-    //   this.initData();
+    this.fot_html = this.$store.state.baseinfo.orgInfo.manageFooter;
   },
   methods:{
-      initData(){
-        http.getPlain('AssetNewest','PlateId=109&PageSize=9&PageIndex=1').then(res=>{ //学生专区
-            this.list1 = res.result.dtos||[];
-        }).catch(err=>{
-            console.log(err);
-        })
-      },
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import "../../../assets/admin/css/color.less";/**颜色配置 */
-  .admin-footer-page{
+  .footer-page{
     text-align: center;
-    color: @6C757D;
+    color: #6C757D;
     font-size: 12px;
     height: 40px;
     line-height: 40px;

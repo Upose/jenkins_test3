@@ -10,6 +10,7 @@ export default new Vuex.Store({
     skin_template: 'template1',
     authList: [],
     appInfo: {},//应用名及版本号信息
+    baseinfo:{},
   },
   getters: {
     token: (state) => state.token,
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     appInfo: (state) => state.appInfo
   },
   mutations: {
+    baseinfo: (state, data) => {
+      state.baseinfo = data;
+    },
     login: (state, data) => {
       state.token = data.token || undefined;
       sessionStorage.setItem('token', data.token);
