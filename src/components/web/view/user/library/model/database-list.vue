@@ -60,10 +60,18 @@ export default {
         databaseid: id
       }).then((res) => {
       })
-      window.open(url)
+      if(this.isThirdpartyApp(true,url)){
+        location.href = url;
+      }else{
+        window.open(url);
+      }
     },
     linkTo(url) {
-      window.open(url)
+      if(this.isThirdpartyApp(true,url)){
+        location.href = url;
+      }else{
+        window.open(url);
+      }
     },
   },
 };

@@ -309,9 +309,9 @@ export default {
         let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
         let info = urlInfo.find(item => item.code == code);
         if (code == 'index') {
-          window.open(info.path + url + '?page=1')
+          location.href=info.path + url + '?page=1';
         } else {
-          window.open(info.path + url)
+          location.href=info.path + url
         }
       }
     },

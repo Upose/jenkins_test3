@@ -491,9 +491,17 @@ export default {
     linkTo(url, code) {
       if (code) {
         let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == code)
-        window.open(info.path + url);
+        if(this.isThirdpartyApp(true,info.path + url)){
+          location.href = info.path + url;
+        }else{
+          window.open(info.path + url);
+        }
       } else {
-        window.open(url);
+        if(this.isThirdpartyApp(true,url)){
+          location.href = url;
+        }else{
+          window.open(url);
+        }
       }
     }
   }
