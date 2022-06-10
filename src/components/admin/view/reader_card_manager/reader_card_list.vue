@@ -160,10 +160,10 @@ export default {
       http.getJson('card-init-data').then(res => {
         this.dataKey = res.data;
         // 处理表头
-        this.sysArrt = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+        this.sysArrt = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           return item.code;
         })
-        this.sysArrtKey = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+        this.sysArrtKey = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           let icode = '';
           let nm = item.code.split('_');
           if (item.code.indexOf('User_') !== -1) {
