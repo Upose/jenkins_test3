@@ -180,9 +180,10 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb },
   data() {
     return {
-      loading:false,
+      loading: false,
       userId: '',
       userList: [],
+      repeateInfo: {},//重复信息
       userNumber: 1,//选择读者数量
       titleList: ['姓名', '读者类型', '职称', '学院', '系', '专业', '年级', '生日', '性别', '学历', '部门', '手机号', '身份证号', '地址', '读者状态'],
       tableData: [],//列表项
@@ -197,11 +198,29 @@ export default {
     initData() {
       if (this.$route.query.id) {
         this.userId = this.$route.query.id;
+        this.repeateInfo = JSON.parse(this.$route.query.repeateInfo);
         this.getList();
       } else {
         this.userList = JSON.parse(this.$route.query.list);
         this.postList();
       }
+    },
+    // 获取列表数据
+    getList() {
+      this.loading = true;
+      http.getJson('merge-info-by-user-phone-and-idcard', {
+        userId: this.userId,
+        ...this.repeateInfo
+      }).then(res => {
+        this.tableData = res.data;
+        this.tableData[0].isMainCard = true;
+        this.userData = { ...res.data[0] };
+        this.userNumber = this.tableData.length;
+        this.loading = false;
+      }).catch(err => {
+        this.loading = false;
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
     },
     // 获取列表数据
     postList() {
@@ -217,20 +236,20 @@ export default {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
-    // 获取列表数据
-    getList() {
-      this.loading = true;
-      http.getJsonSelf('merge-info', `/${this.$route.query.id}`).then(res => {
-        this.tableData = res.data;
-        this.tableData[0].isMainCard = true;
-        this.userData = { ...res.data[0] };
-        this.userNumber = this.tableData.length;
-        this.loading = false;
-      }).catch(err => {
-        this.loading = false;
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      })
-    },
+    // // 获取列表数据
+    // getList() {
+    //   this.loading = true;
+    //   http.getJsonSelf('merge-info', `/${this.$route.query.id}`).then(res => {
+    //     this.tableData = res.data;
+    //     this.tableData[0].isMainCard = true;
+    //     this.userData = { ...res.data[0] };
+    //     this.userNumber = this.tableData.length;
+    //     this.loading = false;
+    //   }).catch(err => {
+    //     this.loading = false;
+    //     this.$message({ type: 'error', message: '获取数据失败!' });
+    //   })
+    // },
     // 有效信息判定
     isCheck(val) {
       return this.userCheckList.indexOf(val) != -1 ? true : false;
@@ -265,9 +284,9 @@ export default {
       http.postJson('merge-user-info', { ...this.userData, userIds: userIds }).then(res => {
         this.$message({ type: 'success', message: '合并成功!' });
         if (this.userId) {
-            // this.$router.replace({ path: '/admin_readerManagement', query: { id: res.data } })
-            this.$route.query.newId = res.data;
-            this.$router.back();
+          // this.$router.replace({ path: '/admin_readerManagement', query: { id: res.data } })
+          this.$route.query.newId = res.data;
+          this.$router.back();
         } else {
           this.$router.back();
         }

@@ -63,6 +63,7 @@ export default {
         'set-sync-card-config': baseURL + '/api/card/set-sync-card-config',//设置同步设置配置项
         'add-sync-card-task': baseURL + '/api/card/set-sync-card-task',//添加读者临时同步任务
         'merge-info': baseURL + '/api/user/merge-info',//获取用户数据需要合并信息 get:/{userid} post
+        'merge-info-by-user-phone-and-idcard': baseURL + '/api/user/merge-info-by-user-phone-and-idcard',//获取用户数据需要合并信息
         'merge-user-info': baseURL + '/api/user/merge-user-info',//合并读者消息
         'with-merge': baseURL + '/api/user/with-merge',//编辑用户信息
         'reader-event-score-table-data': baseURL + '/api/reader/reader-event-score-table-data',//积分明细

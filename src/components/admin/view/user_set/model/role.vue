@@ -8,6 +8,7 @@
 
     <div class="t-p">
       <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('setting:roleList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+        <el-table-column type="index" label="序号" align="center" width="50px"></el-table-column>
         <el-table-column prop="code" label="编码" align="center" width="180px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="name" label="角色名称" align="center" width="150px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="staffCount" label="馆员" align="center" width="100px">

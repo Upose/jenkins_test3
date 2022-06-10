@@ -470,7 +470,10 @@ export default {
                   cancelButtonText: '取消',
                   type: 'warning'
                 }).then(() => {
-                  this.$router.push({ path: '/admin_mergeReader', query: { id: this.id } })
+                  let repeateInfo = {};
+                  res.data.repeatePhone && (repeateInfo.phone = this.postForm.phone);
+                  res.data.repeateIdCard && (repeateInfo.idCard = this.postForm.idCard);
+                  this.$router.push({ path: '/admin_mergeReader', query: { id: this.id, repeateInfo: JSON.stringify(repeateInfo) } })
                 }).catch(() => {
                   this.mergeInfo = res.data;
                   this.mergeInfo.phone = this.postForm.phone;
