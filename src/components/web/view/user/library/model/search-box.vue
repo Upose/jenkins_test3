@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-07 14:02:55
+ * @LastEditTime: 2022-06-10 23:49:41
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -232,6 +232,8 @@ export default {
       this.cu_colum = val;
       if (this.cu_colum.searchBoxFields && this.cu_colum.searchBoxFields.length > 0) {
         this.search = this.cu_colum.searchBoxFields[0];
+      } else {
+        this.search = null;
       }
       if (this.cu_colum.actionType == 4) {
         window.location.href = this.cu_colum.link;
@@ -309,9 +311,9 @@ export default {
         let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
         let info = urlInfo.find(item => item.code == code);
         if (code == 'index') {
-          location.href=info.path + url + '?page=1';
+          location.href = info.path + url + '?page=1';
         } else {
-          location.href=info.path + url
+          location.href = info.path + url
         }
       }
     },
