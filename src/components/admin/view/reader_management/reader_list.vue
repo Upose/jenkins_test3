@@ -164,10 +164,10 @@ export default {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
         // 处理表头
-        this.sysArrt = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+        this.sysArrt = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           return item.code;
         })
-        this.sysArrtKey = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+        this.sysArrtKey = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           let icode = '';
           let nm = item.code.split('_')
           if (item.code.indexOf('Card_') !== -1) {
@@ -177,6 +177,7 @@ export default {
           }
           return icode
         })
+        // console.log(this.sysArrt, this.sysArrtKey, 'sysArrtKey')
         // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
         res.data.groupSelect.forEach(item => {
           let data = {
