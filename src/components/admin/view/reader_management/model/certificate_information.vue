@@ -24,15 +24,15 @@
             <el-form-item label="读者卡号" prop="no">
               <el-input disabled v-model="item.no"></el-input>
             </el-form-item>
-            <el-form-item label="条形码" prop="barCode">
+            <!-- <el-form-item label="条形码" prop="barCode">
               <el-input disabled v-model="item.barCode"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="物理码" prop="physicNo">
               <el-input disabled v-model="item.physicNo"></el-input>
             </el-form-item>
-            <el-form-item label="统一认证号" prop="identityNo">
+            <!-- <el-form-item label="统一认证号" prop="identityNo">
               <el-input disabled v-model="item.identityNo"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="发卡日期" prop="issueDate">
               <el-date-picker disabled v-model="item.issueDate" type="date">
               </el-date-picker>
@@ -81,15 +81,15 @@
             <el-form-item label="读者卡号" prop="no">
               <el-input disabled v-model="item.no"></el-input>
             </el-form-item>
-            <el-form-item label="条形码" prop="barCode">
+            <!-- <el-form-item label="条形码" prop="barCode">
               <el-input disabled v-model="item.barCode"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="物理码" prop="physicNo">
               <el-input disabled v-model="item.physicNo"></el-input>
             </el-form-item>
-            <el-form-item label="统一认证号" prop="identityNo">
+            <!-- <el-form-item label="统一认证号" prop="identityNo">
               <el-input disabled v-model="item.identityNo"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="发卡日期" prop="issueDate">
               <el-date-picker disabled v-model="item.issueDate" type="date">
               </el-date-picker>

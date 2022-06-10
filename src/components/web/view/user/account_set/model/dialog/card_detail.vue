@@ -2,9 +2,9 @@
   <el-dialog title="读者证详情" :visible.sync="dialogVisible" width="1000px" :before-close="dialogBeforeClose">
     <div>
       <el-form ref="form" :model="form" label-width="90px" class="detail" v-if="dataKey">
-        <el-form-item label="统一认证号">
+        <!-- <el-form-item label="统一认证号">
           <el-input v-model="form.identityNo" class="w-inp" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="读者卡号">
           <el-input v-model="form.no" class="w-inp" disabled></el-input>
         </el-form-item>
@@ -28,9 +28,9 @@
         <el-form-item label="押金">
           <el-input v-model="form.deposit" class="w-inp" disabled></el-input>
         </el-form-item>
-        <el-form-item label="条形码号">
+        <!-- <el-form-item label="条形码号">
           <el-input v-model="form.barCode" class="w-inp" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="物理码号">
           <el-input v-model="form.physicNo" class="w-inp" disabled></el-input>
         </el-form-item>
@@ -58,7 +58,7 @@ export default {
     return {
       dialogVisible: false,
       form: {},
-      dataKey:null
+      dataKey: null
     };
   },
   created() {
