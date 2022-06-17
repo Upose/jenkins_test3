@@ -27,6 +27,9 @@
             <!-- <el-form-item label="条形码" prop="barCode">
               <el-input disabled v-model="item.barCode"></el-input>
             </el-form-item> -->
+            <el-form-item label="学号/工号" prop="studentNo">
+              <el-input disabled v-model="item.studentNo"></el-input>
+            </el-form-item>
             <el-form-item label="物理码" prop="physicNo">
               <el-input disabled v-model="item.physicNo"></el-input>
             </el-form-item>
