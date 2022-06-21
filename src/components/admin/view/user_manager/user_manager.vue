@@ -13,7 +13,7 @@
                 <div class="box-radio">
                   <img src="@/assets/admin/img/userManager/duzhe.png" />
                 </div>
-                <div class="box-title">读者管理</div>
+                <div class="box-title">读者信息管理</div>
                 <div class="box-words">
                   <span @click="to('/admin_readerList')" v-if="isAuth('reader:list','/admin_readerList')">读者查询</span>
                   <span class="grey-btn" v-else>读者查询</span>

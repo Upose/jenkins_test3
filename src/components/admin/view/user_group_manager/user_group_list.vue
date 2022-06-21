@@ -12,8 +12,8 @@
           <div class="search-table-w">
             <h1 class="search-title">用户组管理</h1>
             <div class="search-term" v-if="dataKey">
-              <el-input v-model="postForm.keyWord" placeholder="用户组名称" style="width:180px"></el-input>
-              <el-date-picker v-model="date" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" style="width:280px" @change="postForm.CreateEndTime=date[1]; postForm.CreateStartTime=date[0]"></el-date-picker>
+              <el-input class="mr10" v-model="postForm.keyWord" placeholder="用户组名称" style="width:180px"></el-input>
+              <el-date-picker class="mr10" v-model="date" value-format="yyyy-MM-dd" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" style="width:280px" @change="postForm.CreateEndTime=date[1]; postForm.CreateStartTime=date[0]"></el-date-picker>
               <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
             </div>
           </div>

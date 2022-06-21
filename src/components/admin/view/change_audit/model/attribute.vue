@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="m-title search-term-table" v-if="dataKey">
-      <el-select class="width136" v-model="postForm.type" size="medium" placeholder="操作类型" clearable>
+      <el-select class="width136 mr10" v-model="postForm.type" size="medium" placeholder="操作类型" clearable>
         <el-option :value="item" :label="index" v-for="(item,index) in dataKey.propertyLogType" :key="index"></el-option>
       </el-select>
-      <el-select class="width136" v-model="postForm.status" size="medium" placeholder="操作状态" clearable>
+      <el-select class="width136 mr10" v-model="postForm.status" size="medium" placeholder="操作状态" clearable>
         <el-option :value="item" :label="index" v-for="(item,index) in dataKey.propertyLogStatus" :key="index"></el-option>
       </el-select>
       <!-- <el-input placeholder="请输入" size="medium" v-model="searchKey" style="width:0" clearable>
@@ -13,9 +13,9 @@
           <el-option label="操作人电话" :value="'changeUserPhone'"></el-option>
         </el-select>
       </el-input> -->
-      <el-date-picker style="width:260px" type="daterange" v-model="dateRange" size="medium" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" clearable></el-date-picker>
+      <el-date-picker class="mr10" style="width:260px" type="daterange" v-model="dateRange" size="medium" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" format="yyyy-MM-dd" value-format="yyyy-MM-dd" clearable></el-date-picker>
 
-      <el-input placeholder="请输入" size="medium" v-model="searchKey" style="width:300px" clearable>
+      <el-input class="mr10" placeholder="请输入" size="medium" v-model="searchKey" style="width:300px" clearable>
         <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:130px">
           <el-option label="操作人姓名" :value="'changeUserName'"></el-option>
           <el-option label="操作人电话" :value="'changeUserPhone'"></el-option>
@@ -226,6 +226,9 @@ export default {
   padding: 13px 20px 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #ebeef5;
+  & /deep/ .mr10{
+    margin-right: 10px;
+  }
 
   .width187 {
     width: 187px;

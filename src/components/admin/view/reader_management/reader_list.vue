@@ -32,9 +32,9 @@
                 </div>
               </div>
               <!-- 文本输入 -->
-              <div class="search-item-box" v-if="textProperties.length">
-                <div class="search-item" style="width:300px">
-                  <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
+              <div class="search-item-box text" v-if="textProperties.length">
+                <div class="search-item" style="width:500px">
+                  <el-input placeholder="请输入" v-model="searchTextValue" style="width:500px" clearable>
                     <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
                       <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
@@ -217,9 +217,23 @@ export default {
       })
     },
     //获取布局
-    getColumnAlign(property) {
-      var align = 'center';
-      return align;
+    getColumnAlign(item) {
+      let prop = ''
+      switch(item.align) {
+        case 1:
+          prop = 'left';
+          break;
+        case 2:
+          prop = 'center';
+          break;
+        case 3:
+          prop = 'right';
+          break;
+        default:
+          prop = 'center';
+          break;
+      }
+      return prop;
     },
     //获取列宽
     getColumnWidth(property) {
@@ -476,6 +490,10 @@ export default {
 @import "../../../../assets/admin/css/form.less";
 .search-item-box {
   display: inline-block;
+  margin-right: 10px;
+  &.text{
+    width: 100%;
+  }
 }
 .search-item {
   width: 150px;

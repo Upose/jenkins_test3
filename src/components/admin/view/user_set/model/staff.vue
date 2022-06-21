@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-title search-term-table">
-      <el-input placeholder="馆员名称" size="medium" v-model="postForm.name" class="width136" clearable></el-input>
+      <el-input placeholder="馆员名称" size="medium" v-model="postForm.name" class="width136 mr10" clearable></el-input>
       <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
       <el-button type="primary" size="medium" icon="iconfont el-icon-vip-tianjia2" @click="handleAdd">添加馆员</el-button>
     </div>
@@ -174,6 +174,9 @@ export default {
   padding: 13px 20px 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #ebeef5;
+  & /deep/ .mr10{
+    margin-right: 10px;
+  }
 
   .width187 {
     width: 187px;
