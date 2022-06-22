@@ -68,6 +68,8 @@ export default {
         'with-merge': baseURL + '/api/user/with-merge',//编辑用户信息
         'reader-event-score-table-data': baseURL + '/api/reader/reader-event-score-table-data',//积分明细
         'reader-score-summary': baseURL + '/api/reader/reader-score-summary',//积分信息
+        'reset-card-secret-verify-key': baseURL + '/api/card/reset-card-secret-verify-key',//获取密码重置key
+        'reset-card-secret-by-verify-key': baseURL + '/api/card/reset-card-secret-by-verify-key',//重置密码
 
         'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
         'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据
