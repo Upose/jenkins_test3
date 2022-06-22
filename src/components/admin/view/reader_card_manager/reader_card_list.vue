@@ -68,7 +68,7 @@
                     <span>{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" width="260" align="center">
+                <el-table-column prop="content" label="操作" fixed="right" width="260" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('card:delete')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('card:detail')">查看</el-button>
@@ -384,7 +384,7 @@ export default {
 .search-item-box {
   display: inline-block;
   margin-right: 10px;
-  &.text{
+  &.text {
     width: 100%;
   }
 }

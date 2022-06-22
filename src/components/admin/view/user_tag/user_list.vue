@@ -76,7 +76,7 @@
                     {{setTime(scope.row.createTime)}}
                   </template>
                 </el-table-column> -->
-                <el-table-column prop="content" label="操作" width="110" align="center">
+                <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>查看</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->

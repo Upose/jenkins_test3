@@ -28,7 +28,7 @@
             <span v-for="item in  scope.row.roles" :key="item.id">{{item.name}} </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" align="center">
+        <el-table-column label="操作" fixed="right" width="200" align="center">
           <template slot-scope="scope">
             <!-- <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button> -->
             <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('setting:staffRoleSet')">修改角色</el-button>
@@ -174,7 +174,7 @@ export default {
   padding: 13px 20px 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #ebeef5;
-  & /deep/ .mr10{
+  & /deep/ .mr10 {
     margin-right: 10px;
   }
 

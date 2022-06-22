@@ -40,7 +40,7 @@
                     <span>{{ getKeyValue(scope.row.approveStatus) }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" align="center">
+                <el-table-column prop="content" label="操作" fixed="right" align="center">
                   <template slot-scope="scope">
                     <template v-if="!groupData.sysBuildIn&&!scope.row.sysBuildIn">
                       <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-show="!scope.row.new" :disabled="!scope.row.approveStatus">删除</el-button>

@@ -2,22 +2,22 @@
 <template>
   <div class="content">
     <!-- <h1 class="s-b-border-title"> -->
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="按角色" name="role">
-            <role></role>
-        </el-tab-pane>
-        <el-tab-pane label="按馆员" name="dape">
-          <staff></staff>
-        </el-tab-pane>
-      </el-tabs>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="按角色" name="role">
+        <role></role>
+      </el-tab-pane>
+      <el-tab-pane label="按馆员" name="dape">
+        <staff></staff>
+      </el-tab-pane>
+    </el-tabs>
     <!-- </h1> -->
-    
+
     <!-- <el-table stripe ref="singleTable" :data="tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
       <el-table-column prop="prop" label="编码"></el-table-column>
       <el-table-column prop="prop" label="角色名称"></el-table-column>
       <el-table-column prop="prop" label="馆员"></el-table-column>
       <el-table-column prop="prop" label="角色描述"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
           <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button>
           <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="el-icon-edit" round>编辑</el-button>
@@ -45,7 +45,7 @@ export default {
     //   this.$forceUpdate();
     // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb,role ,staff},
+  components: { footerPage, serviceLMenu, breadcrumb, role, staff },
   data() {
     return {
       // dataKey: JSON.parse(sessionStorage.getItem('dataKey')),// 键值对总数据

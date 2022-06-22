@@ -45,7 +45,7 @@
             <span>{{ getKeyValue('propertyLogStatus',scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作" width="160" align="center">
+        <el-table-column prop="content" label="操作" fixed="right" width="160" align="center">
           <template slot-scope="scope">
             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="scope.row.status == 0&&isAuth('approve:propertyApprove')">审核</el-button>
           </template>
@@ -76,7 +76,7 @@ export default {
   props: ['dataKey'],
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       pageData: {
         pageIndex: 1,
@@ -100,12 +100,12 @@ export default {
   },
   methods: {
     // 页面子权限判定
-    isAuth(name){
+    isAuth(name) {
       let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_changeAudit'));
+      let curAuth = authList.find(item => (item.router == '/admin_changeAudit'));
       // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
     },
     // 获取列表数据
     getList() {
@@ -226,7 +226,7 @@ export default {
   padding: 13px 20px 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #ebeef5;
-  & /deep/ .mr10{
+  & /deep/ .mr10 {
     margin-right: 10px;
   }
 

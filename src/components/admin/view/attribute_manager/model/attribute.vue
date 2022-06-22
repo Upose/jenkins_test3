@@ -49,7 +49,7 @@
             <span>{{ scope.row.forReader?'读者 ':''}} {{ scope.row.forCard?'读者卡':''}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作" align="center" width="300">
+        <el-table-column prop="content" label="操作" fixed="right" align="center" width="300">
           <template slot-scope="scope">
             <div v-if="scope.row.approveStatus == 1">
               <template v-if="!scope.row.sysBuildIn">
