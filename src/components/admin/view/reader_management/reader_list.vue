@@ -219,7 +219,7 @@ export default {
     //获取布局
     getColumnAlign(item) {
       let prop = ''
-      switch(item.align) {
+      switch (item.align) {
         case 1:
           prop = 'left';
           break;
@@ -456,10 +456,16 @@ export default {
         })
         return;
       }
-      let list = this.multipleSelection.map(item => {
-        return item.id;
-      });
-      this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
+      this.$confirm('读者信息合并过程不可逆转，请谨慎操作。是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let list = this.multipleSelection.map(item => {
+          return item.id;
+        });
+        this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
+      }).catch(() => { })
     },
     /** 新增读者 */
     handAdd() {
@@ -491,7 +497,7 @@ export default {
 .search-item-box {
   display: inline-block;
   margin-right: 10px;
-  &.text{
+  &.text {
     width: 100%;
   }
 }

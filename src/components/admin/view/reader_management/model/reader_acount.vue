@@ -465,7 +465,7 @@ export default {
           if (this.id) {
             http.postJson('with-merge', this.postForm).then(res => {
               if (!res.data.success) {
-                this.$confirm('该手机账号已被占用，是否需要将读者进行合并操作？?', '提示', {
+                this.$confirm('该手机账号已被占用，是否需要将读者进行合并操作。合并过程不可逆转，请谨慎操作！', '提示', {
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
                   type: 'warning'
