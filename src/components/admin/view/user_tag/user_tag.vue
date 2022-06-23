@@ -51,7 +51,7 @@
                         <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" @change="handleCangeStatus(scope.row)"></el-switch>
                       </template>
                     </el-table-column>
-                    <el-table-column prop="content" label="操作" width="250" align="center">
+                    <el-table-column prop="content" label="操作" fixed="right" width="250" align="center">
                       <template slot-scope="scope">
                         <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('userTag:delete')">删除</el-button>
                         <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('userTag:update')">编辑</el-button> -->

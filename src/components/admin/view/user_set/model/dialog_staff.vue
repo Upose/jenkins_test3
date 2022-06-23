@@ -33,7 +33,7 @@
             <span style="display:inline-block" v-for="item in scope.row.roles" :key="item.id">{{item.name}} </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="120" align="center">
+        <el-table-column label="操作" fixed="right" width="120" align="center">
           <template slot-scope="scope">
             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round>移除</el-button>
           </template>
@@ -54,7 +54,7 @@ export default {
   components: { paging, Dialog_staff_add },
   data() {
     return {
-      loading:false,
+      loading: false,
       dialogVisible: false,
       dataKey: null,
       pageData: {

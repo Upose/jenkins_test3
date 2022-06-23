@@ -55,7 +55,7 @@
                   {{setTime(scope.row.cardExpireDate,'日')}}
                 </template>
               </el-table-column>
-              <el-table-column label="操作" width="200" align="center">
+              <el-table-column label="操作" fixed="right" width="200" align="center">
                 <template slot-scope="scope">
                   <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('staff:delete')">删除</el-button>
                   <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('staff:detail')">查看</el-button>
@@ -119,7 +119,7 @@ export default {
     this.getList();
     // this.getDepa();
     let dia = this.$route.query.dia || ''
-    if (this.isAuth('staff:createTemp') && dia && dia == 'dialog_add'){
+    if (this.isAuth('staff:createTemp') && dia && dia == 'dialog_add') {
       this.$refs.dialog_add.show();
     }
   },

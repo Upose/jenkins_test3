@@ -82,7 +82,7 @@
                     <span @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" width="260" fixed="right" align="center">
+                <el-table-column prop="content" label="操作" fixed="right" width="260" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('reader:delete')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('reader:detail')">查看</el-button>
@@ -316,7 +316,7 @@ export default {
     //获取布局
     getColumnAlign(item) {
       let prop = ''
-      switch(item.align) {
+      switch (item.align) {
         case 1:
           prop = 'left';
           break;
@@ -558,10 +558,16 @@ export default {
         })
         return;
       }
-      let list = this.multipleSelection.map(item => {
-        return item.id;
-      });
-      this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
+      this.$confirm('读者信息合并过程不可逆转，请谨慎操作。是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let list = this.multipleSelection.map(item => {
+          return item.id;
+        });
+        this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
+      }).catch(() => { })
     },
     /** 新增读者 */
     handAdd() {
@@ -601,7 +607,7 @@ export default {
 .search-item-box {
   display: inline-block;
   margin-right: 10px;
-  &.text{
+  &.text {
     width: 100%;
   }
 }

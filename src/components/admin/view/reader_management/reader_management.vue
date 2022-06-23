@@ -60,19 +60,19 @@
                   <ReaderAcount @hide-to-staff="hideToStaff" :id="id" :iconUrl="postForm.photo"></ReaderAcount>
                 </el-tab-pane>
                 <el-tab-pane label="证件信息" name="second">
-                  <Certificate :id="id"></Certificate>
+                  <Certificate :id="id" v-if="activeName=='second'"></Certificate>
                 </el-tab-pane>
                 <el-tab-pane label="积分明细" name="third">
-                  <Intergral :id="id" :userKey="postForm.userKey"></Intergral>
+                  <Intergral :id="id" :userKey="postForm.userKey" v-if="activeName=='third'"></Intergral>
                 </el-tab-pane>
                 <el-tab-pane label="借阅明细" name="fourth">
-                  <borrowingDetail :id="id"></borrowingDetail>
+                  <borrowingDetail :id="id" v-if="activeName=='fourth'"></borrowingDetail>
                 </el-tab-pane>
-                <el-tab-pane label="授权信息" name="five">
-                  <AuthSystem :id="id"></AuthSystem>
+                <el-tab-pane label="授权系统" name="five">
+                  <AuthSystem :id="id" v-if="activeName=='five'"></AuthSystem>
                 </el-tab-pane>
                 <el-tab-pane label="使用日志" name="six">
-                  <useLog :id="id"></useLog>
+                  <useLog :id="id" v-if="activeName=='six'"></useLog>
                 </el-tab-pane>
               </el-tabs>
             </div>
@@ -203,9 +203,10 @@ export default {
     // 转为馆员
     handleChange() {
       http.postJson('batch-set-user-as-staff', [this.id]).then(res => {
-        this.$message({ type: 'success', message: '转为馆员成功!' });
+        this.$message({ type: 'success', message: '操作成功，请在馆员列表进行查看与管理!' });
+        this.hideToStaff();
       }).catch(err => {
-        this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败') });
+        this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败!') });
       })
     },
     // 时间格式化

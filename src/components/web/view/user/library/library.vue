@@ -494,15 +494,20 @@ export default {
     linkTo(url, code) {
       if (code) {
         let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == code)
-        if(this.isThirdpartyApp(true,info.path + url)){
+        // 馆员工作台-新窗口
+        if (code == 'workbench') {
+          window.open(info.path + url);
+          return
+        }
+        if (this.isThirdpartyApp(true, info.path + url)) {
           location.href = info.path + url;
-        }else{
+        } else {
           window.open(info.path + url);
         }
       } else {
-        if(this.isThirdpartyApp(true,url)){
+        if (this.isThirdpartyApp(true, url)) {
           location.href = url;
-        }else{
+        } else {
           window.open(url);
         }
       }

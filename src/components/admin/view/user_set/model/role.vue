@@ -29,7 +29,7 @@
             <span>{{scope.row.sysBuildIn?'是':'否'}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="320">
+        <el-table-column label="操作" fixed="right" align="center" width="320">
           <template slot-scope="scope">
             <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:roleDelete')">删除</el-button>
             <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:rolePermissionSet')">编辑权限</el-button>
@@ -205,7 +205,7 @@ export default {
   padding: 13px 20px 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #ebeef5;
-  & /deep/ .mr10{
+  & /deep/ .mr10 {
     margin-right: 10px;
   }
 

@@ -114,7 +114,7 @@
                 <el-table-column label="卡状态" prop="status"></el-table-column>
                 <el-table-column label="截止日期" prop="date"></el-table-column>
                 <el-table-column label="角色" prop="role"></el-table-column>
-                <el-table-column type="selection" width="55" align="center" label="操作"></el-table-column>
+                <el-table-column type="selection" width="55" align="center" label="操作" fixed="right"></el-table-column>
               </el-table>
             </div>
             <div class="pagination">

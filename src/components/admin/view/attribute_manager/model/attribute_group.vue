@@ -16,7 +16,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="count" label="数量" align="center"></el-table-column>
-        <el-table-column prop="content" label="操作" align="center">
+        <el-table-column prop="content" label="操作" fixed="right" align="center">
           <template slot-scope="scope">
             <!-- <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button> -->
             <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('propertyGroup:edit')">编辑</el-button>

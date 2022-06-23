@@ -38,7 +38,7 @@
             <span>{{ getKeyValue('propertyLogStatus',scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作" align="center">
+        <el-table-column prop="content" label="操作" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="el-icon-edit" round v-if="scope.row.status == 0&&isAuth('approve:registerApprove')">审核</el-button>
           </template>

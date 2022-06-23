@@ -51,7 +51,7 @@
             <span>{{ scope.row.forReader?'读者 ':''}} {{ scope.row.forCard?'读者卡':''}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作" align="center" width="300">
+        <el-table-column prop="content" label="操作" fixed="right" align="center" width="300">
           <template slot-scope="scope">
             <div v-if="scope.row.approveStatus == 1">
               <template v-if="!scope.row.sysBuildIn">
@@ -160,7 +160,7 @@ export default {
     },
     // 删除
     handleDel(row) {
-      this.$confirm('请谨慎执行删除操作, 是否继续?', '提示', {
+      this.$confirm('确定删除该项内容？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

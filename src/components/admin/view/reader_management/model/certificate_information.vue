@@ -253,15 +253,27 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        http.postJson('reset-card-secret', { cardId: item.id, secret: item.no }).then(res => {
-          this.$message({ message: `重置成功！密码为：${item.no}`, type: 'success' });
-          // this.getData();
+        let guid = this.newGuid();
+        http.getJsonSelf('reset-card-secret-verify-key', `/${guid}`).then(res => {
+          http.postJson('reset-card-secret-by-verify-key', { cardId: item.id, verifyCode: guid, verifyKey: res.data }).then(res1 => {
+            this.$message({ message: res1.data, type: 'success' });
+          }).catch(err => {
+            this.$message({ type: 'error', message: '重置失败!' });
+          })
         }).catch(err => {
-          this.$message({ type: 'error', message: '编辑失败!' });
+          this.$message({ type: 'error', message: '重置失败!' });
         })
-      }).catch(() => {
-        // this.$message({ type: 'info', message: '已取消删除!' });
-      });
+      }).catch(() => { });
+    },
+    newGuid() {
+      var guid = "";
+      for (var i = 1; i <= 32; i++) {
+        var n = Math.floor(Math.random() * 16.0).toString(16);
+        guid += n;
+        if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+          guid += "-";
+      }
+      return guid;
     },
     // 修改密码
     handleEditPass(item) {

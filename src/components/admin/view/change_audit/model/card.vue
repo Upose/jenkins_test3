@@ -35,7 +35,7 @@
             <span>{{ getKeyValue('cardClaimStatus',scope.row.status) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作" align="center">
+        <el-table-column prop="content" label="操作" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="scope.row.status == 0&&isAuth('approve:cardClaimApprove')">审核</el-button>
           </template>
@@ -221,7 +221,7 @@ export default {
   padding: 13px 20px 10px;
   box-sizing: border-box;
   border-bottom: 1px solid #ebeef5;
-  & /deep/ .mr10{
+  & /deep/ .mr10 {
     margin-right: 10px;
   }
 
