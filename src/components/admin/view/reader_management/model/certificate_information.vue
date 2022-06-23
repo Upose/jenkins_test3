@@ -28,8 +28,10 @@
               <!-- <el-form-item label="条形码" prop="barCode">
                 <el-input disabled v-model="item.barCode"></el-input>
               </el-form-item> -->
-              <el-form-item label="物理码" prop="physicNo">
-                <el-input disabled v-model="item.physicNo"></el-input>
+              <el-form-item label="状态" prop="status">
+                <el-select disabled v-model="item.status" placeholder="请选择" style="width:100%">
+                  <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+                </el-select>
               </el-form-item>
               <!-- <el-form-item label="统一认证号" prop="identityNo">
                 <el-input disabled v-model="item.identityNo"></el-input>
@@ -38,7 +40,6 @@
                 <el-date-picker disabled v-model="item.expireDate" type="date">
                 </el-date-picker>
               </el-form-item>
-              
               <el-form-item label="押金" prop="desposit">
                 <el-input disabled v-model="item.deposit"></el-input>
               </el-form-item>
@@ -58,10 +59,8 @@
                 <el-date-picker disabled v-model="item.issueDate" type="date">
                 </el-date-picker>
               </el-form-item>
-              <el-form-item label="状态" prop="status">
-              <el-select disabled v-model="item.status" placeholder="请选择" style="width:100%">
-                <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-              </el-select>
+              <el-form-item label="物理码" prop="physicNo">
+                <el-input disabled v-model="item.physicNo"></el-input>
               </el-form-item>
               <el-form-item label="最近同步日期" prop="updateTime">
                 <el-date-picker disabled v-model="item.updateTime" type="date">

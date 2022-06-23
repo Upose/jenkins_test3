@@ -49,7 +49,7 @@
                 </div>
               </div>
               <!-- 日期选择 -->
-              <div class="search-item-box" v-if="dateRangeProperties.length && showDateRange">
+              <div class="search-item-box date-item-box" v-if="dateRangeProperties.length && showDateRange">
                 <div class="search-item w400">
                   <div class="date-checkbox">
                     <el-select v-model="searchDateCode" placeholder="请选择" clearable>
@@ -627,6 +627,9 @@ export default {
   }
 }
 .search-item-box{
+  &.date-item-box{
+    width: 400px;
+  }
   .search-item{
     .date-checkbox {
       width: 400px;
