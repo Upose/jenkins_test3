@@ -33,6 +33,7 @@
             <!-- <span>{{ scope.row.showOnTable?'是':'否'}}</span> -->
             <span>
               <el-switch v-model="scope.row.showOnTable" @change="handleCangeShow(scope.row)"></el-switch>
+              <!-- <el-switch v-model="scope.row.showOnTable" @change="handleCangeShow(scope.row)" :disabled="!scope.row.showOnTableSwitch"></el-switch> -->
             </span>
           </template>
         </el-table-column>
@@ -41,6 +42,7 @@
             <!-- <span>{{ scope.row.canSearch?'是':'否'}}</span> -->
             <span v-if="scope.row.sysBuildIn == 1">
               <el-switch v-model="scope.row.canSearch" @change="handleCangeSearch(scope.row)"></el-switch>
+              <!-- <el-switch v-model="scope.row.canSearch" @change="handleCangeSearch(scope.row)" :disabled="!scope.row.canSearchSwitch"></el-switch> -->
             </span>
           </template>
         </el-table-column>

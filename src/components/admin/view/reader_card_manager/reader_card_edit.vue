@@ -22,9 +22,6 @@
                     <el-option v-for="item in userList" :key="item.id" :label="item.name+'_'+item.phone" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="读者卡号" prop="no">
-                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
                 <!-- <el-form-item label="统一认证号" prop="identityNo">
                   <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item> -->
@@ -34,12 +31,17 @@
                 <el-form-item label="学号/工号" prop="studentNo">
                   <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="读者卡类型" prop="type">
-                  <el-select v-model="cardForm.type" placeholder="请选择" clearable>
-                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+                <div class="row-form">
+                  <el-form-item  class="r-f-item1" prop="type">
+                    <el-select v-model="cardForm.type" placeholder="请选择" clearable>
+                      <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item  class="r-f-item2" prop="no">
+                    <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                  </el-form-item>
+                </div>
                 <el-form-item label="物理码号" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
@@ -307,6 +309,27 @@ export default {
       color: @34395E;
       font-size: 14px;
       margin-left: 20px;
+    }
+  }
+  .row-form{
+    width: 49%;
+    height: 62px;
+    padding: 0;
+    display: inline-block;
+    vertical-align: top;
+    /deep/ .r-f-item1{
+      width: 49%;
+      float: left;
+      .el-form-item__content{
+        margin-left: 100px !important;
+      }
+    }
+     /deep/ .r-f-item2{
+      width: 50%;
+      float: left;
+      .el-form-item__content{
+        margin-left: 0 !important;
+      }
     }
   }
 }

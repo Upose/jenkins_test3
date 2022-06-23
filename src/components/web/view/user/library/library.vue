@@ -30,10 +30,10 @@
               </div>
               <div class="certification">
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon-qq.png" alt="" @click="wxBind">
+                  <img src="../../../../../assets/web/img/personal/icon-qq.png" alt="">
                   未认证
                 </span>
-                <span>
+                <span  @click="wxBind">
                   <img src="../../../../../assets/web/img/personal/icon-wx.png" alt="">
                   {{identityList.weChatIdentity?'已认证':'未认证'}}
                 </span>
@@ -130,7 +130,7 @@
     </div>
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey" @update="getCard"></dialog_card>
-    <dialog_code ref="dialog_code"></dialog_code>
+    <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code>
     <el-dialog center title="" :visible.sync="wxdialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="400px">
       <div>请问是否确定绑定微信？</div>
       <span slot="footer" class="dialog-footer">
@@ -174,6 +174,7 @@ export default {
       wxCode: '',
       wxbindLoading: false,
       identityList: {},
+      wechatConfig: {},
     }
   },
   watch: {
@@ -211,9 +212,13 @@ export default {
     wxBindList() {
       this.http.getJson('forward-reader-identity-status').then((res) => {
         this.identityList = res.data;
-        console.log(this.identityList)
       }).catch((err) => {
         this.$message({ type: "error", message: "获取用户是否已绑定信息失败!" });
+      });
+      this.http.getJson('reader-wechat-login-config').then((res) => {
+        this.wechatConfig = res.data;
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取微信登录认证设置失败!" });
       });
     },
     // 打开微信绑定
@@ -221,8 +226,6 @@ export default {
       // 判断是否已绑定
       if (!this.identityList.weChatIdentity) {
         this.$refs.dialog_code.show();
-      } else {
-        this.$message({ type: "warning", message: "微信已认证!" });
       }
     },
     // 调接口，code传给后端

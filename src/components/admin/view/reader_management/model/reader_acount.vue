@@ -27,7 +27,7 @@
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="出生日期" prop="birthday">
+        <el-form-item label="出生年月" prop="birthday">
           <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
           </el-date-picker>
         </el-form-item>
@@ -102,9 +102,9 @@
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="学号" prop="studentNo">
+        <!-- <el-form-item label="学号" prop="studentNo">
           <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="手机" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
           <el-input v-model="postForm.phone" placeholder="请输入" maxlength="11" show-word-limit>
             <template slot="append">
@@ -119,13 +119,7 @@
           </el-input>
           <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone">手机号重复</div>
         </el-form-item>
-        <!-- <el-form-item label="第三方信息">
-          <el-select v-model="postForm.usertype" placeholder="请选择">
-            <el-option v-for="item in userTypeOption" :key="item.value" :label="item.key" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item> -->
-        <el-form-item label="身份证" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
+        <el-form-item label="身份证号" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
           <el-input v-model="postForm.idCard" placeholder="请输入" maxlength="30" show-word-limit>
             <template slot="append">
               <div v-if="postForm.idCardIdentity">
@@ -139,6 +133,12 @@
           </el-input>
           <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard">身份证号重复</div>
         </el-form-item>
+        <!-- <el-form-item label="第三方信息">
+          <el-select v-model="postForm.usertype" placeholder="请选择">
+            <el-option v-for="item in userTypeOption" :key="item.value" :label="item.key" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item> -->
         <el-form-item label="邮箱" prop="email" class="youxiang">
           <el-input v-model="postForm.email" placeholder="请输入" maxlength="30" show-word-limit>
             <template slot="append">

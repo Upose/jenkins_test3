@@ -31,20 +31,22 @@
               </div>
               <div class="login-list-box">
                 <div class="box-radio">
-                  <img src="@/assets/admin/img/userManager/guanyuan.png" />
+                  <img src="@/assets/admin/img/userManager/biaoqian.png" />
                 </div>
-                <div class="box-title">馆员管理</div>
+                <div class="box-title">读者分组管理</div>
                 <div class="box-words">
-                  <span @click="to('/admin_librarianManagement','first')" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员查询</span>
-                  <span class="grey-btn" v-else>馆员查询</span>
-                  <span @click="to('/admin_readerAdd', 'staff')" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</span>
-                  <span class="grey-btn" v-else>新增馆员</span>
-                  <span @click="to('/admin_librarianManagement', 'first', 'dialog_add')" v-if="isAuth('staff:list','/admin_librarianManagement')">新增临时馆员</span>
-                  <span class="grey-btn" v-else>新增临时馆员</span>
-                  <!-- <span @click="to('/admin_librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
+                  <!-- <span>标签管理</span> -->
+                  <span @click="to('/admin_userGroupList')" v-if="isAuth('userGroup:list','/admin_userGroupList')">用户组管理</span>
+                  <span class="grey-btn" v-else>用户组管理</span>
+                  <span @click="to('/admin_userTagList')" v-if="isAuth('userTag:list','/admin_userTagList')">标签管理</span>
+                  <span class="grey-btn" v-else>标签管理</span>
+                </div>
+                <div class="box-words">
+                  <span class="grey-btn">用户组权限</span>
+                  <span class="grey-btn">用户组追踪</span>
                 </div>
               </div>
-              <div class="login-list-box">
+              <!-- <div class="login-list-box">
                 <div class="box-radio">
                   <img src="@/assets/admin/img/userManager/duzhe.png" />
                 </div>
@@ -57,10 +59,7 @@
                   <span @click="to('/admin_changeAudit','card')" v-if="isAuth('approve:cardClaimList','/admin_changeAudit')">领卡审核</span>
                   <span class="grey-btn" v-else>领卡审核</span>
                 </div>
-                <!-- <div class="box-words">
-                           <span>同步日志</span>
-                        </div> -->
-              </div>
+              </div> -->
               <div class="login-list-box">
                 <div class="box-radio">
                   <img src="@/assets/admin/img/userManager/shuxing.png" />
@@ -78,26 +77,23 @@
                   <span class="grey-btn" v-else>属性组修改审核</span>
                 </div>
               </div>
-
-            </div>
-            <div>
               <div class="login-list-box">
                 <div class="box-radio">
-                  <img src="@/assets/admin/img/userManager/biaoqian.png" />
+                  <img src="@/assets/admin/img/userManager/guanyuan.png" />
                 </div>
-                <div class="box-title">读者分组管理</div>
+                <div class="box-title">馆员管理</div>
                 <div class="box-words">
-                  <!-- <span>标签管理</span> -->
-                  <span @click="to('/admin_userGroupList')" v-if="isAuth('userGroup:list','/admin_userGroupList')">用户组管理</span>
-                  <span class="grey-btn" v-else>用户组管理</span>
-                  <span @click="to('/admin_userTagList')" v-if="isAuth('userTag:list','/admin_userTagList')">标签管理</span>
-                  <span class="grey-btn" v-else>标签管理</span>
-                </div>
-                <div class="box-words">
-                  <span class="grey-btn">用户组权限</span>
-                  <span class="grey-btn">用户组追踪</span>
+                  <span @click="to('/admin_librarianManagement','first')" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员查询</span>
+                  <span class="grey-btn" v-else>馆员查询</span>
+                  <span @click="to('/admin_readerAdd', 'staff')" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</span>
+                  <span class="grey-btn" v-else>新增馆员</span>
+                  <span @click="to('/admin_librarianManagement', 'first', 'dialog_add')" v-if="isAuth('staff:list','/admin_librarianManagement')">新增临时馆员</span>
+                  <span class="grey-btn" v-else>新增临时馆员</span>
+                  <!-- <span @click="to('/admin_librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
                 </div>
               </div>
+            </div>
+            <!-- <div>
               <div class="login-list-box">
                 <div class="box-radio">
                   <img src="@/assets/admin/img/userManager/shezhi.png" />
@@ -110,7 +106,7 @@
                   <span class="grey-btn" v-else>权限管理</span>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <!---content end--->

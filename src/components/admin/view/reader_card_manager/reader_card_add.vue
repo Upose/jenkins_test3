@@ -22,9 +22,6 @@
                     <el-option v-for="item in userList" :key="item.id" :label="item.name+' '+item.phone" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="读者卡号" prop="no">
-                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
                 <!-- <el-form-item label="统一认证号" prop="identityNo">
                   <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item> -->
@@ -34,12 +31,17 @@
                 <el-form-item label="学号/工号" prop="studentNo">
                   <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="读者卡类型" prop="type">
-                  <el-select v-model="cardForm.type" placeholder="请选择" clearable>
-                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+                <div class="row-form">
+                  <el-form-item class="r-f-item1" prop="type">
+                    <el-select v-model="cardForm.type" placeholder="请选择卡类型" clearable>
+                      <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item class="r-f-item2" prop="no">
+                    <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
+                  </el-form-item>
+                </div>
                 <el-form-item label="物理码号" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
@@ -115,6 +117,13 @@ export default {
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging },
   data() {
+    let validateType = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('必选项'));
+      } else {
+        callback();
+      }
+    };
     return {
       id: this.$route.query.id,
       userId: this.$route.query.userId,
@@ -168,9 +177,8 @@ export default {
         ],
         type: [
           {
-            required: true,
-            message: '必填项',
-            trigger: 'blur'
+            validator: validateType,
+            trigger: 'change'
           }
         ]
       },
@@ -331,6 +339,23 @@ export default {
       color: @34395E;
       font-size: 14px;
       margin-left: 20px;
+    }
+  }
+  .row-form{
+    height: 62px;
+    /deep/ .r-f-item1{
+      width: 320px;
+      float: left;
+      .el-form-item__content{
+        margin-left: 107px !important;
+      }
+    }
+     /deep/ .r-f-item2{
+      width: 273px;
+      float: left;
+      .el-form-item__content{
+        margin-left: 0 !important;
+      }
     }
   }
 }

@@ -28,18 +28,23 @@
               </div>
               <div class="reader-middle">
                 <div class="middle-top">
+                  <div class="id">用户id：{{postForm.id}}</div>
                   <span class="names">{{postForm.name}}</span>
-                  <span class="numers">{{postForm.nickName}}</span>
-                  <span class="level">LV{{integralData.level}}</span>
+                  <!-- <span class="numers">{{postForm.nickName}}</span> -->
+                  <!-- <span class="level">LV{{integralData.level}}</span> -->
                   <!-- <span class="async">同步</span> -->
-                </div>
-                <div class="integral">
-                  <span>当前积分：</span>
-                  <span>{{integralData.userScore}}</span>
                 </div>
                 <div class="times">
                   <span>读者来源：</span>
                   <span>{{getKeyValue('User_SourceFrom',postForm.sourceFrom)}}</span>
+                </div>
+                <div class="times lev">
+                  <span>用户等级：</span>
+                  <span class="level">LV{{integralData.level}}</span>
+                </div>
+                <div class="integral">
+                  <span>当前积分：</span>
+                  <span>{{integralData.userScore}}</span>
                 </div>
                 <div class="times">最近登录：{{dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.lastLoginTime)}}</div>
               </div>
@@ -63,7 +68,7 @@
                 <el-tab-pane label="借阅明细" name="fourth">
                   <borrowingDetail :id="id"></borrowingDetail>
                 </el-tab-pane>
-                <el-tab-pane label="授权系统" name="five">
+                <el-tab-pane label="授权信息" name="five">
                   <AuthSystem :id="id"></AuthSystem>
                 </el-tab-pane>
                 <el-tab-pane label="使用日志" name="six">
@@ -363,6 +368,17 @@ export default {
 }
 .middle-top {
   margin-top: 3%;
+  .id{
+    color: #34395e;
+    margin-bottom: 3%;
+    font-size: 14px;
+  }
+}
+.times{
+  .lev{
+    display: block;
+    float: left;
+  }
 }
 .names,
 .numers,

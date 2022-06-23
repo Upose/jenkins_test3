@@ -29,6 +29,7 @@ export default {
 
         'forward-reader-bind-wechat': baseURL + '/api/reader/bind-we-chat', // 用户绑定微信
         'forward-reader-identity-status': baseURL + '/api/reader/reader-identity-status', // 获取用户的认证状态身份证号认证、电话认证、邮箱认证、微信认证
+        'reader-wechat-login-config': baseURL + '/api/reader/wechat-login-config', // 获取微信登录认证设置
 
         '': baseURL + '',//
 
