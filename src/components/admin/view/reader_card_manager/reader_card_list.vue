@@ -12,8 +12,8 @@
           <div class="search-table-w">
             <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav" @click="$router.push('/admin_readerCardSnyc')">同步日志</span></h1>
             <div class="search-term" v-if="dataKey">
-              <div class="search-item-box text">
-                <el-input placeholder="请输入" v-model="searchTextValue" style="width:500px" clearable>
+              <div class="search-item-box">
+                <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
                   <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
                     <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                   </el-select>

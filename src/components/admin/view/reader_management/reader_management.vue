@@ -38,8 +38,8 @@
                   <span>读者来源：</span>
                   <span>{{getKeyValue('User_SourceFrom',postForm.sourceFrom)}}</span>
                 </div>
-                <div class="times lev">
-                  <span>用户等级：</span>
+                <div class="times">
+                  <span class="lev">用户等级：</span>
                   <span class="level">LV{{integralData.level}}</span>
                 </div>
                 <div class="integral">

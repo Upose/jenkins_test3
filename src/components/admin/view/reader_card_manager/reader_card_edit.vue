@@ -114,6 +114,13 @@ export default {
   },
   components: { footerPage, serviceLMenu, breadcrumb, paging },
   data() {
+    let validateType = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('必选项'));
+      } else {
+        callback();
+      }
+    };
     return {
       id: this.$route.query.id,
       userId: this.$route.query.userId,
@@ -162,9 +169,8 @@ export default {
         ],
         type: [
           {
-            required: true,
-            message: '必填项',
-            trigger: 'blur'
+            validator: validateType,
+            trigger: 'change'
           }
         ]
       },

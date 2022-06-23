@@ -17,158 +17,169 @@
             <div class="editdiv">
               <el-form @submit.prevent ref="readerForm" :model="postForm" label-width="140px" class="admin-form" :rules="readerRules">
                 <div class="read-title">读者信息</div>
-                <el-form-item label="读者姓名" prop="name">
-                  <el-input v-model="postForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="昵称" prop="nickName">
-                  <el-input v-model="postForm.nickName" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="单位名称" prop="unit">
-                  <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="性别" prop="gender">
-                  <el-radio-group v-model="postForm.gender" class="radios">
-                    <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
-                  </el-radio-group>
-                </el-form-item>
-                <el-form-item label="学历" prop="edu">
-                  <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
-                    <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="出生日期" prop="birthday">
-                  <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label="职称" prop="title">
-                  <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')">
-                    <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="所在地" prop="addr">
-                  <!-- <el-input v-model="postForm.addr" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input> -->
-                  <el-cascader v-bind="addrList" :options="addrList" v-model="postForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
-                </el-form-item>
-                <el-form-item label="部门" prop="depart">
-                  <!-- <el-select v-model="postForm.depart" placeholder="请选择" clearable>
-                    <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                  </el-select> -->
-                  <el-cascader v-bind="depList" :options="depList" v-model="postForm.depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
-                </el-form-item>
-                <el-form-item label="详细地址" prop="addrDetail">
-                  <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="所在学院" prop="college">
-                  <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
-                    <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="所在系" prop="collegeDepart">
-                  <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')">
-                    <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="最后登录日期" prop="lastLoginTime">
-                  <el-date-picker v-model="postForm.lastLoginTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label="专业" prop="major">
-                  <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
-                    <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="离校日期" prop="leaveTime">
-                  <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
-                  </el-date-picker>
-                </el-form-item>
-                <el-form-item label="年级" prop="grade">
-                  <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
-                    <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="状态" prop="status">
-                  <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
-                    <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="班级" prop="class">
-                  <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
-                    <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="用户类型" prop="type">
-                  <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
-                    <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="头像" prop="photo">
-                  <updateIcon @coverUrl="coverUrl" :cover="postForm.photo"></updateIcon>
-                </el-form-item>
-                <el-form-item label="学工/工号" prop="studentNo">
-                  <el-input v-model="postForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="手机" prop="phone">
-                  <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit @blur="refChangeCardSecret"></el-input>
-                </el-form-item>
-                <el-form-item label="身份证" prop="idCard">
-                  <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email" class="youxiang">
-                  <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
-                  <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
-                  <el-input v-model="item.propertyValue" :min="1" label="label" clearable v-if="item.propertyType == 1" placeholder="请输入"></el-input>
-                  <el-date-picker v-model="item.propertyValue" type="date" clearable placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
-                  <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
-                    <el-radio :label="'true'">是</el-radio>
-                    <el-radio :label="'false'">否</el-radio>
-                  </el-radio-group>
-                  <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.propertyCode)">
-                    <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                    <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.propertyCode).length==200"></el-option>
-                  </el-select>
-                  <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
-                  <div v-if="item.propertyType == 6">
-                    <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
-                      <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
-                      <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
-                    </el-upload>
-                    <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
-                  </div>
-                </el-form-item>
+                <div class="harf-area">
+                  <el-form-item label="读者姓名" prop="name">
+                    <el-input v-model="postForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="单位名称" prop="unit">
+                    <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="学历" prop="edu">
+                    <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
+                      <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="职称" prop="title">
+                    <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')">
+                      <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="部门" prop="depart">
+                    <!-- <el-select v-model="postForm.depart" placeholder="请选择" clearable>
+                      <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select> -->
+                    <el-cascader v-bind="depList" :options="depList" v-model="postForm.depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                  </el-form-item>
+                  <el-form-item label="所在学院" prop="college">
+                    <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
+                      <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="所在系" prop="collegeDepart">
+                    <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')">
+                      <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="专业" prop="major">
+                    <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
+                      <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="年级" prop="grade">
+                    <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
+                      <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="班级" prop="class">
+                    <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
+                      <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="手机" prop="phone">
+                    <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit @blur="refChangeCardSecret"></el-input>
+                  </el-form-item>
+                  <el-form-item label="身份证" prop="idCard">
+                    <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="邮箱" prop="email" class="youxiang">
+                    <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                    <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
+                    <el-input v-model="item.propertyValue" :min="1" label="label" clearable v-if="item.propertyType == 1" placeholder="请输入"></el-input>
+                    <el-date-picker v-model="item.propertyValue" type="date" clearable placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+                    <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
+                      <el-radio :label="'true'">是</el-radio>
+                      <el-radio :label="'false'">否</el-radio>
+                    </el-radio-group>
+                    <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.propertyCode)">
+                      <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.propertyCode).length==200"></el-option>
+                    </el-select>
+                    <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                    <div v-if="item.propertyType == 6">
+                      <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
+                        <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
+                      </el-upload>
+                      <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
+                    </div>
+                  </el-form-item>
+                </div>
+                <div class="harf-area">
+                  <el-form-item label="昵称" prop="nickName">
+                    <el-input v-model="postForm.nickName" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="性别" prop="gender">
+                    <el-radio-group v-model="postForm.gender" class="radios">
+                      <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="出生年月" prop="birthday">
+                    <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="所在地" prop="addr">
+                    <!-- <el-input v-model="postForm.addr" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input> -->
+                    <el-cascader v-bind="addrList" :options="addrList" v-model="postForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                  </el-form-item>
+                  <el-form-item label="详细地址" prop="addrDetail">
+                    <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="最后登录日期" prop="lastLoginTime">
+                    <el-date-picker v-model="postForm.lastLoginTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="离校日期" prop="leaveTime">
+                    <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="状态" prop="status">
+                    <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
+                      <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="用户类型" prop="type">
+                    <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
+                      <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="头像" prop="photo">
+                    <updateIcon @coverUrl="coverUrl" :cover="postForm.photo"></updateIcon>
+                  </el-form-item>
+                </div>
               </el-form>
-
             </div>
             <div class="card-box">
               <el-form ref="cardForm" :model="cardForm" label-width="120px" :rules="cardRules">
                 <div class="read-title">读者卡信息</div>
-                <el-form-item label="读者卡号" prop="no">
-                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                <el-form-item label="学工/工号" prop="studentNo">
+                  <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="统一认证号" prop="identityNo">
+                <div class="row-form">
+                  <el-form-item prop="type" class="r-f-item1">
+                    <el-select v-model="cardForm.type" placeholder="请选择" clearable>
+                      <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item prop="no" class="r-f-item2">
+                    <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                  </el-form-item>
+                </div>
+                <!-- <el-form-item label="统一认证号" prop="identityNo">
                   <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="条形码号" prop="barCode">
+                </el-form-item> -->
+                <!-- <el-form-item label="条形码号" prop="barCode">
                   <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="物理码号" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
@@ -190,11 +201,8 @@
                 <el-form-item label="押金" prop="deposit">
                   <el-input v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="卡类型" prop="type">
-                  <el-select v-model="cardForm.type" placeholder="请选择" clearable>
-                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                  </el-select>
+                <el-form-item label="设为主卡">
+                  <el-switch v-model="cardForm.isPrincipal"></el-switch>
                 </el-form-item>
               </el-form>
             </div>
@@ -224,6 +232,13 @@ export default {
   name: 'index',
   components: { footerPage, serviceLMenu, breadcrumb, paging, updateIcon },
   data() {
+    let validateType = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error('必选项'));
+      } else {
+        callback();
+      }
+    };
     return {
       renderIndex: 0,
       postForm: {
@@ -315,9 +330,8 @@ export default {
         ],
         type: [
           {
-            required: true,
-            message: '必填项',
-            trigger: 'blur'
+            validator: validateType,
+            trigger: 'change'
           }
         ]
       },
@@ -457,7 +471,7 @@ export default {
             if (this.$route.query.type == 'staff') {
               requestKey = 'user-staff';
             }
-            http.postJson(requestKey, { userData: this.postForm, cardData: {...this.cardForm, studentNo: this.postForm.studentNo}}).then(res => {
+            http.postJson(requestKey, { userData: {...this.postForm, studentNo: this.cardForm.studentNo}, cardData: this.cardForm}).then(res => {
               this.$message({ message: this.dataKey.needApprove && this.$route.query.type != 'staff' ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
               this.$router.replace('/admin_readerList');
             }).catch(err => {
@@ -491,6 +505,27 @@ export default {
       color: @34395E;
       font-size: 14px;
       margin-left: 20px;
+    }
+  }
+  .row-form{
+    width: 100%;
+    height: 62px;
+    padding: 0;
+    display: inline-block;
+    vertical-align: top;
+    /deep/ .r-f-item1{
+      width: 49%;
+      float: left;
+      .el-form-item__content{
+        margin-left: 40px !important;
+      }
+    }
+    /deep/ .r-f-item2{
+      width: 50%;
+      float: left;
+      .el-form-item__content{
+        margin-left: 0 !important;
+      }
     }
   }
 }
@@ -628,6 +663,10 @@ export default {
   width: 60%;
   display: inline-block;
   vertical-align: top;
+  .harf-area{
+    width: 49%;
+    float: left;
+  }
 }
 .editdiv ul {
   list-style-type: none;
@@ -769,7 +808,7 @@ export default {
   min-width: 500px;
 }
 .editdiv /deep/ .el-form-item {
-  width: 49%;
+  width: 100%;
   display: table;
   padding: 0;
   // float: left;
@@ -790,7 +829,7 @@ export default {
   float: left;
 }
 /deep/ .el-form-item__content {
-  line-height: 1;
+  line-height: 39px;
 }
 /deep/ .el-cascader {
   width: 100%;

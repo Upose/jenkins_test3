@@ -98,6 +98,7 @@ export default {
         'group-users': baseURL + '/api/user-group/group-users',//删除用户到用户组1103
         'user-to-group': baseURL + '/api/user-group/user-to-group',//添加用户到用户组
         'user-group-brief-info': baseURL + '/api/user-group/group-brief-info',//获取用户组简要信息
+        'user-tag-table-data': baseURL + '/api/user-tag/table-data', // 查询标签列表
 
         'set-init-data': baseURL + '/api/basic-config/init-data',//获取初始化数据
         'basic-config': baseURL + '/api/basic-config/basic-config',//获取用户配置信息

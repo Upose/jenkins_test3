@@ -267,6 +267,7 @@ export default {
       })
     },
     changeSearchTermShow() {
+      console.log(this.selectProperties, this.textProperties)
       if (this.selectProperties.length) {
         if (this.searchTermWidth == 1100 && this.selectProperties.length > 6) {
           this.selectPropLen = 12;
@@ -285,9 +286,11 @@ export default {
           this.showDateRange = false;
         } else if (this.textProperties.length > 0) {
           this.showSearchTermMore = this.dateRangeProperties.length > 0;
+          this.selectPropLen = 18;
           this.showSearchText = true;
           this.showDateRange = false;
         } else if (this.dateRangeProperties.length > 0) {
+          this.selectPropLen = 18;
           this.showSearchTermMore = false;
           this.showSearchText = false;
           this.showDateRange = true;
@@ -590,9 +593,9 @@ export default {
       return '';
     },
     searchTextCodeChange(val) {
-      let curContent = this.textProperties.find(item => item.code == val+'1') || {};
+      let curContent = this.textProperties.find(item => item.code == val) || {};
       this.searchTextcondition1 = curContent.searchType || 0;
-      console.log(curContent, this.searchTextcondition1)
+      console.log(val, this.textProperties, curContent, this.searchTextcondition1)
     },
   },
 }
@@ -610,46 +613,53 @@ export default {
   &.text {
     width: 100%;
   }
-}
-.search-item {
-  width: 150px;
-  display: inline-block;
-  margin-right: 4px;
-
-  /deep/ .el-date-editor.el-input,
-  .el-input__inner {
+  .search-item {
     width: 150px;
-  }
-}
-.date-checkbox {
-  width: 400px;
-  display: flex;
-  align-items: center;
-  // display: inline-block;
-
-  /deep/ .el-select {
-    width: 130px;
-    color: #909399;
-
+    display: inline-block;
+    margin-right: 4px;
+    /deep/ .el-select{
+      width: 150px;
+    }
+    /deep/ .el-date-editor.el-input,
     .el-input__inner {
-      background: #f5f7fa;
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border: 1px solid #e4e6fc !important;
-      border-right: 0;
-      color: #909399;
-    }
-  }
-  /deep/ .el-date-editor {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    width: 270px;
-
-    .el-range-separator {
-      width: 30px;
+      width: 150px;
     }
   }
 }
+.search-item-box{
+  .search-item{
+    .date-checkbox {
+      width: 400px;
+      display: flex;
+      align-items: center;
+      // display: inline-block;
+
+      /deep/ .el-select {
+        width: 130px;
+        color: #909399;
+
+        .el-input__inner {
+          background: #f5f7fa;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border: 1px solid #e4e6fc !important;
+          border-right: 0;
+          color: #909399;
+        }
+      }
+      /deep/ .el-date-editor {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        width: 270px;
+
+        .el-range-separator {
+          width: 30px;
+        }
+      }
+    }
+  }
+}
+
 .w400 {
   width: 400px;
 }
