@@ -17,6 +17,7 @@
               <div class="check-box">
                 <span :class="check_num == 'base' ? 'active' : ''" @click="checkClick('base')">基础设置</span>
                 <span :class="check_num == 'auth' ? 'active' : ''" @click="checkClick('auth')">权限管理</span>
+                <span :class="check_num == 'safe' ? 'active' : ''" @click="checkClick('safe')">安全设置</span>
               </div>
             </div>
           </div>
@@ -29,6 +30,10 @@
           <!-- 内容 -->
           <div class="table-w" v-show="check_num == 'auth'">
             <bauthSet></bauthSet>
+          </div>
+          <!-- 安全 -->
+          <div class="table-w" v-show="check_num == 'safe'">
+            <SafeSet></SafeSet>
           </div>
           <!--管理页列表 end--->
         </div>
@@ -48,6 +53,7 @@ import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 import baseSet from './base_set';
 import bauthSet from './auth_set';
+import SafeSet from './safe-set.vue';
 
 export default {
   name: "index",
@@ -57,7 +63,7 @@ export default {
     //   this.$forceUpdate();
     // });
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging,baseSet,bauthSet  },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, baseSet, bauthSet, SafeSet },
   data() {
     return {
       check_num: "base",

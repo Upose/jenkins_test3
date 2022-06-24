@@ -39,7 +39,7 @@
               <el-form-item label="是否必填">
                 <el-switch v-model="postForm.required"></el-switch>
               </el-form-item>
-              <el-form-item label="是否唯一">
+              <el-form-item label="是否唯一" v-if="postForm.type==0||postForm.type==1">
                 <el-switch v-model="postForm.unique"></el-switch>
               </el-form-item>
               <el-form-item>

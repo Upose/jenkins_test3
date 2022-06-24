@@ -26,13 +26,13 @@
       <div class="set-item" v-if="form.weChatOpenId">
         <span class="img big"><img src="../../../../../../assets/web/img/wex.png" alt=""></span>
         <span class="name">微信账号</span>
-        <!-- <span class="content">9398574664773378</span> -->
+        <span class="content">{{form.WeChatNickName}}</span>
         <!-- <span class="use">解除绑定</span> -->
       </div>
       <div class="set-item" v-if="form.QQOpenId">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
         <span class="name">QQ账号</span>
-        <!-- <span class="content">9398574664773378</span> -->
+        <span class="content">{{form.QQNickName}}</span>
         <!-- <span class="use">立即设置</span> -->
       </div>
     </template>

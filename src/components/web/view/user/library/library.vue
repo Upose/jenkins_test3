@@ -33,7 +33,7 @@
                   <img src="../../../../../assets/web/img/personal/icon-qq.png" alt="">
                   未认证
                 </span>
-                <span  @click="wxBind">
+                <span @click="wxBind">
                   <img src="../../../../../assets/web/img/personal/icon-wx.png" alt="">
                   {{identityList.weChatIdentity?'已认证':'未认证'}}
                 </span>
@@ -64,14 +64,14 @@
                   </div> -->
                   <div class="list">
                     <div class="list-item">
-                      <div class="type-name">工作证号</div>
+                      <div class="type-name">姓名</div>
                       <div class="kname" :title="principal.userName">
                         {{principal.userName}}
                       </div>
                     </div>
                     <i class="card-line"></i>
                     <div class="list-item">
-                      <div class="type-name">统一认证号</div>
+                      <div class="type-name">读者卡号</div>
                       <div class="kname" :title="principal.no">
                         {{principal.no}}
                       </div>
