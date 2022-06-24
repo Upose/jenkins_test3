@@ -11,6 +11,7 @@
         <el-radio-group v-model="postForm.exportType">
           <el-radio :label="0">导出全部结果列表</el-radio>
           <el-radio :label="1">导出当前结果页</el-radio>
+          <el-radio :label="2">导出全部读者</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -77,11 +78,19 @@ export default {
     },
     // 确认
     sub() {
+      if ((this.postForm.exportType == 0 || this.postForm.exportType == 1) && !this.postForm.properties.length) {
+        this.$message.warning('请先勾选导出字段！');
+        return;
+      }
       let url = this.type == 'reader' ? 'export-user-data-brief-info' : 'export-card-data-brief-info';
       let parms = this.postForm.exportType == 1 ? { ...this.postForm, ...this.searchForm, ...this.pageData } : { ...this.postForm, ...this.searchForm, pageIndex: this.curPageIndex }
       http.postJson(url, parms).then(res => {
         this.exportData = res.data;
         if (this.postForm.exportType == 0) {
+          this.curPageIndex == 1;
+          this.innerVisible = true;
+        } else if (this.postForm.exportType == 2) {
+          this.curPageIndex == 1;
           this.innerVisible = true;
         } else {
           this.submitForm();
@@ -110,13 +119,15 @@ export default {
       http.importFile(url, parms, name).then(res => {
         loading.close();
         this.$message({ message: '导出成功！', type: 'success' });
-        if (this.postForm.exportType == 0 && this.exportData.totalPages > this.curPageIndex) {
+        if ((this.postForm.exportType == 0 || this.postForm.exportType == 2) && this.exportData.totalPages > this.curPageIndex) {
           this.curPageIndex += 1;
         } else {
+          loading.close();
           this.innerVisible = false;
           this.dialogVisible = false;
         }
       }).catch(err => {
+        loading.close();
         this.$message({ type: 'error', message: '导出失败!' });
       })
     },

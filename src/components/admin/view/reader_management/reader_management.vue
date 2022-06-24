@@ -15,7 +15,7 @@
             <span class="zwhy" @click="handleChange">转为馆员</span> -->
             <div class="right-btn-box">
               <el-button v-if="showToStaff&&isAuth('reader:batchSetAsStaff')" size="medium" type="primary" class="admin-red-btn" @click="handleChange">转为馆员</el-button>
-              <el-button disabled type="primary" size="medium" class="blue-btn" @click="handAdd">发送消息</el-button>
+              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend">发送消息</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
@@ -27,22 +27,26 @@
                 <img src="@/assets/admin/img/userManager/touxiang.jpg" v-else />
               </div>
               <div class="reader-middle">
-                <div class="middle-top">
-                  <div class="id">用户id：{{postForm.id}}</div>
+                <div>
+                  <!-- <div class="id">用户id：{{postForm.userKey}}</div> -->
                   <span class="names">{{postForm.name}}</span>
                   <!-- <span class="numers">{{postForm.nickName}}</span> -->
                   <!-- <span class="level">LV{{integralData.level}}</span> -->
                   <!-- <span class="async">同步</span> -->
                 </div>
                 <div class="times">
+                  <span>用户id：</span>
+                  <span>{{postForm.userKey}}</span>
+                </div>
+                <div class="times">
                   <span>读者来源：</span>
                   <span>{{getKeyValue('User_SourceFrom',postForm.sourceFrom)}}</span>
                 </div>
-                <div class="times">
+                <div class="times" v-if="integralData">
                   <span class="lev">用户等级：</span>
                   <span class="level">LV{{integralData.level}}</span>
                 </div>
-                <div class="integral">
+                <div class="integral" v-if="integralData">
                   <span>当前积分：</span>
                   <span>{{integralData.userScore}}</span>
                 </div>
@@ -62,7 +66,7 @@
                 <el-tab-pane label="证件信息" name="second">
                   <Certificate :id="id" v-if="activeName=='second'"></Certificate>
                 </el-tab-pane>
-                <el-tab-pane label="积分明细" name="third">
+                <el-tab-pane label="积分明细" name="third" v-if="integralData">
                   <Intergral :id="id" :userKey="postForm.userKey" v-if="activeName=='third'"></Intergral>
                 </el-tab-pane>
                 <el-tab-pane label="借阅明细" name="fourth">
@@ -130,7 +134,7 @@ export default {
       },
       activeName: "first",
       showToStaff: true,
-      integralData: {},
+      integralData: null,
 
       imgPath: localStorage.getItem('fileUrl'),//图片域名前缀
     }
@@ -208,6 +212,11 @@ export default {
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败!') });
       })
+    },
+    // 发送消息
+    handleSend() {
+      let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == 'noticecenter');
+      location.href = info.path + '/noticecenter/#/admin_messageCreate?userId=' + this.id;
     },
     // 时间格式化
     dateChangeFormat(format, date) {
@@ -369,14 +378,14 @@ export default {
 }
 .middle-top {
   margin-top: 3%;
-  .id{
+  .id {
     color: #34395e;
     margin-bottom: 3%;
     font-size: 14px;
   }
 }
-.times{
-  .lev{
+.times {
+  .lev {
     display: block;
     float: left;
   }
@@ -390,6 +399,7 @@ export default {
   margin-right: 2%;
 }
 .names {
+  float: none;
   font-size: 18px !important;
   font-weight: bold;
   color: #34395e;

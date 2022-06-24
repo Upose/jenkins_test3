@@ -7,7 +7,11 @@
           <router-link class="xinzeng" :to="{path:'/admin_attributeDepManager'}">新增</router-link>
         </div>
         <div class="left-box">
-          <el-tree :data="checkDep" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true"></el-tree>
+          <el-tree :data="checkDep" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true" node-key="id">
+            <span slot-scope="{node,data}">
+              {{data.name}}{{data.count?'('+data.count+'人)':''}}
+            </span>
+          </el-tree>
         </div>
       </div>
       <div class="librarianList-right">
@@ -38,6 +42,7 @@
           <div>
             <el-table v-loading="loading" :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="45" align="center"></el-table-column>
+              <el-table-column label="序号" type="index" prop="index" align="center" show-overflow-tooltip width="50"></el-table-column>
               <el-table-column label="姓名" prop="name" align="center" show-overflow-tooltip></el-table-column>
               <el-table-column label="工号" prop="studentNo" align="center" show-overflow-tooltip></el-table-column>
               <el-table-column label="部门" prop="departName" align="left" show-overflow-tooltip></el-table-column>
@@ -158,7 +163,7 @@ export default {
     },
     // 获取部门
     getDepa() {
-      http.getJson('org-list').then(res => {
+      http.getJson('org-count-list').then(res => {
         this.departList = res.data;
         this.checkDep = [{ name: '全部', fullPath: '' }, ...res.data]
       }).catch(err => {

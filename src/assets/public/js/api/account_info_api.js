@@ -6,6 +6,7 @@ var baseURL = '/usermanage';//请求前端地址
 export default {
     postUrl: {
         'forward-reader-info': baseURL + '/api/reader/reader-info',//读者获取自己的读者信息 编辑读者自己的属性信息
+        'forward-reader-account-info': baseURL + '/api/reader/reader-account-info',//读者获取自己的读者信息 编辑读者自己的属性信息 新
         'forward-send-mobile-verfiy-code': baseURL + '/api/reader/send-mobile-verfiy-code',//发送手机验证码
         'forward-bind-mobile-and-code': baseURL + '/api/reader/bind-mobile-and-code',//绑定手机号码
         'forward-send-email-verify-code': baseURL + '/api/reader/send-email-verify-code',//发送邮箱验证码

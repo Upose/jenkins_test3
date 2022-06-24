@@ -21,19 +21,21 @@
       <span class="use" @click="$refs.emil.show()" v-if="!isEdit('User_Email')">修改邮箱</span>
     </div>
 
-    <!-- <h1>社交账号绑定</h1>
-    <div class="set-item">
-      <span class="img big"><img src="../../../../../../assets/web/img/wex.png" alt=""></span>
-      <span class="name">微信账号</span>
-      <span class="content">9398574664773378</span>
-      <span class="use">解除绑定</span>
-    </div>
-    <div class="set-item">
-      <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
-      <span class="name">QQ账号</span>
-      <span class="content">9398574664773378</span>
-      <span class="use">立即设置</span>
-    </div> -->
+    <template v-if="form.weChatOpenId || form.QQOpenId">
+      <h1>社交账号绑定</h1>
+      <div class="set-item" v-if="form.weChatOpenId">
+        <span class="img big"><img src="../../../../../../assets/web/img/wex.png" alt=""></span>
+        <span class="name">微信账号</span>
+        <!-- <span class="content">9398574664773378</span> -->
+        <!-- <span class="use">解除绑定</span> -->
+      </div>
+      <div class="set-item" v-if="form.QQOpenId">
+        <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
+        <span class="name">QQ账号</span>
+        <!-- <span class="content">9398574664773378</span> -->
+        <!-- <span class="use">立即设置</span> -->
+      </div>
+    </template>
 
     <!-- 弹窗组件 -->
     <set_phone ref="set_phone" @change="getInfo"></set_phone>
@@ -74,7 +76,7 @@ export default {
     },
     // 获取用户信息
     getInfo() {
-      this.http.getJson('forward-reader-info').then((res) => {
+      this.http.getJson('forward-reader-account-info').then((res) => {
         this.form = res.data;
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });

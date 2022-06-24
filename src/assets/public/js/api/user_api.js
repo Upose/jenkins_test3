@@ -133,6 +133,7 @@ export default {
 
 
         'org-list': baseURL + '/api/property-group/org-list',//获取组织机构
+        'org-count-list': baseURL + '/api/property-group/org-count-list',//获取组织机构-带部门人数
         'org': baseURL + '/api/property-group/org',//创建、修改、删除组织机构
 
         'region-list': baseURL + '/api/property-group/region-list',//获取地址

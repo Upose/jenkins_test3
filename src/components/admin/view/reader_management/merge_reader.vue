@@ -278,22 +278,29 @@ export default {
     },
     // 确认并合并
     handleMerge() {
+      this.$confirm('读者信息合并过程不可逆转，请谨慎操作。是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        http.postJson('merge-user-info', { ...this.userData, userIds: userIds }).then(res => {
+          this.$message({ type: 'success', message: '合并成功!' });
+          if (this.userId) {
+            // this.$router.replace({ path: '/admin_readerManagement', query: { id: res.data } })
+            this.$route.query.newId = res.data;
+            this.$router.back();
+          } else {
+            this.$router.back();
+          }
+
+        }).catch(err => {
+          this.$message({ type: 'error', message: '合并失败!' });
+        })
+      }).catch(() => { })
       let userIds = this.tableData.map(item => {
         return item.id;
       })
-      http.postJson('merge-user-info', { ...this.userData, userIds: userIds }).then(res => {
-        this.$message({ type: 'success', message: '合并成功!' });
-        if (this.userId) {
-          // this.$router.replace({ path: '/admin_readerManagement', query: { id: res.data } })
-          this.$route.query.newId = res.data;
-          this.$router.back();
-        } else {
-          this.$router.back();
-        }
 
-      }).catch(err => {
-        this.$message({ type: 'error', message: '合并失败!' });
-      })
     }
   },
 }

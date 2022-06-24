@@ -482,7 +482,7 @@ export default {
           if (this.id) {
             http.postJson('with-merge', this.postForm).then(res => {
               if (!res.data.success) {
-                this.$confirm('该手机账号已被占用，是否需要将读者进行合并操作。合并过程不可逆转，请谨慎操作！', '提示', {
+                this.$confirm('该手机账号已被占用，是否需要将读者进行合并操作！', '提示', {
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
                   type: 'warning'
@@ -660,7 +660,7 @@ export default {
 .editdiv {
   width: 65%;
   float: left;
-  .harf-area{
+  .harf-area {
     width: 49%;
     float: left;
   }
@@ -707,8 +707,8 @@ export default {
     border-color: #6777ef;
     color: #6777ef;
   }
-  &.user-tag{
-    span{
+  &.user-tag {
+    span {
       cursor: auto;
     }
     .imgs {
@@ -865,25 +865,25 @@ export default {
   display: inline-block;
   vertical-align: top;
 }
-.el-form{
-  .sides{
-    .pictures{
+.el-form {
+  .sides {
+    .pictures {
       width: 40px;
       height: 40px;
       margin-right: 6px;
       cursor: pointer;
     }
   }
-  .unbind{
-      text-align: left;
-      vertical-align: middle;
-      float: left;
-      font-size: 14px;
-      color: #666;
-      line-height: 40px;
-      padding: 0 12px 0 0;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
+  .unbind {
+    text-align: left;
+    vertical-align: middle;
+    float: left;
+    font-size: 14px;
+    color: #666;
+    line-height: 40px;
+    padding: 0 12px 0 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
   }
 }
 </style>

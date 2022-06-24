@@ -149,10 +149,10 @@ export default {
       textcondition1: [{
         val: 1,
         label: '模糊'
-      },{
+      }, {
         val: 2,
         label: '精确'
-      },{
+      }, {
         val: 3,
         label: '前向'
       }],
@@ -176,7 +176,7 @@ export default {
     window.removeEventListener("resize", this.visibleAreaWidth, true);
   },
   methods: {
-    visibleAreaWidth(){
+    visibleAreaWidth() {
       let fullWidth = document.documentElement.clientWidth;
       if (fullWidth > 1900) {
         this.searchTermWidth = 1520;
@@ -561,16 +561,11 @@ export default {
         })
         return;
       }
-      this.$confirm('读者信息合并过程不可逆转，请谨慎操作。是否继续？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let list = this.multipleSelection.map(item => {
-          return item.id;
-        });
-        this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
-      }).catch(() => { })
+      let list = this.multipleSelection.map(item => {
+        return item.id;
+      });
+      this.$router.push({ path: '/admin_mergeReader', query: { list: JSON.stringify(list) } })
+
     },
     /** 新增读者 */
     handAdd() {
@@ -604,7 +599,7 @@ export default {
 <style lang="less" scoped>
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
-.search-table-general{
+.search-table-general {
   min-width: 1100px;
 }
 .search-item-box {
@@ -617,7 +612,7 @@ export default {
     width: 150px;
     display: inline-block;
     margin-right: 4px;
-    /deep/ .el-select{
+    /deep/ .el-select {
       width: 150px;
     }
     /deep/ .el-date-editor.el-input,
@@ -626,11 +621,11 @@ export default {
     }
   }
 }
-.search-item-box{
-  &.date-item-box{
+.search-item-box {
+  &.date-item-box {
     width: 400px;
   }
-  .search-item{
+  .search-item {
     .date-checkbox {
       width: 400px;
       display: flex;
