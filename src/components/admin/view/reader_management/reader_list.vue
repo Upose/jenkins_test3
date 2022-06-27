@@ -77,12 +77,12 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item">
+                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.width?item.width:130" v-for="item in dataKey.showOnTableProperties" :key="item">
                   <template slot-scope="scope">
                     <span @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="content" label="操作" fixed="right" width="260" align="center">
+                <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('reader:delete')">删除</el-button>
                     <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('reader:detail')">查看</el-button>
@@ -337,8 +337,9 @@ export default {
     },
     //获取列宽
     getColumnWidth(property) {
+      console.log(property)
       var width = '110px';
-      switch (property.type) {
+      switch (property.code) {
         case 0:
         case 4:
         case 5:

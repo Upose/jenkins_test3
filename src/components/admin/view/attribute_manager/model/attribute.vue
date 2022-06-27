@@ -31,16 +31,16 @@
         <el-table-column prop="showOnTable" label="列表是否展示" align="center" v-if="isAuth('property:update')">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.showOnTable?'是':'否'}}</span> -->
-            <span>
-              <el-switch v-model="scope.row.showOnTable" @change="handleCangeShow(scope.row)" :disabled="!scope.row.showOnTableSwitch"></el-switch>
+            <span v-if="scope.row.showOnTableSwitch">
+              <el-switch v-model="scope.row.showOnTable" @change="handleCangeShow(scope.row)"></el-switch>
             </span>
           </template>
         </el-table-column>
         <el-table-column prop="canSearch" label="是否可检索" align="center" v-if="isAuth('property:update')">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.canSearch?'是':'否'}}</span> -->
-            <span v-if="scope.row.sysBuildIn == 1">
-              <el-switch v-model="scope.row.canSearch" @change="handleCangeSearch(scope.row)" :disabled="!scope.row.canSearchSwitch"></el-switch>
+            <span v-if="scope.row.sysBuildIn == 1 && scope.row.canSearchSwitch">
+              <el-switch v-model="scope.row.canSearch" @change="handleCangeSearch(scope.row)"></el-switch>
             </span>
           </template>
         </el-table-column>

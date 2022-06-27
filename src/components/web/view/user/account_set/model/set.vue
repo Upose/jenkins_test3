@@ -26,9 +26,9 @@
       <div class="set-item">
         <span class="img big"><img src="../../../../../../assets/web/img/wex.png" alt=""></span>
         <span class="name">微信账号</span>
-        <span class="content" v-if="form.weChatOpenId">{{form.WeChatNickName}}</span>
-        <span class="use" v-if="form.weChatOpenId">解除绑定</span>
-        <span class="use" v-else>立即设置</span>
+        <span class="content" v-if="form.weChatOpenId">{{form.weChatNickName}}</span>
+        <span class="use" @click="unwxBindHandle" v-if="form.weChatOpenId">解除绑定</span>
+        <span class="use" @click="wxBindList" v-else>立即设置</span>
       </div>
       <div class="set-item" v-if="form.QQOpenId">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
@@ -43,6 +43,7 @@
     <set_phone ref="set_phone" @change="getInfo"></set_phone>
     <emil ref="emil" @change="getInfo"></emil>
     <set_idCard ref="set_idCard" @change="getInfo"></set_idCard>
+    <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code>
   </div>
 </template>
 
@@ -50,15 +51,17 @@
 import set_phone from '@/components/web/view/user/account_set/model/dialog/set_phone'
 import emil from '@/components/web/view/user/account_set/model/dialog/emil'
 import set_idCard from '@/components/web/view/user/account_set/model/dialog/set_idCard'
+import dialog_code from '@/components/web/view/user/account_set/model/dialog_code';
 export default {
   name: "index",
   props: {},
-  components: { set_phone, emil, set_idCard },
+  components: { set_phone, emil, set_idCard, dialog_code },
   data() {
     return {
       form: {},
       dataKey: null,
-      updateReaderInfo: false
+      updateReaderInfo: false,
+      wechatConfig: {},
     };
   },
   created() {
@@ -66,14 +69,58 @@ export default {
     this.getKey();
     this.checkModifyReaderPermit();
   },
-  mounted() { },
+  mounted() {
+    if (this.$route.query.bind) {
+      this.wxBindList();
+    }
+    if (this.$route.query.weChatNickName && this.$route.query.openId) {
+      this.wxBindHandle();
+    }
+  },
   methods: {
+    // 绑定信息
+    wxBindList() {
+      this.http.getJson('reader-wechat-login-config').then((res) => {
+        this.wechatConfig = res.data;
+        setTimeout(() => {
+          // 二维码
+          this.$refs.dialog_code.show();
+        }, 100)
+      }).catch((err) => {
+        this.$message({ type: "error", message: "获取微信登录认证设置失败!" });
+      });
+    },
+    // 绑定用户到后端
+    wxBindHandle() {
+      let datas = {
+        openId: this.$route.query.openId,
+        weChatNickName: this.$route.query.weChatNickName,
+      };
+      this.http.postJson('forward-reader-bind-wechat', datas).then((res) => {
+        this.$message({ type: "success", message: "用户绑定微信成功!" });
+      }).catch((err) => {
+        this.$message({ type: "error", message: "用户绑定微信失败!" });
+      });
+    },
+    // 解除绑定
+    unwxBindHandle() {
+      let datas = {
+        openId: this.form.weChatOpenId,
+        unionId: this.form.weChatUnionId,
+        weChatNickName: this.form.weChatNickName,
+      };
+      this.http.postJson('reader-un-bound-we-chat', datas).then((res) => {
+        this.$message({ type: "success", message: "解除微信绑定成功!" });
+      }).catch((err) => {
+        this.$message({ type: "error", message: "解除微信绑定失败!" });
+      });
+    },
     // 获取用户信息
     getKey() {
       this.http.getJson('forward-init-data').then((res) => {
         this.dataKey = res.data;
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取读者信息失败!" });
+        this.$message({ type: "error", message: err.errors?err.errors:"获取读者信息失败!" });
       });
     },
     // 获取用户信息

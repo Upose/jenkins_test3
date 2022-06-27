@@ -43,6 +43,8 @@ export default {
     document.title = '账号设置-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
     this.tab = this.$route.query.tab ? this.$route.query.tab : 'info';
+
+    
   },
   methods: {
 
