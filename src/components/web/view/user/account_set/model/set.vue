@@ -21,19 +21,21 @@
       <span class="use" @click="$refs.emil.show()" v-if="!isEdit('User_Email')">修改邮箱</span>
     </div>
 
-    <template v-if="form.weChatOpenId || form.QQOpenId">
+    <template>
       <h1>社交账号绑定</h1>
-      <div class="set-item" v-if="form.weChatOpenId">
+      <div class="set-item">
         <span class="img big"><img src="../../../../../../assets/web/img/wex.png" alt=""></span>
         <span class="name">微信账号</span>
-        <span class="content">{{form.WeChatNickName}}</span>
-        <!-- <span class="use">解除绑定</span> -->
+        <span class="content" v-if="form.weChatOpenId">{{form.WeChatNickName}}</span>
+        <span class="use" v-if="form.weChatOpenId">解除绑定</span>
+        <span class="use" v-else>立即设置</span>
       </div>
       <div class="set-item" v-if="form.QQOpenId">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
         <span class="name">QQ账号</span>
-        <span class="content">{{form.QQNickName}}</span>
-        <!-- <span class="use">立即设置</span> -->
+        <span class="content" v-if="form.QQOpenId">{{form.QQNickName}}</span>
+        <!-- <span class="use" v-if="form.weChatOpenId">解除绑定</span> -->
+        <!-- <span class="use" v-else>立即设置</span> -->
       </div>
     </template>
 
