@@ -243,7 +243,7 @@ export default {
       renderIndex: 0,
       postForm: {
         gender: '男',
-        type: null
+        type: null,
       },
       cardForm: {},
       dataKey: null,
@@ -388,6 +388,8 @@ export default {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
         this.postForm = this.dataKey.userData || {};
+        this.postForm.photo = '/public/image/default-user-head/default-user-head.png';
+
         this.cardForm = this.dataKey.cardData || { secret: '' };
         // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
         res.data.groupSelect.forEach(item => {
@@ -471,7 +473,7 @@ export default {
             if (this.$route.query.type == 'staff') {
               requestKey = 'user-staff';
             }
-            http.postJson(requestKey, { userData: {...this.postForm, studentNo: this.cardForm.studentNo}, cardData: this.cardForm}).then(res => {
+            http.postJson(requestKey, { userData: { ...this.postForm, studentNo: this.cardForm.studentNo }, cardData: this.cardForm }).then(res => {
               this.$message({ message: this.dataKey.needApprove && this.$route.query.type != 'staff' ? '已新增成功，请等待审核！' : '新增成功！', type: 'success' });
               this.$router.replace('/admin_readerList');
             }).catch(err => {
@@ -507,23 +509,23 @@ export default {
       margin-left: 20px;
     }
   }
-  .row-form{
+  .row-form {
     width: 100%;
     height: 62px;
     padding: 0;
     display: inline-block;
     vertical-align: top;
-    /deep/ .r-f-item1{
+    /deep/ .r-f-item1 {
       width: 49%;
       float: left;
-      .el-form-item__content{
+      .el-form-item__content {
         margin-left: 40px !important;
       }
     }
-    /deep/ .r-f-item2{
+    /deep/ .r-f-item2 {
       width: 50%;
       float: left;
-      .el-form-item__content{
+      .el-form-item__content {
         margin-left: 0 !important;
       }
     }
@@ -663,7 +665,7 @@ export default {
   width: 60%;
   display: inline-block;
   vertical-align: top;
-  .harf-area{
+  .harf-area {
     width: 49%;
     float: left;
   }

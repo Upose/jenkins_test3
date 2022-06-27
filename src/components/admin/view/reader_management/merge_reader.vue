@@ -13,20 +13,20 @@
             <h1 class="search-title">合并读者</h1>
             <div class="user-top-box">
               <span>已选择<span class="color-g">{{userNumber}}个</span>读者，是否合并读者信息？</span>
-              <el-button type="primary" @click="handleMerge">确认并合并</el-button>
+              <el-button type="primary" @click="handleMerge" style="margin-left:45px">确认并合并</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
           <div class="table-w">
             <div class="t-p">
               <div class="coml-body">
-                <div class="coml-box" style="width:80px">
+                <div class="coml-box" style="width:200px;min-width:200px;">
                   <div v-loading="loading" class="el-table admin-table el-table--fit el-table--border el-table--enable-row-hover el-table--enable-row-transition">
                     <div class="el-table__header-wrapper">
                       <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 1573px;">
                         <thead class="has-gutter">
                           <tr class="">
-                            <th class="is-center is-leaf" style="height:120px">
+                            <th class="is-center is-leaf" style="height:205px">
                               <div class="cell">读者卡</div>
                             </th>
                           </tr>
@@ -38,7 +38,7 @@
                         <tbody>
                           <tr class="el-table__row" v-for="item in titleList" :key="item">
                             <td rowspan="1" colspan="1" class="el-table_1_column_1 is-center ">
-                              <div class="cell">{{item}}</div>
+                              <div class="cell" :style="{'height':item=='头像'?'100px':''}">{{item}}</div>
                             </td>
                           </tr>
                         </tbody>
@@ -52,8 +52,8 @@
                       <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 1573px;">
                         <thead class="has-gutter">
                           <tr class="">
-                            <th colspan="1" rowspan="1" class="el-table_1_column_1   is-leaf" style="height:120px">
-                              <div v-if="item.cardId">
+                            <th colspan="1" rowspan="1" class="el-table_1_column_1   is-leaf white-box">
+                              <!-- <div v-if="item.cardId">
                                 <div class="cell card_title">
                                   读者卡信息
                                   <div>设为主卡：<el-switch v-model="item.isMainCard" @change="handleChangeMainCard(item.sort)"></el-switch>
@@ -62,7 +62,13 @@
                                 <div class="cell">卡号：{{item.cardNo}}</div>
                                 <div class="cell">卡类型：{{item.cardTypeName}}</div>
                                 <div class="cell">卡状态：{{item.cardStatusName}}</div>
-                              </div>
+                              </div> -->
+                              <MergeReaderHead :data="{isMainCard:item.isMainCard,cardNo:item.cardNo,cardTypeName:item.cardTypeName,cardStatusName:item.cardStatusName,index:index}">
+                                <div slot>
+                                  <el-switch v-model="item.isMainCard" @change="handleChangeMainCard(item.sort)"></el-switch>
+                                  设为主卡
+                                </div>
+                              </MergeReaderHead>
                             </th>
                           </tr>
                         </thead>
@@ -71,7 +77,16 @@
                     <div class="el-table__body-wrapper is-scrolling-none">
                       <table cellspacing="0" cellpadding="0" border="0" class="el-table__body" style="width: 1573px;">
                         <tbody>
-                          <tr class="el-table__row" :class="isCheck(item.sort+'-1')?'bg_check':''" @click="handleCheckUse(item.sort+'-1',[{name:item.name}])">
+                          <tr class="el-table__row" :class="isCheck(item.sort+'-'+index1)?'bg_check':''" v-for="(value,index1) in valueList" :key="value" @click="handleCheckUse(item.sort+'-'+index1,value,index,index1)">
+                            <td rowspan="1" colspan="1" class="el-table_1_column_1 is-center ">
+                              <div class="cell" v-if="value=='isStaff'">{{item.isStaff?'是':'否'}}</div>
+                              <div class="cell" v-else-if="value=='photo'"><img style="width:100px;height:100px" :src="fileUrl+(item.photo?item.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
+                              <div class="cell" v-else-if="value=='birthday'">{{setTime(item.birthday)}}</div>
+                              <div class="cell" v-else-if="value=='addr'">{{item.addr&&item.addr!=''?item.addr.split('|')[0]:''}}</div>
+                              <div class="cell" v-else>{{item[value]}}</div>
+                            </td>
+                          </tr>
+                          <!-- <tr class="el-table__row" :class="isCheck(item.sort+'-1')?'bg_check':''" @click="handleCheckUse(item.sort+'-1',[{name:item.name}])">
                             <td rowspan="1" colspan="1" class="el-table_1_column_1 is-center ">
                               <div class="cell">{{item.name}}</div>
                             </td>
@@ -145,7 +160,7 @@
                             <td rowspan="1" colspan="1" class="el-table_1_column_1 is-center ">
                               <div class="cell">{{item.statusName}}</div>
                             </td>
-                          </tr>
+                          </tr> -->
                         </tbody>
                       </table>
                     </div>
@@ -169,6 +184,7 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 
+import MergeReaderHead from '@/components/admin/view/reader_management/model/MergeReaderHead.vue';
 export default {
   name: 'index',
   created() {
@@ -177,18 +193,21 @@ export default {
     //   this.$forceUpdate();
     // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb },
+  components: { footerPage, serviceLMenu, breadcrumb, MergeReaderHead },
   data() {
     return {
+      fileUrl: localStorage.getItem('fileUrl'),
       loading: false,
       userId: '',
       userList: [],
       repeateInfo: {},//重复信息
       userNumber: 1,//选择读者数量
-      titleList: ['姓名', '读者类型', '职称', '学院', '系', '专业', '年级', '生日', '性别', '学历', '部门', '手机号', '身份证号', '地址', '读者状态'],
+      titleList: ['姓名', '昵称', '单位', '学历', '职称', '部门', '学院', '系', '专业', '年级', '班级', '读者类型', '读者状态', '身份证号', '手机号', '邮箱', '生日', '性别', '地址', '详细地址', '头像', '是否馆员'],
+      valueList: ['name', 'nickName', 'unit', 'edu', 'title', 'departName', 'collegeName', 'collegeDepartName', 'major', 'grade', 'class', 'typeName', 'statusName', 'idCard', 'phone', 'email', 'birthday', 'gender', 'addr', 'addrDetail', 'photo', 'isStaff'],
+      // titleList: ['姓名', '读者类型', '职称', '学院', '系', '专业', '年级', '生日', '性别', '学历', '部门', '手机号', '身份证号', '地址', '读者状态'],
       tableData: [],//列表项
       userData: {},//有效信息
-      userCheckList: ['1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '1-7', '1-8', '1-9', '1-10', '1-11', '1-12', '1-13', '1-14', '1-15'],//有效信息标记
+      userCheckList: [],//有效信息标记
     }
   },
   mounted() {
@@ -196,6 +215,10 @@ export default {
   },
   methods: {
     initData() {
+      // 设置默认选中
+      this.userCheckList = this.valueList.map((item, index) => {
+        return '1-' + index;
+      })
       if (this.$route.query.id) {
         this.userId = this.$route.query.id;
         this.repeateInfo = JSON.parse(this.$route.query.repeateInfo);
@@ -261,20 +284,29 @@ export default {
         this.userData = item;
       })
       this.userCheckList = [];
-      for (let index = 1; index < 16; index++) {
+      for (let index = 0; index < this.valueList.length; index++) {
         this.userCheckList.push(sort + '-' + index);
       }
     },
     // 选择有效项
-    handleCheckUse(site, list) {
-      for (let index = 1; index < 16; index++) {
-        if (site.split('-')[1] == index) {
-          this.$set(this.userCheckList, index - 1, site);
-        }
+    handleCheckUse(site, key, index, index1) {
+      this.$set(this.userCheckList, index1, site);
+
+      // 特殊处理字段
+      const typeOption = {
+        'typeName': ['typeName', 'type'],
+        'collegeName': ['collegeName', 'college'],
+        'collegeDepartName': ['collegeDepartName', 'collegeDepart'],
+        'departName': ['departName', 'depart'],
+        'statusName': ['statusName', 'status'],
       }
-      list.forEach(item => {
-        this.userData[Object.keys(item)[0]] = Object.values(item)[0];
-      })
+      if (typeOption[key]) {
+        typeOption[key].forEach(item => {
+          this.userData[item] = this.tableData[index][item];
+        })
+      } else {
+        this.userData[key] = this.tableData[index][key];
+      }
     },
     // 确认并合并
     handleMerge() {
@@ -317,9 +349,10 @@ export default {
 .coml-body {
   display: flex;
   overflow-x: scroll;
+  border-top: 1px solid #ebeef5;
 }
 .coml-box {
-  min-width: 250px;
+  min-width: 400px;
 }
 .card_title {
   margin-bottom: 5px;
@@ -328,9 +361,16 @@ export default {
   }
 }
 .bg_check > td {
-  background: #c9d0ff !important;
+  background: #f0f1fe !important;
+  // border: 1px solid #909cf0 !important;
 }
 .color-g {
   color: @6777EF;
+}
+.white-box {
+  box-sizing: border-box;
+  height: 205px;
+  background-color: #fff !important;
+  padding: 0 20px;
 }
 </style>

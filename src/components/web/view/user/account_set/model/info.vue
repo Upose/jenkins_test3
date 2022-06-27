@@ -4,7 +4,7 @@
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="头像">
           <div class="avatar" :class="isEdit('User_Photo')?'c-n':''" @click="handleAvatar">
-            <img class="avatar-img" :src="imgPath + form.photo" alt="">
+            <img class="avatar-img" :src="imgPath + (form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt="">
           </div>
         </el-form-item>
         <el-form-item label="姓名">

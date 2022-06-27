@@ -17,7 +17,7 @@
             <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
             <div class="top-content-user-box">
               <div class="my-name-box">
-                <div class="avatar"><img :src="imgUrl+form.photo" alt=""></div>
+                <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
                 <div class="name">
                   <span class="text">{{form.name}}</span>
                   <span class="grade" v-show="form.grade">{{form.grade}}</span>
@@ -29,9 +29,13 @@
                 </div>
               </div>
               <div class="certification">
-                <span>
+                <!-- <span>
                   <img :src="replaceImg('qq')" alt="" class="gray">
                   未认证
+                </span> -->
+                <span>
+                  <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.QQIdentity}">
+                  {{identityList.QQIdentity?'已认证':'未认证'}}
                 </span>
                 <span @click="wxBind">
                   <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
@@ -224,10 +228,10 @@ export default {
     // 打开微信绑定
     wxBind() {
       // 判断是否已绑定
-      if (!this.identityList.weChatIdentity) {
-        // this.$refs.dialog_code.show();
-        this.$router.push({path: '/web_accountSet', query: {tab: 'set', bind: 'bind'}});
-      }
+      // if (!this.identityList.weChatIdentity) {
+      // this.$refs.dialog_code.show();
+      this.$router.push({ path: '/web_accountSet', query: { tab: 2, bind: 'bind' } });
+      // }
     },
     // 调接口，code传给后端
     getWeixin() {
@@ -515,7 +519,7 @@ export default {
     },
     replaceImg(type) {
       let img = ''
-      switch(type){
+      switch (type) {
         case 'qq':
           img = require('@/assets/web/img/qq.png');
           break;
@@ -787,7 +791,7 @@ export default {
       img {
         vertical-align: middle;
         width: 14px;
-        &.gray{
+        &.gray {
           filter: contrast(5%);
         }
       }

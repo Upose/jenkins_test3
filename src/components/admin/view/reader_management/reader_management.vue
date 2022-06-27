@@ -24,7 +24,7 @@
               <div class="reader-left" @click="upImg">
                 <img :src="iconUrl" alt="" v-if="iconUrl!=''">
                 <img :src="imgPath + postForm.photo" alt="" v-else-if="postForm.photo&&postForm.photo!=''">
-                <img src="@/assets/admin/img/userManager/touxiang.jpg" v-else />
+                <img :src="imgPath + '/public/image/default-user-head/default-user-head.png'" v-else />
               </div>
               <div class="reader-middle">
                 <div>

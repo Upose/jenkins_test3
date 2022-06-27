@@ -1,7 +1,7 @@
 <template>
   <el-dialog append-to-body title="添加临时馆员" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-alert title="临时馆员只能登录管理后台，如需登录前台请先添加读者信息" type="warning" show-icon></el-alert>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" v-if="dataKey">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm admin-form" v-if="dataKey">
       <el-form-item label="读者名称" prop="name">
         <el-input v-model="ruleForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
       </el-form-item>
@@ -70,9 +70,9 @@
           <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="头像">
-              <updateIcon @coverUrl="coverUrl"></updateIcon>
-            </el-form-item> -->
+      <el-form-item label="头像">
+        <updateIcon @coverUrl="coverUrl" style="width:92%" :cover="ruleForm.photo"></updateIcon>
+      </el-form-item>
     </el-form>
     <div slot="footer">
       <el-button @click="dialogVisible = false" icon="iconfont el-icon-vip-quxiao">取 消</el-button>
@@ -82,10 +82,11 @@
 </template>
 <script>
 import http from "@/assets/public/js/http";
+import updateIcon from '@/components/admin/view/model/updateIcon.vue';
 
 export default {
   name: 'index',
-  components: {},
+  components: { updateIcon },
   props: ['dataKey', 'departList'],
   data() {
     return {
@@ -104,7 +105,8 @@ export default {
         "issueDate": "",
         "expireDate": "",
         "status": "",
-        "type": ""
+        "type": "",
+        "photo": "/public/image/default-user-head/default-user-head.png"
       },
       rules: {
         name: [
@@ -166,6 +168,10 @@ export default {
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
       return select.groupItems;
     },
+    // 获取图标
+    coverUrl(url) {
+      this.postForm.photo = url;
+    },
     sub() {
       this.$refs.ruleForm.validate(ok => {
         if (ok) {
@@ -184,6 +190,7 @@ export default {
     handleAddStaff() {
       http.postJson('temp-staff', this.ruleForm).then(res => {
         this.$message({ type: 'success', message: '添加成功!' });
+        this.$emit('update')
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '添加失败') });
       })
