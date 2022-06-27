@@ -30,23 +30,23 @@
               </div>
               <div class="certification">
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon-qq.png" alt="">
+                  <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.weChatIdentity}">
                   未认证
                 </span>
                 <span @click="wxBind">
-                  <img src="../../../../../assets/web/img/personal/icon-wx.png" alt="">
+                  <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
                   {{identityList.weChatIdentity?'已认证':'未认证'}}
                 </span>
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon-phone.png" alt="">
+                  <img :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
                   {{form.mobileIdentity?'已认证':'未认证'}}
                 </span>
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon-card.png" alt="">
+                  <img :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
                   {{form.idCardIdentity?'已认证':'未认证'}}
                 </span>
                 <span>
-                  <img src="../../../../../assets/web/img/personal/icon-msg.png" alt="">
+                  <img :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
                   {{form.emailIdentity?'已认证':'未认证'}}
                 </span>
               </div>
@@ -130,7 +130,7 @@
     </div>
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey" @update="getCard"></dialog_card>
-    <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code>
+    <!-- <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code> -->
     <el-dialog center title="" :visible.sync="wxdialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="400px">
       <div>请问是否确定绑定微信？</div>
       <span slot="footer" class="dialog-footer">
@@ -144,7 +144,7 @@
 import Sortable from "sortablejs";
 
 import dialog_card from '@/components/web/view/user/library/model/dialog_card';
-import dialog_code from '@/components/web/view/user/library/model/dialog_code';
+// import dialog_code from '@/components/web/view/user/library/model/dialog_code';
 import { timeFormat } from "@/assets/public/js/util";
 import breadCrumbs from '../../../model/breadCrumbs';
 import AppList from './model/app-list.vue';
@@ -153,7 +153,7 @@ import InformList from './model/inform-list.vue';
 import SearchBox from './model/search-box.vue';
 
 export default {
-  components: { dialog_card, breadCrumbs, dialog_code, AppList, DatabaseList, InformList, SearchBox },
+  components: { dialog_card, breadCrumbs, AppList, DatabaseList, InformList, SearchBox },
   data() {
     return {
       baseUrl: window.apiDomainAndPort,
@@ -174,7 +174,7 @@ export default {
       wxCode: '',
       wxbindLoading: false,
       identityList: {},
-      wechatConfig: {},
+      // wechatConfig: {},
     }
   },
   watch: {
@@ -215,17 +215,18 @@ export default {
       }).catch((err) => {
         this.$message({ type: "error", message: "获取用户是否已绑定信息失败!" });
       });
-      this.http.getJson('reader-wechat-login-config').then((res) => {
-        this.wechatConfig = res.data;
-      }).catch((err) => {
-        this.$message({ type: "error", message: "获取微信登录认证设置失败!" });
-      });
+      // this.http.getJson('reader-wechat-login-config').then((res) => {
+      //   this.wechatConfig = res.data;
+      // }).catch((err) => {
+      //   this.$message({ type: "error", message: "获取微信登录认证设置失败!" });
+      // });
     },
     // 打开微信绑定
     wxBind() {
       // 判断是否已绑定
       if (!this.identityList.weChatIdentity) {
-        this.$refs.dialog_code.show();
+        // this.$refs.dialog_code.show();
+        this.$router.push({path: '/web_accountSet', query: {tab: 'set', bind: 'bind'}});
       }
     },
     // 调接口，code传给后端
@@ -511,6 +512,26 @@ export default {
           window.open(url);
         }
       }
+    },
+    replaceImg(type) {
+      let img = ''
+      switch(type){
+        case 'qq':
+          img = require('@/assets/web/img/qq.png');
+        case 'we':
+          img = require('@/assets/web/img/wex.png');
+          break;
+        case 'phone':
+          img = require('@/assets/web/img/phone-i.png');
+          break;
+        case 'card':
+          img = require('@/assets/web/img/id-i.png');
+          break;
+        case 'msg':
+          img = require('@/assets/web/img/icon_msg.png');
+          break;
+      }
+      return img
     }
   }
 }
@@ -764,6 +785,10 @@ export default {
       margin-bottom: 6px;
       img {
         vertical-align: middle;
+        width: 14px;
+        &.gray{
+          filter: contrast(5%);
+        }
       }
     }
   }
