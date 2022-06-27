@@ -272,16 +272,13 @@ export default {
         // 筛选项分类
         this.dataKey.canSearchProperties.forEach(item => {
           if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
-            this.textProperties1.push(item);
-            this.textProperties2.push(item);
-            this.textProperties3.push(item);
-            // if (item.searchGroup == 1) {
-            //   this.textProperties1.push(item);
-            // } else if (item.searchGroup == 2) {
-            //   this.textProperties2.push(item);
-            // } else if (item.searchGroup == 3) {
-            //   this.textProperties3.push(item);
-            // }
+            if (item.searchGroup == 1) {
+              this.textProperties1.push(item);
+            } else if (item.searchGroup == 2) {
+              this.textProperties2.push(item);
+            } else if (item.searchGroup == 3) {
+              this.textProperties3.push(item);
+            }
           }
           if (!item.external && item.type == 2) {
             this.dateRangeProperties.push(item);

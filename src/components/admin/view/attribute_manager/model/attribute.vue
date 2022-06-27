@@ -49,7 +49,7 @@
             <span>{{ scope.row.forReader?'读者 ':''}} {{ scope.row.forCard?'读者卡':''}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="content" label="操作" fixed="right" align="center" width="300">
+        <el-table-column prop="content" label="操作" fixed="right" align="center" :width="maxBtnWidth">
           <template slot-scope="scope">
             <div v-if="scope.row.approveStatus == 1">
               <template v-if="!scope.row.sysBuildIn">
@@ -89,7 +89,8 @@ export default {
       multipleSelection: [],//勾选列表
       postForm: {},
 
-      idList: []
+      idList: [],
+      maxBtnWidth: 300,
     }
   },
   mounted() {
@@ -119,6 +120,8 @@ export default {
       http.getJson('list-data').then(res => {
         let list = res.data || [];
         this.tableData = list;
+        let isMaxWidth = list.some(item => item.approveStatus == 1 && !item.sysBuildIn);
+        this.maxBtnWidth = isMaxWidth ? 200 : 160;
         this.loading = false;
       }).catch(err => {
         this.loading = false;

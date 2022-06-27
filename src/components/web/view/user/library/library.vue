@@ -30,7 +30,7 @@
               </div>
               <div class="certification">
                 <span>
-                  <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.weChatIdentity}">
+                  <img :src="replaceImg('qq')" alt="" class="gray">
                   未认证
                 </span>
                 <span @click="wxBind">
@@ -518,6 +518,7 @@ export default {
       switch(type){
         case 'qq':
           img = require('@/assets/web/img/qq.png');
+          break;
         case 'we':
           img = require('@/assets/web/img/wex.png');
           break;
