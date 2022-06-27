@@ -12,7 +12,7 @@
           <div class="search-table-w">
             <h1 class="search-title">读者管理</h1>
             <!-- 顶部查询 -->
-            <div class="search-term" v-if="dataKey" :style="{'width': searchTermWidth+'px'}">
+            <div class="search-term" v-if="dataKey" :style="{'width': searchTermWidth+'px', 'max-height': searchTermHeight+'px'}">
               <!-- 属性组选择 -->
               <div class="search-item-box" v-for="item in selectProperties.slice(0, selectPropLen)" :key="item.code">
                 <div class="search-item" v-if="!item.external">
@@ -32,24 +32,37 @@
                 </div>
               </div>
               <!-- 文本输入 -->
-              <div class="search-item-box text" v-if="textProperties.length && showSearchText">
-                <!-- <el-select v-model="searchDateCode" placeholder="请选择" clearable>
-                  <el-option label="精确" value="1"></el-option>
-                  <el-option label="模糊" value="2"></el-option>
-                </el-select> -->
-                <div class="search-item" style="width:100%">
-                  <el-input placeholder="请输入" v-model="searchTextValue" style="width: 70%;max-width: 900px;" clearable>
-                    <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange">
-                      <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+              <div class="search-item-box text" v-if="(textProperties1.length||textProperties2.length||textProperties3.length)">
+                <div class="search-item" style="width:100%" v-if="textProperties1.length">
+                  <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" style="width: 70%;max-width: 900px;" clearable>
+                  </el-input>
+                  <el-select v-model="searchTextcondition1" placeholder="请选择" style="width: 100px;">
+                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                  </el-select>
+                </div>
+                <div class="search-item" style="width:100%" v-if="textProperties2.length">
+                  <el-input placeholder="请输入" v-model="searchTextValue2" style="width: 70%;max-width: 900px;" clearable>
+                    <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange2">
+                      <el-option v-for="item in textProperties2" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                   </el-input>
-                  <el-select v-model="searchTextcondition1" placeholder="请选择" style="width: 100px;" v-show="searchTextcondition1>0">
-                    <el-option v-for="(item, index) in textcondition1" :key="index" :label="item.label" :value="item.val"></el-option>
+                  <el-select v-model="searchTextcondition2" placeholder="请选择" style="width: 100px;" v-show="searchTextcondition2>0">
+                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                  </el-select>
+                </div>
+                <div class="search-item" style="width:100%" v-if="textProperties3.length">
+                  <el-input placeholder="请输入" v-model="searchTextValue3" style="width: 70%;max-width: 900px;" clearable>
+                    <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange3">
+                      <el-option v-for="item in textProperties3" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                    </el-select>
+                  </el-input>
+                  <el-select v-model="searchTextcondition3" placeholder="请选择" style="width: 100px;" v-show="searchTextcondition3>0">
+                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
                   </el-select>
                 </div>
               </div>
               <!-- 日期选择 -->
-              <div class="search-item-box date-item-box" v-if="dateRangeProperties.length && showDateRange">
+              <div class="search-item-box date-item-box" v-if="dateRangeProperties.length">
                 <div class="search-item w400">
                   <div class="date-checkbox">
                     <el-select v-model="searchDateCode" placeholder="请选择" clearable>
@@ -59,6 +72,8 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="search-term-btn">
               <el-button type="text" icon="el-icon-more" class="more-btn" v-show="showSearchTermMore" @click="loadAllSearchTerm">加载更多检索条件</el-button>
               <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
             </div>
@@ -77,7 +92,7 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.width?item.width:130" v-for="item in dataKey.showOnTableProperties" :key="item">
+                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" v-for="item in dataKey.showOnTableProperties" :key="item">
                   <template slot-scope="scope">
                     <span @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
                   </template>
@@ -139,14 +154,19 @@ export default {
       tableSysArrt: [],
       tableSysArrtKey: [],
       selectProperties: [],//属性组选择列表
-      textProperties: [],//文本输入列表
+      textProperties1: [],
+      textProperties2: [],
+      textProperties3: [],
       dateRangeProperties: [],//日期选择列表
-      searchTextCode: '',//文本输入code
-      searchTextValue: '',//文本输入值
+      searchTextValue1: '',
+      searchTextCode2: '',//文本输入code
+      searchTextValue2: '',//文本输入值
+      searchTextCode3: '',//文本输入code
+      searchTextValue3: '',//文本输入值
       searchDateCode: '',//日期选择code
       searchDateValue: '',//日期选择值
       depList: [],//部门列表
-      textcondition1: [{
+      textcondition: [{
         val: 1,
         label: '模糊'
       }, {
@@ -156,13 +176,14 @@ export default {
         val: 3,
         label: '前向'
       }],
-      searchTextcondition1: 0,
+      searchTextcondition1: 3,
+      searchTextcondition2: 0,
+      searchTextcondition3: 0,
       searchTermWidth: 1000,
-      showSearchTermMore: false,
+      searchTermHeight: 118,
+      showSearchTermMore: true,
       showAll: false,
       selectPropLen: 0,
-      showDateRange: true,
-      showSearchText: true,
     }
   },
   created() {
@@ -251,7 +272,16 @@ export default {
         // 筛选项分类
         this.dataKey.canSearchProperties.forEach(item => {
           if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
-            this.textProperties.push(item);
+            this.textProperties1.push(item);
+            this.textProperties2.push(item);
+            this.textProperties3.push(item);
+            // if (item.searchGroup == 1) {
+            //   this.textProperties1.push(item);
+            // } else if (item.searchGroup == 2) {
+            //   this.textProperties2.push(item);
+            // } else if (item.searchGroup == 3) {
+            //   this.textProperties3.push(item);
+            // }
           }
           if (!item.external && item.type == 2) {
             this.dateRangeProperties.push(item);
@@ -267,46 +297,25 @@ export default {
       })
     },
     changeSearchTermShow() {
-      console.log(this.selectProperties, this.textProperties)
       if (this.selectProperties.length) {
         if (this.searchTermWidth == 1100 && this.selectProperties.length > 6) {
           this.selectPropLen = 12;
-          this.showSearchTermMore = true;
-          this.showSearchText = false;
-          this.showDateRange = false;
         } else if (this.searchTermWidth == 1353 && this.selectProperties.length > 8) {
           this.selectPropLen = 16;
-          this.showSearchTermMore = true;
-          this.showSearchText = false;
-          this.showDateRange = false;
         } else if (this.searchTermWidth == 1520 && this.selectProperties.length > 9) {
           this.selectPropLen = 18;
-          this.showSearchTermMore = true;
-          this.showSearchText = false;
-          this.showDateRange = false;
-        } else if (this.textProperties.length > 0) {
-          this.showSearchTermMore = this.dateRangeProperties.length > 0;
+        } else if (this.textProperties1.length > 0 || this.textProperties2.length > 0 || this.textProperties3.length > 0) {
           this.selectPropLen = 18;
-          this.showSearchText = true;
-          this.showDateRange = false;
         } else if (this.dateRangeProperties.length > 0) {
           this.selectPropLen = 18;
-          this.showSearchTermMore = false;
-          this.showSearchText = false;
-          this.showDateRange = true;
         }
-      } else {
-        this.showSearchTermMore = false;
-        this.showDateRange = true;
-        this.showSearchText = true;
       }
     },
     loadAllSearchTerm() {
       this.showAll = true;
-      this.selectPropLen = this.selectProperties.length;
       this.showSearchTermMore = false;
-      this.showDateRange = true;
-      this.showSearchText = true;
+      this.selectPropLen = this.selectProperties.length;
+      this.searchTermHeight = 1000;
     },
     // 获取列表数据
     getDepList() {
@@ -372,7 +381,6 @@ export default {
       this.loading = true;
       http.getJson('table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
-
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
         this.loading = false;
@@ -426,11 +434,25 @@ export default {
         let index = this.sysArrtKey[this.sysArrt.indexOf(item)];
         search[index] = this.searchForm[item];
       }
-      if (this.searchTextCode && this.searchTextValue) {
-        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
-        search[index] = this.searchTextValue;
+      if (this.searchTextValue1) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.textProperties1[0].code)];
+        search[index] = this.searchTextValue1;
         if (this.searchTextcondition1) {
-          search.searchType = this.searchTextcondition1
+          search.searchType1 = this.searchTextcondition1;
+        }
+      }
+      if (this.searchTextCode2 && this.searchTextValue2) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode2)];
+        search[index] = this.searchTextValue2;
+        if (this.searchTextcondition2) {
+          search.searchType2 = this.searchTextcondition2;
+        }
+      }
+      if (this.searchTextCode3 && this.searchTextValue3) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode3)];
+        search[index] = this.searchTextValue3;
+        if (this.searchTextcondition3) {
+          search.searchType3 = this.searchTextcondition3;
         }
       }
       if (this.searchDateCode && this.searchDateValue) {
@@ -588,10 +610,15 @@ export default {
       }
       return '';
     },
-    searchTextCodeChange(val) {
-      let curContent = this.textProperties.find(item => item.code == val) || {};
-      this.searchTextcondition1 = curContent.searchType || 0;
-      console.log(val, this.textProperties, curContent, this.searchTextcondition1)
+    searchTextCodeChange2(val) {
+      let curContent = this.textProperties2.find(item => item.code == val) || {};
+      this.searchTextcondition2 = curContent.searchType || 0;
+      console.log(val, curContent, this.searchTextcondition2)
+    },
+    searchTextCodeChange3(val) {
+      let curContent = this.textProperties3.find(item => item.code == val) || {};
+      this.searchTextcondition3 = curContent.searchType || 0;
+      console.log(val, curContent, this.searchTextcondition3)
     },
   },
 }
@@ -602,6 +629,19 @@ export default {
 @import "../../../../assets/admin/css/form.less";
 .search-table-general {
   min-width: 1100px;
+  .search-term{
+    max-height: 120px;
+    overflow: hidden;
+  }
+  .search-term-btn{
+    padding: 5px 20px 11px 20px;
+    .more-btn{
+      margin-right: 10px;
+    }
+    /deep/ .el-button+.el-button{
+      margin-left: 0;
+    }
+  }
 }
 .search-item-box {
   display: inline-block;
