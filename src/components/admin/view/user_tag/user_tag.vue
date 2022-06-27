@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 10:29:18
  * @LastEditors: huyu
- * @LastEditTime: 2022-05-27 10:52:00
+ * @LastEditTime: 2022-06-27 13:45:55
  * @Description: 标签列表
 -->
 <template>
@@ -24,12 +24,15 @@
               <div class="list-box">
                 <div class="nav-list">
                   <el-menu class="el-menu-vertical-demo">
-                    <el-submenu :index="index" v-for="(item,index) in tagGroup" :key="item.id">
+                    <!-- <el-submenu :index="index" v-for="(item,index) in tagGroup" :key="item.id">
                       <span slot="title">{{item.name}}</span>
                       <el-menu-item-group v-if="item.groupList.length">
                         <el-menu-item @click="handleCategory(item1.id)" :index="item1.id" v-for="(item1) in item.groupList" :key="item1.id">{{item1.name}}</el-menu-item>
                       </el-menu-item-group>
-                    </el-submenu>
+                    </el-submenu> -->
+                    <el-menu-item :index="index" v-for="(item,index) in tagGroup" :key="item.id" @click="handleCategory(item.id)">
+                      <span slot="title">{{item.name}}</span>
+                    </el-menu-item>
                   </el-menu>
                 </div>
                 <div class="table-list">

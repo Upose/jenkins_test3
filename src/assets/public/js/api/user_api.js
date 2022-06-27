@@ -71,6 +71,11 @@ export default {
         'reset-card-secret-verify-key': baseURL + '/api/card/reset-card-secret-verify-key',//获取密码重置key
         'reset-card-secret-by-verify-key': baseURL + '/api/card/reset-card-secret-by-verify-key',//重置密码
 
+        /* 安全设置 */
+        'safe-set-init-data': baseURL + '/api/security-config/init-data',//初始数据
+        'security-config': baseURL + '/api/security-config/security-config',//获取安全设置
+        'save-security-config': baseURL + '/api/security-config/save-security-config',//保存安全设置
+
         'card-table-data': baseURL + '/api/card/table-data',//获取用户读者卡信息列表
         'card-init-data': baseURL + '/api/card/init-data',//用户初始化数据
         'user-card-list-data': baseURL + '/api/card/user-card-list-data',//获取用户读者卡信息

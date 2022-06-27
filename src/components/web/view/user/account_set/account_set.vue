@@ -42,7 +42,12 @@ export default {
     // 设置网页标题
     document.title = '账号设置-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
-    this.tab = this.$route.query.tab ? this.$route.query.tab : 'info';
+    const tabOption = {
+      1: 'info',
+      2: 'set',
+      3: 'card'
+    }
+    this.tab = this.$route.query.tab ? tabOption[this.$route.query.tab] : 'info';
   },
   methods: {
 

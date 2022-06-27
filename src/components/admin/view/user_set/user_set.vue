@@ -24,15 +24,15 @@
           <!--顶部查询 end-->
 
           <!-- 目录 -->
-          <div class="table-w" v-show="check_num == 'base'">
+          <div class="table-w" v-if="check_num == 'base'">
             <baseSet></baseSet>
           </div>
           <!-- 内容 -->
-          <div class="table-w" v-show="check_num == 'auth'">
+          <div class="table-w" v-if="check_num == 'auth'">
             <bauthSet></bauthSet>
           </div>
           <!-- 安全 -->
-          <div class="table-w" v-show="check_num == 'safe'">
+          <div class="table-w" v-if="check_num == 'safe'">
             <SafeSet></SafeSet>
           </div>
           <!--管理页列表 end--->
