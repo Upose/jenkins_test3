@@ -87,7 +87,7 @@ export default {
           this.$refs.dialog_code.show();
         }, 100)
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取微信登录认证设置失败!" });
+        this.$message({ type: "error", message: err.errors?err.errors:"获取微信登录认证设置失败!" });
       });
     },
     // 绑定用户到后端
@@ -99,7 +99,7 @@ export default {
       this.http.postJson('forward-reader-bind-wechat', datas).then((res) => {
         this.$message({ type: "success", message: "用户绑定微信成功!" });
       }).catch((err) => {
-        this.$message({ type: "error", message: "用户绑定微信失败!" });
+        this.$message({ type: "error", message: err.errors?err.errors:"用户绑定微信失败!" });
       });
     },
     // 解除绑定
@@ -112,7 +112,7 @@ export default {
       this.http.postJson('reader-un-bound-we-chat', datas).then((res) => {
         this.$message({ type: "success", message: "解除微信绑定成功!" });
       }).catch((err) => {
-        this.$message({ type: "error", message: "解除微信绑定失败!" });
+        this.$message({ type: "error", message: err.errors?err.errors:"解除微信绑定失败!" });
       });
     },
     // 获取用户信息
@@ -120,7 +120,7 @@ export default {
       this.http.getJson('forward-init-data').then((res) => {
         this.dataKey = res.data;
       }).catch((err) => {
-        this.$message({ type: "error", message: err.errors?err.errors:"获取读者信息失败!" });
+        this.$message({ type: "error", message: "获取读者信息失败!" });
       });
     },
     // 获取用户信息
