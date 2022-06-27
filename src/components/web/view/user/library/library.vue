@@ -228,10 +228,10 @@ export default {
     // 打开微信绑定
     wxBind() {
       // 判断是否已绑定
-      // if (!this.identityList.weChatIdentity) {
-      // this.$refs.dialog_code.show();
-      this.$router.push({ path: '/web_accountSet', query: { tab: 2, bind: 'bind' } });
-      // }
+      if (!this.identityList.weChatIdentity) {
+        // this.$refs.dialog_code.show();
+        this.$router.push({ path: '/web_accountSet', query: { tab: 2, bind: 'bind' } });
+      }
     },
     // 调接口，code传给后端
     getWeixin() {
