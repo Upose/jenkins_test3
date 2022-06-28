@@ -88,6 +88,9 @@ export default {
         weChatNickName: this.$route.query.weChatNickName,
       };
       this.http.postJson('forward-reader-bind-wechat', datas).then((res) => {
+        this.getInfo();
+        this.getKey();
+        this.checkModifyReaderPermit();
         this.$message({ type: "success", message: "用户绑定微信成功!" });
       }).catch((err) => {
         this.$message({ type: "error", message: err.errors?err.errors:"用户绑定微信失败!" });
@@ -101,6 +104,9 @@ export default {
         weChatNickName: this.form.weChatNickName,
       };
       this.http.postJson('reader-un-bound-we-chat', datas).then((res) => {
+        this.getInfo();
+        this.getKey();
+        this.checkModifyReaderPermit();
         this.$message({ type: "success", message: "解除微信绑定成功!" });
       }).catch((err) => {
         this.$message({ type: "error", message: err.errors?err.errors:"解除微信绑定失败!" });

@@ -31,7 +31,7 @@ export default {
     return {
       freshCode: '',
       wechatConfig: {},
-      weshow: true,
+      weshow: false,
     };
   },
   created() {
