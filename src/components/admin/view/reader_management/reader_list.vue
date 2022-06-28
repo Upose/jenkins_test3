@@ -33,30 +33,30 @@
               </div>
               <!-- 文本输入 -->
               <div class="search-item-box text" v-if="(textProperties1.length||textProperties2.length||textProperties3.length)">
-                <div class="search-item" style="width:100%" v-if="textProperties1.length">
-                  <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" style="width: 70%;max-width: 900px;" clearable>
+                <div class="search-item search-item-text" v-if="textProperties1.length">
+                  <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" class="textleft input-textleft" clearable>
                   </el-input>
-                  <el-select v-model="searchTextcondition1" placeholder="请选择" style="width: 100px;">
+                  <el-select v-model="searchTextcondition1" placeholder="请选择" class="textright">
                     <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
                   </el-select>
                 </div>
-                <div class="search-item" style="width:100%" v-if="textProperties2.length">
-                  <el-input placeholder="请输入" v-model="searchTextValue2" style="width: 70%;max-width: 900px;" clearable>
+                <div class="search-item search-item-text" v-if="textProperties2.length">
+                  <el-input placeholder="请输入" v-model="searchTextValue2" clearable class="textleft">
                     <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange2">
                       <el-option v-for="item in textProperties2" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                   </el-input>
-                  <el-select v-model="searchTextcondition2" placeholder="请选择" style="width: 100px;" v-show="searchTextcondition2>0">
+                  <el-select v-model="searchTextcondition2" placeholder="请选择" v-show="searchTextcondition2>0" class="textright">
                     <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
                   </el-select>
                 </div>
-                <div class="search-item" style="width:100%" v-if="textProperties3.length">
-                  <el-input placeholder="请输入" v-model="searchTextValue3" style="width: 70%;max-width: 900px;" clearable>
+                <div class="search-item search-item-text" v-if="textProperties3.length">
+                  <el-input placeholder="请输入" v-model="searchTextValue3" class="textleft" clearable>
                     <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange3">
                       <el-option v-for="item in textProperties3" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                   </el-input>
-                  <el-select v-model="searchTextcondition3" placeholder="请选择" style="width: 100px;" v-show="searchTextcondition3>0">
+                  <el-select v-model="searchTextcondition3" placeholder="请选择" v-show="searchTextcondition3>0" class="textright">
                     <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
                   </el-select>
                 </div>
@@ -65,7 +65,7 @@
               <div class="search-item-box date-item-box" v-if="dateRangeProperties.length">
                 <div class="search-item w400">
                   <div class="date-checkbox">
-                    <el-select v-model="searchDateCode" placeholder="请选择" clearable>
+                    <el-select v-model="searchDateCode" placeholder="请选择" style="width: 130px;" clearable>
                       <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                     <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -181,7 +181,7 @@ export default {
       searchTextcondition3: 0,
       searchTermWidth: 1000,
       searchTermHeight: 118,
-      showSearchTermMore: true,
+      showSearchTermMore: false,
       showAll: false,
       selectPropLen: 0,
     }
@@ -199,9 +199,9 @@ export default {
   methods: {
     visibleAreaWidth() {
       let fullWidth = document.documentElement.clientWidth;
-      if (fullWidth > 1900) {
+      if (fullWidth > 1800) {
         this.searchTermWidth = 1520;
-      } else if (fullWidth > 1640 && fullWidth < 1900) {
+      } else if (fullWidth > 1640 && fullWidth < 1800) {
         this.searchTermWidth = 1353;
       } else {
         this.searchTermWidth = 1100;
@@ -276,6 +276,7 @@ export default {
               this.textProperties1.push(item);
             } else if (item.searchGroup == 2) {
               this.textProperties2.push(item);
+              
             } else if (item.searchGroup == 3) {
               this.textProperties3.push(item);
             }
@@ -288,6 +289,14 @@ export default {
           }
         });
         this.changeSearchTermShow()
+
+        this.searchTextCode2 = this.textProperties2.length ? this.textProperties2[0].code : '';
+        this.searchTextCode3 = this.textProperties3.length ? this.textProperties3[0].code : '';
+        this.searchTextcondition2 = this.textProperties2.length ? this.textProperties2[0].searchType : 0;
+        this.searchTextcondition3 = this.textProperties3.length ? this.textProperties3[0].searchType : 0;
+        if (this.textProperties1.length) {
+          this.showSearchTermMore = true;
+        }
         // console.log(this.dataKey, 'dataKey')
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
@@ -610,12 +619,12 @@ export default {
     searchTextCodeChange2(val) {
       let curContent = this.textProperties2.find(item => item.code == val) || {};
       this.searchTextcondition2 = curContent.searchType || 0;
-      console.log(val, curContent, this.searchTextcondition2)
+      // console.log(val, curContent, this.searchTextcondition2)
     },
     searchTextCodeChange3(val) {
       let curContent = this.textProperties3.find(item => item.code == val) || {};
       this.searchTextcondition3 = curContent.searchType || 0;
-      console.log(val, curContent, this.searchTextcondition3)
+      // console.log(val, curContent, this.searchTextcondition3)
     },
   },
 }
@@ -629,6 +638,7 @@ export default {
   .search-term{
     max-height: 120px;
     overflow: hidden;
+    line-height: normal;
   }
   .search-term-btn{
     padding: 5px 20px 11px 20px;
@@ -650,6 +660,29 @@ export default {
     width: 150px;
     display: inline-block;
     margin-right: 4px;
+    margin-bottom: 15px;
+    &.search-item-text{
+      margin-right: 10px;
+      width: auto;
+      /deep/ .textleft{
+        width: 400px;
+        float: left;
+        &.input-textleft,.el-input__inner{
+          width: 270px;
+        }
+        .el-input--suffix{
+          .el-input__inner{
+            width: 130px;
+          }
+          
+        }
+      }
+      /deep/ .el-select.textright{
+        width: 100px;
+        float: left;
+        margin-left: 3px;
+      }
+    }
     /deep/ .el-select {
       width: 150px;
     }

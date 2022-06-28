@@ -28,7 +28,7 @@
         <span class="name">微信账号</span>
         <span class="content" v-if="form.weChatOpenId">{{form.weChatNickName}}</span>
         <span class="use" @click="unwxBindHandle" v-if="form.weChatOpenId">解除绑定</span>
-        <span class="use" @click="wxBindList" v-else>立即设置</span>
+        <span class="use" @click="openWxBindList" v-else>立即设置</span>
       </div>
       <div class="set-item" v-if="form.QQOpenId">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
@@ -43,7 +43,7 @@
     <set_phone ref="set_phone" @change="getInfo"></set_phone>
     <emil ref="emil" @change="getInfo"></emil>
     <set_idCard ref="set_idCard" @change="getInfo"></set_idCard>
-    <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code>
+    <dialog_code ref="dialogCode"></dialog_code>
   </div>
 </template>
 
@@ -61,7 +61,6 @@ export default {
       form: {},
       dataKey: null,
       updateReaderInfo: false,
-      wechatConfig: {},
     };
   },
   created() {
@@ -70,30 +69,22 @@ export default {
     this.checkModifyReaderPermit();
   },
   mounted() {
-    if (this.$route.query.bind) {
-      this.wxBindList();
-    }
-    if (this.$route.query.weChatNickName && this.$route.query.openId) {
+    if (this.$route.query.weChatNickName && this.$route.query.wechatOpenId) {
       this.wxBindHandle();
     }
   },
   methods: {
     // 绑定信息
-    wxBindList() {
-      this.http.getJson('reader-wechat-login-config').then((res) => {
-        this.wechatConfig = res.data;
-        setTimeout(() => {
-          // 二维码
-          this.$refs.dialog_code.show();
-        }, 100)
-      }).catch((err) => {
-        this.$message({ type: "error", message: err.errors?err.errors:"获取微信登录认证设置失败!" });
-      });
+    openWxBindList() {
+      setTimeout(() => {
+        // 二维码
+        this.$refs.dialogCode.show();
+      }, 100)
     },
     // 绑定用户到后端
     wxBindHandle() {
       let datas = {
-        openId: this.$route.query.openId,
+        openId: this.$route.query.wechatOpenId,
         weChatNickName: this.$route.query.weChatNickName,
       };
       this.http.postJson('forward-reader-bind-wechat', datas).then((res) => {
