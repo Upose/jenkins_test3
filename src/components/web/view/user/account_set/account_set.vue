@@ -38,19 +38,25 @@ export default {
       tab: 'info'
     }
   },
+  watch: {
+    '$route.query.tab' (nval, oval) {
+      this.changeTab();
+    }
+  },
   created() {
     // 设置网页标题
     document.title = '账号设置-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
-
-    const tabOption = {
-      1: 'info',
-      2: 'set',
-      3: 'card'
-    }
-    this.tab = this.$route.query.tab ? tabOption[this.$route.query.tab] : 'info';
+    this.changeTab();
   },
   methods: {
-
+    changeTab() {
+      const tabOption = {
+        1: 'info',
+        2: 'set',
+        3: 'card'
+      }
+      this.tab = this.$route.query.tab ? tabOption[this.$route.query.tab] : 'info';
+    }
   }
 }
 </script>
