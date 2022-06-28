@@ -703,6 +703,8 @@ export default {
   // display: table;
   overflow: hidden;
   margin: 2% 0 6% 0;
+  display: flex;
+  flex-wrap: wrap;
   .grounpSel {
     border-color: #6777ef;
     color: #6777ef;

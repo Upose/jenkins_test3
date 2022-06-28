@@ -170,13 +170,14 @@ export default {
     },
     // 获取图标
     coverUrl(url) {
-      this.postForm.photo = url;
+      this.ruleForm.photo = url;
     },
     sub() {
       this.$refs.ruleForm.validate(ok => {
         if (ok) {
           http.postJson('temp-staff', this.ruleForm).then(res => {
             this.$message({ type: 'success', message: '添加成功!' });
+            this.$emit('update')
             this.dialogVisible = false;
           }).catch(err => {
             this.$message({ type: 'error', message: this.handleError(err, '添加失败') });
@@ -190,7 +191,6 @@ export default {
     handleAddStaff() {
       http.postJson('temp-staff', this.ruleForm).then(res => {
         this.$message({ type: 'success', message: '添加成功!' });
-        this.$emit('update')
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '添加失败') });
       })
