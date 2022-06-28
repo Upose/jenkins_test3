@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-10 23:49:41
+ * @LastEditTime: 2022-06-28 14:42:37
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -25,7 +25,7 @@
           </select>
           <input class="input" ref="mainInput" @keyup.enter="searchClick" @blur="inputBlur" @focus="emptySearch" v-model="basicInputKeyWord" type="text" :placeholder="details.placeHolderEnabled?(cu_colum.placeholder||details.defaultPlaceHolder):''" :class="(cu_colum.searchBoxFields&&cu_colum.searchBoxFields.length>0)?'pd-l-h':'pd-l-s'" />
           <div class="s-r-btns">
-            <button class="subject-btn" @click="subjectAlertOpen" v-if="search && search.symbol && (search.symbol == 'C'||search.symbol == 'L')">查看分类表</button>
+            <button class="subject-btn" @click="subjectAlertOpen" v-if="search && search.symbol && (search.symbol == 'CC'||search.symbol == 'LC' || search.symbol == 'C'||search.symbol == 'L')">查看分类表</button>
             <button class="search-btn" @click="searchClick"></button>
             <button class="high-btn" @click="highSearch">高级检索</button>
           </div>
@@ -88,7 +88,7 @@
       <div class="subject-alert">
 
         <div class="top-title">
-          <span class="l-title">{{(search && search.symbol == 'C')?'学科分类号':'中图分类号'}}</span>
+          <span class="l-title">{{(search && (search.symbol == 'CC'||search.symbol == 'C'))?'学科分类号':'中图分类号'}}</span>
           <span class="r-close" @click="subjectAlertClose"></span>
         </div>
         <!--头部 标题-->
@@ -144,7 +144,6 @@ export default {
       fileUrl: window.localStorage.getItem('fileUrl'),//图片地址前缀
       webBase: location.origin + '/articlesearch/',
       searchExpressionResolver: new searchExpressionCore(),//拼接表达式
-      searchPost: {},//提交参数
       search: null,//下拉选中条件
       basicInputKeyWord: '',//input输入框
       cu_colum: { //当前栏目列表
@@ -217,10 +216,11 @@ export default {
       if (this.isSearchPage) {
         this.$emit('showHighSearch');
       } else {
-        let href = `/articlesearch/#/web_searchingResult?high=h`;
-        this.linkTo('articlesearch', href)
+        // let href = `${this.webBase}#/web_searchingResult?high=h`;
         // console.log(href);
         // window.location.href = href;
+        let href = `/articlesearch/#/web_searchingResult?high=h`;
+        this.linkTo('articlesearch', href)
       }
     },
     /***订阅此检索 */
@@ -267,7 +267,7 @@ export default {
         } else {//普通搜索
           this.searchExpressionResolver.clearConditions();//情况条件
           if (this.search && this.search.symbol != "U") {
-            if (this.search.symbol == 'C' || this.search.symbol == 'L') {//表示学科分类号和中途分类
+            if (this.search.symbol == 'CC' || this.search.symbol == 'LC' || this.search.symbol == 'C' || this.search.symbol == 'L') {//表示学科分类号和中途分类
               if (this.basicInputKeyWord) {
                 let rsubject_list = this.basicInputKeyWord.split('+') || [];
                 if (rsubject_list.length > 0) {
@@ -330,10 +330,10 @@ export default {
       this.postJsonAsync("/api/search-const/encrypt-search-parameter", list).then((x) => {
         let keyword = this.basicInputKeyWord || "";
         if (keyword.length >= 100) keyword = keyword.substring(0, 100);
-        // let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}`;
+        // let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
+        // window.location.href = href;
         let href = `/articlesearch/#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
         this.linkTo('articlesearch', href)
-        // window.location.href = href;
         // location.reload();
       });
     },
@@ -423,7 +423,7 @@ export default {
     },
     //获取学科分类弹窗
     initSubject() {
-      if (this.search.symbol == 'C') {
+      if (this.search.symbol == 'CC' || this.search.symbol == 'C') {
         this.LsubjectCheckList = this.subjectAllList.filter(x => x.type == 0);//学科分类
       } else {
         this.LsubjectCheckList = this.subjectAllList.filter(x => x.type == 1);//中图分类
@@ -556,7 +556,7 @@ export default {
     no-repeat;
   background-size: 100% 100%;
   border-radius: 16px;
-  padding: 10px 60px 0;
+  padding: 10px 20px 0;
   border: 2px solid #fff;
 }
 </style>

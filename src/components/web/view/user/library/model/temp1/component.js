@@ -1,116 +1,116 @@
 function unified_retrieval_sys_temp1() {
   var unified_retrieval_sys_temp1_temmplate = `
-    <div class="unified_retrieval_sys_temp1-warp">
-    <div class="search-top-w">
-      <div class="search-title" v-if="details.displayTitleEnabled">{{details.displayTitle}}</div><!--检索标题-->
-      
-      <div class="column-w">
-        <div class="box-warp c-l">
-          <div class="c-box" @click="tabClick(it)" v-for="(it,i) in details.searchBoxTitleItems" :class="cu_colum.id==it.id?'box-active':''"><span>{{it.title}}</span></div>
-        </div>
-      </div><!--检索栏目-->
-
-      <div class="search-input-w">
-        <div class="s-input-w">
-          <select class="select" v-model="search" v-if="cu_colum.searchBoxFields&&cu_colum.searchBoxFields.length>0">
-            <option v-for="(it,i) in cu_colum.searchBoxFields" :value="it">{{it.displayTitle}}</option>
-          </select>
-          <input class="input" ref="mainInput" @keyup.enter="searchClick" @blur="inputBlur" @focus="emptySearch" v-model="basicInputKeyWord" type="text"
-           :placeholder="details.placeHolderEnabled?(cu_colum.placeholder||details.defaultPlaceHolder):''" 
-           :class="(cu_colum.searchBoxFields&&cu_colum.searchBoxFields.length>0)?'pd-l-h':'pd-l-s'"/>
-          <div class="s-r-btns">
-            <button class="subject-btn" @click="subjectAlertOpen" v-if="search && search.symbol && (search.symbol == 'C'||search.symbol == 'L')">查看分类表</button>
-            <button class="search-btn" @click="searchClick">弘深检索</button>
-            <button class="high-btn" @click="highSearch">高级检索</button>
-          </div>
-        </div>
-        <span class="take" @click="takeSearch()">订阅此检索</span>
-      </div><!--检索输入框-->
-      <div class="alert-panel" v-if="details.smartPanelEnabled">
-        <!--------------------------------------- 空检索-提示面板 start -->
-        <div class="alert-panel-w" v-if="emptySearchModel.show && !basicInputKeyWord">
-          <div class="a-panel-c1">
-            <div class="empty-title">功能推荐</div>
-            <a class="box box-link" v-for="item in emptySearchModel.hotComponent" :key="item.docId" :href="item.url" target="_blank">
-              <span>{{ item.title }}</span>
-            </a>
-          </div><!--智能推荐-功能推荐-->
-
-          <div class="a-panel-c2">
-            <div class="empty-title">检索发现</div>
-            <div class="new-list" v-for="(hotword, index) in emptySearchModel.hotKeyword" :key="index" @click="searchKeyword(hotword.word)">
-              {{hotword.word}}
-              <i class="news" :class="index==0?'news':'hot'"></i>
-            </div>
-          </div><!--智能推荐-检索发现-->
-        </div><!--------------------------------------- 空检索-提示面板 end -->
-
-        <!----- 有输入值-提示面板 start ----------------------------------->
-        <div class="alert-panel-w" v-if="onKeywordInputSuggestModel.show && basicInputKeyWord">
-          <div class="a-panel-c3" v-if="onKeywordInputSuggestModel.regexInfo">
-            <div class="box box-link" @click="regexMatchSearch(onKeywordInputSuggestModel.regexInfo)"><i>{{onKeywordInputSuggestModel.regexInfo.title}}</i>{{ basicInputKeyWord }}</div>
-          </div><!--智能识别-（查找专利号、查找标准号、查找DOI：）-->
-          
-          <div class="a-panel-c4" v-if="onKeywordInputSuggestModel.matchComponent">
-            <div class="box box-link" v-for="(item, index) in onKeywordInputSuggestModel.matchComponent" :key="index">
-              <i class="type-name">导航至{{mapServiceComponentName(item.app_type)}}</i><a class="cursor" v-html="hightLightShow(item.title)" target="_blank" :href="item.url"></a>
-            </div>
-          </div><!--智能识别-导航至页面 || 参考咨询-（去提问、相关问题、导航至页面）-->
-
-          <div class="a-panel-c5" v-if="onKeywordInputSuggestModel.autoComplete">
-            <div class="title">检索“{{ basicInputKeyWord }}”相关文献</div>
-            <div class="box box-link" v-for="(word, index) in onKeywordInputSuggestModel.autoComplete" :key="index" @click="searchKeyword(word)">{{word}}</div>
-          </div><!--（智能识别、智能匹配、参考咨询）搜索“XXX”相关文献-->
-        </div><!----- 有输入值-提示面板 end ----------------------------------->
-
+  <div class="unified_retrieval_sys_temp1-warp">
+  <div class="search-top-w">
+    <div class="search-title" v-if="details.displayTitleEnabled">{{details.displayTitle}}</div><!--检索标题-->
+    
+    <div class="column-w">
+      <div class="box-warp c-l">
+        <div class="c-box" @click="tabClick(it)" v-for="(it,i) in details.searchBoxTitleItems" :class="cu_colum.id==it.id?'box-active':''"><span>{{it.title}}</span></div>
       </div>
+    </div><!--检索栏目-->
 
-      <div class="search-hot-w" v-if="details.hotResourceEnabled">
-        <span class="hot-title">热门检索：</span>
-        <span v-for="(hotword, index) in emptySearchModel.hotKeyword" :key="index" @click="searchKeyword(hotword.word)">{{hotword.word}}</span>
+    <div class="search-input-w">
+      <div class="s-input-w">
+        <select class="select" v-model="search" v-if="cu_colum.searchBoxFields&&cu_colum.searchBoxFields.length>0">
+          <option v-for="(it,i) in cu_colum.searchBoxFields" :value="it">{{it.displayTitle}}</option>
+        </select>
+        <input class="input" ref="mainInput" @keyup.enter="searchClick" @blur="inputBlur" @focus="emptySearch" v-model="basicInputKeyWord" type="text"
+         :placeholder="details.placeHolderEnabled?(cu_colum.placeholder||details.defaultPlaceHolder):''" 
+         :class="(cu_colum.searchBoxFields&&cu_colum.searchBoxFields.length>0)?'pd-l-h':'pd-l-s'"/>
+        <div class="s-r-btns">
+          <button class="subject-btn" @click="subjectAlertOpen" v-if="search && search.symbol && (search.symbol == 'CC'||search.symbol == 'LC' || search.symbol == 'C'||search.symbol == 'L')">查看分类表</button>
+          <button class="search-btn" @click="searchClick">弘深检索</button>
+          <button class="high-btn" @click="highSearch">高级检索</button>
+        </div>
+      </div>
+      <span class="take" @click="takeSearch()">订阅此检索</span>
+    </div><!--检索输入框-->
+    <div class="alert-panel" v-if="details.smartPanelEnabled">
+      <!--------------------------------------- 空检索-提示面板 start -->
+      <div class="alert-panel-w" v-if="emptySearchModel.show && !basicInputKeyWord">
+        <div class="a-panel-c1">
+          <div class="empty-title">功能推荐</div>
+          <a class="box box-link" v-for="item in emptySearchModel.hotComponent" :key="item.docId" :href="item.url" target="_blank">
+            <span>{{ item.title }}</span>
+          </a>
+        </div><!--智能推荐-功能推荐-->
+
+        <div class="a-panel-c2">
+          <div class="empty-title">检索发现</div>
+          <div class="new-list" v-for="(hotword, index) in emptySearchModel.hotKeyword" :key="index" @click="searchKeyword(hotword.word)">
+            {{hotword.word}}
+            <i class="news" :class="index==0?'news':'hot'"></i>
+          </div>
+        </div><!--智能推荐-检索发现-->
+      </div><!--------------------------------------- 空检索-提示面板 end -->
+
+      <!----- 有输入值-提示面板 start ----------------------------------->
+      <div class="alert-panel-w" v-if="onKeywordInputSuggestModel.show && basicInputKeyWord">
+        <div class="a-panel-c3" v-if="onKeywordInputSuggestModel.regexInfo">
+          <div class="box box-link" @click="regexMatchSearch(onKeywordInputSuggestModel.regexInfo)"><i>{{onKeywordInputSuggestModel.regexInfo.title}}</i>{{ basicInputKeyWord }}</div>
+        </div><!--智能识别-（查找专利号、查找标准号、查找DOI：）-->
+        
+        <div class="a-panel-c4" v-if="onKeywordInputSuggestModel.matchComponent">
+          <div class="box box-link" v-for="(item, index) in onKeywordInputSuggestModel.matchComponent" :key="index">
+            <i class="type-name">导航至{{mapServiceComponentName(item.app_type)}}</i><a class="cursor" v-html="hightLightShow(item.title)" target="_blank" :href="item.url"></a>
+          </div>
+        </div><!--智能识别-导航至页面 || 参考咨询-（去提问、相关问题、导航至页面）-->
+
+        <div class="a-panel-c5" v-if="onKeywordInputSuggestModel.autoComplete">
+          <div class="title">检索“{{ basicInputKeyWord }}”相关文献</div>
+          <div class="box box-link" v-for="(word, index) in onKeywordInputSuggestModel.autoComplete" :key="index" @click="searchKeyword(word)">{{word}}</div>
+        </div><!--（智能识别、智能匹配、参考咨询）搜索“XXX”相关文献-->
+      </div><!----- 有输入值-提示面板 end ----------------------------------->
+
+    </div>
+
+    <div class="search-hot-w" v-if="details.hotResourceEnabled">
+      <span class="hot-title">热门检索：</span>
+      <span v-for="(hotword, index) in emptySearchModel.hotKeyword" :key="index" @click="searchKeyword(hotword.word)">{{hotword.word}}</span>
+    </div>
+  </div>
+  <div class="subject-alert-fixed" v-if="subjectAlert">
+    <div class="subject-alert">
+      
+      <div class="top-title">
+      <span class="l-title">{{(search && (search.symbol == 'CC'||search.symbol == 'C'))?'学科分类号':'中图分类号'}}</span>
+        <span class="r-close" @click="subjectAlertClose"></span>
+      </div><!--头部 标题-->
+
+      <div class="content-w c-l">
+        <div class="left">
+          <div class="s-title">分类表</div>
+          <div class="check-box-w">
+            <ul class="domtree">
+              <li v-for="(ite,i) in LsubjectCheckList">
+                <span :class="ite.isOpen?'clicktale-on':'clicktale-off'" @click="openRowItem(ite)"></span><label :title="ite.domainName||''"><input type="checkbox" @change="boxChange(ite)" v-model="ite.checked"/>[{{ite.domainIdCode||''}}]{{ite.domainName||''}}</label>
+                <ul v-if="ite.isOpen">
+                  <li v-for="(it,x) in ite.children"><span class="clicktale-on"></span><label :title="it.domainName||''"><input type="checkbox" v-model="it.checked" @change="sboxChange(ite,it)"/>[{{it.domainIdCode||''}}]{{it.domainName||''}}</label></li>
+                </ul>
+              </li>
+          </ul>
+          </div>
+        </div><!--分类表end-->
+        <div class="center">
+          <button @click="subjectRowAdd">&gt;&gt;</button>
+          <button @click="subjectRowDel">&lt;&lt;</button>
+        </div>
+        <div class="right">
+          <div class="s-title">所选分类</div>
+          <div class="check-box-w">
+            <span class="title">----=双击删除一行=----</span>
+            <p v-for="(it,i) in RsubjectCheckList" @dblclick="subjectRowDblclick(i)" @click="subjectRowClick(i)" :class="subjectCheckRow==i?'p-active':''">{{it.domainName||''}}</p>
+          </div>
+        </div><!--所选分类end-->
+      </div><!--中间-内容板块-->
+      <div class="foot-btns">
+        <button @click="subjectAlertClose">取消</button>
+        <button @click="subjectSubmit">确定</button>
       </div>
     </div>
-    <div class="subject-alert-fixed" v-if="subjectAlert">
-      <div class="subject-alert">
-        
-        <div class="top-title">
-        <span class="l-title">{{(search && search.symbol == 'C')?'学科分类号':'中图分类号'}}</span>
-          <span class="r-close" @click="subjectAlertClose"></span>
-        </div><!--头部 标题-->
-
-        <div class="content-w c-l">
-          <div class="left">
-            <div class="s-title">分类表</div>
-            <div class="check-box-w">
-              <ul class="domtree">
-                <li v-for="(ite,i) in LsubjectCheckList">
-                  <span :class="ite.isOpen?'clicktale-on':'clicktale-off'" @click="openRowItem(ite)"></span><label :title="ite.domainName||''"><input type="checkbox" @change="boxChange(ite)" v-model="ite.checked"/>[{{ite.domainIdCode||''}}]{{ite.domainName||''}}</label>
-                  <ul v-if="ite.isOpen">
-                    <li v-for="(it,x) in ite.children"><span class="clicktale-on"></span><label :title="it.domainName||''"><input type="checkbox" v-model="it.checked" @change="sboxChange(ite,it)"/>[{{it.domainIdCode||''}}]{{it.domainName||''}}</label></li>
-                  </ul>
-                </li>
-            </ul>
-            </div>
-          </div><!--分类表end-->
-          <div class="center">
-            <button @click="subjectRowAdd">&gt;&gt;</button>
-            <button @click="subjectRowDel">&lt;&lt;</button>
-          </div>
-          <div class="right">
-            <div class="s-title">所选分类</div>
-            <div class="check-box-w">
-              <span class="title">----=双击删除一行=----</span>
-              <p v-for="(it,i) in RsubjectCheckList" @dblclick="subjectRowDblclick(i)" @click="subjectRowClick(i)" :class="subjectCheckRow==i?'p-active':''">{{it.domainName||''}}</p>
-            </div>
-          </div><!--所选分类end-->
-        </div><!--中间-内容板块-->
-        <div class="foot-btns">
-          <button @click="subjectAlertClose">取消</button>
-          <button @click="subjectSubmit">确定</button>
-        </div>
-      </div>
-    </div><!--学科分类-弹窗-->
-  </div>`;
+  </div><!--学科分类-弹窗-->
+</div>`;
   var rxjs = window.rxjs;
   var list = document.getElementsByClassName('unified_retrieval_sys_temp1');
   for (var i = 0; i < list.length; i++) {
@@ -126,6 +126,11 @@ function unified_retrieval_sys_temp1() {
       new Vue({
         el: '#' + list[i].lastChild.id,
         template: unified_retrieval_sys_temp1_temmplate,
+        created() {
+          let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
+          let info = urlInfo.find(item => item.code == 'articlesearch');
+          this.webBase = info.path + '/articlesearch/';
+        },
         data() {
           return {
             request_of: true,//默认true，请求完成fasle
@@ -133,7 +138,6 @@ function unified_retrieval_sys_temp1() {
             fileUrl: window.localStorage.getItem('fileUrl'),//图片地址前缀
             webBase: location.origin + '/articlesearch/',
             searchExpressionResolver: new searchExpressionCore(),//拼接表达式
-            searchPost: {},//提交参数
             search: null,//下拉选中条件
             basicInputKeyWord: '',//input输入框
             cu_colum: { //当前栏目列表
@@ -217,6 +221,8 @@ function unified_retrieval_sys_temp1() {
             this.cu_colum = val;
             if (this.cu_colum.searchBoxFields && this.cu_colum.searchBoxFields.length > 0) {
               this.search = this.cu_colum.searchBoxFields[0];
+            } else {
+              this.search = null;
             }
             if (this.cu_colum.actionType == 4) {
               window.location.href = this.cu_colum.link;
@@ -250,7 +256,7 @@ function unified_retrieval_sys_temp1() {
               } else {//普通搜索
                 this.searchExpressionResolver.clearConditions();//情况条件
                 if (this.search && this.search.symbol != "U") {
-                  if (this.search.symbol == 'C' || this.search.symbol == 'L') {//表示学科分类号和中途分类
+                  if (this.search.symbol == 'CC' || this.search.symbol == 'LC' || this.search.symbol == 'C' || this.search.symbol == 'L') {//表示学科分类号和中途分类
                     if (this.basicInputKeyWord) {
                       let rsubject_list = this.basicInputKeyWord.split('+') || [];
                       if (rsubject_list.length > 0) {
@@ -302,7 +308,7 @@ function unified_retrieval_sys_temp1() {
             this.postJsonAsync("/api/search-const/encrypt-search-parameter", list).then((x) => {
               let keyword = this.basicInputKeyWord || "";
               if (keyword.length >= 100) keyword = keyword.substring(0, 100);
-              let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}`;
+              let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
               window.location.href = href;
               // location.reload();
             });
@@ -393,7 +399,7 @@ function unified_retrieval_sys_temp1() {
           },
           //获取学科分类弹窗
           initSubject() {
-            if (this.search.symbol == 'C') {
+            if (this.search.symbol == 'CC' || this.search.symbol == 'C') {
               this.LsubjectCheckList = this.subjectAllList.filter(x => x.type == 0);//学科分类
             } else {
               this.LsubjectCheckList = this.subjectAllList.filter(x => x.type == 1);//中图分类

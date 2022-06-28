@@ -19,9 +19,9 @@
               <div class="my-name-box">
                 <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
                 <div class="name">
-                  <span class="text">{{form.name}}</span>
+                  <span class="text">{{form.name}} </span>
                   <span class="grade" v-show="form.grade">{{form.grade}}</span>
-                  <!-- <span class="leave">LV8</span> -->
+                  <span class="leave" v-if="form.scoreLevel">LV{{form.scoreLevel}}</span>
                   <!-- <div class="w-q">
                     <img src="../../../../../assets/web/img/wex.png" alt="">
                     <img src="../../../../../assets/web/img/qq.png" alt="">
@@ -37,7 +37,7 @@
                   <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.QQIdentity}">
                   {{identityList.QQIdentity?'已认证':'未认证'}}
                 </span>
-                <span @click="wxBind">
+                <span @click="wxBind" :class="{'cup': !identityList.weChatIdentity}">
                   <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
                   {{identityList.weChatIdentity?'已认证':'未认证'}}
                 </span>
@@ -727,7 +727,7 @@ export default {
   .name {
     width: 150px;
     .text {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
       color: #3a3536;
     }
@@ -750,12 +750,13 @@ export default {
     .leave {
       height: 22px;
       padding: 0 10px;
-      background: linear-gradient(180deg, #f5c571 0%, #ff9a2c 100%);
+      background: linear-gradient(121deg, #ffe3a4 0%, #eeac31 100%);
       border-radius: 4px;
       font-size: 16px;
       line-height: 22px;
       display: inline-block;
-      margin-left: 13px;
+      // margin-left: 13px;
+      margin-top: 5px;
       color: #fff;
     }
   }
@@ -849,13 +850,13 @@ export default {
     .list {
       position: absolute;
       top: 105px;
-      left: 25px;
+      left: 15px;
       .card-line {
         display: block;
-        height: 0;
-        border-bottom: 1px dashed #333;
+        height: 1px;
         margin: 5px 0;
-        width: 240px;
+        width: 250px;
+        background: url("../../../../../assets/web/img/personal/icon-line.png");
       }
       .list-item {
         display: flex;
@@ -875,11 +876,13 @@ export default {
       }
     }
     .time {
-      font-size: 16px;
+      font-size: 12px;
       color: #fff;
       position: absolute;
       bottom: 20px;
-      left: 65px;
+      // left: 65px;
+      width: 100%;
+      text-align: center;
     }
   }
 }
@@ -1194,6 +1197,12 @@ export default {
     &:hover {
       opacity: 0.8;
     }
+  }
+}
+.cup {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
   }
 }
 </style>
