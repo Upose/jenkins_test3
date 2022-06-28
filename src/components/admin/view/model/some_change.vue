@@ -1,12 +1,12 @@
 <template>
-  <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="500px">
+  <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="800px">
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="学历">
-        <!-- <el-checkbox v-model="b"></el-checkbox> -->
         <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
           <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
         </el-select>
+        <!-- <el-checkbox v-model="b"></el-checkbox> -->
       </el-form-item>
       <el-form-item label="院系">
         <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
@@ -52,6 +52,11 @@
       <el-form-item label="离校日期">
         <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="请选择" clearable></el-date-picker>
       </el-form-item>
+      <el-form-item label="用户分组">
+        <el-checkbox-group v-model="postForm.groupIDList">
+          <el-checkbox v-for="item in grounpOption" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
     </el-form>
     <div slot="footer">
       <el-button @click="dialogVisible = false" icon="iconfont el-icon-vip-quxiao">取 消</el-button>
@@ -72,9 +77,12 @@ export default {
       groupSelect: [],
       id: '',
       dialogVisible: false,
+      grounpOption: [],
+
+      userIDList: [],
+      fields: [],
       postForm: {
-        "userIDList": [],
-        "fields": [],
+        "groupIDList": [],
         "edu": "",
         "college": "",
         "major": "",
@@ -95,11 +103,13 @@ export default {
   },
   // components: { paging },
   mounted() {
-    this.getKey()
+
   },
   methods: {
     // 显示弹窗
     show() {
+      this.getGrounpList();
+      this.getKey()
       this.dialogVisible = true;
     },
     // 获取初始数据
@@ -119,6 +129,14 @@ export default {
           }
           this.groupSelect.push(data);
         });
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 获取用户组列表
+    getGrounpList() {
+      http.getJson('group-table-data', { pageIndex: 1, pageSize: 200 }).then(res => {
+        this.grounpOption = res.data.items || [];
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -148,18 +166,18 @@ export default {
     },
     //表单提交
     submitForm() {
-      this.postForm.userIDList = this.userList.map(item => {
+      this.userIDList = this.userList.map(item => {
         return item.id;
       });
-      this.postForm.fields = [];
+      this.fields = [];
       for (var key in this.postForm) {
-        if (!Array.isArray(this.postForm[key]) && this.postForm[key]) {
-          this.postForm.fields.push(key);
+        if (this.postForm[key] && (this.postForm[key] !== [] || this.postForm[key] !== '')) {
+          this.fields.push(key);
         }
       }
-      http.putJson('batch-update', this.postForm).then(res => {
+      http.putJson('batch-update', { ...this.postForm, fields: this.fields, userIDList: this.userIDList }).then(res => {
         this.dialogVisible = false;
-        this.$message({ message: '修改成功' + this.dataKey.needApprove ? '，等待审核！' : '！', type: 'success' });
+        this.$message({ message: this.dataKey.needApprove ? '修改成功，等待审核！' : '修改成功！', type: 'success' });
       }).catch(err => {
         this.$message({ type: 'error', message: this.handleError(err, '修改失败') });
       })
