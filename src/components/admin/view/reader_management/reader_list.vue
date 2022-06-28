@@ -56,7 +56,7 @@
                       <el-option v-for="item in textProperties3" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                   </el-input>
-                  <el-select v-model="searchTextcondition3" placeholder="请选择" style="width: 100px;" v-show="searchTextcondition3>0" class="textright">
+                  <el-select v-model="searchTextcondition3" placeholder="请选择" v-show="searchTextcondition3>0" class="textright">
                     <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
                   </el-select>
                 </div>
@@ -65,7 +65,7 @@
               <div class="search-item-box date-item-box" v-if="dateRangeProperties.length">
                 <div class="search-item w400">
                   <div class="date-checkbox">
-                    <el-select v-model="searchDateCode" placeholder="请选择" clearable>
+                    <el-select v-model="searchDateCode" placeholder="请选择" style="width: 130px;" clearable>
                       <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                     </el-select>
                     <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -199,9 +199,9 @@ export default {
   methods: {
     visibleAreaWidth() {
       let fullWidth = document.documentElement.clientWidth;
-      if (fullWidth > 1900) {
+      if (fullWidth > 1800) {
         this.searchTermWidth = 1520;
-      } else if (fullWidth > 1640 && fullWidth < 1900) {
+      } else if (fullWidth > 1640 && fullWidth < 1800) {
         this.searchTermWidth = 1353;
       } else {
         this.searchTermWidth = 1100;
@@ -665,10 +665,16 @@ export default {
       margin-right: 10px;
       width: auto;
       /deep/ .textleft{
-        width: 300px;
+        width: 400px;
         float: left;
         &.input-textleft,.el-input__inner{
-          width: 200px;
+          width: 270px;
+        }
+        .el-input--suffix{
+          .el-input__inner{
+            width: 130px;
+          }
+          
         }
       }
       /deep/ .el-select.textright{
