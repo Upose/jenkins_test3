@@ -20,8 +20,8 @@
                 <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
                 <div class="name">
                   <span class="text">{{form.name}} </span>
-                  <span class="grade" v-show="form.grade">{{form.grade}}</span>
-                  <span class="leave" v-if="form.scoreLevel">LV{{form.scoreLevel}}</span>
+                  <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
+                  <span class="leave" v-if="form.scoreLevel">LV.{{form.scoreLevel}}</span>
                   <!-- <div class="w-q">
                     <img src="../../../../../assets/web/img/wex.png" alt="">
                     <img src="../../../../../assets/web/img/qq.png" alt="">
@@ -37,19 +37,19 @@
                   <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.QQIdentity}">
                   {{identityList.QQIdentity?'已认证':'未认证'}}
                 </span>
-                <span @click="wxBind" :class="{'cup': !identityList.weChatIdentity}">
+                <span @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
                   <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
                   {{identityList.weChatIdentity?'已认证':'未认证'}}
                 </span>
-                <span>
+                <span @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
                   <img :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
                   {{form.mobileIdentity?'已认证':'未认证'}}
                 </span>
-                <span>
+                <span @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
                   <img :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
                   {{form.idCardIdentity?'已认证':'未认证'}}
                 </span>
-                <span>
+                <span @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
                   <img :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
                   {{form.emailIdentity?'已认证':'未认证'}}
                 </span>
@@ -225,13 +225,16 @@ export default {
       //   this.$message({ type: "error", message: "获取微信登录认证设置失败!" });
       // });
     },
-    // 打开微信绑定
-    wxBind() {
-      // 判断是否已绑定
-      if (!this.identityList.weChatIdentity) {
-        // this.$refs.dialog_code.show();
-        this.$router.push({ path: '/web_accountSet', query: { tab: 2, bind: 'bind' } });
-      }
+    // // 打开微信绑定
+    // wxBind() {
+    //   // 判断是否已绑定
+    //   if (!this.identityList.weChatIdentity) {
+    //     // this.$refs.dialog_code.show();
+    //     this.$router.push({ path: '/web_accountSet', query: { tab: 2, bind: 'bind' } });
+    //   }
+    // },
+    handleBind(type) {
+      this.$router.push({ path: '/web_accountSet', query: { tab: 2, bind: type } });
     },
     // 调接口，code传给后端
     getWeixin() {
@@ -719,6 +722,8 @@ export default {
     overflow: hidden;
     background: #ddd;
     margin-right: 10px;
+    border: 2px solid #fff;
+    box-shadow: 0 0 8px #ddd;
     img {
       width: 100%;
       height: 100%;
@@ -748,13 +753,15 @@ export default {
       letter-spacing: 2px;
     }
     .leave {
-      height: 22px;
-      padding: 0 10px;
-      background: linear-gradient(121deg, #ffe3a4 0%, #eeac31 100%);
-      border-radius: 4px;
-      font-size: 16px;
-      line-height: 22px;
+      width: 48px;
+      height: 24px;
+      background: linear-gradient(89deg, #f1c86c 0%, #efaf36 100%);
+      border-radius: 5px 5px 5px 5px;
+      border: 1px solid #ffffff;
+      line-height: 24px;
+      text-align: center;
       display: inline-block;
+      font-style: oblique;
       // margin-left: 13px;
       margin-top: 5px;
       color: #fff;
@@ -871,7 +878,7 @@ export default {
           color: #3a3536;
           font-size: 14px;
           font-weight: bold;
-          max-width: 149px;
+          // max-width: 149px;
         }
       }
     }

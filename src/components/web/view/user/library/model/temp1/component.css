@@ -192,6 +192,7 @@
   width: 100%;
   height: 100%;
   position: relative;
+  font-size: 12px;
 }
 
 .column-w .box-warp .c-box span::after {

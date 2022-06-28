@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="修改邮箱" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
+  <el-dialog title="修改身份证号" :visible.sync="dialogVisible" :modal-append-to-body="false" width="480px">
     <div>
       <el-form ref="form" :model="form" label-width="90px">
         <el-form-item label="身份证号">
@@ -24,11 +24,15 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      idCard:''
+      idCard: ''
     };
   },
   created() {
-
+    if (this.$route.query.bind && this.$route.query.bind == 'card') {
+      setTimeout(() => {
+        this.show();
+      }, 500);
+    }
   },
   mounted() {
 
@@ -39,7 +43,7 @@ export default {
     },
     // 编辑保存
     subForm() {
-      this.http.postJson('forward-bind-reader-id-card', { idCard: this.idCard}).then((res) => {
+      this.http.postJson('forward-bind-reader-id-card', { idCard: this.idCard }).then((res) => {
         this.dialogVisible = false;
         this.$message({ type: "success", message: "修改成功!" });
         this.$emit('change');

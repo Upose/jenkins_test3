@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 10:29:18
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-27 13:45:55
+ * @LastEditTime: 2022-06-28 16:52:32
  * @Description: 标签列表
 -->
 <template>
@@ -94,7 +94,7 @@ export default {
       loading: false,
       tagGroup: [],
       postForm: {
-        tagGroupId: ''
+        TagCategoryId: ''
       },//列表查询参数
       pageData: {
         pageIndex: 1,
@@ -139,7 +139,7 @@ export default {
       })
     },
     handleCategory(id) {
-      this.postForm.tagGroupId = id;
+      this.postForm.TagCategoryId = id;
       this.getList();
     },
     // 修改状态

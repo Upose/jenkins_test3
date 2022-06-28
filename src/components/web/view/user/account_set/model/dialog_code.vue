@@ -1,14 +1,7 @@
 <template>
   <div>
     <div v-show="weshow">
-      <el-dialog
-        title=""
-        :visible="true"
-        :append-to-body="false"
-        :modal-append-to-body="false"
-        :destroy-on-close="true"
-        @close="beforeClose"
-        width="400px">
+      <el-dialog title="" :visible="true" :append-to-body="false" :modal-append-to-body="false" :destroy-on-close="true" @close="beforeClose" width="400px">
         <div id="login_container" class="ewm-code"></div>
         <!-- <wxlogin
           :appid="wechatConfig.appID"
@@ -45,14 +38,14 @@ export default {
     },
     show() {
       this.weshow = true;
-      this.freshCode = setInterval(this.get_wx_qrcode(), 3*60*1000);
+      this.freshCode = setInterval(this.get_wx_qrcode(), 3 * 60 * 1000);
     },
     init() {
       this.http.getJson('reader-wechat-login-config').then((res) => {
         this.wechatConfig = res.data;
-        if (this.$route.query.bind) {
+        if (this.$route.query.bind == 'wx') {
           this.weshow = true;
-          this.freshCode = setInterval(this.get_wx_qrcode(), 3*60*1000);
+          this.freshCode = setInterval(this.get_wx_qrcode(), 3 * 60 * 1000);
         }
       }).catch((err) => {
       });
@@ -79,10 +72,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-/deep/ .el-dialog__body{
+/deep/ .el-dialog__body {
   text-align: center;
 }
 /deep/ .el-dialog__header {
-    border-bottom: none;
+  border-bottom: none;
 }
 </style>

@@ -72,6 +72,17 @@ export default {
     if (this.$route.query.weChatNickName && this.$route.query.wechatOpenId) {
       this.wxBindHandle();
     }
+    // if (this.$route.query.bind) {
+    //   const dialogOption = {
+    //     'phone': 'set_phone',
+    //     'card': 'set_idCard',
+    //     'msg': 'emil',
+    //   }
+    //   let name = dialogOption[this.$route.query.bind];
+    //   setTimeout(() => {
+    //     this.$refs[name].show();
+    //   }, 500);
+    // }
   },
   methods: {
     // 绑定信息
@@ -93,7 +104,7 @@ export default {
         this.checkModifyReaderPermit();
         this.$message({ type: "success", message: "用户绑定微信成功!" });
       }).catch((err) => {
-        this.$message({ type: "error", message: err.errors?err.errors:"用户绑定微信失败!" });
+        this.$message({ type: "error", message: err.errors ? err.errors : "用户绑定微信失败!" });
       });
     },
     // 解除绑定
@@ -109,7 +120,7 @@ export default {
         this.checkModifyReaderPermit();
         this.$message({ type: "success", message: "解除微信绑定成功!" });
       }).catch((err) => {
-        this.$message({ type: "error", message: err.errors?err.errors:"解除微信绑定失败!" });
+        this.$message({ type: "error", message: err.errors ? err.errors : "解除微信绑定失败!" });
       });
     },
     // 获取用户信息

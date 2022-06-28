@@ -40,7 +40,9 @@ export default {
 
   },
   mounted() {
-
+    if (this.$route.query.bind && this.$route.query.bind == 'phone') {
+      this.show();
+    }
   },
   methods: {
     show() {

@@ -40,7 +40,11 @@ export default {
 
   },
   mounted() {
-
+    if (this.$route.query.bind && this.$route.query.bind == 'msg') {
+      setTimeout(() => {
+        this.show();
+      }, 500);
+    }
   },
   methods: {
     show() {
