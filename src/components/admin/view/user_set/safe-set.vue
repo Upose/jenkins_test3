@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-27 13:22:02
+ * @LastEditTime: 2022-06-28 19:07:51
  * @Description: 安全设置
 -->
 <template>
@@ -77,19 +77,19 @@ export default {
   },
   mounted() {
     this.getKey();
-    this.getData();
   },
   methods: {
     // 获取初始数据
     getKey() {
       http.getJson('safe-set-init-data').then(res => {
         this.dataKey = res.data;
+        this.getData();
       })
     },
     // 获取设置数据
     getData() {
       http.getJson('security-config').then(res => {
-        this.postForm = res.data;
+        this.postForm = res.data || this.dataKey.securityConfigData;
       })
     },
     // 保存设置

@@ -67,17 +67,17 @@
                     <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
                   </div> -->
                   <div class="list">
-                    <div class="list-item">
-                      <div class="type-name">姓名</div>
-                      <div class="kname" :title="principal.userName">
-                        {{principal.userName}}
+                    <div class="list-item" v-if="principal.studentNo">
+                      <div class="type-name">学号/工号</div>
+                      <div class="kname" :title="principal.studentNo">
+                        {{principal.studentNo}}
                       </div>
                     </div>
                     <i class="card-line"></i>
                     <div class="list-item">
-                      <div class="type-name">读者卡号</div>
-                      <div class="kname" :title="principal.no">
-                        {{principal.no}}
+                      <div class="type-name">{{principal.typeName}}</div>
+                      <div class="kname" :title="principal.userStudentNo">
+                        {{principal.userStudentNo}}
                       </div>
                     </div>
                   </div>
@@ -856,7 +856,7 @@ export default {
     }
     .list {
       position: absolute;
-      top: 105px;
+      top: 110px;
       left: 15px;
       .card-line {
         display: block;

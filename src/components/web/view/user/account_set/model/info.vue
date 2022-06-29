@@ -69,7 +69,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="btn-box" v-if="updateReaderInfo">
+    <div class="btn-box" v-if="updateReaderInfo&&!loading">
       <el-button type="info" size="medium">取消</el-button>
       <el-button class="btn_bg_color child_border_color" type="primary" size="medium" @click="subForm">保存</el-button>
     </div>

@@ -19,7 +19,6 @@ import { validator } from "@/assets/public/js/util";
 
 export default {
   name: "index",
-  props: {},
   components: {},
   data() {
     return {
@@ -28,11 +27,7 @@ export default {
     };
   },
   created() {
-    if (this.$route.query.bind && this.$route.query.bind == 'card') {
-      setTimeout(() => {
-        this.show();
-      }, 500);
-    }
+
   },
   mounted() {
 

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-28 14:42:37
+ * @LastEditTime: 2022-06-28 19:56:27
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -511,9 +511,10 @@ export default {
     },
     /***删除行 */
     subjectRowDel() {
-      if (!this.subjectCheckRow) return;
-      this.RsubjectCheckList.splice(this.subjectCheckRow, 1);
-      this.subjectCheckRow = null;
+      if (this.subjectCheckRow || this.subjectCheckRow == 0) {
+        this.RsubjectCheckList.splice(this.subjectCheckRow, 1);
+        this.subjectCheckRow = null;
+      }
     },
     /**显示关键字高亮 */
     hightLightShow(message) {

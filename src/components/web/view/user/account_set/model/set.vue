@@ -72,17 +72,19 @@ export default {
     if (this.$route.query.weChatNickName && this.$route.query.wechatOpenId) {
       this.wxBindHandle();
     }
-    // if (this.$route.query.bind) {
-    //   const dialogOption = {
-    //     'phone': 'set_phone',
-    //     'card': 'set_idCard',
-    //     'msg': 'emil',
-    //   }
-    //   let name = dialogOption[this.$route.query.bind];
-    //   setTimeout(() => {
-    //     this.$refs[name].show();
-    //   }, 500);
-    // }
+    if (this.$route.query.bind) {
+      const dialogOption = {
+        'phone': { refName: 'set_phone', auth: 'User_Phone' },
+        'card': { refName: 'set_idCard', auth: 'User_IdCard' },
+        'msg': { refName: 'emil', auth: 'User_Email' },
+      }
+      let dia = dialogOption[this.$route.query.bind];
+      if (this.isEdit(dia.auth)) {
+        setTimeout(() => {
+          this.$refs[dia.refName].show();
+        }, 500);
+      }
+    }
   },
   methods: {
     // 绑定信息

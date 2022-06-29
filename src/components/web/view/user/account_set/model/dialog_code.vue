@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-show="weshow">
-      <el-dialog title="" :visible="true" :append-to-body="false" :modal-append-to-body="false" :destroy-on-close="true" @close="beforeClose" width="400px">
+    <div class="wx-mark" v-show="weshow">
+      <el-dialog title="" :visible="true" :append-to-body="false" :modal="false" :modal-append-to-body="false" :destroy-on-close="true" @close="beforeClose" width="400px">
         <div id="login_container" class="ewm-code"></div>
         <!-- <wxlogin
           :appid="wechatConfig.appID"
@@ -72,6 +72,16 @@ export default {
 </script>
 
 <style scoped lang="less">
+.wx-mark {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  margin: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
 /deep/ .el-dialog__body {
   text-align: center;
 }

@@ -24,7 +24,7 @@ import { validator } from "@/assets/public/js/util";
 
 export default {
   name: "index",
-  props: {},
+  // props: ['updateReaderInfo', 'dataKey'],
   components: {},
   data() {
     return {
@@ -40,9 +40,7 @@ export default {
 
   },
   mounted() {
-    if (this.$route.query.bind && this.$route.query.bind == 'phone') {
-      this.show();
-    }
+
   },
   methods: {
     show() {
