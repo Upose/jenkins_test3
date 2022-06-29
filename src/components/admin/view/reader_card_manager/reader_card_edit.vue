@@ -39,7 +39,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item  class="r-f-item2" prop="no">
-                    <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                    <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
                   </el-form-item>
                 </div>
                 <el-form-item label="物理码号" prop="physicNo">
