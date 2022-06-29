@@ -122,6 +122,8 @@ export default {
       // sysArrtKey: ['name', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit']
       sysArrt: [],
       sysArrtKey: [],
+      tableSysArrt: [],
+      tableSysArrtKey: [],
 
       textProperties: [
         { name: '读者姓名', code: 'Name' },
@@ -160,8 +162,21 @@ export default {
       http.getJson('card-init-data').then(res => {
         this.dataKey = res.data;
         // 处理表头
+        this.tableSysArrt = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+          return item.code;
+        })
         this.sysArrt = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           return item.code;
+        })
+        this.tableSysArrtKey = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
+          let icode = '';
+          let nm = item.code.split('_');
+          if (item.code.indexOf('User_') !== -1) {
+            icode = (nm[0]).toLowerCase() + nm[1];
+          } else {
+            icode = nm.length > 1 ? nm[1].replace(nm[1][0], nm[1][0].toLowerCase()) : '';
+          }
+          return icode
         })
         this.sysArrtKey = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           let icode = '';
@@ -245,14 +260,14 @@ export default {
       let value = '';
       let curItem = this.dataKey.showOnTableProperties.find((item) => (item.code == code));
       if (!curItem.external) {
-        let key = this.sysArrtKey[this.sysArrt.indexOf(code)];
+        let key = this.tableSysArrtKey[this.tableSysArrt.indexOf(code)];
         if (curItem.type == 2) {//时间
           value = row[key] ? this.dateChangeFormat('YYYY-mm-dd', row[key]) : "";
         } else if (curItem.type == 3) {//是否
           value = row[key] ? '是' : '否';
         } else if (curItem.type == 4) {//属性组
           let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
-          let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.sysArrtKey[this.sysArrt.indexOf(code)]]))
+          let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.tableSysArrtKey[this.tableSysArrt.indexOf(code)]]))
           value = itemss ? itemss.key : row[key];
         } else {//默认
           value = row[key] ? row[key] : '';

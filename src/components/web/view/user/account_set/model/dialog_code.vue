@@ -3,14 +3,6 @@
     <div v-show="weshow">
       <el-dialog title="" :visible="true" :append-to-body="false" :modal-append-to-body="false" :destroy-on-close="true" @close="beforeClose" width="400px">
         <div id="login_container" class="ewm-code"></div>
-        <!-- <wxlogin
-          :appid="wechatConfig.appID"
-          :scope="this.wechatConfig.scope"
-          :theme="'black'"
-          :redirect_uri="encodeURIComponent(this.wechatConfig.redirectUrl + '/cas/bindWeixin')"
-          :href="'data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZxxx='"
-          rel="external">
-        </wxlogin> -->
       </el-dialog>
     </div>
   </div>
@@ -38,19 +30,19 @@ export default {
     },
     show() {
       this.weshow = true;
-      this.freshCode = setInterval(this.get_wx_qrcode(), 3 * 60 * 1000);
+      this.freshCode = setInterval(this.getWxQrcode(), 3 * 60 * 1000);
     },
     init() {
       this.http.getJson('reader-wechat-login-config').then((res) => {
         this.wechatConfig = res.data;
         if (this.$route.query.bind == 'wx') {
           this.weshow = true;
-          this.freshCode = setInterval(this.get_wx_qrcode(), 3 * 60 * 1000);
+          this.freshCode = setInterval(this.getWxQrcode(), 3 * 60 * 1000);
         }
       }).catch((err) => {
       });
     },
-    get_wx_qrcode() {
+    getWxQrcode() {
       let obj = new WxLogin({
         self_redirect: false,
         id: "login_container",
