@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-28 19:56:27
+ * @LastEditTime: 2022-06-30 16:56:48
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -70,7 +70,7 @@
           <!--智能识别-导航至页面 || 参考咨询-（去提问、相关问题、导航至页面）-->
 
           <div class="a-panel-c5" v-if="onKeywordInputSuggestModel.autoComplete">
-            <div class="title">检索“{{ basicInputKeyWord }}”相关文献</div>
+            <div class="title">检索“{{ basicInputKeyWord }}”主题词</div>
             <div class="box box-link" v-for="(word, index) in onKeywordInputSuggestModel.autoComplete" :key="index" @click="searchKeyword(word)">{{word}}</div>
           </div>
           <!--（智能识别、智能匹配、参考咨询）搜索“XXX”相关文献-->
