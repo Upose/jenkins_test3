@@ -321,11 +321,20 @@ export default {
       this.http.getJson('forward-personal-scene-detail').then((res) => {
         this.tempParm = res.data;
         this.tempData = res.data.sceneScreens[0].sceneApps;
+        let targetList = []
         this.tempData.forEach(item => {
           this.applyIdList.push(item.appId);
-          this.addStyle(item.appWidget.target);
-          this.addScript(item.appWidget.target);
+          targetList.push(item.appWidget.target);
+          // this.addStyle(item.appWidget.target);
+          // this.addScript(item.appWidget.target);
         })
+        setTimeout(() => {
+          targetList.forEach(target => {
+            this.addStyle(target);
+            this.addScript(target);
+          })
+        }, 300);
+
       }).catch((err) => {
         this.$message({ type: "error", message: "获取模板组件失败!" });
       });
@@ -345,7 +354,7 @@ export default {
     },
     //引入css文件
     addStyle(url) {
-      url = url + '/component.css';
+      url = url + '/component.css?v=' + new Date().getTime();
       var link = document.createElement("link");
       link.setAttribute("rel", "stylesheet");
       link.setAttribute("type", "text/css");
@@ -354,10 +363,10 @@ export default {
     },
     //引入js文件
     addScript(url) {
-      url = url + '/component.js';
+      url = url + '/component.js?v=' + new Date().getTime();
       var js_element = document.createElement("script");
       js_element.setAttribute("type", "text/javascript");
-      js_element.setAttribute("src", url);
+      js_element.setAttribute("src", url + '?version=' + new Date().getTime());
       document.getElementsByTagName("body")[0].appendChild(js_element);
     },
 

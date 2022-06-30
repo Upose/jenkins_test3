@@ -23,8 +23,8 @@ export default {
   data() {
     return {
       skin_template: (JSON.parse(localStorage.getItem('headerFooterInfo'))).themeColor || 'template1',
-      headerTemplateCode:'',
-      footerTemplateCode:''
+      headerTemplateCode: '',
+      footerTemplateCode: ''
     }
   },
   created() { },
@@ -41,8 +41,8 @@ export default {
       this.addTemp(headerFooterInfo.footerRouter);
     },
     addTemp(url) {
-      this.addStyle(url + '/component.css');
-      this.addScript(url + '/component.js');
+      this.addStyle(url + '/component.css?v=' + new Date().getTime());
+      this.addScript(url + '/component.js?v=' + new Date().getTime());
     },
     addStyle(url) {
       var link = document.createElement("link");

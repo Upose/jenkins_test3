@@ -188,11 +188,11 @@
       <div class="right-box">
         <span :class="isGrounp(item.id)?'grounpSel':''" v-for="item in grounpList" :key="item.id" :data-id="item.id" @click="handleAddGrounp(item.id)">{{item.name}}</span>
       </div>
-      <div class="right-title">用户标签</div>
-      <div class="right-box user-tag">
+      <div class="right-title">添加至用户分组</div>
+      <!-- <div class="right-box user-tag">
         <span v-for="item in userTagList" :key="item.id" :data-id="item.id">{{item.name}}</span>
-        <!-- <span>搜索达人<img src="@/assets/admin/img/userManager/jian.png" class="imgs del" /></span> -->
-      </div>
+        <span>搜索达人<img src="@/assets/admin/img/userManager/jian.png" class="imgs del" /></span>
+      </div> -->
       <!-- <div class="right-title">更多</div>
       <div class="right-box user-tag">
         <span @click="addTag">学妹<img src="@/assets/admin/img/userManager/icon_add2x.png" class="imgs" /></span>
