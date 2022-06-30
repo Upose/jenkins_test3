@@ -28,14 +28,14 @@
         <span class="name">微信账号</span>
         <span class="content" v-if="form.weChatOpenId">{{form.weChatNickName}}</span>
         <span class="use" @click="unwxBindHandle" v-if="form.weChatOpenId">解除绑定</span>
-        <span class="use" @click="openWxBindList" v-else>立即设置</span>
+        <span class="use" @click="openWxBindList" v-else-if="form.wechatLoginIsOpen">立即设置</span>
       </div>
       <div class="set-item" v-if="form.QQOpenId">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
         <span class="name">QQ账号</span>
         <span class="content" v-if="form.QQOpenId">{{form.QQNickName}}</span>
-        <!-- <span class="use" v-if="form.weChatOpenId">解除绑定</span> -->
-        <!-- <span class="use" v-else>立即设置</span> -->
+        <span class="use" v-if="form.weChatOpenId">解除绑定</span>
+        <span class="use" v-else-if="qqLoginIsOpen">立即设置</span>
       </div>
     </template>
 
