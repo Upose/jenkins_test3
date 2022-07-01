@@ -10,7 +10,7 @@
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title">新增读者卡</h1>
+            <h1 class="search-title">编辑读者卡</h1>
           </div>
           <!--顶部查询 end-->
           <div class="login-list">
@@ -282,7 +282,7 @@ export default {
       if (this.id) {
         http.putJson('card', this.cardForm).then(res => {
           this.$message({ message: '编辑成功！', type: 'success' });
-          this.getData();
+          this.$router.back();
         }).catch(err => {
           this.$message({ type: 'error', message: this.handleError(err, '编辑失败!') });
         })
@@ -291,7 +291,7 @@ export default {
         http.postJson('card', this.cardForm).then(res => {
           this.$message({ message: '新增成功！', type: 'success' });
           this.id = res.data;
-          this.getData();
+          this.$router.back();
         }).catch(err => {
           this.$message({ type: 'error', message: this.handleError(err, '新增失败!') });
         })

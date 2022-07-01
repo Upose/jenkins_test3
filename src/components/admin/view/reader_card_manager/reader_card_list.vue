@@ -171,7 +171,7 @@ export default {
         this.tableSysArrtKey = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
           let icode = '';
           let nm = item.code.split('_');
-          if (item.code.indexOf('User_') !== -1) {
+          if (item.code.indexOf('User_') !== -1 && item.code != 'User_StudentNo') {
             icode = (nm[0]).toLowerCase() + nm[1];
           } else {
             icode = nm.length > 1 ? nm[1].replace(nm[1][0], nm[1][0].toLowerCase()) : '';
@@ -181,7 +181,7 @@ export default {
         this.sysArrtKey = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           let icode = '';
           let nm = item.code.split('_');
-          if (item.code.indexOf('User_') !== -1) {
+          if (item.code.indexOf('User_') !== -1 && item.code != 'User_StudentNo') {
             icode = (nm[0]).toLowerCase() + nm[1];
           } else {
             icode = nm.length > 1 ? nm[1].replace(nm[1][0], nm[1][0].toLowerCase()) : '';

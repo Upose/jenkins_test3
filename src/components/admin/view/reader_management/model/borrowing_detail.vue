@@ -12,7 +12,7 @@
       <div class="search-box">
         <el-input v-model="postForm.title" placeholder="题名" class="w150"></el-input>
         <el-input v-model="postForm.searchNo" placeholder="索书号" class="w150"></el-input>
-        <el-input v-model="postForm.collectPlace" placeholder="馆藏地" class="w150"></el-input>
+        <el-input v-model="postForm.collectionPlace" placeholder="馆藏地" class="w150"></el-input>
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" placeholder="归还时间" class="w150"></el-date-picker>
         <el-button type="primary" @click="getList" icon="iconfont el-icon-vip-fangdajing">查找</el-button>
@@ -25,8 +25,16 @@
         <el-table-column label="馆藏地" prop="collectPlace"></el-table-column>
         <el-table-column label="续借申请" prop="renewApply"></el-table-column>
         <el-table-column label="续借次数" prop="renewCount"></el-table-column>
-        <el-table-column label="借阅时间" prop="borrowTime"></el-table-column>
-        <el-table-column label="应归还时间" prop="showReturnTime"></el-table-column>
+        <el-table-column label="借阅时间" prop="borrowTime">
+          <template slot-scope="scope">
+            <span>{{ setTime(scope.row.borrowTime,'分') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="应归还时间" prop="showReturnTime">
+          <template slot-scope="scope">
+            <span>{{ setTime(scope.row.showReturnTime,'分') }}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>

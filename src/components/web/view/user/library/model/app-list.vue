@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-02 17:38:19
+ * @LastEditTime: 2022-07-01 18:16:33
  * @Description: 
 -->
 <template>
@@ -198,6 +198,8 @@ export default {
     }
   }
   .title-name {
+    width: 100%;
+    padding: 0 8px;
     margin-top: 8px;
     text-align: center;
     overflow: hidden;

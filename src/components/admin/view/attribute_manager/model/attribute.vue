@@ -168,7 +168,7 @@ export default {
       }).then(() => {
         http.deleteJsonSelf('property', `/${row.id}`).then(res => {
           this.getList();
-          this.$message({ type: 'success', message: '删除成功!' });
+          this.$message({ type: 'success', message: '删除成功，请等待审核！' });
         }).catch(err => {
           console.log(err);
         })
