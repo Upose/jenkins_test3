@@ -184,10 +184,10 @@
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="发卡日期" prop="issueDate">
-                  <el-date-picker v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="截止日期" prop="expireDate">
-                  <el-date-picker v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择">

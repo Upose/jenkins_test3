@@ -21,16 +21,16 @@ Vue.component('Debounce', Debounce)
 Vue.use(VueI18n)
 
 //判断是否本站地址url,返回true表示本站，无需open() | is_web:true表示前台；false表示后台
-Vue.prototype.isThirdpartyApp = function(is_web,url){
+Vue.prototype.isThirdpartyApp = function (is_web, url) {
   var port_url = {};
   var is_open = false;//true 打开新窗口，false不打开新窗口
   var orgInfo = localStorage.getItem('orgInfo');
-  if(orgInfo && orgInfo!='' && orgInfo!=undefined && orgInfo!='null' && orgInfo !='undefined'){
-    port_url = JSON.parse(localStorage.getItem('orgInfo'))||{};
-    if(is_web){
-      (url.indexOf(port_url.onlinePortalUrl)>-1|| url.indexOf(port_url.portalUrl)>-1) ? is_open = true : is_open = false;
-    }else{
-      (url.indexOf(port_url.onlineManageUrl)>-1|| url.indexOf(port_url.manageUrl)>-1) ? is_open = true : is_open = false;
+  if (orgInfo && orgInfo != '' && orgInfo != undefined && orgInfo != 'null' && orgInfo != 'undefined') {
+    port_url = JSON.parse(localStorage.getItem('orgInfo')) || {};
+    if (is_web) {
+      (url.indexOf(port_url.onlinePortalUrl) > -1 || url.indexOf(port_url.portalUrl) > -1) ? is_open = true : is_open = false;
+    } else {
+      (url.indexOf(port_url.onlineManageUrl) > -1 || url.indexOf(port_url.manageUrl) > -1) ? is_open = true : is_open = false;
     }
   }
   return is_open;
@@ -45,7 +45,7 @@ const i18n = new VueI18n({
   }
 })
 
-
+debugger
 
 let timer = setInterval(() => {
   if (axios && axios.defaults && axios.defaults.loaded) {

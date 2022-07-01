@@ -2,55 +2,55 @@
   <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="800px">
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="学历">
-        <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
+        <el-select class="wq50" v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
           <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
         </el-select>
         <!-- <el-checkbox v-model="b"></el-checkbox> -->
       </el-form-item>
       <el-form-item label="院系">
-        <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
+        <el-select class="wq50" v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
           <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="专业">
-        <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
+        <el-select class="wq50" v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
           <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年级">
-        <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
+        <el-select class="wq50" v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
           <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="班级">
-        <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
+        <el-select class="wq50" v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
           <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="性别">
-        <el-select v-model="postForm.gender" placeholder="请选择" clearable>
+        <el-select class="wq50" v-model="postForm.gender" placeholder="请选择" clearable>
           <el-option v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="用户类型">
-        <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
+        <el-select class="wq50" v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
           <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态">
-        <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
+        <el-select class="wq50" v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
           <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
           <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="离校日期">
-        <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="请选择" clearable></el-date-picker>
+        <el-date-picker class="wq50" v-model="postForm.leaveTime" type="date" placeholder="请选择" clearable></el-date-picker>
       </el-form-item>
       <el-form-item label="用户分组">
         <el-checkbox-group v-model="postForm.groupIDList">
@@ -188,4 +188,7 @@ export default {
 <style lang="less" scoped>
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
+.wq50 {
+  width: 50% !important;
+}
 </style>

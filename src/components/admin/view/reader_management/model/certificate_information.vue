@@ -20,7 +20,7 @@
       </div>
       <div class="certificate-box-info" v-if="item.showBox">
         <div class="editdiv">
-          <el-form ref="form" :model="form" label-width="100px">
+          <el-form ref="form" :model="form" label-width="120px">
             <div class="harf-area">
               <el-form-item label="学号/工号" prop="studentNo">
                 <el-input disabled v-model="item.studentNo"></el-input>
@@ -46,12 +46,12 @@
             </div>
             <div class="harf-area">
               <div class="row-form">
-                <el-form-item prop="type" class="r-f-item1">
+                <!-- <el-form-item prop="type" class="r-f-item1">
                   <el-select disabled v-model="item.type" placeholder="请选择" style="width:100%">
                     <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
-                </el-form-item>
-                <el-form-item prop="no" class="r-f-item2">
+                </el-form-item> -->
+                <el-form-item :label="getCardType(item.type)" prop="no">
                   <el-input disabled v-model="item.no"></el-input>
                 </el-form-item>
               </div>
@@ -86,44 +86,53 @@
       </div>
       <div class="certificate-box-info" v-if="item.showBox">
         <div class="editdiv">
-          <el-form ref="form" :model="form" label-width="100px">
-            <el-form-item label="读者卡号" prop="no">
-              <el-input disabled v-model="item.no"></el-input>
-            </el-form-item>
-            <!-- <el-form-item label="条形码" prop="barCode">
-              <el-input disabled v-model="item.barCode"></el-input>
-            </el-form-item> -->
-            <el-form-item label="物理码" prop="physicNo">
-              <el-input disabled v-model="item.physicNo"></el-input>
-            </el-form-item>
-            <!-- <el-form-item label="统一认证号" prop="identityNo">
-              <el-input disabled v-model="item.identityNo"></el-input>
-            </el-form-item> -->
-            <el-form-item label="发卡日期" prop="issueDate">
-              <el-date-picker disabled v-model="item.issueDate" type="date">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="截止日期" prop="expireDate">
-              <el-date-picker disabled v-model="item.expireDate" type="date">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="状态" prop="status">
-              <el-select disabled v-model="item.status" placeholder="请选择">
-                <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="卡类型" prop="type">
-              <el-select disabled v-model="item.type" placeholder="请选择">
-                <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="押金" prop="desposit">
-              <el-input disabled v-model="item.deposit"></el-input>
-            </el-form-item>
-            <el-form-item label="最近同步日期" prop="updateTime">
-              <el-date-picker disabled v-model="item.updateTime" type="date">
-              </el-date-picker>
-            </el-form-item>
+          <el-form ref="form" :model="form" label-width="120px">
+            <div class="harf-area">
+              <el-form-item label="学号/工号" prop="studentNo">
+                <el-input disabled v-model="item.studentNo"></el-input>
+              </el-form-item>
+              <!-- <el-form-item label="条形码" prop="barCode">
+                <el-input disabled v-model="item.barCode"></el-input>
+              </el-form-item> -->
+              <el-form-item label="状态" prop="status">
+                <el-select disabled v-model="item.status" placeholder="请选择" style="width:100%">
+                  <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+                </el-select>
+              </el-form-item>
+              <!-- <el-form-item label="统一认证号" prop="identityNo">
+                <el-input disabled v-model="item.identityNo"></el-input>
+              </el-form-item> -->
+              <el-form-item label="截止日期" prop="expireDate">
+                <el-date-picker disabled v-model="item.expireDate" type="date">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="押金" prop="desposit">
+                <el-input disabled v-model="item.deposit"></el-input>
+              </el-form-item>
+            </div>
+            <div class="harf-area">
+              <div class="row-form">
+                <!-- <el-form-item prop="type" class="r-f-item1">
+                  <el-select disabled v-model="item.type" placeholder="请选择" style="width:100%">
+                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                  </el-select>
+                </el-form-item> -->
+                <el-form-item :label="getCardType(item.type)" prop="no">
+                  <el-input disabled v-model="item.no"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item label="发卡日期" prop="issueDate">
+                <el-date-picker disabled v-model="item.issueDate" type="date">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="物理码" prop="physicNo">
+                <el-input disabled v-model="item.physicNo"></el-input>
+              </el-form-item>
+              <el-form-item label="最近同步日期" prop="updateTime">
+                <el-date-picker disabled v-model="item.updateTime" type="date">
+                </el-date-picker>
+              </el-form-item>
+            </div>
           </el-form>
         </div>
       </div>
@@ -215,6 +224,10 @@ export default {
       if (!select) return;
       let obj = select.groupItems.find(item => (item.value == status));
       return obj ? obj.key : '';
+    },
+    getCardType(type) {
+      let typeOption = this.initSelect('Card_Type');
+      return typeOption.find(item => item.value == type).key;
     },
     // 时间格式化
     dateChangeFormat(date, format = 'YYYY-mm-dd') {
@@ -316,23 +329,23 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.row-form{
+.row-form {
   width: 100%;
   height: 62px;
   padding: 0;
   display: inline-block;
   vertical-align: top;
-  /deep/ .r-f-item1{
-    width: 49%;
+  /deep/ .r-f-item1 {
+    width: 100px;
     float: left;
-    .el-form-item__content{
+    .el-form-item__content {
       margin-left: 40px !important;
     }
   }
-   /deep/ .r-f-item2{
-    width: 50%;
+  /deep/ .r-f-item2 {
+    width: calc(100% - 100px);
     float: left;
-    .el-form-item__content{
+    .el-form-item__content {
       margin-left: 0 !important;
     }
   }
@@ -431,7 +444,7 @@ export default {
 .editdiv {
   width: 100%;
   margin-top: 2%;
-  .harf-area{
+  .harf-area {
     width: 49%;
     float: left;
   }
@@ -465,7 +478,7 @@ export default {
 /deep/ .el-input,
 /deep/ .el-select,
 .divStyle {
-  width: 95%;
+  width: 100% !important;
   float: left;
 }
 .certificate-box-top {

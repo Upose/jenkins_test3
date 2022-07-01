@@ -101,7 +101,7 @@ export default {
 
 <style scoped lang="less">
 .w-inp {
-  width: 368px;
+  width: 368px !important;
 }
 .detail /deep/ .el-form-item {
   display: inline-block;

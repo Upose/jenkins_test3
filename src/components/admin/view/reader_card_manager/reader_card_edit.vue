@@ -32,13 +32,13 @@
                   <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <div class="row-form">
-                  <el-form-item  class="r-f-item1" prop="type">
+                  <el-form-item class="r-f-item1" prop="type">
                     <el-select v-model="cardForm.type" placeholder="请选择" clearable>
                       <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
-                  <el-form-item  class="r-f-item2" prop="no">
+                  <el-form-item class="r-f-item2" prop="no">
                     <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
                   </el-form-item>
                 </div>
@@ -46,10 +46,10 @@
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="发卡日期" prop="issueDate">
-                  <el-date-picker v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="截止日期" prop="expireDate">
-                  <el-date-picker v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择">
@@ -317,23 +317,23 @@ export default {
       margin-left: 20px;
     }
   }
-  .row-form{
+  .row-form {
     width: 49%;
     height: 62px;
     padding: 0;
     display: inline-block;
     vertical-align: top;
-    /deep/ .r-f-item1{
+    /deep/ .r-f-item1 {
       width: 49%;
       float: left;
-      .el-form-item__content{
+      .el-form-item__content {
         margin-left: 100px !important;
       }
     }
-     /deep/ .r-f-item2{
+    /deep/ .r-f-item2 {
       width: 50%;
       float: left;
-      .el-form-item__content{
+      .el-form-item__content {
         margin-left: 0 !important;
       }
     }

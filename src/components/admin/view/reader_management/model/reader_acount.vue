@@ -115,7 +115,7 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="出生年月" prop="birthday">
-            <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+            <el-date-picker class="wq95" v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="所在地" prop="addr">
@@ -130,7 +130,7 @@
             <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="离校日期" prop="leaveTime">
-            <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
+            <el-date-picker class="wq95" v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="状态" prop="status">
@@ -156,7 +156,7 @@
           <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
             <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
             <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1" placeholder="请输入"></el-input>
-            <el-date-picker v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+            <el-date-picker class="wq95" v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
             <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
               <el-radio :label="'true'">是</el-radio>
               <el-radio :label="'false'">否</el-radio>
@@ -184,11 +184,11 @@
       </div>
     </div>
     <div class="reader-right">
-      <div class="right-title">用户分组</div>
+      <div class="right-title">添加至用户分组</div>
       <div class="right-box">
         <span :class="isGrounp(item.id)?'grounpSel':''" v-for="item in grounpList" :key="item.id" :data-id="item.id" @click="handleAddGrounp(item.id)">{{item.name}}</span>
       </div>
-      <div class="right-title">添加至用户分组</div>
+      <!-- <div class="right-title">添加至用户分组</div> -->
       <!-- <div class="right-box user-tag">
         <span v-for="item in userTagList" :key="item.id" :data-id="item.id">{{item.name}}</span>
         <span>搜索达人<img src="@/assets/admin/img/userManager/jian.png" class="imgs del" /></span>

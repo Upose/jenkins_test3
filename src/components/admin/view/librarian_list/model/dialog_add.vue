@@ -56,12 +56,12 @@
       <el-form-item label="生效日期" prop="issueDate">
         <!-- <el-date-picker v-model="ruleForm.issueDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="times-box">
               </el-date-picker> -->
-        <el-date-picker v-model="ruleForm.issueDate" type="date" placeholder="请选择"></el-date-picker>
+        <el-date-picker style="width:87%" v-model="ruleForm.issueDate" type="date" placeholder="请选择"></el-date-picker>
       </el-form-item>
       <el-form-item label="截止日期" prop="expireDate">
         <!-- <el-date-picker v-model="ruleForm.issueDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="times-box">
               </el-date-picker> -->
-        <el-date-picker v-model="ruleForm.expireDate" type="date" placeholder="请选择"></el-date-picker>
+        <el-date-picker style="width:87%" v-model="ruleForm.expireDate" type="date" placeholder="请选择"></el-date-picker>
       </el-form-item>
       <el-form-item label="状态" prop="status">
         <el-select v-model="ruleForm.status" placeholder="请选择">
