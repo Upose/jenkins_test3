@@ -7,6 +7,7 @@ var baseURL1 = '/appcenter';//请求前端地址 应用中心
 var baseURL2 = '/scenemanage';//请求前端地址 服务中台
 var baseURL3 = '/databaseguide';//请求前端地址 数据库导航
 var baseURL4 = '/noticecenter';//请求前端地址 消息中心
+var baseURL5 = '/news';//请求前端地址 消息中心
 
 export default {
     postUrl: {
@@ -23,6 +24,7 @@ export default {
         'my-favorite-databases': baseURL3 + '/api/database-terrace/my-favorite-databases',//获取我的数据库
         'visit-databases': baseURL3 + '/api/database-terrace/visit-databases',//跳转记录访问次数
         'notice-center-scene-message': baseURL4 + '/api/reader-message/notice-center-scene-message',//获取通知消息
+        'pront-scenes-top-news': baseURL5 + '/api/news/pront-scenes-top-news',//获取新闻
         '': baseURL + '',//
     },
 }

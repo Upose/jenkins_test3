@@ -5,7 +5,7 @@
         <!-- <el-form-item label="统一认证号">
           <el-input v-model="form.identityNo" class="w-inp" disabled></el-input>
         </el-form-item> -->
-        <el-form-item label="读者卡号">
+        <el-form-item :label="form.typeName">
           <el-input v-model="form.no" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="学号/工号">

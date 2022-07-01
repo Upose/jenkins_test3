@@ -2,20 +2,20 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-02 18:11:41
+ * @LastEditTime: 2022-07-01 17:31:03
  * @Description: 
 -->
 <template>
   <div class="apply">
     <div class="title-box1">
-      <span class="left">消息通知</span>
-      <span class="right" @click="linkTo(informMoreUrl)">更多<i class="el-icon-arrow-right"></i></span>
+      <span class="left">新闻公告</span>
+      <!-- <span class="right" @click="linkTo(informMoreUrl)">更多<i class="el-icon-arrow-right"></i></span> -->
     </div>
     <div class="app-content">
       <div class="item-box">
-        <p class="info-item1" v-for="item in list" :key="item">
-          <span class="info-item1-title"><span class="info-item1-tag">{{item.appName}}</span>{{item.intro}}</span>
-          <span>{{timeFormat(item.sendTime)}}</span>
+        <p class="info-item1" v-for="item in list" :key="item" @click="linkTo(item.jumpLink)">
+          <span class="info-item1-title"><span class="info-item1-tag">{{item.lables&&item.lables!=''?item.lables:'新闻'}}</span>{{item.title}}</span>
+          <span>{{timeFormat(item.publishDate)}}</span>
         </p>
       </div>
     </div>
@@ -40,13 +40,13 @@ export default {
   methods: {
     // 获取我的应用
     getMyApp() {
-      this.http.getJson('notice-center-scene-message', {
-        TopCount: 3
+      this.http.postJson('pront-scenes-top-news', {
+        count: 3
       }).then((res) => {
-        this.list = res.data.noticeMessages;
-        this.informMoreUrl = res.data.linkUrl;
+        this.list = res.data;
+        // this.informMoreUrl = res.data.linkUrl;
       }).catch((err) => {
-        this.$message({ type: "error", message: "获取通知消息失败!" });
+        this.$message({ type: "error", message: "获取新闻公告失败!" });
       });
     },
     linkTo(url, code) {
@@ -54,7 +54,8 @@ export default {
         let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == code)
         window.open(info.path + url);
       } else {
-        window.open(url);
+        // window.open(url);
+        window.location.href = url;
       }
     },
     timeFormat(date) {
@@ -208,6 +209,7 @@ export default {
         border-radius: 11px 0px 11px 11px;
         padding: 3px 5px;
         color: #458dda;
+        margin-right: 3px;
       }
       .info-item1-title {
         width: 200px;

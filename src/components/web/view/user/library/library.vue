@@ -76,8 +76,8 @@
                     <i class="card-line"></i>
                     <div class="list-item">
                       <div class="type-name">{{principal.typeName}}</div>
-                      <div class="kname" :title="principal.userStudentNo">
-                        {{principal.userStudentNo}}
+                      <div class="kname" :title="principal.no">
+                        {{principal.no}}
                       </div>
                     </div>
                   </div>

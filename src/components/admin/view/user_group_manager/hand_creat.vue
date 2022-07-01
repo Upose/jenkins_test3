@@ -23,7 +23,7 @@
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="10" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input type="textarea" autosize v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
+                <el-input type="textarea" :rows="3" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择读者">
                 <el-tabs v-model="activeName" style="min-width:930px">
@@ -77,6 +77,7 @@
                       </div>
                       <el-table v-loading="loading" :data="tableData" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange">
                         <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
@@ -98,6 +99,7 @@
 
                       <el-table :data="chanceData" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
                         <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{scope.row.name || scope.row.userName}}

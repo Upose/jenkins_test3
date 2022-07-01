@@ -45,8 +45,6 @@ const i18n = new VueI18n({
   }
 })
 
-debugger
-
 let timer = setInterval(() => {
   if (axios && axios.defaults && axios.defaults.loaded) {
     clearInterval(timer);
