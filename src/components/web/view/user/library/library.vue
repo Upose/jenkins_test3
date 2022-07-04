@@ -28,7 +28,7 @@
                   </div> -->
                 </div>
               </div>
-              <div class="certification">
+              <div class="certification" v-if="!identityListLoading">
                 <!-- <span>
                   <img :src="replaceImg('qq')" alt="" class="gray">
                   未认证
@@ -178,6 +178,7 @@ export default {
       wxCode: '',
       wxbindLoading: false,
       identityList: {},
+      identityListLoading:true,
       // wechatConfig: {},
     }
   },
@@ -192,12 +193,12 @@ export default {
       }
     }
   },
-  created() {
+  async created() {
     // 设置网页标题
     document.title = JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName + '-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
 
     this.getKey();
-    this.getInfo();
+    // this.getInfo();
     this.wxBindList();
     this.getCard();
     this.getApplyList();
@@ -216,8 +217,10 @@ export default {
     wxBindList() {
       this.http.getJson('forward-reader-identity-status').then((res) => {
         this.identityList = res.data;
+        this.getInfo();
       }).catch((err) => {
         this.$message({ type: "error", message: "获取用户是否已绑定信息失败!" });
+        this.getInfo();
       });
       // this.http.getJson('reader-wechat-login-config').then((res) => {
       //   this.wechatConfig = res.data;
@@ -298,6 +301,7 @@ export default {
     getInfo() {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
+        this.identityListLoading = false;
         console.log(this.form)
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
