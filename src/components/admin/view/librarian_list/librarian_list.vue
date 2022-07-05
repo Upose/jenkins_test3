@@ -7,11 +7,12 @@
           <router-link class="xinzeng" :to="{path:'/admin_attributeDepManager'}">新增</router-link>
         </div>
         <div class="left-box">
-          <el-tree :data="checkDep" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true" node-key="id">
+          <!-- <el-tree :data="checkDep" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true" node-key="id">
             <span slot-scope="{node,data}">
               {{data.name}}{{data.count?'('+data.count+'人)':''}}
             </span>
-          </el-tree>
+          </el-tree> -->
+          <DepartmentList @handleNodeClick="handleNodeClick" />
         </div>
       </div>
       <div class="librarianList-right">
@@ -84,11 +85,11 @@
 import http from "@/assets/public/js/http";
 import paging from "@/components/admin/model/paging";
 import updateIcon from '../model/updateIcon';
-
-import dialog_change from './model/dialog_change'
-import dialog_add from './model/dialog_add'
+import DepartmentList from './model/DepartmentList.vue';
+import dialog_change from './model/dialog_change';
+import dialog_add from './model/dialog_add';
 export default {
-  components: { paging, updateIcon, dialog_change, dialog_add },
+  components: { paging, updateIcon, dialog_change, dialog_add, DepartmentList },
   data() {
     return {
       loading: false,
@@ -102,10 +103,6 @@ export default {
       postForm: {},
       checkDep: [],
       departList: [],
-      defaultProps: {
-        children: 'children',
-        label: 'name',
-      },
       nodeDepart: '',
       name: '',
       textProperties: [
@@ -141,7 +138,7 @@ export default {
       http.getJson('staff-init-data').then(res => {
         this.dataKey = res.data;
         // sessionStorage.setItem('user_dataKey',JSON.stringify(res.data))
-        this.getDepa();
+        // this.getDepa();
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -161,15 +158,7 @@ export default {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
-    // 获取部门
-    getDepa() {
-      http.getJson('org-count-list').then(res => {
-        this.departList = res.data;
-        this.checkDep = [{ name: '全部', fullPath: '' }, ...res.data]
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
-      })
-    },
+
     // 初始化分页数据 并刷新列表
     initGetList() {
       this.pageData = {
@@ -232,7 +221,7 @@ export default {
       this.initGetList();
     },
     handleNodeClick(data) {
-      this.nodeDepart = data.fullPath;
+      this.nodeDepart = data;
       this.handSearch();
     },
     // 多选
@@ -265,11 +254,12 @@ export default {
   padding-bottom: 30px;
 }
 .librarianList-left {
-  width: 15%;
+  width: 18%;
   max-width: 22%;
+  margin-right: 30px;
 }
 .librarianList-right {
-  width: 85%;
+  width: 82%;
   min-width: 78%;
   padding-left: 10px;
   // padding: 0 20px 30px;
@@ -415,8 +405,8 @@ export default {
   color: #f56c6c;
 }
 .trees {
-  margin-top: 4%;
-  width: 88%;
+  // margin-top: 4%;
+  // width: 88%;
 }
 .chakan {
   background: #f9f8ff;

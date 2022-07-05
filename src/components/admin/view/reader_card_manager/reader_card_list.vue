@@ -13,11 +13,12 @@
             <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav" @click="$router.push('/admin_readerCardSnyc')">同步日志</span></h1>
             <div class="search-term" v-if="dataKey">
               <div class="search-item-box">
-                <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
-                  <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
-                    <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
-                  </el-select>
+                <el-input placeholder="读者姓名" v-model="postForm.name" style="width:200px" clearable>
                 </el-input>
+                <el-select v-model="searchType1" placeholder="" style="width:100px">
+                  <el-option v-for="item in textcondition" :key="item.val" :label="item.label" :value="item.val">
+                  </el-option>
+                </el-select>
               </div>
               <div class="search-item-box">
                 <div class="search-item">
@@ -32,6 +33,17 @@
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                 </div>
+              </div>
+              <div class="search-item-box">
+                <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
+                  <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
+                    <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                  </el-select>
+                </el-input>
+                <el-select v-model="searchType2" placeholder="" style="width:100px">
+                  <el-option v-for="item in textcondition" :key="item.val" :label="item.label" :value="item.val">
+                  </el-option>
+                </el-select>
               </div>
               <!-- 日期选择 -->
               <div class="search-item-box" v-if="dateRangeProperties.length">
@@ -63,11 +75,13 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" v-for="item in dataKey.showOnTableProperties" :key="item">
-                  <template slot-scope="scope">
-                    <span>{{getKeyValue(item.code,scope.row)}}</span>
-                  </template>
-                </el-table-column>
+                <template v-for="item in dataKey.showOnTableProperties">
+                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item" v-if="item.code != 'Card_Type'" :min-width="item.code=='Card_No'?'150':''">
+                    <template slot-scope="scope">
+                      <span>{{getKeyValue(item.code,scope.row)}}</span>
+                    </template>
+                  </el-table-column>
+                </template>
                 <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('card:delete')">删除</el-button>
@@ -126,17 +140,29 @@ export default {
       tableSysArrtKey: [],
 
       textProperties: [
-        { name: '读者姓名', code: 'Name' },
+        // { name: '读者姓名', code: 'Name' },
+        { name: '学号/工号', code: 'StudentNo' },
         { name: '读者卡号', code: 'CardNo' },
         { name: '物理码', code: 'PhysicNo' },
-        { name: '学号', code: 'StudentNo' },
       ],
+      textcondition: [{
+        val: 1,
+        label: '模糊'
+      }, {
+        val: 2,
+        label: '精确'
+      }, {
+        val: 3,
+        label: '前向'
+      }],
+      searchType1: 3,
+      searchType2: 1,
       dateRangeProperties: [
         { name: '发卡日期', code: 'CardIssueDate' }
       ],
       searchTextCode: '',//文本输入code
       searchTextValue: '',//文本输入值
-      searchDateCode: '',//日期选择code
+      searchDateCode: 'CardIssueDate',//日期选择code
       searchDateValue: '',//日期选择值
     }
   },
@@ -195,7 +221,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('card-table-data', { ...this.postForm, ...this.pageData }).then(res => {
+      http.getJson('card-table-data', { ...this.postForm, ...this.pageData, searchType1: this.searchType1, searchType2: this.searchType2 }).then(res => {
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
@@ -207,9 +233,10 @@ export default {
       })
     },
     //获取布局
-    getColumnAlign(property) {
-      var align = 'center';
-      return align;
+    getColumnAlign(code) {
+      const leftCode = ['Card_No', 'User_Name', 'User_StudentNo', 'Card_PhysicNo']
+      if (leftCode.includes(code)) return 'left';
+      return 'center';
     },
     //获取列宽
     getColumnWidth(property) {
@@ -320,6 +347,7 @@ export default {
       let search = {};
       search['cardType'] = this.postForm.cardType;
       search['cardStatus'] = this.postForm.cardStatus;
+      search['name'] = this.postForm.name;
       if (this.searchTextCode && this.searchTextValue) {
         // let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
         search[this.searchTextCode] = this.searchTextValue;

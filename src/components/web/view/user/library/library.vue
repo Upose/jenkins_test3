@@ -34,8 +34,8 @@
                   未认证
                 </span> -->
                 <span>
-                  <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.QQIdentity}">
-                  {{identityList.QQIdentity?'已认证':'未认证'}}
+                  <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}">
+                  {{identityList.qqIdentity?'已认证':'未认证'}}
                 </span>
                 <span @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
                   <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
@@ -178,7 +178,7 @@ export default {
       wxCode: '',
       wxbindLoading: false,
       identityList: {},
-      identityListLoading:true,
+      identityListLoading: true,
       // wechatConfig: {},
     }
   },
