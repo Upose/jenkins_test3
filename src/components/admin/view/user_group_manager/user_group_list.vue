@@ -26,7 +26,7 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" v-loading="loading">
                 <el-table-column type="index" width="50" align="center" label="序号"></el-table-column>
                 <el-table-column prop="name" label="用户组名称"></el-table-column>
                 <el-table-column prop="userCount" label="读者数"></el-table-column>
@@ -36,7 +36,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column prop="createUserName" label="创建人"></el-table-column>
-                <el-table-column prop="createTime" label="创建时间">
+                <el-table-column prop="createTime" label="创建时间" align="center">
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime,'分')}}
                   </template>
@@ -91,6 +91,7 @@ export default {
         pageSize: 20,
       },//分页参数
       tableData: [],//列表项
+      loading: false,
     }
   },
   activated() {
@@ -124,13 +125,15 @@ export default {
     },
     // 获取列表数据
     getList() {
+      this.loading = true;
       http.getJson('group-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
-
+        this.loading = false;
         //分页所需  数据总条数
         // this.pageData.totalCount = res.data.totalCount;
         this.$set(this.pageData, 'totalCount', res.data.totalCount)
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

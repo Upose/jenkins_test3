@@ -242,6 +242,10 @@ export default {
     },
     //打开图标上传弹窗
     upImg() {
+      if (!this.postForm.seeSensitiveInfo) {
+        this.$message.warning('您没有用户隐私信息查看权限，不能修改信息。')
+        return
+      }
       this.dialogUPimg = true;
     },
     // 返回图片相对路径

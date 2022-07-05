@@ -443,6 +443,10 @@ export default {
     },
     // 添加到用户组
     handleAddGrounp(id) {
+      if (!this.postForm.seeSensitiveInfo) {
+        this.$message.warning('您没有用户隐私信息查看权限，不能修改信息。')
+        return
+      }
       if (!this.isGrounp(id)) {
         http.postJson('user-to-group', { groupId: id, userIds: [this.postForm.id] }).then(res => {
           this.$message({ message: '添加成功！', type: 'success' });
@@ -474,6 +478,10 @@ export default {
     },
     //表单提交
     submitForm() {
+      if (!this.postForm.seeSensitiveInfo) {
+        this.$message.warning('您没有用户隐私信息查看权限，不能修改信息。')
+        return
+      }
       this.$refs['readerForm'].validate((ok) => {
         if (ok) {
           if (this.iconUrl && this.iconUrl != '') {

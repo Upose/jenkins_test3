@@ -23,21 +23,33 @@
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="10" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input type="textarea" autosize v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
+                <el-input type="textarea" :rows="4" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择">
                 <div class="rule-box" v-if="dataKey">
                   <div class="rule-item" v-for="(item,index) in ruleList" :key="index">
                     <el-select v-model="item.propertyId" placeholder="请选择" class="w150" @change="handleChange(item)">
-                      <el-option v-for="items in dataKey.userProperties" :key="items.id" :label="items.name" :value="items.id"></el-option>
+                      <el-option v-for="items in selectOption" :key="items.id" :label="items.name" :value="items.id"></el-option>
                     </el-select>
-                    <el-select v-model="item.compareType" placeholder="请选择" class="w100">
-                      <el-option v-for="items in compare" :key="items.value" :label="items.key" :value="items.value">
-                      </el-option>
-                    </el-select>
-                    <el-select v-model="item.propertyValue" placeholder="请选择" class="w150">
-                      <el-option v-for="items in item.valueList" :key="items.value" :label="items.key" :value="items.value"></el-option>
-                    </el-select>
+                    <!-- 属性组 -->
+                    <template v-if="item.propertyType==4">
+                      <el-select v-model="item.compareType" placeholder="请选择" class="w110">
+                        <el-option v-for="items in compare" :key="items.value" :label="items.key" :value="items.value">
+                        </el-option>
+                      </el-select>
+                      <el-select v-model="item.propertyValue" placeholder="请选择" class="w150" v-if="item.propertyType==4">
+                        <el-option v-for="items in item.valueList" :key="items.value" :label="items.key" :value="items.value"></el-option>
+                      </el-select>
+                    </template>
+
+                    <!-- 日期 -->
+                    <template v-else-if="item.propertyType==2">
+                      <el-select v-model="item.compareType" placeholder="请选择" class="w110">
+                        <el-option v-for="(value,key) in dataKey.compareType" :key="value" :label="key" :value="value">
+                        </el-option>
+                      </el-select>
+                      <el-date-picker placeholder="请选择" class="w150" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd"></el-date-picker>
+                    </template>
                     <el-select v-model="item.unionWay" placeholder="请选择" class="w100">
                       <el-option v-for="items in union" :key="items.value" :label="items.key" :value="items.value">
                       </el-option>
@@ -100,6 +112,7 @@ export default {
       auth: [],
 
       dataKey: null,
+      selectOption: [],
       ruleList: [],//规则列表
       compare: [
         { key: '等于', value: 1 },
@@ -134,7 +147,10 @@ export default {
           "propertyValue": "",
           "sort": 0,
           "unionWay": 1,
-          "valueList": []
+          "valueList": [],
+          "allList": [],
+          "propertyType": 4,
+          "propertyCode": ""
         }]
       }
     },
@@ -142,6 +158,16 @@ export default {
     getKey() {
       http.getJson('user-group-init-data').then(res => {
         this.dataKey = res.data;
+        this.selectOption = [
+          ...res.data.userProperties.map(item => {
+            item.propertyType = 4;
+            return item;
+          }),
+          ...res.data.groupRuleProperty.map(item => {
+            item.propertyType = 2;
+            return item;
+          })
+        ]
         if (this.id) {
           this.getData();
         }
@@ -163,9 +189,13 @@ export default {
     },
     // 选择属性
     handleChange(cur) {
-      let items = this.dataKey.userProperties.find(item => (item.id == cur.propertyId))
-      let itemss = this.dataKey.groupSelect.find(item => (item.groupCode == items.code))
-      cur.valueList = itemss ? itemss.groupItems : [];
+      cur.propertyType = this.selectOption.find(item => item.id == cur.propertyId).propertyType;
+      cur.propertyCode = this.selectOption.find(item => item.id == cur.propertyId).code;
+      if (cur.propertyType == 4) {
+        let items = this.dataKey.userProperties.find(item => (item.id == cur.propertyId))
+        let itemss = this.dataKey.groupSelect.find(item => (item.groupCode == items.code))
+        cur.valueList = itemss ? itemss.groupItems : [];
+      }
     },
     // 添加
     addCoumn() {
@@ -175,7 +205,10 @@ export default {
         "propertyValue": "",
         "sort": 0,
         "unionWay": 1,
-        "valueList": []
+        "valueList": [],
+        "allList": [],
+        "propertyType": 4,
+        "propertyCode": ""
       })
     },
     // 删除
@@ -197,7 +230,15 @@ export default {
         this.$message({ message: '最多只能添加6条规则', type: 'error' });
         return;
       }
-      this.postForm.rules = validRules;
+      this.postForm.rules = validRules.map((item, index) => {
+        return {
+          "compareType": item.compareType,
+          "propertyId": item.propertyId,
+          "propertyValue": item.propertyValue,
+          "sort": index + 1,
+          "unionWay": item.unionWay,
+        }
+      });
       if (this.id) {
         http.putJson('user-group', this.postForm).then(res => {
           this.$message({ message: '编辑成功！', type: 'success' });
@@ -254,6 +295,9 @@ export default {
 }
 .w100 {
   width: 100px;
+}
+.w110 {
+  width: 110px;
 }
 .w150 {
   width: 150px;

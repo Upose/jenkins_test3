@@ -92,11 +92,14 @@
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
-                <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" v-for="item in dataKey.showOnTableProperties" :key="item">
-                  <template slot-scope="scope">
-                    <span @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
-                  </template>
-                </el-table-column>
+                <template v-for="item in dataKey.showOnTableProperties">
+                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" :key="item" v-if="item.code != 'Card_Type'">
+                    <template slot-scope="scope">
+                      <span v-if="item.code=='Card_No'">{{scope.row.displayNo}}</span>
+                      <span v-else @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
+                    </template>
+                  </el-table-column>
+                </template>
                 <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('reader:delete')">删除</el-button>
@@ -276,7 +279,7 @@ export default {
               this.textProperties1.push(item);
             } else if (item.searchGroup == 2) {
               this.textProperties2.push(item);
-              
+
             } else if (item.searchGroup == 3) {
               this.textProperties3.push(item);
             }
@@ -635,17 +638,17 @@ export default {
 @import "../../../../assets/admin/css/form.less";
 .search-table-general {
   min-width: 1100px;
-  .search-term{
+  .search-term {
     max-height: 120px;
     overflow: hidden;
     line-height: normal;
   }
-  .search-term-btn{
+  .search-term-btn {
     padding: 5px 20px 11px 20px;
-    .more-btn{
+    .more-btn {
       margin-right: 10px;
     }
-    /deep/ .el-button+.el-button{
+    /deep/ .el-button + .el-button {
       margin-left: 0;
     }
   }
@@ -661,23 +664,23 @@ export default {
     display: inline-block;
     margin-right: 4px;
     margin-bottom: 15px;
-    &.search-item-text{
+    &.search-item-text {
       margin-right: 10px;
       width: auto;
-      /deep/ .textleft{
+      /deep/ .textleft {
         width: 400px;
         float: left;
-        &.input-textleft,.el-input__inner{
+        &.input-textleft,
+        .el-input__inner {
           width: 270px;
         }
-        .el-input--suffix{
-          .el-input__inner{
+        .el-input--suffix {
+          .el-input__inner {
             width: 130px;
           }
-          
         }
       }
-      /deep/ .el-select.textright{
+      /deep/ .el-select.textright {
         width: 100px;
         float: left;
         margin-left: 3px;

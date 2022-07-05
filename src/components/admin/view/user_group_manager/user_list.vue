@@ -20,7 +20,7 @@
               <el-popover placement="top" width="160" v-model="visible">
                 <template v-if="briefInfo.sourceFrom==1"><span>手动创建</span></template>
                 <template v-else>
-                  <span :key="index" v-for="(rule,index) in briefInfo.rules">{{rule.propertyName}}{{rule.compareType?'等于':'不等于'}}{{rule.propertyValue}}{{rule.unionWay?'与':'或'}}</span>
+                  <span>{{briefInfo.rulesContent}}</span>
                 </template>
                 <div class="look" slot="reference">
                   <i class="el-icon-question"></i>
@@ -140,6 +140,27 @@ export default {
   filters: {
     showPercent(val) {
       return (Number(val || 0) * 100).toFixed(2) + '%';
+    }
+  },
+  computed: {
+    gorupRules() {
+      // {{rule.propertyName}}{{rule.compareType?'等于':'不等于'}}{{rule.propertyValue}}{{rule.unionWay==1?'与':'或'}}
+      if (!this.briefInfo.rules) return
+      let rules = '';
+      // this.briefInfo.rules.forEach(item => {
+      //   let type = '';
+      //   for (const key in this.dataKey.compareType) {
+      //     if (Object.hasOwnProperty.call(this.dataKey.compareType, key)) {
+      //       const element = this.dataKey.compareType[key];
+      //       if (element == item.compareType) {
+      //         type = key;
+      //       }
+      //     }
+      //   }
+
+      //   rules = rules + item.propertyName + type + 
+      // })
+      return rules;
     }
   },
   mounted() {
