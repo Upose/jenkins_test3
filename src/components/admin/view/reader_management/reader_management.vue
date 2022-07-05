@@ -42,7 +42,7 @@
                   <span>读者来源：</span>
                   <span>{{getKeyValue('User_SourceFrom',postForm.sourceFrom)}}</span>
                 </div>
-                <div class="times" v-if="integralData">
+                <div class="times" v-if="integralData && postForm.showLevel">
                   <span class="lev">用户等级：</span>
                   <span class="level">LV{{integralData.level}}</span>
                 </div>

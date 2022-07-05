@@ -78,7 +78,8 @@
                 <template v-for="item in dataKey.showOnTableProperties">
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item" v-if="item.code != 'Card_Type'" :min-width="item.code=='Card_No'?'150':''">
                     <template slot-scope="scope">
-                      <span>{{getKeyValue(item.code,scope.row)}}</span>
+                      <span v-if="item.code=='Card_No'">{{scope.row.displayNo}}</span>
+                      <span v-else>{{getKeyValue(item.code,scope.row)}}</span>
                     </template>
                   </el-table-column>
                 </template>
