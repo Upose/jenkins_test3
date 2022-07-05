@@ -19,29 +19,30 @@
 <script>
 export default {
   name: '404page',
-  beforeRouteEnter(to, from, next) {
-    if (from.fullPath.indexOf('admin') > -1) {
+  beforeRouteEnter(to,from,next){
+    if(from.fullPath.indexOf('admin')>-1){
       this.home = 'admin';
     }
     next();
   },
-  data() {
+  data () {
     return {
-      code: 'index',
-      path: '/#/index',
-      home: 'web',
+      code:'index',
+      path:'/#/index',
+      home:'web',
     }
   },
-  mounted() {
-    if (this.home == 'web') {
-      this.code = 'index';
-      this.path = '/#/index?page=1';
-    } else {
+  mounted(){
+    document.title = '404'
+    if(this.home == 'admin'){
       this.code = 'workbench'
       this.path = '/workbench/#/admin_workbench';
+    }else{
+      this.code = 'index';
+      this.path = '/#/index?page=1';
     }
   },
-  methods: {
+  methods:{
     linkTo(code, url) {
       if (url) {
         let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
@@ -49,90 +50,16 @@ export default {
         window.location.href = info.path + url;
       }
     },
-    goHome() {
-      this.linkTo(this.code, this.path);
-    },
-    goBack() {
+    goBack(){
       window.history.go(-1);
-    }
+    },
+    goHome(){
+      this.linkTo(this.code,this.path);
+    },
   },
 }
 </script>
 
 <style lang="less" scoped>
-.page-warp {
-  width: 100%;
-  height: 100%;
-  background-image: url(../assets/public/img/404-bg1.png),
-    url(../assets/public/img/404-bg2.png);
-  background-position: 100% 0%, 0% 100%;
-  background-repeat: no-repeat;
-  .txt-content {
-    width: 1000px;
-    height: 500px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -250px;
-    margin-left: -500px;
-  }
-}
-.error-hint {
-  font-size: 26px;
-  font-weight: 400;
-  color: #737373;
-  padding-bottom: 70px;
-  .err-title {
-    display: block;
-    font-size: 45px;
-    font-family: PingFang SC;
-    font-weight: bold;
-    color: #333333;
-  }
-}
-.go-flush {
-  width: 140px;
-  height: 44px;
-  background: #be3c3c;
-  opacity: 1;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: 400;
-  color: #ffffff;
-  outline: none;
-  border: none;
-}
-.go-home {
-  margin-left: 20px;
-  width: 140px;
-  height: 44px;
-  background: #fff;
-  opacity: 1;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: 400;
-  color: #333;
-  outline: none;
-  border: 1px solid #d4d4d4;
-}
-.go-flush,
-.go-home {
-  cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
-}
-.txt-left {
-  float: left;
-  margin-top: 125px;
-}
-.img-404 {
-  float: right;
-  width: 550px;
-  height: 500px;
-  background-image: url(../assets/public/img/404.png);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-position-y: -1px;
-}
+@import "../assets/public/css/error.less";
 </style>
