@@ -206,12 +206,19 @@ export default {
     },
     // 转为馆员
     handleChange() {
-      http.postJson('batch-set-user-as-staff', [this.id]).then(res => {
-        this.$message({ type: 'success', message: '操作成功，请在馆员列表进行查看与管理!' });
-        this.hideToStaff();
-      }).catch(err => {
-        this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败!') });
-      })
+      this.$confirm('是否确认将该读者转为馆员?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        http.postJson('batch-set-user-as-staff', [this.id]).then(res => {
+          this.$message({ type: 'success', message: '操作成功，请在馆员列表进行查看与管理!' });
+          this.hideToStaff();
+        }).catch(err => {
+          this.$message({ type: 'error', message: this.handleError(err, '转为馆员失败!') });
+        })
+      }).catch(() => { })
+
     },
     // 发送消息
     handleSend() {
