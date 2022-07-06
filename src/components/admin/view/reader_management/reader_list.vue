@@ -297,6 +297,7 @@ export default {
         this.searchTextCode3 = this.textProperties3.length ? this.textProperties3[0].code : '';
         this.searchTextcondition2 = this.textProperties2.length ? this.textProperties2[0].searchType : 0;
         this.searchTextcondition3 = this.textProperties3.length ? this.textProperties3[0].searchType : 0;
+        this.searchDateCode = this.dateRangeProperties.length ? this.dateRangeProperties[0].code : '';
         if (this.textProperties1.length) {
           this.showSearchTermMore = true;
         }
