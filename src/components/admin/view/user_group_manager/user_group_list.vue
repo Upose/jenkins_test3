@@ -29,13 +29,13 @@
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" v-loading="loading">
                 <el-table-column type="index" width="50" align="center" label="序号"></el-table-column>
                 <el-table-column prop="name" label="用户组名称"></el-table-column>
-                <el-table-column prop="userCount" label="读者数"></el-table-column>
-                <el-table-column prop="sourceFrom" label="用户来源">
+                <el-table-column prop="userCount" label="读者数" align="center"></el-table-column>
+                <el-table-column prop="sourceFrom" label="用户来源" align="center">
                   <template slot-scope="scope">
                     {{getKeyValue(scope.row.sourceFrom)}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="createUserName" label="创建人"></el-table-column>
+                <el-table-column prop="createUserName" label="创建人" align="center"></el-table-column>
                 <el-table-column prop="createTime" label="创建时间" align="center">
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime,'分')}}

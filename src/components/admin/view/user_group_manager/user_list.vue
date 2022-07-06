@@ -52,9 +52,9 @@
               <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:userList')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="45"></el-table-column>
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
-                <el-table-column prop="name" label="姓名" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="cardNo" label="读者卡号" align="center" show-overflow-tooltip></el-table-column>
-                <el-table-column prop="studentNo" label="学号" align="center" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="name" label="姓名" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="cardNo" label="读者卡号" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="studentNo" label="学号" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="type" label="用户类型" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
                     {{getKeyValue('User_Type',scope.row.type)}}

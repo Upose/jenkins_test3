@@ -21,7 +21,7 @@
                 <div class="name">
                   <span class="text">{{form.name}} </span>
                   <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
-                  <span class="leave" v-if="form.showLevel&&form.scoreLevel">LV.{{form.scoreLevel}}</span>
+                  <span class="leave" v-if="form.showLevel">LV.{{form.scoreLevel}}</span>
                   <!-- <div class="w-q">
                     <img src="../../../../../assets/web/img/wex.png" alt="">
                     <img src="../../../../../assets/web/img/qq.png" alt="">

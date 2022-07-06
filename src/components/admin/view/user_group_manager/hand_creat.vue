@@ -447,7 +447,11 @@ export default {
     submitForm() {
       let list = this.activeName == '选择' ? this.chanceData : this.chanceDataImp;
       this.postForm.userIds = list.map(item => {
-        return item.userId || item.id;
+        // return item.userId || item.id;
+        return {
+          userId: item.userId || item.id,
+          userKey: item.userKey
+        }
       });
       if (this.id) {
         http.putJson('user-group', this.postForm).then(res => {

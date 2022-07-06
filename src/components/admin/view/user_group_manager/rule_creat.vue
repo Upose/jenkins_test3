@@ -300,7 +300,7 @@ export default {
   width: 110px;
 }
 .w150 {
-  width: 150px;
+  width: 150px !important;
 }
 .rule-item {
   position: relative;

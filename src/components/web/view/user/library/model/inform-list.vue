@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-01 17:31:03
+ * @LastEditTime: 2022-07-06 10:52:57
  * @Description: 
 -->
 <template>
@@ -34,12 +34,11 @@ export default {
     };
   },
   created() {
-    this.getMyApp()
+    this.getList()
   },
   mounted() { },
   methods: {
-    // 获取我的应用
-    getMyApp() {
+    getList() {
       this.http.postJson('pront-scenes-top-news', {
         count: 3
       }).then((res) => {
