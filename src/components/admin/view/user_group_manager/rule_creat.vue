@@ -19,13 +19,13 @@
           <!-- 目录 -->
           <div class="content-box">
             <el-form ref="postForm" :model="postForm" label-width="150px" :rules="rules">
-              <el-form-item label="用户组名称" class="w500" prop="name">
+              <el-form-item label="用户组名称：" class="w500" prop="name">
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="10" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="备注">
+              <el-form-item label="备注：">
                 <el-input type="textarea" :rows="4" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="选择">
+              <el-form-item label="选择：">
                 <div class="rule-box" v-if="dataKey">
                   <div class="rule-item" v-for="(item,index) in ruleList" :key="index">
                     <el-select v-model="item.propertyId" placeholder="请选择" class="w150" @change="handleChange(item)">

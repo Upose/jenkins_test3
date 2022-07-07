@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="修改密码" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
-      <el-form ref="form" :model="form" label-width="90px">
+      <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="旧密码">
           <el-input v-model="prePwd"></el-input>
         </el-form-item>

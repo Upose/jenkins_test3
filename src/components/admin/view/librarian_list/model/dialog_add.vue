@@ -2,75 +2,75 @@
   <el-dialog append-to-body title="添加临时馆员" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-alert title="临时馆员只能登录管理后台，如需登录前台请先添加读者信息" type="warning" show-icon></el-alert>
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm admin-form" v-if="dataKey">
-      <el-form-item label="读者名称" prop="name">
+      <el-form-item label="读者名称：" prop="name">
         <el-input v-model="ruleForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="学工号" prop="studentNo">
+      <el-form-item label="学工号：" prop="studentNo">
         <el-input v-model="ruleForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="单位名称" prop="unit">
+      <el-form-item label="单位名称：" prop="unit">
         <el-input v-model="ruleForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="读者类型" prop="type">
+      <el-form-item label="读者类型：" prop="type">
         <el-select v-model="ruleForm.type" placeholder="请选择">
           <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="学历" prop="edu">
+      <el-form-item label="学历：" prop="edu">
         <el-select v-model="ruleForm.edu" placeholder="请选择">
           <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="职称" prop="title">
+      <el-form-item label="职称：" prop="title">
         <el-select v-model="ruleForm.title" placeholder="请选择">
           <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="部门" prop="depart">
+      <el-form-item label="部门：" prop="depart">
         <!-- <el-select v-model="ruleForm.depart" placeholder="请选择">
           <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select> -->
         <el-cascader :options="departList" v-model="depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
       </el-form-item>
-      <el-form-item label="手机" prop="phone">
+      <el-form-item label="手机：" prop="phone">
         <el-input v-model="ruleForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="身份证号" prop="idCard">
+      <el-form-item label="身份证号：" prop="idCard">
         <el-input v-model="ruleForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="账号" prop="account">
+      <el-form-item label="账号：" prop="account">
         <el-input v-model="ruleForm.account" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
+      <el-form-item label="密码：" prop="password">
         <el-input v-model="ruleForm.password" placeholder="请输入" show-password clearable maxlength="30" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="性别" prop="gender">
+      <el-form-item label="性别：" prop="gender">
         <el-radio-group v-model="ruleForm.gender">
           <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="生效日期" prop="issueDate">
+      <el-form-item label="生效日期：" prop="issueDate">
         <!-- <el-date-picker v-model="ruleForm.issueDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="times-box">
               </el-date-picker> -->
         <el-date-picker style="width:87%" v-model="ruleForm.issueDate" type="date" placeholder="请选择"></el-date-picker>
       </el-form-item>
-      <el-form-item label="截止日期" prop="expireDate">
+      <el-form-item label="截止日期：" prop="expireDate">
         <!-- <el-date-picker v-model="ruleForm.issueDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="times-box">
               </el-date-picker> -->
         <el-date-picker style="width:87%" v-model="ruleForm.expireDate" type="date" placeholder="请选择"></el-date-picker>
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item label="状态：" prop="status">
         <el-select v-model="ruleForm.status" placeholder="请选择">
           <!-- <el-option v-for="item in titleOptions" :key="item.value" :label="item.label" :value="item.value">
                 </el-option> -->
           <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="头像">
+      <el-form-item label="头像：">
         <updateIcon @coverUrl="coverUrl" style="width:92%" :cover="ruleForm.photo"></updateIcon>
       </el-form-item>
     </el-form>

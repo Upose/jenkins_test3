@@ -1,11 +1,11 @@
 <template>
   <el-dialog title="修改手机" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
-      <el-form ref="form" :model="form" label-width="90px">
-        <el-form-item label="手机号码">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="手机号码：">
           <el-input v-model="phone" placeholder="请输入"></el-input>
         </el-form-item>
-        <el-form-item label="验证码" class="inp-box">
+        <el-form-item label="验证码：" class="inp-box">
           <el-input v-model="code" placeholder="请输入" class="inp"></el-input>
           <span class="verification-code" @click="getCode" v-if="!hasCode">获取验证码</span>
           <span class="verification-code color-grey" v-else>{{countDown}}秒后重新获取</span>

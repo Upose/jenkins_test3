@@ -40,22 +40,22 @@
           <el-form ref="form" :model="form" label-width="70px">
             <div class="editdiv">
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-                <el-form-item label="appid" prop="appid">
+                <el-form-item label="appid：" prop="appid">
                   <el-input v-model="ruleForm.appid"></el-input>
                 </el-form-item>
-                <el-form-item label="secret" prop="secret">
+                <el-form-item label="secret：" prop="secret">
                   <el-input v-model="ruleForm.secret"></el-input>
                 </el-form-item>
-                <el-form-item label="token" prop="token">
+                <el-form-item label="token：" prop="token">
                   <el-input v-model="ruleForm.token"></el-input>
                 </el-form-item>
-                <el-form-item label="aeskey" prop="aeskey">
+                <el-form-item label="aeskey：" prop="aeskey">
                   <el-input v-model="ruleForm.aeskey"></el-input>
                 </el-form-item>
-                <el-form-item label="回调地址" prop="address">
+                <el-form-item label="回调地址：" prop="address">
                   <el-input v-model="ruleForm.address"></el-input>
                 </el-form-item>
-                <el-form-item label="是否启用">
+                <el-form-item label="是否启用：">
                   <el-switch v-model="ruleForm.status" active-value="0" inactive-value="1" class="qiyong"></el-switch>
                 </el-form-item>
                 <el-form-item>

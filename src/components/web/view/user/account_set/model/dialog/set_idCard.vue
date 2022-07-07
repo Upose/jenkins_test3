@@ -1,8 +1,8 @@
 <template>
   <el-dialog title="修改身份证号" :visible.sync="dialogVisible" :modal-append-to-body="false" width="480px">
     <div>
-      <el-form ref="form" :model="form" label-width="90px">
-        <el-form-item label="身份证号">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="身份证号：">
           <el-input v-model="idCard" placeholder="请输入"></el-input>
         </el-form-item>
       </el-form>

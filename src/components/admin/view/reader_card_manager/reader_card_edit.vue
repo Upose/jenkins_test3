@@ -17,7 +17,7 @@
             <div class="card-box">
               <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules" :disabled="!isAuth('card:update')">
                 <div class="read-title">读者卡信息</div>
-                <el-form-item label="选择用户" v-if="!id&&!userId" prop="userId">
+                <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
                   <el-select v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
                     <el-option v-for="item in userList" :key="item.id" :label="item.name+'_'+item.phone" :value="item.id"></el-option>
                   </el-select>
@@ -28,7 +28,7 @@
                 <!-- <el-form-item label="条形码号" prop="barCode">
                   <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item> -->
-                <el-form-item label="学号/工号" prop="studentNo">
+                <el-form-item label="学号/工号：" prop="studentNo">
                   <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <div class="row-form">
@@ -42,22 +42,22 @@
                     <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
                   </el-form-item>
                 </div>
-                <el-form-item label="物理码号" prop="physicNo">
+                <el-form-item label="物理码号：" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="发卡日期" prop="issueDate">
+                <el-form-item label="发卡日期：" prop="issueDate">
                   <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="截止日期" prop="expireDate">
+                <el-form-item label="截止日期：" prop="expireDate">
                   <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
-                <el-form-item label="状态" prop="status">
+                <el-form-item label="状态：" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择">
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value">
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="卡密码" prop="secret">
+                <el-form-item label="卡密码：" prop="secret">
                   <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
                   <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
                     <template slot="append" v-if="isAuth('card:setSecret')">
@@ -65,13 +65,13 @@
                     </template>
                   </el-input>
                 </el-form-item>
-                <el-form-item label="押金" prop="deposit">
+                <el-form-item label="押金：" prop="deposit">
                   <el-input v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="设为主卡">
+                <el-form-item label="设为主卡：">
                   <el-switch v-model="cardForm.isPrincipal"></el-switch>
                 </el-form-item>
-                <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
                   <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 || item.propertyType == 5 || item.propertyType == 6"></el-input>
                   <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1" placeholder="请输入"></el-input>
                   <el-date-picker v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>

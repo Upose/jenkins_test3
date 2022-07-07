@@ -2,14 +2,14 @@
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-28 19:07:51
+ * @LastEditTime: 2022-07-07 16:48:18
  * @Description: 安全设置
 -->
 <template>
   <div class="content">
     <div class="form-box">
-      <el-form ref="postForm" :model="postForm" label-width="130px" class="admin-form">
-        <el-form-item label="密码安全强度" v-if="dataKey&&dataKey.passwordStrengthLevel">
+      <el-form ref="postForm" :model="postForm" label-width="140px" class="admin-form">
+        <el-form-item label="密码安全强度：" v-if="dataKey&&dataKey.passwordStrengthLevel">
           <el-radio-group v-model="postForm.passwordStrength">
             <el-radio v-for="(value,key) in dataKey.passwordStrengthLevel" :key="value" :label="value">{{key}}</el-radio>
           </el-radio-group>
@@ -20,10 +20,10 @@
             <span>{{item.unit}}</span>
           </el-form-item>
         </div>
-        <el-form-item label="登录验证">
+        <el-form-item label="登录验证：">
           <el-switch v-model="postForm.verifyCodeConfirm"></el-switch>
         </el-form-item>
-        <el-form-item label="首次登录修改密码">
+        <el-form-item label="首次登录修改密码：">
           <el-switch v-model="postForm.firstLoginChangePassword"></el-switch>
         </el-form-item>
         <el-form-item>

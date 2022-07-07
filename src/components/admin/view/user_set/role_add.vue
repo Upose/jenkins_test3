@@ -19,13 +19,13 @@
           <!-- 目录 -->
           <div class="content-box">
             <el-form ref="form" :model="postForm" label-width="150px" :rules="formRules">
-              <el-form-item label="角色名称" prop="name">
+              <el-form-item label="角色名称：" prop="name">
                 <el-input class="w500" v-model="postForm.name" maxlength="10" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="角色描述" prop="remark">
+              <el-form-item label="角色描述：" prop="remark">
                 <el-input class="w500" type="textarea" v-model="postForm.remark" maxlength="100" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="选择权限">
+              <el-form-item label="选择权限：">
                 <div class="tree-box w500">
                   <el-tree :data="auth" :default-checked-keys="postForm.menuIds" ref="tree" show-checkbox node-key="id" default-expand-all :props="defaultProps">
                     <!-- <el-tree :data="data" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps"> -->

@@ -1,32 +1,32 @@
 <template>
   <el-dialog title="认领读者卡" :visible.sync="dialogVisible" width="480px" :before-close="dialogBeforeClose">
     <div>
-      <el-form ref="form" :model="form" label-width="90px" v-if="dataKey">
-        <el-form-item label="读者卡号">
+      <el-form ref="form" :model="form" label-width="100px" v-if="dataKey">
+        <el-form-item label="读者卡号：">
           <el-input v-model="form.no" disabled></el-input>
         </el-form-item>
-        <el-form-item label="姓名">
+        <el-form-item label="姓名：">
           <el-input v-model="form.userName" disabled></el-input>
         </el-form-item>
-        <el-form-item label="有效日期">
+        <el-form-item label="有效日期：">
           <el-input :value="setTime(form.issueDate)+'至'+setTime(form.expireDate)" disabled></el-input>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态：">
           <el-input :value="getKeyValue(form.status)" disabled></el-input>
         </el-form-item>
-        <el-form-item label="物理码">
+        <el-form-item label="物理码：">
           <el-input v-model="form.physicNo" disabled></el-input>
         </el-form-item>
-        <el-form-item label="条形码">
+        <el-form-item label="条形码：">
           <el-input v-model="form.barCode" disabled></el-input>
         </el-form-item>
         <!-- <el-form-item label="用户类型">
           <el-input v-model="form"></el-input>
         </el-form-item> -->
-        <el-form-item label="手机号">
+        <el-form-item label="手机号：">
           <el-input v-model="form.userPhone" disabled></el-input>
         </el-form-item>
-        <el-form-item label="身份证号">
+        <el-form-item label="身份证号：">
           <el-input v-model="form.userIdCard" disabled></el-input>
           <span><i class="red-color">*</i> 与账号预留手机号码或者身份证号码一致，可认领</span>
         </el-form-item>

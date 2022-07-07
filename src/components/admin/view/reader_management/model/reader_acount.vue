@@ -3,24 +3,24 @@
     <div class="editdiv">
       <el-form v-loading="loading" ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules" :disabled="isAllowEdit">
         <div class="harf-area">
-          <el-form-item label="单位名称" prop="unit">
+          <el-form-item label="单位名称：" prop="unit">
             <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="学历" prop="edu">
+          <el-form-item label="学历：" prop="edu">
             <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
               <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="职称" prop="title">
+          <el-form-item label="职称：" prop="title">
             <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')">
               <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="部门" prop="depart" v-if="postForm.isStaff">
+          <el-form-item label="部门：" prop="depart" v-if="postForm.isStaff">
             <!-- <el-form-item label="部门" prop="depart"> -->
             <!-- <el-select v-model="postForm.depart" placeholder="请选择" clearable>
               <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
@@ -28,42 +28,42 @@
             </el-select> -->
             <el-cascader :options="depList" v-model="postForm.depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
           </el-form-item>
-          <el-form-item label="所在学院" prop="college">
+          <el-form-item label="所在学院：" prop="college">
             <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
               <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="所在系" prop="collegeDepart">
+          <el-form-item label="所在系：" prop="collegeDepart">
             <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')">
               <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="专业" prop="major">
+          <el-form-item label="专业：" prop="major">
             <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
               <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="年级" prop="grade">
+          <el-form-item label="年级：" prop="grade">
             <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
               <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="班级" prop="class">
+          <el-form-item label="班级：" prop="class">
             <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
               <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="手机" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
+          <el-form-item label="手机：" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
             <el-input v-model="postForm.phone" placeholder="请输入" maxlength="11" show-word-limit>
               <template slot="append">
                 <div v-if="postForm.mobileIdentity">
@@ -77,7 +77,7 @@
             </el-input>
             <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone">手机号重复</div>
           </el-form-item>
-          <el-form-item label="身份证号" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
+          <el-form-item label="身份证号：" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
             <el-input v-model="postForm.idCard" placeholder="请输入" maxlength="30" show-word-limit>
               <template slot="append">
                 <div v-if="postForm.idCardIdentity">
@@ -91,7 +91,7 @@
             </el-input>
             <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard">身份证号重复</div>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email" class="youxiang">
+          <el-form-item label="邮箱：" prop="email" class="youxiang">
             <el-input v-model="postForm.email" placeholder="请输入" maxlength="30" show-word-limit>
               <template slot="append">
                 <div v-if="postForm.emailIdentity">
@@ -106,19 +106,19 @@
           </el-form-item>
         </div>
         <div class="harf-area">
-          <el-form-item label="昵称" prop="nickName">
+          <el-form-item label="昵称：" prop="nickName">
             <el-input v-model="postForm.nickName" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="性别" prop="gender">
+          <el-form-item label="性别：" prop="gender">
             <el-radio-group v-model="postForm.gender" class="radios">
               <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="出生年月" prop="birthday">
+          <el-form-item label="出生年月：" prop="birthday">
             <el-date-picker class="wq95" v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="所在地" prop="addr">
+          <el-form-item label="所在地：" prop="addr">
             <!-- <el-select v-model="postForm.addr" placeholder="请选择">
               <el-option v-for="item in departoptions" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
@@ -126,34 +126,34 @@
             <!-- <el-input v-model="postForm.addr" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input> -->
             <el-cascader :options="addrList" v-model="postForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
           </el-form-item>
-          <el-form-item label="详细地址" prop="addrDetail">
+          <el-form-item label="详细地址：" prop="addrDetail">
             <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="离校日期" prop="leaveTime">
+          <el-form-item label="离校日期：" prop="leaveTime">
             <el-date-picker class="wq95" v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="状态" prop="status">
+          <el-form-item label="状态：" prop="status">
             <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
               <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="用户类型" prop="type">
+          <el-form-item label="用户类型：" prop="type">
             <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
               <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
               <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="第三方信息">
+          <el-form-item label="第三方信息：">
             <div class="sides" v-if="postForm.WeChatOpenId">
               <img :src="getImg('icon-wx')" class="pictures" />
               <!-- <img :src="getImg('icon-qq')" v-if="postForm.QQOpenId" class="pictures" /> -->
             </div>
             <div class="unbind" v-else>暂无</div>
           </el-form-item>
-          <el-form-item :label="item.propertyName" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+          <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
             <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
             <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1" placeholder="请输入"></el-input>
             <el-date-picker class="wq95" v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>

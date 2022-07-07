@@ -1,28 +1,28 @@
 <template>
   <el-dialog append-to-body title="同步配置" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-form :model="form" ref="form" label-width="140px" :rules="rules">
-      <el-form-item label="任务程序集名称" prop="assemblyFullName">
+      <el-form-item label="任务程序集名称：" prop="assemblyFullName">
         <el-input v-model="form.assemblyFullName" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="任务类名" prop="classFullName">
+      <el-form-item label="任务类名：" prop="classFullName">
         <el-input v-model="form.classFullName" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="任务参数">
+      <el-form-item label="任务参数：">
         <el-input type="textarea" :autosize="{ minRows: 2}" v-model="form.taskParam" clearable maxlength="200" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="适配器程序集名称" prop="adapterAssemblyFullName">
+      <el-form-item label="适配器程序集名称：" prop="adapterAssemblyFullName">
         <el-input v-model="form.adapterAssemblyFullName" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="适配器类名" prop="adapterClassFullName">
+      <el-form-item label="适配器类名：" prop="adapterClassFullName">
         <el-input v-model="form.adapterClassFullName" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="适配器参数">
+      <el-form-item label="适配器参数：">
         <el-input type="textarea" :autosize="{ minRows: 2}" v-model="form.adapterParm" clearable maxlength="200" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="Cron表达式" prop="cron">
+      <el-form-item label="Cron表达式：" prop="cron">
         <el-input v-model="form.cron" clearable maxlength="100" show-word-limit></el-input>
       </el-form-item>
-      <el-form-item label="Cron说明">
+      <el-form-item label="Cron说明：">
         <el-input type="textarea" :autosize="{ minRows: 2}" v-model="form.cronRemark" clearable maxlength="200" show-word-limit></el-input>
       </el-form-item>
     </el-form>

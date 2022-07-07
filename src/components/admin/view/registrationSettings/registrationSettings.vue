@@ -16,10 +16,10 @@
           <div class="login-list">
             <div class="editdiv">
               <el-form ref="form" :model="form" label-width="160px">
-                <el-form-item label="是否启用">
+                <el-form-item label="是否启用：">
                   <el-switch v-model="form.status" class="qiyong"></el-switch>
                 </el-form-item>
-                <el-form-item label="注册方式">
+                <el-form-item label="注册方式：">
                   <el-radio-group v-model="form.radio" class="zhucefs">
                     <el-radio label="1">手机+验证码</el-radio>
                     <el-radio label="2">邮箱+验证码</el-radio>
@@ -53,7 +53,7 @@
                     </el-checkbox-group>
                   </div>
                 </el-form-item>
-                <el-form-item label="注册流程">
+                <el-form-item label="注册流程：">
                   <div class="box-right process">
                     <div>
                       <el-radio v-model="form.zhuce" label="1" class="box-radio">自主注册 </el-radio>
@@ -74,7 +74,7 @@
                     </div>
                   </div>
                 </el-form-item>
-                <el-form-item label="用户协议" class="xieyi">
+                <el-form-item label="用户协议：" class="xieyi">
                   <el-input class="handle-input mr10 internets" v-model="form.internet" placeholder="请输入协议连接地址"></el-input>
                 </el-form-item>
                 <el-form-item>

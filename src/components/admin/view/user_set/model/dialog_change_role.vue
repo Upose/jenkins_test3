@@ -1,7 +1,7 @@
 <template>
   <el-dialog append-to-body title="修改角色" :visible.sync="dialogVisible" width="500px">
     <el-form :model="form" label-width="100px">
-      <el-form-item label="选择角色">
+      <el-form-item label="选择角色：">
         <el-checkbox-group v-model="roleID">
           <el-checkbox :label="item.id" :value="item.id" v-for="item in roleList" :key="item.id">{{item.name}}</el-checkbox>
         </el-checkbox-group>

@@ -12,20 +12,20 @@
           <el-form :model="postForm" :rules="rules" ref="ruleForm" label-width="170px" class="admin-form" v-if="dataKey">
             <h1 class="s-b-border-title">{{(id&&id!='')?'编辑':'新增'}}用户属性</h1>
             <div class="form-content">
-              <el-form-item label="属性名称" prop="name">
+              <el-form-item label="属性名称：" prop="name">
                 <el-input v-model="postForm.name" placeholder="请输入属性名称" maxlength="10" clearable show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="描述对象" prop="propertyFor">
+              <el-form-item label="描述对象：" prop="propertyFor">
                 <el-checkbox label="label" v-model="postForm.forReader">读者</el-checkbox>
                 <el-checkbox label="label" v-model="postForm.forCard">读者卡</el-checkbox>
               </el-form-item>
-              <el-form-item label="属性标识" prop="code">
+              <el-form-item label="属性标识：" prop="code">
                 <el-input v-model="postForm.code" :disabled="(id&&id!='')?true:false" maxlength="20" clearable show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="属性说明">
+              <el-form-item label="属性说明：">
                 <el-input v-model="postForm.intro" maxlength="100" clearable show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="属性类型">
+              <el-form-item label="属性类型：">
                 <el-radio-group v-model="postForm.type" :disabled="(id&&id!='')?true:false">
                   <el-radio-button :label="value" v-for="(value,index) in dataKey.propertyType" :key="index">{{index}}</el-radio-button>
                 </el-radio-group>
@@ -33,13 +33,13 @@
               <!-- <el-form-item label="是否可检索">
                 <el-switch v-model="postForm.canSearch"></el-switch>
               </el-form-item> -->
-              <el-form-item label="是否列表显示">
+              <el-form-item label="是否列表显示：">
                 <el-switch v-model="postForm.showOnTable"></el-switch>
               </el-form-item>
-              <el-form-item label="是否必填">
+              <el-form-item label="是否必填：">
                 <el-switch v-model="postForm.required"></el-switch>
               </el-form-item>
-              <el-form-item label="是否唯一" v-if="postForm.type==0||postForm.type==1">
+              <el-form-item label="是否唯一：" v-if="postForm.type==0||postForm.type==1">
                 <el-switch v-model="postForm.unique"></el-switch>
               </el-form-item>
               <el-form-item>

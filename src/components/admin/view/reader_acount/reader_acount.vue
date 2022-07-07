@@ -2,90 +2,90 @@
   <div>
     <div class="editdiv" v-loading="loading">
       <el-form ref="form" :model="postForm" label-width="100px">
-        <el-form-item label="单位名称">
+        <el-form-item label="单位名称：">
           <el-input v-model="postForm.unit"></el-input>
         </el-form-item>
-        <el-form-item label="昵称">
+        <el-form-item label="昵称：">
           <el-input v-model="postForm.nickName"></el-input>
         </el-form-item>
-        <el-form-item label="学历">
+        <el-form-item label="学历：">
           <el-select v-model="postForm.edu" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="性别">
+        <el-form-item label="性别：">
           <el-radio-group v-model="postForm.gender" class="radios">
             <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
             <!-- <el-radio v-model="radio" label="男"></el-radio> -->
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="职称">
+        <el-form-item label="职称：">
           <el-select v-model="postForm.title" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="出生日期">
+        <el-form-item label="出生日期：">
           <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="部门">
+        <el-form-item label="部门：">
           <el-select v-model="postForm.depart" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="所在地">
+        <el-form-item label="所在地：">
           <!-- <el-select v-model="postForm.addr" placeholder="请选择">
             <el-option v-for="item in departoptions" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select> -->
           <el-input v-model="postForm.addr"></el-input>
         </el-form-item>
-        <el-form-item label="所在院系">
+        <el-form-item label="所在院系：">
           <el-select v-model="postForm.college" placeholder="请选择">
             <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="详细地址">
+        <el-form-item label="详细地址：">
           <el-input v-model="postForm.addrDetail"></el-input>
         </el-form-item>
-        <el-form-item label="专业">
+        <el-form-item label="专业：">
           <el-select v-model="postForm.major" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="离校日期">
+        <el-form-item label="离校日期：">
           <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="年级">
+        <el-form-item label="年级：">
           <el-select v-model="postForm.grade" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态">
+        <el-form-item label="状态：">
           <el-select v-model="postForm.status" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="班级">
+        <el-form-item label="班级：">
           <el-select v-model="postForm.class" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="用户类型">
+        <el-form-item label="用户类型：">
           <el-select v-model="postForm.type" placeholder="请选择">
             <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="手机">
+        <el-form-item label="手机：">
           <!-- <div class="divStyle">
             <span>158****0000</span>
             <span class="renzheng">已认证</span>
@@ -99,7 +99,7 @@
             </el-option>
           </el-select>
         </el-form-item> -->
-        <el-form-item label="身份证">
+        <el-form-item label="身份证：">
           <!-- <div class="divStyle">
             <span>370126****0000</span>
             <span class="renzheng">已认证</span>
@@ -107,7 +107,7 @@
           </div> -->
           <el-input v-model="postForm.idCard"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" class="youxiang">
+        <el-form-item label="邮箱：" class="youxiang">
           <!-- <div class="divStyle">
             <span>23523@qq.com</span>
             <span class="renzheng">已认证</span>
@@ -115,7 +115,7 @@
           </div> -->
           <el-input v-model="postForm.email"></el-input>
         </el-form-item>
-        <el-form-item :label="item.propertyName" v-for="item in postForm.properties" :key="item.propertyCode">
+        <el-form-item :label="item.propertyName+'：'" v-for="item in postForm.properties" :key="item.propertyCode">
           <el-input v-model="item.propertyValue" placeholder="请输入" v-if="item.propertyType == 0 || item.propertyType == 5 || item.propertyType == 6"></el-input>
           <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1"></el-input>
           <el-date-picker v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
@@ -188,10 +188,10 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       postForm: null,
       dataKey: null,
-      properties:null
+      properties: null
     }
   },
   props: ['id'],
@@ -586,7 +586,7 @@ export default {
   margin-top: 2.2%;
   float: left;
 }
-.btn_box{
+.btn_box {
   margin-left: 100px;
 }
 // .youxiang {
