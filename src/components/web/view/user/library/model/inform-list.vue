@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-06 10:52:57
+ * @LastEditTime: 2022-07-08 15:24:23
  * @Description: 
 -->
 <template>
@@ -206,9 +206,10 @@ export default {
       .info-item1-tag {
         background: #e3eefa;
         border-radius: 11px 0px 11px 11px;
-        padding: 3px 5px;
+        padding: 3px 7px;
         color: #458dda;
-        margin-right: 3px;
+        margin-right: 5px;
+        font-size: 12px;
       }
       .info-item1-title {
         width: 200px;

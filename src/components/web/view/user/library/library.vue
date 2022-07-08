@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="form">
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="lib-content">
         <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
@@ -126,10 +126,10 @@
     <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="icon-edit"></i>编辑主页</div>
     <div class="edit-ing-btn" v-else>
       <span class="mb" @click="handleReset">
-        <i class="el-icon-refresh-left"></i>重置
+        <i class="edit-ing-reset"></i>重置
       </span>
       <span @click="handleSave">
-        <i class="el-icon-s-claim"></i>保存
+        <i class="edit-ing-save"></i>保存
       </span>
     </div>
     <!-- 弹窗组件 -->
@@ -164,7 +164,7 @@ export default {
       userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
       isEdit: false,//是否编辑状态
       dataKey: null,//键值对数据
-      form: {},//读者信息
+      form: null,//读者信息
       cardList: [],//读者卡信息
       principal: {},//主卡
       appData: [],//我的应用列表
@@ -461,10 +461,11 @@ export default {
           this.$message({ type: "error", message: "选择应用失败!" });
         });
       } else {
-        this.$message({
-          message: '该应用已存在，无需再次选择！',
-          type: 'warning'
-        })
+        // this.$message({
+        //   message: '该应用已存在，无需再次选择！',
+        //   type: 'warning'
+        // })
+        this.handleCancel(item)
       }
     },
     // 取消关注
@@ -993,25 +994,32 @@ export default {
   }
 }
 .edit-ing-btn {
-  width: 64px;
-  height: 150px;
+  width: 60px;
+  height: 168px;
   background: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-  opacity: 1;
-  border-radius: 8px;
-  padding: 15px;
+  box-shadow: 0px 3px 40px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 35px 35px 35px;
+  padding: 20px 15px;
   position: fixed;
   right: 24px;
   top: 48vh;
   text-align: center;
   cursor: pointer;
-  color: #666;
+  color: #2d3240;
   z-index: 1000;
 
   i {
-    font-size: 20px;
-    display: block;
-    margin-bottom: 8px;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    margin-bottom: 7px;
+  }
+  .edit-ing-reset {
+    height: 27px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAAAXNSR0IArs4c6QAAA65JREFUSEu1ll9oHFUUxr/v7qYa+yfFWoIUpWLSus6s3VlEUcnOCCpCpPiH0oqioC+KVkSxovgkUhUKYumjPlSFPFiVWqgPEbsbU2rQdDbZ2UXXKLGNVWvNNqVp0+7uPTKT7LIbN9m0ifN4z3fO75wz9557iSafEXc6lMhmkF2A3CiCa0leA8GEUP6hYEALvwnp8Z7h4eHJmnCqo+P2FSMjA2f8Nc7FiUadmySMt0g80iyZwC5S0MCeyQJ3jo4mi6Zlfwlwg+cmO+cEmTH7FSi+SeDKBUFqRCIYATFIYKu/rLXclk2nvp9VkROOWvgAxJNzA6QIwd8CriFxRbNERORtz029XgcyY87HVHh8trOI9Irg05KWr38a7vvNT9TXmPFEBFp1UwWJmY2gIpLz3JRRBZkx+zUq7qwVC/ALhU9n3EOpJpnTsBI7FNU7jXQa6AxAkViiM0SVqW2FQA6d49mHfh0cnGjWnqA6yz5M8s7GIHk1AJmWs692d/mVnNW4dTSdPL0QiK+JWvZ+kDaAtgat380Oq2ttK9XvAFsqgnIZXbmhZP9CIbU6wzCWkWva0aLaNWQtwbZT5fEDNGKJ55RSeypigRzwjqY2Xw5kPh+altNDYlsVVJaHvaHUF/8DyM6TDE4vgFLh5IVVY2NHzi85KBq3zwFsDQKLnMi4qXVLDfHj0bTsMkk1DUI24yYbHrzFwmnG7QmCq6Y5ctw7mrp+sUEb+fsVZUneXDFOFEtXH8v0F5YCFrmlK86Qas+57PVBPSSru04LtmTd5L7FgkzLeZnErpl//xVNK/EUqT6sbm+RXs9N3bcY0PqYs3olMQZi+XQcOU9/cQXxZ93I17o7k+47eLkw07LfJ/lC1V/k4Myss3eT3F4zHf7AxSnL8wb+ulRYNOY8BoVP6vyk7ASgYN4hlAexuqaFORTlfs/rO75QmGElnlDTvyFc8dGC/Vk3+WD1PjIsZ5sieuozkYIWvpRNJz+qXHaNoBs23bFumWp5g1TP1NvlxAVyU34wearuhjXi9g4FvvufYCJ5AT6TMvtQRnpyEqevatMRpegf7ntIPFo7/Wd22kkNfXfW/TYXTIbZQU3L3k7yPQChhbZstk5Efi7p8gM/DvXnK7aGz62IlUiEofaCWH8pMBHRIPZOnZl6sfKemxfkGzduvGtlS2v4eSg8S/C6+YFSFOHnQHGX5x7+oZF2zgdkjThkxJ17laBbiBsgWA7KRQiPEXqkJMioYvG7bPbI+HzJ/Au/Pm0ACvdYCAAAAABJRU5ErkJggg==");
+  }
+  .edit-ing-save {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAARtJREFUSEvtlj1uwkAQhd+zXaTgBqGgQKmABDokiiUn4gBJlwvkJNwAtqDHhSXocJSGQ4AnWglH2NoYG+1SRLiy5Jn59s2fl/2h2oHowNEjGWZJrD/L4dgfKXHE+A1jg3kBGWIZVgBlgncKVk0UHokoBOYkWmW/c1gBJBmmSax1E5CxrapzDvMOytPoBNQbqm8S7apMFEHAFoJ9o9QREYHJJR9vXXeTObKp++eKRKBJpJcKW+e7CDokVG7rpL1NsKfn18cwQGTeN+vFV+9FKQZYOgedL+fDAeMwwIN3kFllRol3kFdF3YFqR6cabWOdeqtRuRPvoDqzabWpTh3wRmGjX/lfJxHKhMCHdWCvPn4Nxxtub8cXSKs4QfoD+//EXRgP8hEAAAAASUVORK5CYII=");
   }
   &:hover {
     opacity: 0.9;
@@ -1020,7 +1028,7 @@ export default {
     display: block;
   }
   .mb {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 }
 .green {
