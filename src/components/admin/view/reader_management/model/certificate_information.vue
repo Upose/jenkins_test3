@@ -254,11 +254,11 @@ export default {
     },
     // 设为主卡
     handleSetCard(val) {
-      http.putJson('card', { ...val, isPrincipal: true, secret: "******" }).then(res => {
-        this.$message({ message: '编辑成功！', type: 'success' });
+      http.postJsonSelf('set-principal-card', `/${val.id}`).then(res => {
+        this.$message({ message: '设置成功！', type: 'success' });
         this.getData();
       }).catch(err => {
-        this.$message({ type: 'error', message: this.handleError(err, '编辑失败!') });
+        this.$message({ type: 'error', message: this.handleError(err, '设置失败!') });
       })
     },
     // 查看
