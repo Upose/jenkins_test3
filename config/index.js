@@ -44,10 +44,6 @@ module.exports = {
   },
 
   build: {
-    testEnv: require('./test.env'),
-    onlineEnv: require('./online.env'),
-    cquEnv: require('./cqu.env'),
-
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
