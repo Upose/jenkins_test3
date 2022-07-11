@@ -3,106 +3,108 @@
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="lib-content">
         <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
-        <div v-if="!isEdit&&form">
-          <div class="head-box">
-            <span class="title">{{userCenterName}}</span>
-            <div class="top-right">
-              <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
-              <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
-              <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/personal/icon_swzy.png" alt=""> 设为主页</span>
-              <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
-            </div>
-          </div>
-          <div class="top-content">
-            <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
-            <div class="top-content-user-box">
-              <div class="my-name-box">
-                <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
-                <div class="name">
-                  <span class="text">{{form.name}} </span>
-                  <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
-                  <span class="leave" v-if="form.showLevel">LV.{{form.scoreLevel}}</span>
-                  <!-- <div class="w-q">
-                    <img src="../../../../../assets/web/img/wex.png" alt="">
-                    <img src="../../../../../assets/web/img/qq.png" alt="">
-                  </div> -->
-                </div>
-              </div>
-              <div class="certification" v-if="!identityListLoading">
-                <!-- <span>
-                  <img :src="replaceImg('qq')" alt="" class="gray">
-                  未认证
-                </span> -->
-                <span>
-                  <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}">
-                  {{identityList.qqIdentity?'已认证':'未认证'}}
-                </span>
-                <span @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
-                  <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
-                  {{identityList.weChatIdentity?'已认证':'未认证'}}
-                </span>
-                <span @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
-                  <img :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
-                  {{form.mobileIdentity?'已认证':'未认证'}}
-                </span>
-                <span @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
-                  <img :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
-                  {{form.idCardIdentity?'已认证':'未认证'}}
-                </span>
-                <span @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
-                  <img :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
-                  {{form.emailIdentity?'已认证':'未认证'}}
-                </span>
-              </div>
-              <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
-                <div>
-                  <div class="title">
-                    <span>我的读者卡</span>
-                    <i class="next"></i>
-                  </div>
-                  <!-- <div class="blue-area"></div>
-                  <div class="status">
-                    <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
-                    <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
-                    <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
-                  </div> -->
-                  <div class="list">
-                    <div class="list-item">
-                      <div class="type-name">{{principal.typeName}}</div>
-                      <div class="kname" :title="principal.no">
-                        {{principal.no}}
-                      </div>
-                    </div>
-                    <i class="card-line"></i>
-                    <div class="list-item" v-if="principal.studentNo">
-                      <div class="type-name">学号/工号</div>
-                      <div class="kname" :title="principal.studentNo">
-                        {{principal.studentNo}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p class="time">有效期至 &nbsp; {{setTime(principal.expireDate)}}</p>
+        <template v-if="form">
+          <div v-if="!isEdit">
+            <div class="head-box">
+              <span class="title">{{userCenterName}}</span>
+              <div class="top-right">
+                <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
+                <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
+                <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/personal/icon_swzy.png" alt=""> 设为主页</span>
+                <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
               </div>
             </div>
-            <SearchBox />
-            <AppList />
-            <DatabaseList />
-            <InformList />
-          </div>
+            <div class="top-content">
+              <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
+              <div class="top-content-user-box">
+                <div class="my-name-box">
+                  <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
+                  <div class="name">
+                    <span class="text">{{form.name}} </span>
+                    <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
+                    <span class="leave" v-if="form.showLevel">LV.{{form.scoreLevel}}</span>
+                    <!-- <div class="w-q">
+                      <img src="../../../../../assets/web/img/wex.png" alt="">
+                      <img src="../../../../../assets/web/img/qq.png" alt="">
+                    </div> -->
+                  </div>
+                </div>
+                <div class="certification" v-if="!identityListLoading">
+                  <!-- <span>
+                    <img :src="replaceImg('qq')" alt="" class="gray">
+                    未认证
+                  </span> -->
+                  <span>
+                    <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}">
+                    {{identityList.qqIdentity?'已认证':'未认证'}}
+                  </span>
+                  <span @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
+                    <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
+                    {{identityList.weChatIdentity?'已认证':'未认证'}}
+                  </span>
+                  <span @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
+                    <img :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
+                    {{form.mobileIdentity?'已认证':'未认证'}}
+                  </span>
+                  <span @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
+                    <img :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
+                    {{form.idCardIdentity?'已认证':'未认证'}}
+                  </span>
+                  <span @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
+                    <img :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
+                    {{form.emailIdentity?'已认证':'未认证'}}
+                  </span>
+                </div>
+                <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
+                  <div>
+                    <div class="title">
+                      <span>我的读者卡</span>
+                      <i class="next"></i>
+                    </div>
+                    <!-- <div class="blue-area"></div>
+                    <div class="status">
+                      <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+                      <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+                      <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+                    </div> -->
+                    <div class="list">
+                      <div class="list-item">
+                        <div class="type-name">{{principal.typeName}}</div>
+                        <div class="kname" :title="principal.no">
+                          {{principal.no}}
+                        </div>
+                      </div>
+                      <i class="card-line"></i>
+                      <div class="list-item" v-if="principal.studentNo">
+                        <div class="type-name">学号/工号</div>
+                        <div class="kname" :title="principal.studentNo">
+                          {{principal.studentNo}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="time">有效期至 &nbsp; {{setTime(principal.expireDate)}}</p>
+                </div>
+              </div>
+              <SearchBox />
+              <AppList />
+              <DatabaseList />
+              <InformList />
+            </div>
 
-        </div>
-        <div v-else>
-          <!-- <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div> -->
-          <div class="chance">
-            <div class="title-box">
-              <span class="left">选择应用</span>
-            </div>
-            <div class="chance-app">
-              <span :class="isSelect(item.appId)?'app-select':''" v-for="item in applyList" :key="item.id" @click="handleApply(item)">{{item.name}}</span>
+          </div>
+          <div v-else>
+            <!-- <div class="breadCrumbs"><i class="el-icon-s-home"></i>>账号设置</div> -->
+            <div class="chance">
+              <div class="title-box">
+                <span class="left">选择应用</span>
+              </div>
+              <div class="chance-app">
+                <span :class="isSelect(item.appId)?'app-select':''" v-for="item in applyList" :key="item.id" @click="handleApply(item)">{{item.name}}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
         <div class="all-temp-box" id="all-temp-box">
           <div class="tmp-box" :class="isEdit?'sort':''" v-for="(item,index) in tempData" :key="index" :id="item.appId">
             <div class="edit-mark" v-if="isEdit">
@@ -196,16 +198,11 @@ export default {
   async created() {
     // 设置网页标题
     document.title = JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName + '-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
-
+  },
+  mounted() {
     this.getKey();
     // this.getInfo();
     this.wxBindList();
-    this.getCard();
-    this.getApplyList();
-  },
-  mounted() {
-    this.getTemp();
-    this.dragSort();
 
     if (this.$route.query.code) {
       this.wxCode = this.$route.query.code;
@@ -302,7 +299,12 @@ export default {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
         this.identityListLoading = false;
-        console.log(this.form)
+        // console.log(this.form)
+        // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
+        this.getCard();
+        this.getApplyList();
+        this.getTemp();
+        this.dragSort();
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });

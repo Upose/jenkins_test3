@@ -11,7 +11,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-const env = require('../config/prod.env')
+// const env = require('../config/prod.env')
+// const env = config.build[process.env.NODE_ENV + 'Env']
+const env = require(`../config/${process.env.NODE_ENV}.env`)
+// const env = require(`../config/test.env`)
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -24,7 +27,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    publicPath:'./',
+    publicPath: './',
     // filename: utils.assetsPath('js/[name].js'),
     // chunkFilename: utils.assetsPath('js/[id].js')
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
@@ -76,7 +79,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
+      htmlFileUrl: env.VUE_APP_FILE_URL
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
@@ -85,7 +89,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks (module) {
+      minChunks(module) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
