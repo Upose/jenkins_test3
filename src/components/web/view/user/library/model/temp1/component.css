@@ -102,7 +102,7 @@
 .search-input-w .s-r-btns .high-btn {
   width: 78px;
   height: 35px;
-  margin-left: 10px;
+  margin-left: 5px;
   font-size: 14px;
   background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
   backdrop-filter: blur(50px);

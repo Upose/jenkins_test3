@@ -1,9 +1,9 @@
 <template>
-  <div class="container" v-if="form">
+  <div class="container">
     <div class="content-box" :class="isEdit?'no-background':''">
       <div class="lib-content">
         <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
-        <div v-if="!isEdit">
+        <div v-if="!isEdit&&form">
           <div class="head-box">
             <span class="title">{{userCenterName}}</span>
             <div class="top-right">
@@ -915,7 +915,7 @@ export default {
 .tmp-box {
   width: 588px;
   height: 320px;
-  border-radius: 16px;
+  border-radius: 5px;
   overflow: hidden;
   background: #fff;
   float: left;
@@ -932,7 +932,7 @@ export default {
     right: 0;
     bottom: 0;
     border: 1px dashed #aaa;
-    border-radius: 16px;
+    border-radius: 5px;
     z-index: 100;
 
     .edit-right {
@@ -1232,5 +1232,8 @@ export default {
   &:hover {
     opacity: 0.8;
   }
+}
+.sort {
+  cursor: move;
 }
 </style>
