@@ -5,6 +5,7 @@
       <!-- 读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">
         <el-col :span="6" class="number">{{item.typeName || '读者证号'}}：{{item.no}}</el-col>
+        <el-col :span="6">学号/工号：{{item.studentNo}}</el-col>
         <el-col :span="2" :class="item.status==1?'green':''">{{getKeyValue(item.status)}}</el-col>
         <el-col :span="8">有效期：{{setTime(item.issueDate)}}至{{setTime(item.expireDate)}}</el-col>
         <el-col :span="2"><span class="bule" @click="handleSet(item.id)" v-if="!item.isPrincipal">设为主卡</span></el-col>
@@ -17,6 +18,7 @@
       <!-- 审核的读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in reviewList" :key="item.id">
         <el-col :span="6" class="number">{{item.typeName || '读者证号'}}：{{item.no}}</el-col>
+        <el-col :span="6">学号/工号：{{item.studentNo}}</el-col>
         <el-col :span="2" :class="item.status==1?'green':''">{{getKeyValue(item.status)}}</el-col>
         <el-col :span="8">有效期：{{setTime(item.issueDate)}}至{{setTime(item.expireDate)}}</el-col>
         <el-col :span="2">{{getKeyStatus(item.approveStatus)}}</el-col>

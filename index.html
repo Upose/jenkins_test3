@@ -62,6 +62,13 @@
 
 <body>
   <div id="zt_user_center_sys"></div>
+  <script>
+    // 阻止火狐浏览器拖动时打开新的标签页
+    document.body.ondrop = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  </script>
 </body>
 
 </html>

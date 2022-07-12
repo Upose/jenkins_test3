@@ -9,6 +9,7 @@
     <div class="t-p">
       <el-table v-loading="loading" :data="isAuth('setting:staffList')?tableData:[]" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
         <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
+        <el-table-column label="序号" type="index" align="center" width="55"></el-table-column>
         <el-table-column label="姓名" prop="name" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column label="部门" prop="departName" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column label="职称" prop="title" show-overflow-tooltip align="center"></el-table-column>

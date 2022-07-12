@@ -266,6 +266,7 @@ export default {
           { required: true, message: '必填项', trigger: 'change' }
         ],
 
+
         idCard: [
           {
             validator: this.$validator.validatePattern,
@@ -293,6 +294,9 @@ export default {
         ]
       },
       cardRules: {
+        studentNo: [
+          { required: true, message: '必填项', trigger: 'change' }
+        ],
         no: [
           {
             required: true,
@@ -515,6 +519,15 @@ export default {
     padding: 0;
     display: inline-block;
     vertical-align: top;
+    position: relative;
+    &::after {
+      content: "*";
+      position: absolute;
+      color: #f56c6c;
+      margin-right: 4px;
+      left: 25px;
+      top: 14px;
+    }
     /deep/ .r-f-item1 {
       width: 49%;
       float: left;
