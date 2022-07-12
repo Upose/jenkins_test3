@@ -17,10 +17,10 @@
                 <p>{{briefInfo.count}}人<span>|</span>{{briefInfo.percent|showPercent}}</p>
                 <p class="total">总人数{{briefInfo.totalCount}}</p>
               </div>
-              <el-popover placement="top" width="160" v-model="visible">
+              <el-popover placement="top" width="300" v-model="visible">
                 <template v-if="briefInfo.sourceFrom==1"><span>手动创建</span></template>
                 <template v-else>
-                  <span>{{briefInfo.rulesContent}}</span>
+                  <span v-html="briefInfo.rulesContent"></span>
                 </template>
                 <div class="look" slot="reference">
                   <i class="el-icon-question"></i>
@@ -192,6 +192,7 @@ export default {
     getBriefInfo() {
       http.getJsonSelf('user-group-brief-info', `/${this.id}`).then(res => {
         this.briefInfo = res.data;
+        this.briefInfo.rulesContent = this.briefInfo.rulesContent.replace(/\n/g, "<br/>");
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })

@@ -13,6 +13,9 @@
         <el-form-item label="用户昵称：">
           <el-input v-model="form.nickName" placeholder="请输入" style="width:400px" :disabled="isEdit('User_NickName')"></el-input>
         </el-form-item>
+        <el-form-item label="所在单位：">
+          <el-input v-model="form.unit" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Unit')"></el-input>
+        </el-form-item>
         <el-form-item label="性别：">
           <el-radio-group v-model="form.gender" style="width:400px" :disabled="isEdit('User_Gender')" filterable :filter-method="(value)=>handleFilter(value,'User_Gender')">
             <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
@@ -28,9 +31,6 @@
         </el-form-item>
         <el-form-item label="详细地址：">
           <el-input v-model="form.addrDetail" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input>
-        </el-form-item>
-        <el-form-item label="所在单位：">
-          <el-input v-model="form.unit" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Unit')"></el-input>
         </el-form-item>
       </el-form>
     </div>
