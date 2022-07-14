@@ -226,8 +226,9 @@ export default {
       return obj ? obj.key : '';
     },
     getCardType(type) {
+      if (!type) return '读者证号：';
       let typeOption = this.initSelect('Card_Type');
-      return typeOption.find(item => item.value == type).key;
+      return typeOption.find(item => item.value == type).key + '：';
     },
     // 时间格式化
     dateChangeFormat(date, format = 'YYYY-mm-dd') {

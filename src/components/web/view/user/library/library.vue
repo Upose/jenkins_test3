@@ -135,7 +135,7 @@
       </span>
     </div>
     <!-- 弹窗组件 -->
-    <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey" @update="getCard"></dialog_card>
+    <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
     <!-- <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code> -->
     <el-dialog center title="" :visible.sync="wxdialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="400px">
       <div>请问是否确定绑定微信？</div>
@@ -313,12 +313,19 @@ export default {
     getCard() {
       this.http.getJson('forward-reader-card-list-data').then((res) => {
         this.cardList = res.data;
-        //主卡信息
-        this.principal = this.cardList.find(item => item.isPrincipal == true);
-        this.principal = this.principal ? this.principal : this.cardList[0];
+        this.jwtToken();
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者卡信息失败!" });
       });
+    },
+    // 解析token  获取读者卡号 -- 匹配当前登录的读者卡信息
+    jwtToken() {
+      let strings = localStorage.getItem('token').split(".");//通过split()方法将token转为字符串数组
+      //取strings[1]数组中的第二个字符进行解析
+      let info = JSON.parse(decodeURIComponent(escape(window.atob(strings[1].replace(/-/g, "+").replace(/_/g, "/")))));
+      let cardNo = info.CardNo;
+      this.principal = this.cardList.find(item => item.no == cardNo);
+      this.principal = this.principal ? this.principal : this.cardList[0];
     },
 
 

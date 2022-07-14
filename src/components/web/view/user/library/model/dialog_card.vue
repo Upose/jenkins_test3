@@ -3,7 +3,7 @@
     <div>
       <div class="card" v-for="(item,index) in curCardList" :key="item.id">
         <el-checkbox v-model="item.isPrincipal" class="c-box" @change="handleChange(index)"></el-checkbox>
-        <h6>{{item.userName}}<span v-if="item.type">（{{getKeyValue(item.type,'Card_Type')}}）</span></h6>
+        <h6>{{item.displayNo}}</h6>
         <p>{{item.no}}</p>
         <p>有效期至 {{setTime(item.expireDate)}}</p>
         <span class="green" v-if="item.status==1">{{getKeyValue(item.status)}}</span>
@@ -77,7 +77,7 @@ export default {
       }
       this.http.postJsonSelf('forward-set-principal-card', `/${id}`).then((res) => {
         this.$message({ type: "success", message: "设为主卡成功!" });
-        this.$emit('update');
+        // this.$emit('update');
         this.dialogVisible = false
       }).catch((err) => {
         this.$message({ type: "error", message: "设为主卡失败!" });

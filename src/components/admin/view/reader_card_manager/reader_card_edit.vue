@@ -258,6 +258,16 @@ export default {
         this.options = [];
       }
     },
+    newGuid() {
+      var guid = "";
+      for (var i = 1; i <= 32; i++) {
+        var n = Math.floor(Math.random() * 16.0).toString(16);
+        guid += n;
+        if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+          guid += "-";
+      }
+      return guid;
+    },
     //重置密码
     handleReset() {
       var cardId = this.cardForm.id;
@@ -267,11 +277,21 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        http.postJson('reset-card-secret', { cardId: cardId, secret: newSecret }).then(res => {
-          this.cardForm.secret = '******';
-          this.$message({ message: `重置成功！密码为：${newSecret}`, type: 'success' });
+        // http.postJson('reset-card-secret', { cardId: cardId, secret: newSecret }).then(res => {
+        //   this.cardForm.secret = '******';
+        //   this.$message({ message: `重置成功！密码为：${newSecret}`, type: 'success' });
+        // }).catch(err => {
+        //   this.$message({ type: 'error', message: '编辑失败!' });
+        // })
+        let guid = this.newGuid();
+        http.getJsonSelf('reset-card-secret-verify-key', `/${guid}`).then(res => {
+          http.postJson('reset-card-secret-by-verify-key', { cardId: cardId, verifyCode: guid, verifyKey: res.data }).then(res1 => {
+            this.$message({ message: res1.data, type: 'success' });
+          }).catch(err => {
+            this.$message({ type: 'error', message: '重置失败!' });
+          })
         }).catch(err => {
-          this.$message({ type: 'error', message: '编辑失败!' });
+          this.$message({ type: 'error', message: '重置失败!' });
         })
       }).catch(() => {
         // this.$message({ type: 'info', message: '已取消删除!' });
