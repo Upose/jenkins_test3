@@ -448,7 +448,7 @@ export default {
         return
       }
       if (!this.isGrounp(id)) {
-        http.postJson('user-to-group', { groupId: id, userIds: [this.postForm.id] }).then(res => {
+        http.postJson('user-to-group', { groupId: id, userIds: [{ userId: this.postForm.id, userKey: this.postForm.userKey }] }).then(res => {
           this.$message({ message: '添加成功！', type: 'success' });
           this.getData();
         }).catch(err => {
