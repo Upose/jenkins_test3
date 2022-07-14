@@ -39,10 +39,12 @@ export default {
           this.weshow = true;
           this.freshCode = setInterval(this.getWxQrcode(), 3 * 60 * 1000);
         }
+        
       }).catch((err) => {
       });
     },
     getWxQrcode() {
+      let orgInfo = JSON.parse(localStorage.getItem('orgInfo')) || {};
       let obj = new WxLogin({
         self_redirect: false,
         id: "login_container",
@@ -50,7 +52,7 @@ export default {
         appid: this.wechatConfig.appID,
         scope: this.wechatConfig.scope,
         // redirect_uri: encodeURIComponent('https://passport.yhd.com/legal/showNewContract.do'), // 测试回调地址
-        redirect_uri: encodeURIComponent(this.wechatConfig.redirectUrl + '/cas/bindWeixin'),
+        redirect_uri: encodeURIComponent(this.wechatConfig.redirectUrl + '/cas/bindWeixin?orgcode=' + orgInfo.orgCode),
         state: Math.random(),
         style: "black",
         href: "",
