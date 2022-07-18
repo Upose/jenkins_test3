@@ -4,7 +4,7 @@
       <div class="card" v-for="(item,index) in curCardList" :key="item.id">
         <el-checkbox v-model="item.isPrincipal" class="c-box" @change="handleChange(index)"></el-checkbox>
         <h6>{{item.displayNo}}</h6>
-        <p>{{item.no}}</p>
+        <p>{{item.studentNo}}</p>
         <p>有效期至 {{setTime(item.expireDate)}}</p>
         <span class="green" v-if="item.status==1">{{getKeyValue(item.status)}}</span>
         <span class="yellow" v-if="item.status==2">{{getKeyValue(item.status)}}</span>
