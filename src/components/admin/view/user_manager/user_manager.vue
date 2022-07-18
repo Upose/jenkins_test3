@@ -31,7 +31,7 @@
               </div>
               <div class="login-list-box">
                 <div class="box-radio">
-                  <img src="@/assets/admin/img/userManager/biaoqian.png" />
+                  <img src="@/assets/admin/img/userManager/yonghuzu.png" />
                 </div>
                 <div class="box-title">读者分组管理</div>
                 <div class="box-words">
@@ -93,20 +93,22 @@
                 </div>
               </div>
             </div>
-            <!-- <div>
+            <div>
               <div class="login-list-box">
                 <div class="box-radio">
-                  <img src="@/assets/admin/img/userManager/shezhi.png" />
+                  <img src="@/assets/admin/img/userManager/duzheyingyong.png" />
                 </div>
-                <div class="box-title">管理设置</div>
+                <div class="box-title">读者应用</div>
                 <div class="box-words">
-                  <span @click="to('/admin_userSet','base')" v-if="isAuth('setting:basicDetail','/admin_userSet')">基础设置</span>
-                  <span class="grey-btn" v-else>基础设置</span>
-                  <span @click="to('/admin_userSet','auth')" v-if="isAuth('setting:roleList','/admin_userSet')">权限管理</span>
-                  <span class="grey-btn" v-else>权限管理</span>
+                  <span @click="linkTo('noticecenter','/noticecenter/#/admin_messageCreate')">消息发送</span>
+                  <!-- <span class="grey-btn" v-else>消息发送</span> -->
+                  <span @click="linkTo('scorecenter','/scorecenter/#/admin_integralWork')">积分管理</span>
+                  <!-- <span class="grey-btn" v-else>积分管理</span> -->
+                  <span @click="linkTo('useridentify','/useridentify/#/admin_loginConfig')">登录配置</span>
+                  <!-- <span class="grey-btn" v-else>登录配置</span> -->
                 </div>
               </div>
-            </div> -->
+            </div>
           </div>
         </div>
         <!---content end--->
@@ -148,7 +150,19 @@ export default {
     // 前往页面
     to(path, type, dia) {
       this.$router.push({ path: path, query: { type: type, dia: dia } })
-    }
+    },
+    // 跳转--其他应用
+    linkTo(code, url) {
+      if (url) {
+        let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
+        let info = urlInfo.find(item => item.code == code);
+        if (code == 'index') {
+          location.href = info.path + url + '?page=1';
+        } else {
+          location.href = info.path + url
+        }
+      }
+    },
   },
 }
 </script>
