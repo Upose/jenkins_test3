@@ -27,7 +27,11 @@
             </h2>
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" v-loading="loading">
-                <el-table-column type="index" width="50" align="center" label="序号"></el-table-column>
+                <el-table-column type="index" width="50" align="center" label="序号">
+                  <template slot-scope="scope">
+                    <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
+                  </template>
+                </el-table-column>
                 <el-table-column prop="name" label="用户组名称"></el-table-column>
                 <el-table-column prop="userCount" label="读者数" align="center"></el-table-column>
                 <el-table-column prop="sourceFrom" label="用户来源" align="center">
