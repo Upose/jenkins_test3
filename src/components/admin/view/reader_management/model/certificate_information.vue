@@ -255,7 +255,8 @@ export default {
     },
     // 设为主卡
     handleSetCard(val) {
-      http.postJsonSelf('set-principal-card', `/${val.id}`).then(res => {
+      // http.postJsonSelf('set-principal-card', `/${val.id}`).then(res => {
+      http.putJson('card', { ...val, isPrincipal: true, secret: "******" }).then(res => {
         this.$message({ message: '设置成功！', type: 'success' });
         this.getData();
       }).catch(err => {

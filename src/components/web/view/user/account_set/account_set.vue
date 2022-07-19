@@ -15,7 +15,7 @@
             <info></info>
           </div>
           <div v-show="tab=='set'">
-            <set></set>
+            <set :tabShow="tab"></set>
           </div>
           <div v-show="tab=='card'">
             <card></card>

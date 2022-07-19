@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: wanjikun
+ * @Date: 2022-07-04 17:44:16
+ * @LastEditTime: 2022-07-19 14:03:39
+ * @LastEditors: wanjikun
+-->
 <template>
   <div>
     <div class="wx-mark" v-show="weshow">
@@ -52,7 +59,7 @@ export default {
         appid: this.wechatConfig.appID,
         scope: this.wechatConfig.scope,
         // redirect_uri: encodeURIComponent('https://passport.yhd.com/legal/showNewContract.do'), // 测试回调地址
-        redirect_uri: encodeURIComponent(this.wechatConfig.redirectUrl + '/cas/bindWeixin?orgcode=' + orgInfo.orgCode),
+        redirect_uri: encodeURIComponent(this.wechatConfig.redirectUrl + '/cas/bindWeixin?orgcode=' + orgInfo.orgCode+"&service="+this.wechatConfig.service),
         state: Math.random(),
         style: "black",
         href: "",
