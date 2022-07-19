@@ -30,12 +30,13 @@
         <span class="use" @click="unwxBindHandle" v-if="form.weChatOpenId">解除绑定</span>
         <span class="use" @click="openWxBindList" v-else-if="form.wechatLoginIsOpen">立即设置</span>
       </div>
-      <div class="set-item" v-if="form.QQOpenId">
+      <div class="set-item">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
         <span class="name">QQ账号</span>
-        <span class="content" v-if="form.QQOpenId">{{form.QQNickName}}</span>
-        <span class="use" v-if="form.weChatOpenId">解除绑定</span>
-        <span class="use" v-else-if="qqLoginIsOpen">立即设置</span>
+        <span class="content" v-if="form.qqOpenId">{{form.QQNickName}}</span>
+        <span class="use" v-if="form.qqOpenId">解除绑定</span>
+        <QqBtn v-else-if="form.qqLoginIsOpen"/>
+        <!-- <span class="use" v-else-if="form.qqLoginIsOpen" id="qqLoginBtn">立即设置</span> -->
       </div>
     </template>
 
@@ -52,10 +53,25 @@ import set_phone from '@/components/web/view/user/account_set/model/dialog/set_p
 import emil from '@/components/web/view/user/account_set/model/dialog/emil'
 import set_idCard from '@/components/web/view/user/account_set/model/dialog/set_idCard'
 import dialog_code from '@/components/web/view/user/account_set/model/dialog_code';
+import QqBtn from '@/components/web/view/user/account_set/model/qq_btn';
 export default {
   name: "index",
-  props: {},
-  components: { set_phone, emil, set_idCard, dialog_code },
+  props: {
+    tabShow:String
+  },
+  components: { set_phone, emil, set_idCard, dialog_code ,QqBtn},
+  watch: {
+    tabShow(newVal){
+      // if (newVal == 'set') {
+      //   console.log('ssss');
+      //   this.$nextTick(()=>{
+      //     QC.Login({
+      //         btnId:"qqLoginBtn"	//插入按钮的节点id
+      //     });
+      //   })
+      // }
+    }
+  },
   data() {
     return {
       form: {},
@@ -72,6 +88,7 @@ export default {
     if (this.$route.query.weChatNickName && this.$route.query.wechatOpenId) {
       this.wxBindHandle();
     }
+    this.qqHandle()
     if (this.$route.query.bind) {
       const dialogOption = {
         'phone': { refName: 'set_phone', auth: 'User_Phone' },
@@ -87,12 +104,34 @@ export default {
     }
   },
   methods: {
+    qqHandle(){
+      if (this.$route.query.qqNickName && this.$route.query.qqOpenId) {
+        window.opener.postMessage("我是子窗口，向主窗口发送消息", window.location);
+        this.qqBindHandle();
+      }else {
+        function receiveMessage(event) {
+	        //event.origin是指发送的消息源，一定要进行验证！！！
+	        //event.data是发送过来的消息。
+	        console.log('event',event);
+	        //event.source是指子窗口，主动向子窗口发送消息可以用popup
+	        //postMessage有两个参数，消息和自己的源(例如http://www.baidu.com)，自己的源应该和目标源相同。否则发送会失败。
+	        event.source.postMessage("我是主窗口，我接收到消息了",window.location);
+        }
+        //添加消息接收函数
+        window.addEventListener("message", receiveMessage, false);
+      }
+    },
     // 绑定信息
     openWxBindList() {
       setTimeout(() => {
         // 二维码
         this.$refs.dialogCode.show();
       }, 100)
+    },
+    openQqBindList(){
+        //以下为按钮点击事件的逻辑。注意这里要重新打开窗口
+        //否则后面跳转到QQ登录，授权页面时会直接缩小当前浏览器的窗口，而不是打开新窗口
+        var A=window.open("oauth/index.php","TencentLogin","width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
     },
     // 绑定用户到后端
     wxBindHandle() {
@@ -107,6 +146,21 @@ export default {
         this.$message({ type: "success", message: "用户绑定微信成功!" });
       }).catch((err) => {
         this.$message({ type: "error", message: err.errors ? err.errors : "用户绑定微信失败!" });
+      });
+    },
+    //
+    qqBindHandle(){
+      let datas = {
+        openId: this.$route.query.qqOpenId,
+        qqNickName: this.$route.query.qqNickName,
+      };
+      this.http.postJson('forward-reader-bind-qq', datas).then((res) => {
+        this.getInfo();
+        this.getKey();
+        this.checkModifyReaderPermit();
+        this.$message({ type: "success", message: "用户绑定QQ成功!" });
+      }).catch((err) => {
+        this.$message({ type: "error", message: err.errors ? err.errors : "用户绑定QQ失败!" });
       });
     },
     // 解除绑定

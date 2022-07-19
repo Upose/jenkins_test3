@@ -1,3 +1,10 @@
+/*
+ * @Description: 
+ * @Author: wanjikun
+ * @Date: 2022-04-02 14:53:27
+ * @LastEditTime: 2022-07-19 13:57:26
+ * @LastEditors: wanjikun
+ */
 /***前台 项目接口地址-用户中心-账户设置 */
 
 // var baseURL = 'http://192.168.21.43:8011';//请求前端地址
@@ -32,6 +39,9 @@ export default {
         'forward-reader-identity-status': baseURL + '/api/reader/reader-identity-status', // 获取用户的认证状态身份证号认证、电话认证、邮箱认证、微信认证
         'reader-wechat-login-config': baseURL + '/api/reader/wechat-login-config', // 获取微信登录认证设置
         'reader-un-bound-we-chat': baseURL + '/api/reader/un-bound-we-chat', // 微信解除绑定
+
+        'forward-reader-bind-qq': baseURL + '/api/reader/bind-qq', // 用户绑定qq
+        'reader-qq-login-config': baseURL + '/api/reader/qq-login-config', // 获取qq登录认证设置
 
         '': baseURL + '',//
 
