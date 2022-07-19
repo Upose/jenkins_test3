@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wanjikun
  * @Date: 2022-07-19 11:57:11
- * @LastEditTime: 2022-07-19 17:13:21
+ * @LastEditTime: 2022-07-19 19:38:36
  * @LastEditors: wanjikun
 -->
 <template>
@@ -48,7 +48,7 @@ export default {
   methods: {
     qqloginBtnClick(){
       let orgInfo = JSON.parse(localStorage.getItem('orgInfo')) || {};
-      let redirectUrl = `${this.redirectUrl}/cas/bindQQ?orgcode=${orgInfo.orgCode}&service=${encodeURIComponent(this.service)}`
+      let redirectUrl = `${this.redirectUrl}/cas/bindQQ?orgcode=${orgInfo.orgCode}&service=${this.service}`
       // console.log('url',url);
       // QC.Login.showPopup({
       //   appId:this.appID,//102013783
@@ -56,8 +56,9 @@ export default {
       // });
       
       let url = `https://graph.qq.com/oauth2.0/authorize?client_id=${this.appID}&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=code&state=6d9ace8093de42b9a23d80e967e0dfb5`
-      console.log('url',url);
-      window.open(url);
+      console.log('urlhh哈哈',url);
+      location.href = url;
+      // window.open(url);
     },
     init() {
       this.http.getJson('reader-qq-login-config').then((res) => {

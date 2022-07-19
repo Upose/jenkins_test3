@@ -33,7 +33,7 @@
       <div class="set-item">
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
         <span class="name">QQ账号</span>
-        <span class="content" v-if="form.qqOpenId">{{form.QQNickName}}</span>
+        <span class="content" v-if="form.qqOpenId">{{form.qqNickName}}</span>
         <span class="use" v-if="form.qqOpenId" @click="unqqBindHandle">解除绑定</span>
         <QqBtn v-else-if="form.qqLoginIsOpen"/>
         <!-- <span class="use" v-else-if="form.qqLoginIsOpen" id="qqLoginBtn">立即设置</span> -->
@@ -106,18 +106,21 @@ export default {
   methods: {
     qqHandle(){
       if (this.$route.query.qqNickName && this.$route.query.qqOpenId) {
-        window.opener.postMessage(
-          {
-            msg:'我是子窗口，向主窗口发送消息',
-            qqNickName:this.$route.query.qqNickName,
-            qqOpenId:this.$route.query.qqOpenId,
-            isToOpener:true
-          }
-        , window.location);
-        setTimeout(() => {
-          window.close();
-        },500)
-        // this.qqBindHandle();
+        // window.opener.postMessage(
+        //   {
+        //     msg:'我是子窗口，向主窗口发送消息',
+        //     qqNickName:this.$route.query.qqNickName,
+        //     qqOpenId:this.$route.query.qqOpenId,
+        //     isToOpener:true
+        //   }
+        // , window.location);
+        // setTimeout(() => {
+        //   window.close();
+        // },500)
+        this.qqBindHandle({
+          qqNickName:this.$route.query.qqNickName,
+          qqOpenId:this.$route.query.qqOpenId,
+        });
       }else {
         var that = this;
         function receiveMessage(event) {
