@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wanjikun
  * @Date: 2022-07-19 11:57:11
- * @LastEditTime: 2022-07-19 14:36:56
+ * @LastEditTime: 2022-07-19 17:13:21
  * @LastEditors: wanjikun
 -->
 <template>
@@ -47,20 +47,17 @@ export default {
   },
   methods: {
     qqloginBtnClick(){
-      let url = `${this.redirectUrl}/cas/bindQQ?service=${this.service}`
+      let orgInfo = JSON.parse(localStorage.getItem('orgInfo')) || {};
+      let redirectUrl = `${this.redirectUrl}/cas/bindQQ?orgcode=${orgInfo.orgCode}&service=${encodeURIComponent(this.service)}`
+      // console.log('url',url);
+      // QC.Login.showPopup({
+      //   appId:this.appID,//102013783
+      //   redirectURI:url
+      // });
+      
+      let url = `https://graph.qq.com/oauth2.0/authorize?client_id=${this.appID}&redirect_uri=${encodeURIComponent(redirectUrl)}&response_type=code&state=6d9ace8093de42b9a23d80e967e0dfb5`
       console.log('url',url);
-      QC.Login.showPopup({
-        appId:this.appID,//102013783
-        redirectURI:'https://sso.vipslib.com/cas/bindQQ?service=http://smart.vipslib.com/'
-      });
-      // setInterval(()=>{
-
-      //   let a = QC.Login.check()
-      //   console.log('aaaa',a);
-      //   QC.Login.getMe((ele)=>{
-      //     console.log('sssssdd发发发',ele);
-      //   })
-      // },1000)
+      window.open(url);
     },
     init() {
       this.http.getJson('reader-qq-login-config').then((res) => {

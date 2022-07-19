@@ -34,7 +34,7 @@
         <span class="img big"><img src="../../../../../../assets/web/img/qq.png" alt=""></span>
         <span class="name">QQ账号</span>
         <span class="content" v-if="form.qqOpenId">{{form.QQNickName}}</span>
-        <span class="use" v-if="form.qqOpenId">解除绑定</span>
+        <span class="use" v-if="form.qqOpenId" @click="unqqBindHandle">解除绑定</span>
         <QqBtn v-else-if="form.qqLoginIsOpen"/>
         <!-- <span class="use" v-else-if="form.qqLoginIsOpen" id="qqLoginBtn">立即设置</span> -->
       </div>
@@ -106,16 +106,33 @@ export default {
   methods: {
     qqHandle(){
       if (this.$route.query.qqNickName && this.$route.query.qqOpenId) {
-        window.opener.postMessage("我是子窗口，向主窗口发送消息", window.location);
-        this.qqBindHandle();
+        window.opener.postMessage(
+          {
+            msg:'我是子窗口，向主窗口发送消息',
+            qqNickName:this.$route.query.qqNickName,
+            qqOpenId:this.$route.query.qqOpenId,
+            isToOpener:true
+          }
+        , window.location);
+        setTimeout(() => {
+          window.close();
+        },500)
+        // this.qqBindHandle();
       }else {
+        var that = this;
         function receiveMessage(event) {
 	        //event.origin是指发送的消息源，一定要进行验证！！！
 	        //event.data是发送过来的消息。
-	        console.log('event',event);
+	        console.log('messageevent',event);
 	        //event.source是指子窗口，主动向子窗口发送消息可以用popup
 	        //postMessage有两个参数，消息和自己的源(例如http://www.baidu.com)，自己的源应该和目标源相同。否则发送会失败。
-	        event.source.postMessage("我是主窗口，我接收到消息了",window.location);
+	        // event.source.postMessage("我是主窗口，我接收到消息了",window.location);
+          if (event.data && event.data.isToOpener) {
+            that.qqBindHandle({
+              qqNickName:event.data.qqNickName,
+              qqOpenId:event.data.qqOpenId,
+            });
+          }
         }
         //添加消息接收函数
         window.addEventListener("message", receiveMessage, false);
@@ -149,10 +166,10 @@ export default {
       });
     },
     //
-    qqBindHandle(){
+    qqBindHandle(data){
       let datas = {
-        openId: this.$route.query.qqOpenId,
-        qqNickName: this.$route.query.qqNickName,
+        openId: data.qqOpenId,
+        qqNickName: data.qqNickName,
       };
       this.http.postJson('forward-reader-bind-qq', datas).then((res) => {
         this.getInfo();
@@ -177,6 +194,21 @@ export default {
         this.$message({ type: "success", message: "解除微信绑定成功!" });
       }).catch((err) => {
         this.$message({ type: "error", message: err.errors ? err.errors : "解除微信绑定失败!" });
+      });
+    },
+    //qq解除绑定
+    unqqBindHandle(){
+      let datas = {
+        openId: this.form.qqOpenId,
+        qqNickName: this.form.qqNickName,
+      };
+      this.http.postJson('reader-un-bound-qq', datas).then((res) => {
+        this.getInfo();
+        this.getKey();
+        this.checkModifyReaderPermit();
+        this.$message({ type: "success", message: "解除QQ绑定成功!" });
+      }).catch((err) => {
+        this.$message({ type: "error", message: err.errors ? err.errors : "解除QQ绑定失败!" });
       });
     },
     // 获取用户信息

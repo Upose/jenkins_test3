@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wanjikun
  * @Date: 2022-04-02 14:53:27
- * @LastEditTime: 2022-07-19 13:57:26
+ * @LastEditTime: 2022-07-19 15:26:31
  * @LastEditors: wanjikun
  */
 /***前台 项目接口地址-用户中心-账户设置 */
@@ -42,6 +42,7 @@ export default {
 
         'forward-reader-bind-qq': baseURL + '/api/reader/bind-qq', // 用户绑定qq
         'reader-qq-login-config': baseURL + '/api/reader/qq-login-config', // 获取qq登录认证设置
+        'reader-un-bound-qq': baseURL + '/api/reader/un-bound-qq', // qq解除绑定
 
         '': baseURL + '',//
 
