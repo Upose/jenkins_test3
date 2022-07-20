@@ -80,15 +80,11 @@ export default {
     };
   },
   created() {
-    this.getInfo();
+    this.getInfo(true);
     this.getKey();
     this.checkModifyReaderPermit();
   },
   mounted() {
-    if (this.$route.query.weChatNickName && this.$route.query.wechatOpenId) {
-      this.wxBindHandle();
-    }
-    this.qqHandle()
     if (this.$route.query.bind) {
       const dialogOption = {
         'phone': { refName: 'set_phone', auth: 'User_Phone' },
@@ -106,39 +102,10 @@ export default {
   methods: {
     qqHandle(){
       if (this.$route.query.qqNickName && this.$route.query.qqOpenId) {
-        // window.opener.postMessage(
-        //   {
-        //     msg:'我是子窗口，向主窗口发送消息',
-        //     qqNickName:this.$route.query.qqNickName,
-        //     qqOpenId:this.$route.query.qqOpenId,
-        //     isToOpener:true
-        //   }
-        // , window.location);
-        // setTimeout(() => {
-        //   window.close();
-        // },500)
         this.qqBindHandle({
           qqNickName:this.$route.query.qqNickName,
           qqOpenId:this.$route.query.qqOpenId,
         });
-      }else {
-        var that = this;
-        function receiveMessage(event) {
-	        //event.origin是指发送的消息源，一定要进行验证！！！
-	        //event.data是发送过来的消息。
-	        console.log('messageevent',event);
-	        //event.source是指子窗口，主动向子窗口发送消息可以用popup
-	        //postMessage有两个参数，消息和自己的源(例如http://www.baidu.com)，自己的源应该和目标源相同。否则发送会失败。
-	        // event.source.postMessage("我是主窗口，我接收到消息了",window.location);
-          if (event.data && event.data.isToOpener) {
-            that.qqBindHandle({
-              qqNickName:event.data.qqNickName,
-              qqOpenId:event.data.qqOpenId,
-            });
-          }
-        }
-        //添加消息接收函数
-        window.addEventListener("message", receiveMessage, false);
       }
     },
     // 绑定信息
@@ -147,11 +114,6 @@ export default {
         // 二维码
         this.$refs.dialogCode.show();
       }, 100)
-    },
-    openQqBindList(){
-        //以下为按钮点击事件的逻辑。注意这里要重新打开窗口
-        //否则后面跳转到QQ登录，授权页面时会直接缩小当前浏览器的窗口，而不是打开新窗口
-        var A=window.open("oauth/index.php","TencentLogin","width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,location=1");
     },
     // 绑定用户到后端
     wxBindHandle() {
@@ -223,9 +185,19 @@ export default {
       });
     },
     // 获取用户信息
-    getInfo() {
+    getInfo(isFirst) {
       this.http.getJson('forward-reader-account-info').then((res) => {
         this.form = res.data;
+        // 首次进入页面时带有参数并且没有绑定时 执行绑定
+        if (isFirst) {
+          if (!this.form.qqOpenId && this.$route.query.qqNickName && this.$route.query.qqOpenId) {
+            this.qqHandle()
+          }
+          if (!this.form.weChatOpenId && this.$route.query.weChatNickName && this.$route.query.weChatOpenId) {
+            this.wxBindHandle()
+          }
+        }
+        
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
