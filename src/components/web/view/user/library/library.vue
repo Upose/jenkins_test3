@@ -113,7 +113,7 @@
                   <p @click="handleCancel(item)">取消关注</p>
                   <p @click="handleTop(item)">置顶</p>
                 </div>
-                <span class="font-w" slot="reference">···</span>
+                <span slot="reference" class="font-w hide-more">···</span>
               </el-popover>
             </div>
             <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0]?item.appPlateItems[0].topCount:''}','sortType':'${item.appPlateItems[0]?item.appPlateItems[0].sortType:''}','id':'${item.appPlateItems[0]?item.appPlateItems[0].id:''}'}]`">
@@ -949,8 +949,19 @@ export default {
       right: 20px;
       top: 18px;
       font-weight: 600;
-      cursor: pointer;
       font-size: 18px;
+      /deep/ .el-popover__reference-wrapper {
+        width: 100px;
+        height: 30px;
+        background: #fff;
+        display: inline-block;
+        text-align: right;
+        position: relative;
+        left: 1px;
+      }
+    }
+    .hide-more {
+      cursor: pointer;
     }
   }
 }
@@ -982,7 +993,8 @@ export default {
   border-radius: 8px;
   padding: 25px 16px 23px 16px;
   position: fixed;
-  right: 24px;
+  // right: 24px;
+  left: calc((100% - 1200px) / 2 + 1240px);
   top: 50vh;
   text-align: center;
   cursor: pointer;
@@ -1010,7 +1022,8 @@ export default {
   border-radius: 0px 35px 35px 35px;
   padding: 20px 15px;
   position: fixed;
-  right: 24px;
+  // right: 24px;
+  left: calc((100% - 1200px) / 2 + 1240px);
   top: 48vh;
   text-align: center;
   cursor: pointer;
