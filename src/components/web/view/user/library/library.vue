@@ -34,7 +34,7 @@
                     <img :src="replaceImg('qq')" alt="" class="gray">
                     未认证
                   </span> -->
-                  <span>
+                  <span :class="{'cup': !identityList.weChatIdentity}">
                     <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}" @click="!identityList.qqIdentity&&handleBind('qq')">
                     {{identityList.qqIdentity?'已认证':'未认证'}}
                   </span>
