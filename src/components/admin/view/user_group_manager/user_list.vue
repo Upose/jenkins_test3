@@ -45,6 +45,7 @@
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel" v-if="isAuth('userGroup:userListDeleteUser')">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('userGroup:userListAddUser')">添加用户</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('userGroup:userListExportUser')">导出数据</el-button>
+                <el-button type="primary" size="medium" @click="handleSendMessage" v-if="isAuth('userGroup:userListExportUser')">发送信息</el-button>
                 <!-- <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button> -->
               </div>
             </h2>
@@ -293,6 +294,11 @@ export default {
       this.postForm.groupID = this.id;
       this.$refs.dialog_export.show(this.postForm, this.pageData, 'reader')
     },
+    // 发送信息
+    handleSendMessage() {
+      let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == 'noticecenter');
+      location.href = info.path + '/noticecenter/#/admin_messageCreate?groupId=' + this.id;
+    }
   },
 }
 </script>
