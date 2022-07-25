@@ -45,7 +45,7 @@
                 <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel" v-if="isAuth('userGroup:userListDeleteUser')">批量移除</el-button>
                 <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('userGroup:userListAddUser')">添加用户</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('userGroup:userListExportUser')">导出数据</el-button>
-                <el-button type="primary" size="medium" @click="handleSendMessage" v-if="isAuth('userGroup:userListExportUser')">发送信息</el-button>
+                <el-button type="primary" size="medium" @click="handleSendMessage" v-if="isAuth('userGroup:sendMessage')">发送信息</el-button>
                 <!-- <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button> -->
               </div>
             </h2>

@@ -25,9 +25,9 @@
               <el-form-item label="备注：">
                 <el-input type="textarea" :rows="4" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
               </el-form-item>
-              <el-form-item label="选择：">
-                <div class="rule-box" v-if="dataKey">
-                  <div class="rule-item" v-for="(item,index) in ruleList" :key="index">
+              <el-form-item label="选择：" v-if="dataKey">
+                <div class="rule-box" v-for="(it,idx) in ruleList" :key="idx">
+                  <div class="rule-item" v-for="(item,index) in it.rules" :key="index">
                     <el-select v-model="item.propertyId" placeholder="请选择" class="w150" @change="handleChange(item)">
                       <el-option v-for="items in selectOption" :key="items.id" :label="items.name" :value="items.id"></el-option>
                     </el-select>
@@ -54,14 +54,30 @@
                       <el-option v-for="items in union" :key="items.value" :label="items.key" :value="items.value">
                       </el-option>
                     </el-select>
-                    <div class="btns-el-btn" @click="addCoumn" v-if="(ruleList.length-1)==index && ruleList.length != 6">
+                    <div class="btns-el-btn" @click="addCoumn(idx,index)" v-if="(it.rules.length-1)==index && it.rules.length < 6">
                       <i class="el-icon-plus"></i>
                       <span>添加</span>
                     </div>
-                    <div class="btns-el-btn" @click="removeCoumn(index)" v-else>
+                    <div class="btns-el-btn" @click="removeCoumn(idx,index)" v-if="it.rules.length!=1">
                       <i class="el-icon-minus"></i>
                       <span>删除</span>
                     </div>
+                  </div>
+                  <div class="rule-box-right">
+                    <div class="rule-box-btn">
+                      <div class="btns-el-btn" @click="addCoumnRule(idx)" v-if="(ruleList.length-1)==idx && ruleList.length < 6">
+                        <i class="el-icon-plus"></i>
+                        <span>添加</span>
+                      </div>
+                      <div class="btns-el-btn" @click="removeCoumnRule(idx)" v-if="ruleList.length!=1">
+                        <i class="el-icon-minus"></i>
+                        <span>删除</span>
+                      </div>
+                    </div>
+                    <el-select v-model="it.groupUnionWay" placeholder="请选择" class="w100">
+                      <el-option v-for="items in union" :key="items.value" :label="items.key" :value="items.value">
+                      </el-option>
+                    </el-select>
                   </div>
                 </div>
               </el-form-item>
@@ -142,15 +158,19 @@ export default {
         // this.getData();
       } else {
         this.ruleList = [{
-          "compareType": 1,
-          "propertyId": "",
-          "propertyValue": "",
-          "sort": 0,
-          "unionWay": 1,
-          "valueList": [],
-          "allList": [],
-          "propertyType": 4,
-          "propertyCode": ""
+          groupSort: 1,
+          groupUnionWay: 1,
+          rules: [{
+            "compareType": 1,
+            "propertyId": "",
+            "propertyValue": "",
+            "sort": 0,
+            "unionWay": 1,
+            "valueList": [],
+            "allList": [],
+            "propertyType": 4,
+            "propertyCode": ""
+          }]
         }]
       }
     },
@@ -181,7 +201,9 @@ export default {
         this.postForm = res.data;
         this.ruleList = res.data.rules;
         this.ruleList.forEach(item => {
-          this.handleChange(item);
+          item.rules.forEach(item1 => {
+            this.handleChange(item1);
+          })
         });
       }).catch(err => {
         this.$message({ type: 'error', message: '获取设置失败!' });
@@ -197,9 +219,31 @@ export default {
         cur.valueList = itemss ? itemss.groupItems : [];
       }
     },
-    // 添加
-    addCoumn() {
+    // 添加-组规则
+    addCoumnRule(idx) {
       this.ruleList.push({
+        groupSort: 1,
+        groupUnionWay: 1,
+        rules: [{
+          "compareType": 1,
+          "propertyId": "",
+          "propertyValue": "",
+          "sort": 0,
+          "unionWay": 1,
+          "valueList": [],
+          "allList": [],
+          "propertyType": 4,
+          "propertyCode": ""
+        }]
+      })
+    },
+    // 删除-组规则
+    removeCoumnRule(idx) {
+      this.ruleList.splice(idx, 1)
+    },
+    // 添加
+    addCoumn(idx, index) {
+      this.ruleList[idx].rules.push({
         "compareType": 1,
         "propertyId": "",
         "propertyValue": "",
@@ -212,8 +256,8 @@ export default {
       })
     },
     // 删除
-    removeCoumn(index) {
-      this.ruleList.splice(index, 1)
+    removeCoumn(idx, index) {
+      this.ruleList[idx].rules.splice(index, 1)
     },
     // 重置
     reset() {
@@ -221,24 +265,34 @@ export default {
     },
     //表单提交
     submitForm() {
-      var validRules = this.ruleList.filter(x => { return x.propertyId && x.propertyValue });
-      if (!validRules || validRules.length <= 0) {
-        this.$message({ message: '请至少添加1条规则', type: 'error' });
-        return;
-      }
-      if (validRules.length > 6) {
-        this.$message({ message: '最多只能添加6条规则', type: 'error' });
-        return;
-      }
-      this.postForm.rules = validRules.map((item, index) => {
-        return {
-          "compareType": item.compareType,
-          "propertyId": item.propertyId,
-          "propertyValue": item.propertyValue,
-          "sort": index + 1,
-          "unionWay": item.unionWay,
-        }
+      // var validRules = this.ruleList.filter(x => { return x.propertyId && x.propertyValue });
+      // if (!validRules || validRules.length <= 0) {
+      //   this.$message({ message: '请至少添加1条规则', type: 'error' });
+      //   return;
+      // }
+      // if (validRules.length > 6) {
+      //   this.$message({ message: '最多只能添加6条规则', type: 'error' });
+      //   return;
+      // }
+      let validRules = this.ruleList;
+      let rulesList = [];
+      validRules.forEach((it, idx) => {
+        rulesList.push({
+          groupSort: idx + 1,
+          groupUnionWay: it.groupUnionWay,
+          rules: it.rules.map((item, index) => {
+            return {
+              "compareType": item.compareType,
+              "propertyId": item.propertyId,
+              "propertyValue": item.propertyValue,
+              "sort": index + 1,
+              "unionWay": item.unionWay,
+            }
+          })
+        })
       });
+      this.postForm.rules = rulesList;
+
       if (this.id) {
         http.putJson('user-group', this.postForm).then(res => {
           this.$message({ message: '编辑成功！', type: 'success' });
@@ -288,10 +342,24 @@ export default {
   width: 500px;
 }
 .rule-box {
-  width: 600px;
+  width: 640px;
   padding: 20px;
   border-radius: 3px;
   border: 1px solid #ddd;
+  margin-bottom: 20px;
+  position: relative;
+  .rule-box-right {
+    position: absolute;
+    right: -120px;
+    bottom: 0;
+    .rule-box-btn {
+      margin-bottom: 15px;
+      span,
+      i {
+        font-size: 14px;
+      }
+    }
+  }
 }
 .w100 {
   width: 100px;
@@ -308,12 +376,15 @@ export default {
 }
 .btns-el-btn {
   cursor: pointer;
-  position: absolute;
-  right: -5px;
-  top: 3px;
+  display: inline-block;
+  // position: absolute;
+  // right: -5px;
+  // top: 3px;
   color: @6777EF;
   text-align: center;
-  line-height: 18px;
+  line-height: 20px;
+  vertical-align: top;
+  margin-left: 10px;
   &:hover {
     opacity: 0.8;
   }

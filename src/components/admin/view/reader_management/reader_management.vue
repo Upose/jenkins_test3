@@ -15,7 +15,7 @@
             <span class="zwhy" @click="handleChange">转为馆员</span> -->
             <div class="right-btn-box">
               <el-button v-if="showToStaff&&isAuth('reader:batchSetAsStaff')" size="medium" type="primary" class="admin-red-btn" @click="handleChange">转为馆员</el-button>
-              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend">发送消息</el-button>
+              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend" v-if="isAuth('reader:sendMessage')">发送消息</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
