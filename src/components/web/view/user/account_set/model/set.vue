@@ -35,7 +35,7 @@
         <span class="name">QQ账号</span>
         <span class="content" v-if="form.qqOpenId">{{form.qqNickName}}</span>
         <span class="use" v-if="form.qqOpenId" @click="unqqBindHandle">解除绑定</span>
-        <QqBtn v-else-if="form.qqLoginIsOpen"/>
+        <QqBtn v-else-if="form.qqLoginIsOpen" />
         <!-- <span class="use" v-else-if="form.qqLoginIsOpen" id="qqLoginBtn">立即设置</span> -->
       </div>
     </template>
@@ -57,11 +57,11 @@ import QqBtn from '@/components/web/view/user/account_set/model/qq_btn';
 export default {
   name: "index",
   props: {
-    tabShow:String
+    tabShow: String
   },
-  components: { set_phone, emil, set_idCard, dialog_code ,QqBtn},
+  components: { set_phone, emil, set_idCard, dialog_code, QqBtn },
   watch: {
-    tabShow(newVal){
+    tabShow(newVal) {
       // if (newVal == 'set') {
       //   console.log('ssss');
       //   this.$nextTick(()=>{
@@ -85,26 +85,14 @@ export default {
     this.checkModifyReaderPermit();
   },
   mounted() {
-    if (this.$route.query.bind) {
-      const dialogOption = {
-        'phone': { refName: 'set_phone', auth: 'User_Phone' },
-        'card': { refName: 'set_idCard', auth: 'User_IdCard' },
-        'msg': { refName: 'emil', auth: 'User_Email' },
-      }
-      let dia = dialogOption[this.$route.query.bind];
-      if (this.isEdit(dia.auth)) {
-        setTimeout(() => {
-          this.$refs[dia.refName].show();
-        }, 500);
-      }
-    }
+
   },
   methods: {
-    qqHandle(){
+    qqHandle() {
       if (this.$route.query.qqNickName && this.$route.query.qqOpenId) {
         this.qqBindHandle({
-          qqNickName:this.$route.query.qqNickName,
-          qqOpenId:this.$route.query.qqOpenId,
+          qqNickName: this.$route.query.qqNickName,
+          qqOpenId: this.$route.query.qqOpenId,
         });
       }
     },
@@ -131,7 +119,7 @@ export default {
       });
     },
     //
-    qqBindHandle(data){
+    qqBindHandle(data) {
       let datas = {
         openId: data.qqOpenId,
         qqNickName: data.qqNickName,
@@ -162,7 +150,7 @@ export default {
       });
     },
     //qq解除绑定
-    unqqBindHandle(){
+    unqqBindHandle() {
       let datas = {
         openId: this.form.qqOpenId,
         qqNickName: this.form.qqNickName,
@@ -197,7 +185,7 @@ export default {
             this.wxBindHandle()
           }
         }
-        
+
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
@@ -206,6 +194,7 @@ export default {
     checkModifyReaderPermit() {
       this.http.getJson('forward-check-modify-reader-permit').then((res) => {
         this.updateReaderInfo = res.data;
+        this.showEditByBind();
       });
     },
     // 是否不可编辑
@@ -219,6 +208,22 @@ export default {
       }
       return isedit;
     },
+    // 是否显示编辑弹窗
+    showEditByBind() {
+      if (this.$route.query.bind) {
+        const dialogOption = {
+          'phone': { refName: 'set_phone', auth: 'User_Phone' },
+          'card': { refName: 'set_idCard', auth: 'User_IdCard' },
+          'msg': { refName: 'emil', auth: 'User_Email' },
+        }
+        let dia = dialogOption[this.$route.query.bind];
+        if (!this.isEdit(dia.auth)) {
+          setTimeout(() => {
+            this.$refs[dia.refName].show();
+          }, 500);
+        }
+      }
+    }
   },
 };
 </script>
