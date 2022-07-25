@@ -35,23 +35,23 @@
                     未认证
                   </span> -->
                   <span :class="{'cup': !identityList.weChatIdentity}">
-                    <img :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}" @click="!identityList.qqIdentity&&handleBind('qq')">
+                    <img style="width:10px" :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}" @click="!identityList.qqIdentity&&handleBind('qq')">
                     {{identityList.qqIdentity?'已认证':'未认证'}}
                   </span>
                   <span @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
-                    <img :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
+                    <img style="width:13px" :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
                     {{identityList.weChatIdentity?'已认证':'未认证'}}
                   </span>
                   <span @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
-                    <img :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
+                    <img style="width:8px" :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
                     {{form.mobileIdentity?'已认证':'未认证'}}
                   </span>
                   <span @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
-                    <img :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
+                    <img style="width:13px" :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
                     {{form.idCardIdentity?'已认证':'未认证'}}
                   </span>
                   <span @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
-                    <img :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
+                    <img style="width:13px" :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
                     {{form.emailIdentity?'已认证':'未认证'}}
                   </span>
                 </div>
@@ -547,19 +547,19 @@ export default {
       let img = ''
       switch (type) {
         case 'qq':
-          img = require('@/assets/web/img/qq.png');
+          img = require('@/assets/web/img/icon-qq.png');
           break;
         case 'we':
-          img = require('@/assets/web/img/wex.png');
+          img = require('@/assets/web/img/icon-wx.png');
           break;
         case 'phone':
-          img = require('@/assets/web/img/phone-i.png');
+          img = require('@/assets/web/img/icon-phone.png');
           break;
         case 'card':
-          img = require('@/assets/web/img/id-i.png');
+          img = require('@/assets/web/img/icon-idcard.png');
           break;
         case 'msg':
-          img = require('@/assets/web/img/icon_msg.png');
+          img = require('@/assets/web/img/icon-email.png');
           break;
       }
       return img
@@ -810,8 +810,10 @@ export default {
     left: 10px;
     color: #666;
     width: 260px;
+    display: flex;
+    flex-wrap: wrap;
     span {
-      display: inline-block;
+      // display: inline-block;
       margin-right: 5px;
       padding: 4px 10px;
       background: #ffffff;
@@ -819,9 +821,12 @@ export default {
       border-radius: 20px;
       font-size: 12px;
       margin-bottom: 6px;
+      display: flex;
+      align-items: center;
       img {
-        vertical-align: middle;
-        width: 14px;
+        // vertical-align: middle;
+        // width: 14px;
+        margin-right: 5px;
         &.gray {
           filter: contrast(5%);
         }
