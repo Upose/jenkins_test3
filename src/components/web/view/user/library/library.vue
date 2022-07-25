@@ -34,23 +34,23 @@
                     <img :src="replaceImg('qq')" alt="" class="gray">
                     未认证
                   </span> -->
-                  <span :class="{'cup': !identityList.weChatIdentity}">
+                  <span :class="{'cup': !identityList.weChatIdentity}" title="QQ">
                     <img style="width:10px" :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}" @click="!identityList.qqIdentity&&handleBind('qq')">
                     {{identityList.qqIdentity?'已认证':'未认证'}}
                   </span>
-                  <span @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
+                  <span title="微信" @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
                     <img style="width:13px" :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
                     {{identityList.weChatIdentity?'已认证':'未认证'}}
                   </span>
-                  <span @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
+                  <span title="手机号" @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
                     <img style="width:8px" :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
                     {{form.mobileIdentity?'已认证':'未认证'}}
                   </span>
-                  <span @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
+                  <span title="身份证" @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
                     <img style="width:13px" :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
                     {{form.idCardIdentity?'已认证':'未认证'}}
                   </span>
-                  <span @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
+                  <span title="邮箱" @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
                     <img style="width:13px" :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
                     {{form.emailIdentity?'已认证':'未认证'}}
                   </span>
