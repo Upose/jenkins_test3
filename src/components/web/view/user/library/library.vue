@@ -34,8 +34,8 @@
                     <img :src="replaceImg('qq')" alt="" class="gray">
                     未认证
                   </span> -->
-                  <span :class="{'cup': !identityList.weChatIdentity}" title="QQ">
-                    <img style="width:10px" :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}" @click="!identityList.qqIdentity&&handleBind('qq')">
+                  <span :class="{'cup': !identityList.weChatIdentity}" title="QQ" @click="!identityList.qqIdentity&&handleBind('qq')">
+                    <img style="width:10px" :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}">
                     {{identityList.qqIdentity?'已认证':'未认证'}}
                   </span>
                   <span title="微信" @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
