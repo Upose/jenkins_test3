@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-01 18:16:33
+ * @LastEditTime: 2022-07-25 15:25:22
  * @Description: 
 -->
 <template>
@@ -19,7 +19,7 @@
             <div class="app">
               <img :src="imgUrl+item.appIcon" alt="">
             </div>
-            <p class="title-name">{{item.appName}}</p>
+            <p class="title-name" :title="item.appName">{{item.appName}}</p>
           </div>
         </template>
       </div>

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-02 18:10:28
+ * @LastEditTime: 2022-07-25 15:24:04
  * @Description: 
 -->
 <template>
@@ -15,7 +15,7 @@
     <div class="app-content">
       <div class="item-box">
         <template v-for="(item) in list">
-          <div class="app-item" :key="item.id" @click="openurlDetails(item.directUrls[0].url,item.id)">
+          <div class="app-item" :key="item.id" @click="openurlDetails(item.directUrls[0].url,item.id)" :title="item.title">
             <img src="../../../../../../assets/web/img/personal/icon-database.png" alt="">
             {{item.title}}
           </div>
@@ -60,16 +60,16 @@ export default {
         databaseid: id
       }).then((res) => {
       })
-      if(this.isThirdpartyApp(true,url)){
+      if (this.isThirdpartyApp(true, url)) {
         location.href = url;
-      }else{
+      } else {
         window.open(url);
       }
     },
     linkTo(url) {
-      if(this.isThirdpartyApp(true,url)){
+      if (this.isThirdpartyApp(true, url)) {
         location.href = url;
-      }else{
+      } else {
         window.open(url);
       }
     },

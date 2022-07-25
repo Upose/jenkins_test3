@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-08 15:24:23
+ * @LastEditTime: 2022-07-25 15:24:58
  * @Description: 
 -->
 <template>
@@ -14,7 +14,7 @@
     <div class="app-content">
       <div class="item-box">
         <p class="info-item1" v-for="item in list" :key="item" @click="linkTo(item.jumpLink)">
-          <span class="info-item1-title"><span class="info-item1-tag">{{item.lables&&item.lables!=''?item.lables:'新闻'}}</span>{{item.title}}</span>
+          <span class="info-item1-title" :title="item.title"><span class="info-item1-tag">{{item.lables&&item.lables!=''?item.lables:'新闻'}}</span>{{item.title}}</span>
           <span>{{timeFormat(item.publishDate)}}</span>
         </p>
       </div>
