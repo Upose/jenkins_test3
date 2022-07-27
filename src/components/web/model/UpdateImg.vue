@@ -38,7 +38,7 @@
               <button class="btn" @click="rotateLeft">左旋转</button>
               <button class="btn" @click="rotateRight">右旋转</button>
             </p> -->
-            <p><button class="btn submit btn_bg_color child_border_color" @click="uploadImg('blob')" :style="{background:(true?this.$root.skin_number:'#a80000')}">保存图片</button></p>
+            <p><button class="btn submit btn_bg_color child-border-color" @click="uploadImg('blob')" :style="{background:(true?this.$root.skin_number:'#a80000')}">保存图片</button></p>
           </div>
         </div>
       </div>

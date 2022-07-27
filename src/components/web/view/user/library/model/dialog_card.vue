@@ -13,7 +13,7 @@
     </div>
     <div slot="footer">
       <el-button type="info" @click="dialogVisible = false">取 消</el-button>
-      <el-button class="btn_bg_color child_border_color" type="primary" @click="handleSet">确 定</el-button>
+      <el-button class="btn_bg_color child-border-color" type="primary" @click="handleSet">确 定</el-button>
     </div>
   </el-dialog>
 </template>

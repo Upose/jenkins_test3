@@ -71,7 +71,7 @@
     </div>
     <div class="btn-box" v-if="updateReaderInfo&&!loading">
       <el-button type="info" size="medium">取消</el-button>
-      <el-button class="btn_bg_color child_border_color" type="primary" size="medium" @click="subForm">保存</el-button>
+      <el-button class="btn_bg_color child-border-color" type="primary" size="medium" @click="subForm">保存</el-button>
     </div>
     <!--加载中-->
     <div class="temp-loading" v-if="loading"></div>
@@ -170,11 +170,20 @@ export default {
     getInfo() {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
+        this.form.addr = this.showAddrCode(this.form.addr);
         this.loading = false;
       }).catch((err) => {
         this.loading = false;
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
+    },
+    //处理地区编码
+    showAddrCode(addr) {
+      var addrArray = (addr || "").split('|');
+      if (addrArray.length >= 2) {
+        return addrArray[1];
+      }
+      return '';
     },
 
     // 是否不可编辑
