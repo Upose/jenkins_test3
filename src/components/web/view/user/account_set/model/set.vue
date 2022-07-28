@@ -178,10 +178,10 @@ export default {
         this.form = res.data;
         // 首次进入页面时带有参数并且没有绑定时 执行绑定
         if (isFirst) {
-          if (!this.form.qqOpenId && this.$route.query.qqNickName && this.$route.query.qqOpenId) {
+          if ((!this.form.qqOpenId || this.form.qqOpenId == '') && this.$route.query.qqNickName && this.$route.query.qqOpenId) {
             this.qqHandle()
           }
-          if (!this.form.weChatOpenId && this.$route.query.weChatNickName && this.$route.query.weChatOpenId) {
+          if ((!this.form.weChatOpenId || this.form.weChatOpenId == '') && this.$route.query.weChatNickName && this.$route.query.wechatOpenId) {
             this.wxBindHandle()
           }
         }
