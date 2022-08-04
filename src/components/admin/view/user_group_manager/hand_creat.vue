@@ -40,9 +40,8 @@
                               <el-option label="否" :value="false"></el-option>
                             </el-select>
                             <!-- 属性组单选选择 -->
-                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)">
+                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
                               <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                              <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.code).length==200"></el-option>
                             </el-select>
                             <!-- 属性组部门选择 -->
                             <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>
@@ -242,6 +241,18 @@ export default {
     this.initData();
     this.getDepList()
   },
+  directives: {
+    'el-select-loadmore': (el, binding) => {
+      // 获取element-ui定义好的scroll盒子
+      const SELECTWRAP_DOM = el.querySelector(".el-select-dropdown .el-select-dropdown__wrap");
+      if (SELECTWRAP_DOM) {
+        SELECTWRAP_DOM.addEventListener("scroll", function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) binding.value && binding.value()
+        });
+      }
+    }
+  },
   methods: {
     initData() {
       this.getKey();
@@ -255,14 +266,14 @@ export default {
       this.loading1 = true;
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
-        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        // 下拉框选项初始化时控制在10以内 
         res.data.groupSelect.forEach(item => {
           let data = {
             groupCode: item.groupCode,
             groupItems: [],
           };
-          if (item.groupItems.length > 200) {
-            data.groupItems = item.groupItems.slice(0, 200);
+          if (item.groupItems.length > 10) {
+            data.groupItems = item.groupItems.slice(0, 10);
           } else {
             data.groupItems = item.groupItems;
           }
@@ -354,18 +365,42 @@ export default {
     handleFilter(val, code) {
       let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
       let curList = [];
+      let filterList = [];//筛选出列表 用于下拉列表加载判断
       if (val != '') {
         allList.forEach(item => {
-          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+          if (item.key.indexOf(val) != -1) {
+            filterList.push(item);
+            if (curList.length <= 10) {
+              curList.push(item)
+            }
+          };
         })
       } else {
-        curList = allList.slice(0, 200);
+        curList = allList.slice(0, 10);
       }
       this.groupSelect.forEach(item => {
         if (item.groupCode == code) {
           item.groupItems = curList;
+          item.filterList = filterList;
         }
       })
+    },
+    // 选择框下拉加载
+    optionLoadMore(code) {
+      return () => {
+        let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let filterList = (this.groupSelect.find(item => (item.groupCode == code))).filterList;
+        let curList = (this.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let curSelectList = filterList && filterList.length > 0 ? filterList : allList;
+        if (curSelectList.length > curList.length) {
+          curList = curSelectList.slice(0, curList.length + 10);
+          this.groupSelect.forEach(item => {
+            if (item.groupCode == code) {
+              item.groupItems = curList;
+            }
+          })
+        }
+      }
     },
     // 匹配键值对
     getKeyValue(code, value) {

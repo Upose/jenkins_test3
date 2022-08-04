@@ -17,7 +17,7 @@
           <el-input v-model="form.unit" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Unit')"></el-input>
         </el-form-item>
         <el-form-item label="性别：">
-          <el-radio-group v-model="form.gender" style="width:400px" :disabled="isEdit('User_Gender')" filterable :filter-method="(value)=>handleFilter(value,'User_Gender')">
+          <el-radio-group v-model="form.gender" style="width:400px" :disabled="isEdit('User_Gender')" filterable :filter-method="(value)=>handleFilter(value,'User_Gender')" v-el-select-loadmore="optionLoadMore('User_Gender')">
             <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Gender').length==200"></el-option>
           </el-radio-group>
@@ -38,31 +38,31 @@
       <h2 class="edu-title">学历信息</h2>
       <el-form ref="form" :model="form" label-width="120px">
         <el-form-item label="学历：">
-          <el-select v-model="form.edu" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Edu')" filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
+          <el-select v-model="form.edu" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Edu')" filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
             <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="院系：">
-          <el-select v-model="form.college" placeholder="请选择" style="width:400px" :disabled="isEdit('User_College')" filterable :filter-method="(value)=>handleFilter(value,'User_College')">
+          <el-select v-model="form.college" placeholder="请选择" style="width:400px" :disabled="isEdit('User_College')" filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
             <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="专业：">
-          <el-select v-model="form.major" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Major')" filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
+          <el-select v-model="form.major" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Major')" filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
             <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="年级：">
-          <el-select v-model="form.grade" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Grade')" filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
+          <el-select v-model="form.grade" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Grade')" filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
             <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value"></el-option>
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="班级：">
-          <el-select v-model="form.class" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Class')" filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
+          <el-select v-model="form.class" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Class')" filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
             <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
             <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
           </el-select>
@@ -107,19 +107,31 @@ export default {
     this.getInfo();
   },
   mounted() { },
+  directives: {
+    'el-select-loadmore': (el, binding) => {
+      // 获取element-ui定义好的scroll盒子
+      const SELECTWRAP_DOM = el.querySelector(".el-select-dropdown .el-select-dropdown__wrap");
+      if (SELECTWRAP_DOM) {
+        SELECTWRAP_DOM.addEventListener("scroll", function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) binding.value && binding.value()
+        });
+      }
+    }
+  },
   methods: {
     // 获取键值对数据
     getKey() {
       this.http.getJson('forward-init-data').then((res) => {
         this.dataKey = res.data;
-        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        // 下拉框选项初始化时控制在10以内 
         res.data.groupSelect.forEach(item => {
           let data = {
             groupCode: item.groupCode,
             groupItems: [],
           };
-          if (item.groupItems.length > 200) {
-            data.groupItems = item.groupItems.slice(0, 200);
+          if (item.groupItems.length > 10) {
+            data.groupItems = item.groupItems.slice(0, 10);
           } else {
             data.groupItems = item.groupItems;
           }
@@ -139,18 +151,42 @@ export default {
     handleFilter(val, code) {
       let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
       let curList = [];
+      let filterList = [];//筛选出列表 用于下拉列表加载判断
       if (val != '') {
         allList.forEach(item => {
-          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+          if (item.key.indexOf(val) != -1) {
+            filterList.push(item);
+            if (curList.length <= 10) {
+              curList.push(item)
+            }
+          };
         })
       } else {
-        curList = allList.slice(0, 200);
+        curList = allList.slice(0, 10);
       }
       this.groupSelect.forEach(item => {
         if (item.groupCode == code) {
           item.groupItems = curList;
+          item.filterList = filterList;
         }
       })
+    },
+    // 选择框下拉加载
+    optionLoadMore(code) {
+      return () => {
+        let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let filterList = (this.groupSelect.find(item => (item.groupCode == code))).filterList;
+        let curList = (this.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let curSelectList = filterList && filterList.length > 0 ? filterList : allList;
+        if (curSelectList.length > curList.length) {
+          curList = curSelectList.slice(0, curList.length + 10);
+          this.groupSelect.forEach(item => {
+            if (item.groupCode == code) {
+              item.groupItems = curList;
+            }
+          })
+        }
+      }
     },
     // 获取用户修改信息权限
     checkModifyReaderPermit() {

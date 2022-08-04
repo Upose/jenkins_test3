@@ -2,34 +2,29 @@
   <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="800px">
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="学历：">
-        <el-select class="wq50" v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
+        <el-select class="wq50" v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
           <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
         </el-select>
         <!-- <el-checkbox v-model="b"></el-checkbox> -->
       </el-form-item>
       <el-form-item label="院系：">
-        <el-select class="wq50" v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
+        <el-select class="wq50" v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
           <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="专业：">
-        <el-select class="wq50" v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
+        <el-select class="wq50" v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
           <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年级：">
-        <el-select class="wq50" v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
+        <el-select class="wq50" v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
           <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="班级：">
-        <el-select class="wq50" v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
+        <el-select class="wq50" v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
           <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="性别：">
@@ -38,15 +33,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="用户类型：">
-        <el-select class="wq50" v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
+        <el-select class="wq50" v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
           <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态：">
-        <el-select class="wq50" v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
+        <el-select class="wq50" v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
           <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-          <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="离校日期：">
@@ -105,6 +98,18 @@ export default {
   mounted() {
 
   },
+  directives: {
+    'el-select-loadmore': (el, binding) => {
+      // 获取element-ui定义好的scroll盒子
+      const SELECTWRAP_DOM = el.querySelector(".el-select-dropdown .el-select-dropdown__wrap");
+      if (SELECTWRAP_DOM) {
+        SELECTWRAP_DOM.addEventListener("scroll", function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) binding.value && binding.value()
+        });
+      }
+    }
+  },
   methods: {
     // 显示弹窗
     show() {
@@ -116,14 +121,14 @@ export default {
     getKey() {
       http.getJson('user-init-data').then(res => {
         this.dataKey = res.data;
-        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        // 下拉框选项初始化时控制在10以内  
         res.data.groupSelect.forEach(item => {
           let data = {
             groupCode: item.groupCode,
             groupItems: [],
           };
-          if (item.groupItems.length > 200) {
-            data.groupItems = item.groupItems.slice(0, 200);
+          if (item.groupItems.length > 10) {
+            data.groupItems = item.groupItems.slice(0, 10);
           } else {
             data.groupItems = item.groupItems;
           }
@@ -151,18 +156,42 @@ export default {
     handleFilter(val, code) {
       let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
       let curList = [];
+      let filterList = [];//筛选出列表 用于下拉列表加载判断
       if (val != '') {
         allList.forEach(item => {
-          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+          if (item.key.indexOf(val) != -1) {
+            filterList.push(item);
+            if (curList.length <= 10) {
+              curList.push(item)
+            }
+          };
         })
       } else {
-        curList = allList.slice(0, 200);
+        curList = allList.slice(0, 10);
       }
       this.groupSelect.forEach(item => {
         if (item.groupCode == code) {
           item.groupItems = curList;
+          item.filterList = filterList;
         }
       })
+    },
+    // 选择框下拉加载
+    optionLoadMore(code) {
+      return () => {
+        let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let filterList = (this.groupSelect.find(item => (item.groupCode == code))).filterList;
+        let curList = (this.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let curSelectList = filterList && filterList.length > 0 ? filterList : allList;
+        if (curSelectList.length > curList.length) {
+          curList = curSelectList.slice(0, curList.length + 10);
+          this.groupSelect.forEach(item => {
+            if (item.groupCode == code) {
+              item.groupItems = curList;
+            }
+          })
+        }
+      }
     },
     //表单提交
     submitForm() {

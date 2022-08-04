@@ -25,17 +25,15 @@
                     <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
                   </el-form-item>
                   <el-form-item label="学历：" prop="edu">
-                    <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')">
+                    <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
                       <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="职称：" prop="title">
-                    <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')">
+                    <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')" v-el-select-loadmore="optionLoadMore('User_Title')">
                       <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Title').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="部门：" prop="depart">
@@ -46,37 +44,32 @@
                     <el-cascader v-bind="depList" :options="depList" v-model="postForm.depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
                   </el-form-item>
                   <el-form-item label="所在学院：" prop="college">
-                    <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')">
+                    <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
                       <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="所在系：" prop="collegeDepart">
-                    <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')">
+                    <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')" v-el-select-loadmore="optionLoadMore('User_CollegeDepart')">
                       <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_CollegeDepart').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="专业：" prop="major">
-                    <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')">
+                    <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
                       <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="年级：" prop="grade">
-                    <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')">
+                    <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
                       <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="班级：" prop="class">
-                    <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')">
+                    <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
                       <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="手机：" prop="phone">
@@ -96,9 +89,8 @@
                       <el-radio :label="'true'">是</el-radio>
                       <el-radio :label="'false'">否</el-radio>
                     </el-radio-group>
-                    <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.propertyCode)">
+                    <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.propertyCode)" v-el-select-loadmore="optionLoadMore(item.propertyCode)">
                       <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect(item.propertyCode).length==200"></el-option>
                     </el-select>
                     <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
                     <div v-if="item.propertyType == 6">
@@ -139,16 +131,14 @@
                     </el-date-picker>
                   </el-form-item>
                   <el-form-item label="状态：" prop="status">
-                    <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')">
+                    <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
                       <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Status').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="用户类型：" prop="type">
-                    <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')">
+                    <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
                       <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                      <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Type').length==200"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="头像：" prop="photo">
@@ -355,8 +345,19 @@ export default {
   mounted() {
     this.initData();
   },
+  directives: {
+    'el-select-loadmore': (el, binding) => {
+      // 获取element-ui定义好的scroll盒子
+      const SELECTWRAP_DOM = el.querySelector(".el-select-dropdown .el-select-dropdown__wrap");
+      if (SELECTWRAP_DOM) {
+        SELECTWRAP_DOM.addEventListener("scroll", function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) binding.value && binding.value()
+        });
+      }
+    }
+  },
   methods: {
-
     //初始化数据
     initData() {
       this.getKey();
@@ -395,14 +396,14 @@ export default {
         this.postForm.photo = '/public/image/default-user-head/default-user-head.png';
 
         this.cardForm = this.dataKey.cardData || { secret: '' };
-        // 下拉框选项初始化时控制在200以内  避免销毁页面时间过长
+        // 下拉框选项初始化时控制在10以内  
         res.data.groupSelect.forEach(item => {
           let data = {
             groupCode: item.groupCode,
             groupItems: [],
           };
-          if (item.groupItems.length > 200) {
-            data.groupItems = item.groupItems.slice(0, 200);
+          if (item.groupItems.length > 10) {
+            data.groupItems = item.groupItems.slice(0, 10);
           } else {
             data.groupItems = item.groupItems;
           }
@@ -432,24 +433,48 @@ export default {
     initSelect(code) {
       if (!this.dataKey) return;
       let select = this.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      return select.groupItems || [];
     },
     // 下拉列表过滤
     handleFilter(val, code) {
       let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
       let curList = [];
+      let filterList = [];//筛选出列表 用于下拉列表加载判断
       if (val != '') {
         allList.forEach(item => {
-          if (item.key.indexOf(val) != -1 && curList.length <= 200) curList.push(item);
+          if (item.key.indexOf(val) != -1) {
+            filterList.push(item);
+            if (curList.length <= 10) {
+              curList.push(item)
+            }
+          };
         })
       } else {
-        curList = allList.slice(0, 200);
+        curList = allList.slice(0, 10);
       }
       this.groupSelect.forEach(item => {
         if (item.groupCode == code) {
           item.groupItems = curList;
+          item.filterList = filterList;
         }
       })
+    },
+    // 选择框下拉加载
+    optionLoadMore(code) {
+      return () => {
+        let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let filterList = (this.groupSelect.find(item => (item.groupCode == code))).filterList;
+        let curList = (this.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let curSelectList = filterList && filterList.length > 0 ? filterList : allList;
+        if (curSelectList.length > curList.length) {
+          curList = curSelectList.slice(0, curList.length + 10);
+          this.groupSelect.forEach(item => {
+            if (item.groupCode == code) {
+              item.groupItems = curList;
+            }
+          })
+        }
+      }
     },
     // 获取图标
     coverUrl(url) {
