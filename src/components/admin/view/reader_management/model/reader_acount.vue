@@ -155,7 +155,7 @@
           </el-form-item>
           <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
             <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
-            <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1" placeholder="请输入"></el-input>
+            <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
             <el-date-picker class="wq95" v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
             <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
               <el-radio :label="'true'">是</el-radio>
@@ -748,7 +748,10 @@ export default {
 /deep/ .el-radio {
   margin: 2% 9% 0 0;
 }
-
+/deep/ .el-input-number__decrease,
+/deep/ .el-input-number__increase {
+  display: none;
+}
 .tag-box {
   position: absolute;
   width: 80px;

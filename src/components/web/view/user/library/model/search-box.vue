@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-30 17:18:42
+ * @LastEditTime: 2022-08-04 10:05:21
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -251,7 +251,7 @@ export default {
             return;
           }
         } else {
-          if (this.basicInputKeyWord.length > 100) {
+          if (this.basicInputKeyWord.length > 200) {
             alert('输入字符长度不得大于200');
             return;
           }
@@ -329,7 +329,7 @@ export default {
       }
       this.postJsonAsync("/api/search-const/encrypt-search-parameter", list).then((x) => {
         let keyword = this.basicInputKeyWord || "";
-        if (keyword.length >= 100) keyword = keyword.substring(0, 100);
+        // if (keyword.length >= 100) keyword = keyword.substring(0, 100);
         // let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
         // window.location.href = href;
         let href = `/articlesearch/#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
