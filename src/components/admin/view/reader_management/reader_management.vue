@@ -184,7 +184,7 @@ export default {
         this.postForm = res.data;
         this.getIntegralData(res.data.userKey);
       }).catch(err => {
-        this.$message({ type: 'error', message: '获取设置失败!' });
+        this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
     // 获取积分数据

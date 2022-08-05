@@ -96,7 +96,7 @@ export default {
           this.submitForm();
         }
       }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
+        this.$message({ type: 'error', message: '导出失败!' });
       })
 
     },

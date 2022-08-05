@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 10:29:18
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-28 16:52:32
+ * @LastEditTime: 2022-08-05 17:25:03
  * @Description: 标签列表
 -->
 <template>
@@ -150,7 +150,7 @@ export default {
       }).then(res => {
         this.$message.success(row.status == 1 ? '启用成功！' : '禁用成功！');
       }).catch(err => {
-        this.$message({ type: 'error', message: '获取数据失败!' });
+        this.$message({ type: 'error', message: '修改失败!' });
       })
     },
 
