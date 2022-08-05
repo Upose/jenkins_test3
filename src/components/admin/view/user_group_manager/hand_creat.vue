@@ -31,7 +31,7 @@
                     <div class="rule-box" v-if="dataKey">
                       <div class="search-box" v-if="dataKey">
                         <!-- 属性组选择 -->
-                        <div class="search-item-box" v-for="item in selectProperties" :key="item.code">
+                        <div class="search-item-box" v-for="item in selectProperties.slice(0, selectPropLen)" :key="item.code">
                           <div class="search-item" v-if="!item.external">
                             <!-- <el-date-picker v-model="searchForm[item.code]" type="date" :placeholder="item.name" v-if="!item.external && item.type==2"></el-date-picker> -->
                             <!-- 属性组是非选择 -->
@@ -40,7 +40,7 @@
                               <el-option label="否" :value="false"></el-option>
                             </el-select>
                             <!-- 属性组单选选择 -->
-                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
+                            <el-select :style="{width:setSelectWidth(item.code)}" v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
                               <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
                             </el-select>
                             <!-- 属性组部门选择 -->
@@ -48,28 +48,55 @@
                           </div>
                         </div>
                         <!-- 文本输入 -->
-                        <div class="search-item-box" v-if="textProperties.length">
-                          <div class="search-item" style="width:300px">
-                            <el-input placeholder="请输入" size="medium" v-model="searchTextValue" style="width:300px" clearable>
-                              <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
-                                <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                        <template v-if="(textProperties1.length||textProperties2.length||textProperties3.length)">
+                          <div class="search-item-box">
+                            <div class="search-item search-item-text" v-if="textProperties1.length">
+                              <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" class="textleft input-textleft" clearable>
+                              </el-input>
+                              <el-select v-model="searchTextcondition1" placeholder="请选择" class="textright">
+                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
                               </el-select>
-                            </el-input>
+                            </div>
                           </div>
-                        </div>
+                          <div class="search-item-box">
+                            <div class="search-item search-item-text" v-if="textProperties2.length">
+                              <el-input placeholder="请输入" v-model="searchTextValue2" clearable class="textleft">
+                                <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange2">
+                                  <el-option v-for="item in textProperties2" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                                </el-select>
+                              </el-input>
+                              <el-select v-model="searchTextcondition2" placeholder="请选择" v-show="searchTextcondition2>0" class="textright">
+                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                              </el-select>
+                            </div>
+                          </div>
+                          <div class="search-item-box">
+                            <div class="search-item search-item-text" v-if="textProperties3.length">
+                              <el-input placeholder="请输入" v-model="searchTextValue3" class="textleft" clearable>
+                                <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange3">
+                                  <el-option v-for="item in textProperties3" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                                </el-select>
+                              </el-input>
+                              <el-select v-model="searchTextcondition3" placeholder="请选择" v-show="searchTextcondition3>0" class="textright">
+                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                              </el-select>
+                            </div>
+                          </div>
+                        </template>
                         <!-- 日期选择 -->
-                        <div class="search-item-box" v-if="dateRangeProperties.length">
+                        <div class="search-item-box date-item-box" v-if="dateRangeProperties.length">
                           <div class="search-item w400">
                             <div class="date-checkbox">
-                              <el-select v-model="searchDateCode" placeholder="请选择" size="medium" clearable>
+                              <el-select v-model="searchDateCode" placeholder="请选择" style="width: 130px;" clearable>
                                 <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
                               </el-select>
-                              <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                              <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                             </div>
                           </div>
                         </div>
                         <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch">查找</el-button>
                       </div>
+
                       <div class="btn-box">
                         <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
                         <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
@@ -195,12 +222,33 @@ export default {
       // 系统属性code对应字段名称
       sysArrtKey: ['name', 'sourceFrom', 'nickName', 'studentNo', 'unit', 'edu', 'depart', 'title', 'college', 'collegeDepart', 'grade', 'major', 'class', 'type', 'status', 'phone', 'idCard', 'email', 'birthday', 'gender', 'addrDetail', 'addr', 'createTime', 'cardNo', 'leaveTime', 'photo', 'cardBarCode', 'cardPhysicNo', 'cardType', 'cardIdentityNo', 'cardStatus', 'cardIsPrincipal', 'cardExpireDate', 'cardIssueDate', 'cardDeposit'],
       selectProperties: [],//属性组选择列表
-      textProperties: [],//文本输入列表
+      textProperties1: [],
+      textProperties2: [],
+      textProperties3: [],
       dateRangeProperties: [],//日期选择列表
-      searchTextCode: '',//文本输入code
-      searchTextValue: '',//文本输入值
+      searchTextValue1: '',
+      searchTextCode2: '',//文本输入code
+      searchTextValue2: '',//文本输入值
+      searchTextCode3: '',//文本输入code
+      searchTextValue3: '',//文本输入值
       searchDateCode: '',//日期选择code
       searchDateValue: '',//日期选择值
+      depList: [],//部门列表
+      textcondition: [{
+        val: 1,
+        label: '模糊'
+      }, {
+        val: 2,
+        label: '精确'
+      }, {
+        val: 3,
+        label: '前向'
+      }],
+      searchTextcondition1: 3,
+      searchTextcondition2: 0,
+      searchTextcondition3: 0,
+      searchTermWidth: 1000,
+      searchTermHeight: 118,
       depList: [],//部门列表
       searchForm: {},
       postSearch: {},
@@ -261,6 +309,16 @@ export default {
         this.getData();
       }
     },
+    // 设置筛选项宽度
+    setSelectWidth(code) {
+      const widthEnty = {
+        'User_College': 250,
+        'User_CollegeDepart': 250,
+        'User_Major': 300,
+        'User_Class': 250,
+      }
+      return (widthEnty[code] || 150) + 'px';
+    },
     // 获取初始数据
     getKey() {
       this.loading1 = true;
@@ -282,7 +340,14 @@ export default {
         // 筛选项分类
         this.dataKey.canSearchProperties.forEach(item => {
           if (!item.external && (item.type == 0 || item.type == 1 || item.type == 5)) {
-            this.textProperties.push(item);
+            if (item.searchGroup == 1) {
+              this.textProperties1.push(item);
+            } else if (item.searchGroup == 2) {
+              this.textProperties2.push(item);
+
+            } else if (item.searchGroup == 3) {
+              this.textProperties3.push(item);
+            }
           }
           if (!item.external && item.type == 2) {
             this.dateRangeProperties.push(item);
@@ -291,11 +356,36 @@ export default {
             this.selectProperties.push(item);
           }
         });
+        this.changeSearchTermShow()
+
+        this.searchTextCode2 = this.textProperties2.length ? this.textProperties2[0].code : '';
+        this.searchTextCode3 = this.textProperties3.length ? this.textProperties3[0].code : '';
+        this.searchTextcondition2 = this.textProperties2.length ? this.textProperties2[0].searchType : 0;
+        this.searchTextcondition3 = this.textProperties3.length ? this.textProperties3[0].searchType : 0;
+        this.searchDateCode = this.dateRangeProperties.length ? this.dateRangeProperties[0].code : '';
+        if (this.textProperties1.length) {
+          this.showSearchTermMore = true;
+        }
         this.loading1 = false;
       }).catch(err => {
         this.loading1 = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
+    },
+    changeSearchTermShow() {
+      if (this.selectProperties.length) {
+        if (this.searchTermWidth == 1100 && this.selectProperties.length > 6) {
+          this.selectPropLen = 12;
+        } else if (this.searchTermWidth == 1353 && this.selectProperties.length > 8) {
+          this.selectPropLen = 16;
+        } else if (this.searchTermWidth == 1520 && this.selectProperties.length > 9) {
+          this.selectPropLen = 18;
+        } else if (this.textProperties1.length > 0 || this.textProperties2.length > 0 || this.textProperties3.length > 0) {
+          this.selectPropLen = 18;
+        } else if (this.dateRangeProperties.length > 0) {
+          this.selectPropLen = 18;
+        }
+      }
     },
     // 初始化下拉列表
     initSelect(code) {
@@ -345,9 +435,26 @@ export default {
         let index = this.sysArrtKey[this.sysArrt.indexOf(item)];
         search[index] = this.searchForm[item];
       }
-      if (this.searchTextCode && this.searchTextValue) {
-        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode)];
-        search[index] = this.searchTextValue;
+      if (this.searchTextValue1) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.textProperties1[0].code)];
+        search[index] = this.searchTextValue1;
+        if (this.searchTextcondition1) {
+          search.searchType1 = this.searchTextcondition1;
+        }
+      }
+      if (this.searchTextCode2 && this.searchTextValue2) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode2)];
+        search[index] = this.searchTextValue2;
+        if (this.searchTextcondition2) {
+          search.searchType2 = this.searchTextcondition2;
+        }
+      }
+      if (this.searchTextCode3 && this.searchTextValue3) {
+        let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchTextCode3)];
+        search[index] = this.searchTextValue3;
+        if (this.searchTextcondition3) {
+          search.searchType3 = this.searchTextcondition3;
+        }
       }
       if (this.searchDateCode && this.searchDateValue) {
         let index = this.sysArrtKey[this.sysArrt.indexOf(this.searchDateCode)];
@@ -573,16 +680,52 @@ export default {
 .search-box {
   padding: 20px;
 }
-.search-item {
-  width: 150px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
+// .search-item {
+//   // width: 150px;
+//   margin-bottom: 10px;
+//   margin-right: 10px;
+// }
 /deep/ .el-table .warning-row {
   background: rgb(243, 208, 208);
 }
 .search-item-box {
   display: inline-block;
+}
+.search-item {
+  // width: 150px;
+  display: inline-block;
+  margin-right: 4px;
+  margin-bottom: 15px;
+  vertical-align: top;
+  &.search-item-text {
+    margin-right: 10px;
+    width: auto;
+    /deep/ .textleft {
+      width: 400px;
+      float: left;
+      &.input-textleft,
+      .el-input__inner {
+        width: 270px;
+      }
+      .el-input--suffix {
+        .el-input__inner {
+          width: 130px;
+        }
+      }
+    }
+    /deep/ .el-select.textright {
+      width: 100px;
+      float: left;
+      margin-left: 3px;
+    }
+  }
+  /deep/ .el-select {
+    width: 150px;
+  }
+  /deep/ .el-date-editor.el-input,
+  .el-input__inner {
+    width: 150px;
+  }
 }
 .date-checkbox {
   width: 400px;

@@ -23,7 +23,7 @@
                     <el-option label="否" :value="false"></el-option>
                   </el-select>
                   <!-- 属性组单选选择 -->
-                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
+                  <el-select :style="{width:setSelectWidth(item.code)}" v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
                     <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                   <!-- 属性组部门选择 -->
@@ -397,6 +397,16 @@ export default {
       }
       return width;
     },
+    // 设置筛选项宽度
+    setSelectWidth(code) {
+      const widthEnty = {
+        'User_College': 250,
+        'User_CollegeDepart': 250,
+        'User_Major': 300,
+        'User_Class': 250,
+      }
+      return (widthEnty[code] || 150) + 'px';
+    },
     // 获取列表数据
     getList() {
       this.loading = true;
@@ -696,7 +706,7 @@ export default {
     width: 100%;
   }
   .search-item {
-    width: 150px;
+    // width: 150px;
     display: inline-block;
     margin-right: 4px;
     margin-bottom: 15px;

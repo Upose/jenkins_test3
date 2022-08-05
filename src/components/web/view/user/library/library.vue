@@ -162,7 +162,6 @@ export default {
   components: { dialog_card, breadCrumbs, AppList, DatabaseList, InformList, SearchBox },
   data() {
     return {
-      baseUrl: window.apiDomainAndPort,
       userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
       isEdit: false,//是否编辑状态
       dataKey: null,//键值对数据
