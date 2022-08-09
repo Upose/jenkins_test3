@@ -71,7 +71,7 @@
     </div>
     <div class="btn-box" v-if="updateReaderInfo&&!loading">
       <el-button type="info" size="medium">取消</el-button>
-      <el-button class="btn_bg_color child-border-color" type="primary" size="medium" @click="subForm">保存</el-button>
+      <el-button class="tborder-c1 tbg-c1 thover-bg-c2" type="primary" size="medium" @click="subForm">保存</el-button>
     </div>
     <!--加载中-->
     <div class="temp-loading" v-if="loading"></div>

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-08-04 10:05:21
+ * @LastEditTime: 2022-08-09 14:47:49
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -13,7 +13,7 @@
 
       <div class="column-w">
         <div class="box-warp c-l">
-          <div class="c-box" @click="tabClick(it)" v-for="(it,i) in details.searchBoxTitleItems" :class="cu_colum.id==it.id?'box-active':''"><span>{{it.title}}</span></div>
+          <div class="c-box" @click="tabClick(it)" v-for="(it,i) in details.searchBoxTitleItems" :class="cu_colum.id==it.id?'box-active tbg-c1':''"><span :class="{'tafter-border-c1':cu_colum.id==it.id}">{{it.title}}</span></div>
         </div>
       </div>
       <!--检索栏目-->
@@ -26,7 +26,7 @@
           <input class="input" ref="mainInput" @keyup.enter="searchClick" @blur="inputBlur" @focus="emptySearch" v-model="basicInputKeyWord" type="text" :placeholder="details.placeHolderEnabled?(cu_colum.placeholder||details.defaultPlaceHolder):''" :class="(cu_colum.searchBoxFields&&cu_colum.searchBoxFields.length>0)?'pd-l-h':'pd-l-s'" />
           <div class="s-r-btns">
             <button class="subject-btn" @click="subjectAlertOpen" v-if="search && search.symbol && (search.symbol == 'CC'||search.symbol == 'LC' || search.symbol == 'C'||search.symbol == 'L')">查看分类表</button>
-            <button class="search-btn" @click="searchClick"></button>
+            <button class="search-btn tbg-c1" @click="searchClick"></button>
             <button class="high-btn" @click="highSearch">高级检索</button>
           </div>
         </div>

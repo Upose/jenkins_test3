@@ -7,9 +7,9 @@
         <div class="info-box">
           <div class="title">账号设置</div>
           <div class="nav-box">
-            <span class="nav-item" :class="tab=='info'?'active child-border-color':''" @click="tab='info'">基本信息</span>
-            <span class="nav-item" :class="tab=='set'?'active child-border-color':''" @click="tab='set'">安全设置</span>
-            <span class="nav-item" :class="tab=='card'?'active child-border-color':''" @click="tab='card'">我的读者证</span>
+            <span class="nav-item" :class="tab=='info'?'active tborder-c1':''" @click="tab='info'">基本信息</span>
+            <span class="nav-item" :class="tab=='set'?'active tborder-c1':''" @click="tab='set'">安全设置</span>
+            <span class="nav-item" :class="tab=='card'?'active tborder-c1':''" @click="tab='card'">我的读者证</span>
           </div>
           <div v-show="tab=='info'">
             <info></info>
