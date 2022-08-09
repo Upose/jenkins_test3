@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2022-08-09 14:47:49
+ * @LastEditTime: 2022-08-09 16:18:01
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -13,7 +13,7 @@
 
       <div class="column-w">
         <div class="box-warp c-l">
-          <div class="c-box" @click="tabClick(it)" v-for="(it,i) in details.searchBoxTitleItems" :class="cu_colum.id==it.id?'box-active tbg-c1':''"><span :class="{'tafter-border-c1':cu_colum.id==it.id}">{{it.title}}</span></div>
+          <div class="c-box thover-bg-c1" @click="tabClick(it)" v-for="(it,i) in details.searchBoxTitleItems" :class="cu_colum.id==it.id?'box-active tbg-c1':''"><span class="tafter-border-c1">{{it.title}}</span></div>
         </div>
       </div>
       <!--检索栏目-->
