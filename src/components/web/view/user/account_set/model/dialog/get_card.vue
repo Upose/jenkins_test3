@@ -12,7 +12,7 @@
     </div>
     <div slot="footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button class="tborder-c1 tbg-c1 thover-bg-c2" type="primary" @click="next">下 一 步</el-button>
+      <el-button class="tborder-c1 tbg-c1 thover-bg-c2" type="primary" @click="next" v-button-debounce>下 一 步</el-button>
     </div>
   </el-dialog>
 </template>

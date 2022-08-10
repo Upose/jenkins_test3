@@ -24,7 +24,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="dialogBulk = false">取消</el-button>
-        <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm()">保存</el-button>
+        <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm()" v-button-debounce>保存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -38,7 +38,7 @@ export default {
   props: ['editPower_data'],
   data() {
     return {
-      loading:false,
+      loading: false,
       postForm: {},
       dialogBulk: false,
       checkUserTypeAll: false,
@@ -94,7 +94,7 @@ export default {
 
         this.checkedUserTypes = [...new Set(this.allUserTypes.filter((num) => listtype.includes(num)))];
         this.checkedGroupList = [...new Set(this.allGroupList.filter((num) => listgroup.includes(num)))];
-        
+
         this.active = (this.checkedUserTypes.length == 0 && this.checkedGroupList.length > 0) ? 'group' : 'type';
         this.handleCheckedUserTypeChange(this.checkedUserTypes);
         this.handleCheckedGroupListChange(this.checkedGroupList);

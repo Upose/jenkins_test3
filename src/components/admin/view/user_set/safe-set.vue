@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-07 16:48:18
+ * @LastEditTime: 2022-08-10 14:24:19
  * @Description: 安全设置
 -->
 <template>
@@ -27,7 +27,7 @@
           <el-switch v-model="postForm.firstLoginChangePassword"></el-switch>
         </el-form-item>
         <el-form-item>
-          <el-button icon="iconfont el-icon-vip-baocun1" type="primary" @click="handleSubmit">保存</el-button>
+          <el-button icon="iconfont el-icon-vip-baocun1" type="primary" @click="handleSubmit" v-button-debounce>保存</el-button>
         </el-form-item>
       </el-form>
     </div>

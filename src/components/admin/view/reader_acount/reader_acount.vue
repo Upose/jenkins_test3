@@ -129,7 +129,7 @@
         </el-form-item>
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保 存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保 存</el-button>
       </div>
     </div>
     <div class="reader-right">
@@ -174,7 +174,7 @@
           <img src="@/assets/admin/img/userManager/quxiao.png" />
           <span>取消</span>
         </el-button>
-        <el-button type="primary" @click="submitForm" class="btns">
+        <el-button type="primary" @click="submitForm" class="btns" v-button-debounce>
           <img src="@/assets/admin/img/userManager/icon-bc2x.png" />
           <span>保存</span>
         </el-button>

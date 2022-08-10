@@ -9,7 +9,7 @@
         <span class="status">{{getKeyValue(item.status)}}</span>
         <span class="times">有效期：{{dateChangeFormat(item.expireDate)}}</span>
         <span class="card" v-if="item.isPrincipal">主卡</span>
-        <span class="set-card" v-if="!item.isPrincipal" @click="handleSetCard(item)">设为主卡</span>
+        <span class="set-card" v-if="!item.isPrincipal" @click="handleSetCard(item)" v-button-debounce>设为主卡</span>
         <el-button class="caozuo" @click="handleEditPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-bianji">修改密码</el-button>
         <el-button class="caozuo" @click="handleResetPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-chushi">重置密码</el-button>
         <el-button class="caozuo" @click="handleLook(item)" icon="iconfont el-icon-vip-yulan">查看</el-button>

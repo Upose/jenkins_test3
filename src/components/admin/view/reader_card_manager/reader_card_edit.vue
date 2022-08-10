@@ -86,7 +86,7 @@
               </el-form>
             </div>
             <div class="btn_box">
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('card:update')">保 存</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('card:update')" v-button-debounce>保 存</el-button>
             </div>
           </div>
         </div>

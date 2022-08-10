@@ -17,7 +17,7 @@
             <h2 class="m-title">
               <el-button type="primary" size="medium" @click="sub">确认导入</el-button>
               <div class="r-btn">
-                <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload">下载模板</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload" v-button-debounce>下载模板</el-button>
                 <el-button type="primary" size="medium" @click="$refs.uploadFile.show()">导入数据</el-button>
               </div>
             </h2>

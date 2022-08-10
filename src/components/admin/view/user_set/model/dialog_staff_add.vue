@@ -9,7 +9,7 @@
             </el-select>
           </el-input>
         </div>
-        <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+        <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
       </div>
     </div>
 
@@ -37,7 +37,7 @@
       <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
     </div>
     <div slot="footer">
-      <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保 存</el-button>
+      <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保 存</el-button>
     </div>
   </el-dialog>
 </template>
@@ -54,7 +54,7 @@ export default {
   components: { paging },
   data() {
     return {
-      loading:false,
+      loading: false,
       dialogVisible: false,
       dataKey: null,
       pageData: {

@@ -36,6 +36,26 @@ Vue.prototype.isThirdpartyApp = function (is_web, url) {
   return is_open;
 }
 
+/**
+ * 按钮防抖 点击之后一秒不可再点击
+ * 使用方式： v-button-debounce
+ * 使用范围：提交、查询、下载按钮
+ */
+Vue.directive('button-debounce', {
+  bind: function (el, binding) {
+    el.addEventListener('click', () => {
+      if (!el.disabled) {
+        el.classList.add('is-loading')
+        el.disabled = true
+        setTimeout(() => {
+          el.classList.remove('is-loading')
+          el.disabled = false
+        }, 1000)
+      }
+    });
+  }
+});
+
 const i18n = new VueI18n({
   locale: window.localStorage.getItem('locale') || 'zh-CN',
   messages: {

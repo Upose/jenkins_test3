@@ -93,7 +93,7 @@
                     <img src="@/assets/admin/img/userManager/quxiao.png" />
                     <span>取消</span>
                   </el-button>
-                  <el-button type="primary" class="btns">
+                  <el-button type="primary" class="btns" v-button-debounce>
                     <img src="@/assets/admin/img/userManager/icon-bc2x.png" />
                     <span>保存</span>
                   </el-button>

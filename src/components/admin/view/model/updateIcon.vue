@@ -28,7 +28,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button icon="iconfont el-icon-vip-quxiao" size="medium" @click="closeClick()">取 消</el-button>
-        <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitImg()">保 存</el-button>
+        <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitImg()" v-button-debounce>保 存</el-button>
       </span>
     </el-dialog>
   </div>
@@ -40,7 +40,7 @@ import UpdateImg from "@/components/admin/model/UpdateImg";
 export default {
   name: 'index',
   components: { UpdateImg },
-  props: ['hasChance','cover','coverHeight','coverWidth'],
+  props: ['hasChance', 'cover', 'coverHeight', 'coverWidth'],
   data() {
     return {
       select_img: '',//选择默认图标后的url
@@ -49,7 +49,7 @@ export default {
       dialogSelectimg: false,
       iconList: [],//默认图标列表
 
-      imgPath:localStorage.getItem('fileUrl'),//图片域名前缀
+      imgPath: localStorage.getItem('fileUrl'),//图片域名前缀
     }
   },
   created() {
@@ -113,7 +113,7 @@ export default {
 .w500 {
   width: 500px;
 }
-.width95{
+.width95 {
   width: 95%;
 }
 /deep/ .cropper-content {

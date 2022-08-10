@@ -2,7 +2,7 @@
   <div>
     <div class="m-title search-term-table">
       <el-input placeholder="角色名称" size="medium" v-model="postForm.keyword" class="width136 mr10" clearable></el-input>
-      <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+      <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
       <el-button type="primary" size="medium" icon="iconfont el-icon-vip-tianjia2" @click="handleAdd">新增角色</el-button>
     </div>
 

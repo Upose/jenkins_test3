@@ -60,7 +60,7 @@
                 </el-form-item>
                 <el-form-item>
                   <span class="dialog-footer">
-                    <el-button type="primary" @click="saveEdit" class="btns">
+                    <el-button type="primary" @click="saveEdit" class="btns" v-button-debounce>
                       <img src="@/assets/admin/img/userManager/icon-bc2x.png" />
                       <span>保存</span>
                     </el-button>

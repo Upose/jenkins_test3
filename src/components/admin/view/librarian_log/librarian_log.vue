@@ -8,7 +8,7 @@
       </el-select>
       <el-date-picker v-model="times" type="date" placeholder="操作时间">
       </el-date-picker>
-      <el-button type="primary" class="searchs">
+      <el-button type="primary" class="searchs" v-button-debounce>
         <i class="iconfont el-icon-vip-fangdajing"></i>
         <span>查找</span>
       </el-button>

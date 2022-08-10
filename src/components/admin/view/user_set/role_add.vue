@@ -34,7 +34,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button icon="iconfont el-icon-vip-chushi" size="medium" @click="reset">重 置</el-button>
-                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm">保 存</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="submitForm" v-button-debounce>保 存</el-button>
               </el-form-item>
             </el-form>
           </div>

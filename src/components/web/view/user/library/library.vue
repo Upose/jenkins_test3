@@ -141,7 +141,7 @@
       <div>请问是否确定绑定微信？</div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="wxdialogVisible = false">取 消</el-button>
-        <el-button type="primary" :loading="wxbindLoading" @click="getWeixin">确 定</el-button>
+        <el-button type="primary" :loading="wxbindLoading" @click="getWeixin" v-button-debounce>确 定</el-button>
       </span>
     </el-dialog>
   </div>

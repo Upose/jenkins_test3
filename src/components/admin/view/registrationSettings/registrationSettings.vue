@@ -82,7 +82,7 @@
                     <img src="@/assets/admin/img/userManager/quxiao.png" />
                     <span>取消</span>
                   </el-button>
-                  <el-button type="primary" class="btns btns1">
+                  <el-button type="primary" class="btns btns1" v-button-debounce>
                     <img src="@/assets/admin/img/userManager/icon-bc2x.png" />
                     <span>保存</span>
                   </el-button>
@@ -97,7 +97,7 @@
             <div class="tables">
               <div class="search-div">
                 <el-input type="text" class="handle-input mr10 search-name" v-model="names" placeholder="姓名"></el-input>
-                <el-button type="primary" class="finds">查找</el-button>
+                <el-button type="primary" class="finds" v-button-debounce>查找</el-button>
               </div>
               <el-table :data="tableData" border style="width: 100%" class="list-table">
                 <el-table-column label="序号" width="55" align="center">
@@ -122,7 +122,7 @@
             </div>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="saveEdit" class="btns">
+            <el-button type="primary" @click="saveEdit" class="btns" v-button-debounce>
               <img src="@/assets/admin/img/userManager/icon-bc2x.png" />
               <span>保存</span>
             </el-button>

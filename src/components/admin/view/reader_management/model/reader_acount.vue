@@ -161,7 +161,7 @@
                 <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
               </el-upload>
-              <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
+              <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)" v-button-debounce>下载附件</el-button>
             </div>
           </el-form-item>
         </div>
@@ -170,7 +170,7 @@
         </el-form-item> -->
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('reader:update')">保存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('reader:update')" v-button-debounce>保存</el-button>
       </div>
     </div>
     <div class="reader-right">
@@ -201,7 +201,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editVisible = false" icon="iconfont el-icon-vip-quxiao">取消</el-button>
-        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1">保存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保存</el-button>
       </span>
     </el-dialog>
   </div>

@@ -94,7 +94,7 @@
                             </div>
                           </div>
                         </div>
-                        <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch">查找</el-button>
+                        <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch" v-button-debounce>查找</el-button>
                       </div>
 
                       <div class="btn-box">
@@ -145,7 +145,7 @@
                   <el-tab-pane label="导入" name="导入">
                     <div class="rule-box">
                       <div style="padding:20px">
-                        <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload">下载模板</el-button>
+                        <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload" v-button-debounce>下载模板</el-button>
                         <el-button type="primary" size="medium" @click="$refs.uploadFile.show()">导入数据</el-button>
                       </div>
                       <div class="btn-box">
@@ -176,7 +176,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button size="medium" @click="reset" icon="iconfont el-icon-vip-chushi">重 置</el-button>
-                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun">保 存</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun" v-button-debounce>保 存</el-button>
               </el-form-item>
             </el-form>
           </div>

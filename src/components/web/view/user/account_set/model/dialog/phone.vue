@@ -34,7 +34,7 @@
     </div>
     <div slot="footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button class="tborder-c1 tbg-c1 thover-bg-c2" type="primary" @click="sub">确定认领</el-button>
+      <el-button class="tborder-c1 tbg-c1 thover-bg-c2" type="primary" @click="sub" v-button-debounce>确定认领</el-button>
     </div>
   </el-dialog>
 </template>

@@ -38,7 +38,7 @@
                 <el-input v-model="postForm.CardNo" placeholder="读者卡号" style="width:180px" clearable></el-input>
                 <el-input v-model="postForm.StudentNo" placeholder="学号" style="width:180px" clearable></el-input>
                 <!-- <el-date-picker v-model="postForm.CreateStartTime" type="date" placeholder="创建日期" style="width:180px" @change="postForm.CreateEndTime = postForm.CreateStartTime"></el-date-picker> -->
-                <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+                <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
               </div>
               <div class="r-btn">
                 <el-button size="medium" type="primary" @click="handMathChange" v-if="isAuth('userGroup:batchUpdate')">批量修改</el-button>

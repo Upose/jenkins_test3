@@ -98,7 +98,7 @@
                         <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
                       </el-upload>
-                      <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
+                      <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)" v-button-debounce>下载附件</el-button>
                     </div>
                   </el-form-item>
                 </div>
@@ -198,7 +198,7 @@
             </div>
             <div class="btn_box">
               <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1"> 保存</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce> 保存</el-button>
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@
           <el-option label="操作人电话" :value="'changeUserPhone'"></el-option>
         </el-select>
       </el-input> -->
-      <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+      <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
     </div>
 
     <div class="t-p">

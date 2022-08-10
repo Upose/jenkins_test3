@@ -13,7 +13,7 @@
             <h1 class="search-title">合并读者</h1>
             <div class="user-top-box">
               <span>已选择<span class="color-g">{{userNumber}}个</span>读者，是否合并读者信息？</span>
-              <el-button type="primary" @click="handleMerge" style="margin-left:45px">确认并合并</el-button>
+              <el-button type="primary" @click="handleMerge" style="margin-left:45px" v-button-debounce>确认并合并</el-button>
             </div>
           </div>
           <!--顶部查询 end-->

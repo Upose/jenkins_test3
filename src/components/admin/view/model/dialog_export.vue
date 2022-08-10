@@ -17,7 +17,7 @@
     </el-form>
     <div slot="footer">
       <el-button @click="dialogVisible = false" icon="iconfont el-icon-vip-quxiao">取 消</el-button>
-      <el-button type="primary" @click="sub" icon="iconfont el-icon-vip-wancheng">确 定</el-button>
+      <el-button type="primary" @click="sub" icon="iconfont el-icon-vip-wancheng" v-button-debounce>确 定</el-button>
     </div>
     <!-- 导出提示 -->
     <el-dialog append-to-body width="30%" title="结果导出" :visible.sync="innerVisible">
@@ -26,7 +26,7 @@
       </div>
       <div slot="footer">
         <el-button @click="innerVisible = false" icon="iconfont el-icon-vip-quxiao">取 消</el-button>
-        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-daochu">导出第{{this.curPageIndex}}页</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-daochu" v-button-debounce>导出第{{this.curPageIndex}}页</el-button>
       </div>
     </el-dialog>
   </el-dialog>

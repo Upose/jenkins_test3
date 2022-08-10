@@ -74,7 +74,7 @@
             </div>
             <div class="search-term-btn">
               <el-button type="text" icon="el-icon-more" class="more-btn" v-show="showSearchTermMore" @click="loadAllSearchTerm">加载更多检索条件</el-button>
-              <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
+              <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
             </div>
           </div>
           <!--顶部查询 end-->

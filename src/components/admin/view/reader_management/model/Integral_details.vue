@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: huyu
- * @LastEditTime: 2022-06-01 13:57:32
+ * @LastEditTime: 2022-08-10 14:22:04
  * @Description: 
 -->
 <template>
@@ -27,7 +27,7 @@
       </el-select>
       <el-date-picker v-model="postForm.triggerStartTime" type="date" value-format="yyyy-MM-dd" @change="postForm.triggerEndTime=postForm.triggerStartTime" placeholder="选择日期" class="times">
       </el-date-picker>
-      <el-button type="primary" class="serach-btn" @click="handleSearch">查找</el-button>
+      <el-button type="primary" class="serach-btn" @click="handleSearch" v-button-debounce>查找</el-button>
     </div>
     <div class="login-list">
       <el-table :data="tableData" border style="width: 100%" class="list-table">
