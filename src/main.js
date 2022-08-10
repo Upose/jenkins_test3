@@ -3,7 +3,7 @@ import App from './App'
 import router from './router'
 
 import store from './router/store'
-import Debounce from '@/assets/public/js/debounce'
+import vDebounce from './assets/public/js/vdebounce'
 import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
 import validator from "@/assets/public/js/validator.js";
@@ -17,8 +17,8 @@ Vue.prototype.$validator = validator;//前端Rule验证帮助类
 Vue.prototype.setTime = timeFormat;//格式化时间
 Vue.prototype.handleError = friendlyError;//异常消息处理
 
-Vue.component('Debounce', Debounce)
 Vue.use(VueI18n)
+Vue.use(vDebounce)
 
 //判断是否本站地址url,返回true表示本站，无需open() | is_web:true表示前台；false表示后台
 Vue.prototype.isThirdpartyApp = function (is_web, url) {
@@ -35,27 +35,6 @@ Vue.prototype.isThirdpartyApp = function (is_web, url) {
   }
   return is_open;
 }
-
-/**
- * 按钮防抖 点击之后一秒不可再点击
- * 使用方式： v-button-debounce
- * 使用范围：提交、查询、下载按钮
- */
-Vue.directive('button-debounce', {
-  bind: function (el, binding) {
-    el.addEventListener('click', () => {
-      if (!el.disabled) {
-        el.classList.add('is-loading')
-        el.disabled = true
-        setTimeout(() => {
-          el.classList.remove('is-loading')
-          el.disabled = false
-        }, 1000)
-      }
-    });
-  }
-});
-
 const i18n = new VueI18n({
   locale: window.localStorage.getItem('locale') || 'zh-CN',
   messages: {
