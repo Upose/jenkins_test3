@@ -12,14 +12,14 @@
         <span class="m">{{appInfo.appName}}</span>
         <div class="v-cont">
           <span class="v" @click="openLog(appInfo.logUrl)">v{{appInfo.appVersion}}</span>
-          <img  @click="collapseChage" :src="$root.collapse ? zhankai :shouqi" class="img-collapse"/>
+          <img @click="collapseChage" :src="$root.collapse ? zhankai :shouqi" class="img-collapse" />
         </div>
       </div>
     </div>
     <div class="s-menu">
       <template v-for="(item,index) in dataList">
-        <MenuItem :key="index+'menu'" v-if="!(item.permissionNodes && item.permissionNodes.length)" :item="item"/>
-        <SubMenu v-else :key="index+'menu'" :item="item"/>
+        <MenuItem :key="index+'menu'" v-if="!(item.permissionNodes && item.permissionNodes.length)" :item="item" />
+        <SubMenu v-else :key="index+'menu'" :item="item" />
       </template>
     </div>
   </div>
@@ -30,7 +30,7 @@ import bus from '@/assets/public/js/bus';
 import MenuItem from './components/menu-item.vue'
 import SubMenu from './components/sub-menu.vue'
 export default {
-  props:['dataList'],
+  props: ['dataList'],
   name: 'test',
   components: {
     MenuItem,
@@ -40,8 +40,8 @@ export default {
     return {
       default_img: require('@/assets/admin/img/upload/user-img.png'),
       appInfo: this.$store.getters.appInfo,//应用信息 应用名、版本号
-      zhankai:require('./img/zhankai.svg'),
-      shouqi:require('./img/shouqi.svg')
+      zhankai: require('./img/zhankai.svg'),
+      shouqi: require('./img/shouqi.svg')
     }
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
     vertical-align: middle;
     width: 200px;
     height: 80px;
-    background: @F4F7FC;
+    background: @ph-col-n2;
     opacity: 1;
     border-radius: 8px;
     position: relative;
@@ -94,13 +94,13 @@ export default {
       height: 40px;
       width: 4px;
       // top: 17px;
-      top:50%;
+      top: 50%;
       transform: translateY(-50%);
-      background-color: @6677EF;
+      background-color: @m-col-b9;
     }
     span {
       display: block;
-      color: #3E54EE;
+      color: #3e54ee;
       padding-left: 16px;
     }
     .m {
@@ -112,12 +112,12 @@ export default {
       display: block;
       font-size: 12px;
     }
-    .v-cont{
-      display:flex;
+    .v-cont {
+      display: flex;
       flex-direction: row;
-      justify-content:space-between;
-      align-items:center;
-      .img-collapse{
+      justify-content: space-between;
+      align-items: center;
+      .img-collapse {
         margin-right: 10px;
         cursor: pointer;
       }
@@ -128,7 +128,7 @@ export default {
 .fold-menu {
   .m-menu {
     padding-left: 6px;
-    border-bottom: 1px solid  #F4F7FC;
+    border-bottom: 1px solid #f4f7fc;
     padding-bottom: 10px;
     margin-bottom: 12px;
     .m-text {
@@ -137,7 +137,7 @@ export default {
       padding-left: 0;
       padding-top: 4px;
       border-radius: 3px;
-      background:transparent;
+      background: transparent;
       padding-bottom: 0;
       &::after {
         height: 0;

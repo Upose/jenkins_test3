@@ -13,12 +13,7 @@
     </div>
     <collapse-transition>
       <div v-show="showSubMenu" class="sub-menu-cont">
-        <div class="sub-menu-item-box" 
-          :title="_item.name"
-          :class="isActive(_item.router)?'active':''" 
-          v-for="_item in item.permissionNodes" 
-          @click="openPage(_item)"
-          :key="_item.router">
+        <div class="sub-menu-item-box" :title="_item.name" :class="isActive(_item.router)?'active':''" v-for="_item in item.permissionNodes" @click="openPage(_item)" :key="_item.router">
           <div class="sub-menu-item">
             <span>{{_item.name}}</span>
           </div>
@@ -32,11 +27,11 @@ import CollapseTransition from '../util/collapse-transition.js';
 export default {
   props: ['item'],
   components: {
-      'collapse-transition': CollapseTransition,
+    'collapse-transition': CollapseTransition,
   },
-  data(){
-    return{
-      showSubMenu:true
+  data() {
+    return {
+      showSubMenu: true
     }
   },
   methods: {
@@ -58,17 +53,18 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "~@/assets/admin/css/color.less"; /**颜色配置 */
-.sub-menu{
-  width:245px;
+.sub-menu {
+  width: 245px;
   position: relative;
   z-index: 99;
   // padding-bottom: 10px;
-  &:hover,&.active{
-    box-shadow: 0px 2px 5px 1px rgba(0, 0 ,0 , 5%);
-    background:rgba(255,255,255,0.6);
+  &:hover,
+  &.active {
+    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 5%);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 0px 3px 3px 0px;
-    .sub-menu-tit{
-      color: #6777EF;
+    .sub-menu-tit {
+      color: #6777ef;
     }
   }
 }
@@ -76,68 +72,69 @@ export default {
   height: 40px;
   line-height: 40px;
   font-size: 13px;
-  color: @6C757D;
+  color: @ph-col-n10;
   font-weight: bold;
   padding: 0 50px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  position:relative;
+  position: relative;
   cursor: pointer;
   &:after {
     content: "";
     position: absolute;
-    width:12px;
+    width: 12px;
     height: 6px;
-    background:url('../img/arrow.png');
+    background: url("../img/arrow.png");
     background-size: 100% auto;
     background-repeat: no-repeat;
     right: 36px;
-    top:50%;
+    top: 50%;
     margin-top: -3px;
     // transform:translateY(-50%);
-    transition:all 0.2s;
-    transform:rotateZ(-90deg);
+    transition: all 0.2s;
+    transform: rotateZ(-90deg);
   }
-  &.expand{
+  &.expand {
     &:after {
-      transform:rotateZ(0deg);
+      transform: rotateZ(0deg);
     }
   }
-  &:hover{
-    color: #6777EF;
+  &:hover {
+    color: #6777ef;
   }
-  i{
+  i {
     margin-right: 8px;
   }
 }
-.sub-menu-cont{
+.sub-menu-cont {
   padding-bottom: 10px;
-  .sub-menu-item-box{
-    width:200px;
+  .sub-menu-item-box {
+    width: 200px;
     margin: 0 auto;
     position: relative;
     cursor: pointer;
-    &:hover,&.active{
-      .sub-menu-item{
-        background: #F4F7FC;
-        color:@6C757D;
+    &:hover,
+    &.active {
+      .sub-menu-item {
+        background: #f4f7fc;
+        color: @ph-col-n10;
       }
-      &:after{
+      &:after {
         position: absolute;
         width: 2px;
         height: 100%;
-        background: #6777EF;
+        background: #6777ef;
         content: "";
         right: -16px;
         top: 0;
       }
     }
-    .sub-menu-item{
+    .sub-menu-item {
       height: 40px;
       line-height: 40px;
       font-size: 13px;
-      color: #6C757D;
+      color: #6c757d;
       font-weight: bold;
       // padding: 0 50px;
       padding-left: 40px;
@@ -146,7 +143,7 @@ export default {
       white-space: nowrap;
       border-radius: 5px 5px 5px 5px;
       position: relative;
-      span{
+      span {
         padding-left: 25px;
       }
     }
@@ -154,14 +151,15 @@ export default {
 }
 /***折叠后菜单**/
 .fold-menu {
-  .sub-menu{
-    width:90px;
-    &:hover,&.active{
+  .sub-menu {
+    width: 90px;
+    &:hover,
+    &.active {
       box-shadow: none;
-      background:transparent;
+      background: transparent;
       border-radius: none;
-      .sub-menu-tit{
-        color: #6777EF;
+      .sub-menu-tit {
+        color: #6777ef;
       }
     }
   }
@@ -186,29 +184,29 @@ export default {
       width: 80px;
       transition: width 0.3s ease-in-out;
     }
-    &:after{
+    &:after {
       right: initial;
       left: 2px;
-      width:10px;
+      width: 10px;
       // height: ;
     }
   }
-  .sub-menu-cont{
+  .sub-menu-cont {
     padding-right: 3px;
-    .sub-menu-item-box{
-      width:100%;
-      .sub-menu-item{
+    .sub-menu-item-box {
+      width: 100%;
+      .sub-menu-item {
         padding-left: 0;
-        width:100%;
+        width: 100%;
         font-weight: 400;
       }
-      &.active{
-        &:after{
+      &.active {
+        &:after {
           height: 0;
         }
-        .sub-menu-item{
-          background-color:transparent;
-          color: #6777EF;
+        .sub-menu-item {
+          background-color: transparent;
+          color: #6777ef;
         }
       }
     }
@@ -217,5 +215,5 @@ export default {
     width: 80px;
     transition: width 0.3s ease-in-out;
   }
-}  
+}
 </style>

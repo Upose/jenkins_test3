@@ -321,7 +321,7 @@ export default {
     span {
       padding: 10px 15px;
       color: #fff;
-      background: @6777EF;
+      background: @m-col-b7;
       border-radius: 5px;
       display: inline-block;
       width: 100%;
@@ -338,7 +338,7 @@ export default {
     }
   }
   .look {
-    color: @6777EF;
+    color: @m-col-b7;
     cursor: pointer;
     width: 180px;
   }

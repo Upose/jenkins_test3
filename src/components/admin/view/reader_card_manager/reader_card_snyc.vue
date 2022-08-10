@@ -80,10 +80,10 @@ export default {
     //   this.$forceUpdate();
     // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_set,dialog_detail },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, dialog_set, dialog_detail },
   data() {
     return {
-      loading:false,
+      loading: false,
       dataKey: null,
       postForm: {},//列表查询参数
       pageData: {
@@ -113,7 +113,7 @@ export default {
     getList() {
       this.loading = true;
       http.getJson('sync-card-log-table-data', { ...this.postForm, ...this.pageData }).then(res => {
-        
+
         this.tableData = res.data.items;
 
         //分页所需  数据总条数
@@ -151,8 +151,8 @@ export default {
       this.initGetList();
     },
     // 查看
-    handleDetail(row){
-        this.$refs.dialog_detail.show(row.context);
+    handleDetail(row) {
+      this.$refs.dialog_detail.show(row.context);
     }
   },
 }
@@ -176,7 +176,7 @@ export default {
     span {
       padding: 10px 15px;
       color: #fff;
-      background: @6777EF;
+      background: @m-col-b7;
       border-radius: 5px;
       display: inline-block;
       width: 100%;
@@ -193,18 +193,18 @@ export default {
     }
   }
   .look {
-    color: @6777EF;
+    color: @m-col-b7;
     cursor: pointer;
     width: 180px;
   }
 }
-.search-table-w .search-title .tab-nav{
+.search-table-w .search-title .tab-nav {
   font-size: 18px;
   cursor: pointer;
   margin-right: 40px;
   padding-bottom: 10px;
 }
-.search-table-w .search-title .current{
-  border-bottom: 2px solid @6777EF;
+.search-table-w .search-title .current {
+  border-bottom: 2px solid @m-col-b7;
 }
 </style>

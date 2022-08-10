@@ -787,7 +787,7 @@ export default {
 .cu-p {
   cursor: pointer;
   &:hover {
-    color: @6777EF;
+    color: @m-col-b7;
     text-decoration: underline;
   }
 }

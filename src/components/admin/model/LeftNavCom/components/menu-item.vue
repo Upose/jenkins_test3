@@ -36,7 +36,7 @@ export default {
   height: 40px;
   line-height: 40px;
   font-size: 13px;
-  color: @6C757D;
+  color: @ph-col-n10;
   font-weight: bold;
   padding: 0 50px;
   overflow: hidden;
@@ -45,9 +45,9 @@ export default {
   &.active {
     width: 245px;
     z-index: 20;
-    background: rgba(255, 255, 255,0.6);
+    background: rgba(255, 255, 255, 0.6);
     position: relative;
-    color: @6777EF !important;
+    color: @m-col-b7 !important;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
     border-radius: 0px 3px 3px 0px;
     transition: width 0.3s ease-in-out;
@@ -59,7 +59,7 @@ export default {
       position: absolute;
       right: 5px;
       top: 13px;
-      background-color: @6777EF;
+      background-color: @m-col-b7;
     }
   }
   i {
@@ -71,9 +71,9 @@ export default {
     cursor: pointer;
     width: 245px;
     z-index: 20;
-    background: rgba(255, 255, 255,0.6);
+    background: rgba(255, 255, 255, 0.6);
     position: relative;
-    color: @6777EF !important;
+    color: @m-col-b7 !important;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
     border-radius: 0px 3px 3px 0px;
     transition: width 0.3s ease-in-out;
@@ -85,7 +85,7 @@ export default {
       position: absolute;
       right: 5px;
       top: 13px;
-      background-color: @6777EF;
+      background-color: @m-col-b7;
     }
   }
 }
@@ -115,16 +115,16 @@ export default {
         height: 0;
       }
     }
-    &.active{
+    &.active {
       box-shadow: none;
     }
   }
   .active {
     width: 80px;
     transition: width 0.3s ease-in-out;
-    &:after{
+    &:after {
       height: 0;
     }
   }
-}  
+}
 </style>

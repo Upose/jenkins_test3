@@ -444,7 +444,7 @@ export default {
   padding-bottom: 10px;
 }
 .search-table-w .search-title .current {
-  border-bottom: 2px solid @6777EF;
+  border-bottom: 2px solid @m-col-b7;
 }
 .date-checkbox {
   width: 400px;

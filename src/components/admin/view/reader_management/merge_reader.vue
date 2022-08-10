@@ -365,7 +365,7 @@ export default {
   // border: 1px solid #909cf0 !important;
 }
 .color-g {
-  color: @6777EF;
+  color: @m-col-b7;
 }
 .white-box {
   box-sizing: border-box;

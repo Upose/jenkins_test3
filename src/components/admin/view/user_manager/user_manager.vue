@@ -175,10 +175,10 @@ export default {
     min-height: 60px;
     line-height: 57px;
     padding: 0 20px;
-    border-bottom: 1px solid @EBEEF5;
-    background-color: @fff;
+    border-bottom: 1px solid @ph-col-n3;
+    background-color: @m-col-b0;
     .d-title {
-      color: @34395E;
+      color: @ph-col-n12;
       font-size: 14px;
       margin-left: 20px;
     }

@@ -333,7 +333,7 @@ export default {
 @import "../../../../assets/admin/css/form.less";
 .content-box {
   min-height: 600px;
-  background-color: @fff;
+  background-color: @m-col-b0;
   border-radius: 4px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
   padding: 20px;
@@ -380,7 +380,7 @@ export default {
   // position: absolute;
   // right: -5px;
   // top: 3px;
-  color: @6777EF;
+  color: @m-col-b7;
   text-align: center;
   line-height: 20px;
   vertical-align: top;

@@ -78,135 +78,135 @@ export default {
 <style lang="less" scoped>
 @import "../../../assets/admin/css/color.less"; /**颜色配置 */
 @import "../../../assets/admin/css/style.less";
-.header-warp{
+.header-warp {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-  color: @6C757D;
+  color: @ph-col-n10;
   height: 40px;
   z-index: 25;
   position: relative;
-  background-color: @fff;
-  a{
-    color: @6C757D;
+  background-color: @m-col-b0;
+  a {
+    color: @ph-col-n10;
   }
-  .logo-w{
+  .logo-w {
     vertical-align: middle;
     display: inline-block;
-    padding:0 10px;
+    padding: 0 10px;
     width: 240px;
     height: 100%;
-    transition: width .3s ease-in-out;
-    a{
+    transition: width 0.3s ease-in-out;
+    a {
       color: #fff;
       margin-left: 25px;
       display: block;
       height: 100%;
-      line-height:40px;
+      line-height: 40px;
       width: 100%;
       display: flex;
       align-items: center;
     }
   }
-  .logo-collapse{
+  .logo-collapse {
     width: 80px;
-    a{
+    a {
       margin-left: 4px;
     }
   }
-  .m-cut{
+  .m-cut {
     font-size: 16px;
     vertical-align: middle;
-    margin-left:16px;
+    margin-left: 16px;
   }
   /**box-菜单**/
-  .m-box-list{
+  .m-box-list {
     display: inline-block;
     height: 100%;
-    vertical-align:middle;
+    vertical-align: middle;
     position: absolute;
     left: 240px;
     right: 200px;
-    transition: left .3s ease-in-out;
-    .m-box{
+    transition: left 0.3s ease-in-out;
+    .m-box {
       line-height: 40px;
       margin-right: 20px;
       font-size: 13px;
       font-weight: 500;
-      font-family:'Microsoft YaHei';
-      &:first-child{
+      font-family: "Microsoft YaHei";
+      &:first-child {
         margin-left: 16px;
       }
-      &:last-child{
+      &:last-child {
         margin-right: 0;
       }
-      i{
+      i {
         font-size: 24px;
         vertical-align: middle;
       }
-      span.name{
+      span.name {
         vertical-align: middle;
       }
     }
   }
-  .logo-collapse-left{
-    left:115px;
-    transition: left .3s ease-in-out;
+  .logo-collapse-left {
+    left: 115px;
+    transition: left 0.3s ease-in-out;
   }
-  
+
   /**用户信息-退出登录**/
-  .login-msg-warp{
+  .login-msg-warp {
     position: absolute;
-    right:24px;
+    right: 24px;
     top: 0;
     z-index: 9;
     line-height: 40px;
-    .u-img-w{
+    .u-img-w {
       width: 30px;
       height: 30px;
       display: inline-block;
       vertical-align: middle;
-      background-color: @C2C8C0;
+      background-color: @ph-col-n28;
       border-radius: 50%;
       overflow: hidden;
-      .u-img{
+      .u-img {
         width: 30px;
         height: 30px;
         padding: 3px;
-        /deep/.el-image__inner{
+        /deep/.el-image__inner {
           border-radius: 50%;
         }
       }
     }
-    .u-name{
+    .u-name {
       font-size: 14px;
       margin: 0 8px;
     }
-    .loginOut{
+    .loginOut {
       cursor: pointer;
       font-size: 14px;
       vertical-align: middle;
-      &:hover{
+      &:hover {
         color: #000;
       }
     }
   }
 }
 /**重置样式**/
-/deep/.el-tabs__item.is-active{
-  color:@6C757D;
+/deep/.el-tabs__item.is-active {
+  color: @ph-col-n10;
 }
-/deep/.el-tabs__item{
-  color:@6C757D;
+/deep/.el-tabs__item {
+  color: @ph-col-n10;
 }
-/deep/.el-tabs__item:hover{
-  color:@6777EF;
+/deep/.el-tabs__item:hover {
+  color: @m-col-b7;
 }
-/deep/.el-tabs__active-bar{
-  display:none;
+/deep/.el-tabs__active-bar {
+  display: none;
 }
-/deep/.el-tabs__content{
-  display:none;
+/deep/.el-tabs__content {
+  display: none;
 }
-/deep/.el-tabs__nav-wrap::after{
-  height:0;
+/deep/.el-tabs__nav-wrap::after {
+  height: 0;
 }
 </style>

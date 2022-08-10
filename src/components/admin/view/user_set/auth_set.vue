@@ -79,7 +79,7 @@ export default {
 @import "../../../../assets/admin/css/form.less";
 .content {
   min-height: 600px;
-  background-color: @fff;
+  background-color: @m-col-b0;
   border-radius: 4px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
   padding: 20px;
