@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wanjikun
  * @Date: 2022-08-04 10:57:20
- * @LastEditTime: 2022-08-15 15:27:54
+ * @LastEditTime: 2022-08-16 13:49:26
  * @LastEditors: wanjikun
  */
 import Request from './appLogApi'
@@ -21,7 +21,7 @@ const minxin = {
     let visitorId = await this.getUniqueCode();
     this.log_user_session_id = visitorId.visitorId
     this.logInitTime = new Date();
-    Request.getLogList()
+    // Request.getLogList()
 
     this.$router.beforeEach(async(to, from,next) => {
       await this.assembleParamWriteLog()
