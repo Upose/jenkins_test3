@@ -19,7 +19,6 @@
         <el-form-item label="性别：">
           <el-radio-group v-model="form.gender" style="width:400px" :disabled="isEdit('User_Gender')" filterable :filter-method="(value)=>handleFilter(value,'User_Gender')" v-el-select-loadmore="optionLoadMore('User_Gender')">
             <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
-            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Gender').length==200"></el-option>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="出生日期：">
@@ -40,31 +39,26 @@
         <el-form-item label="学历：">
           <el-select v-model="form.edu" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Edu')" filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
             <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Edu').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="院系：">
           <el-select v-model="form.college" placeholder="请选择" style="width:400px" :disabled="isEdit('User_College')" filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
             <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_College').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="专业：">
           <el-select v-model="form.major" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Major')" filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
             <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Major').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="年级：">
           <el-select v-model="form.grade" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Grade')" filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
             <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Grade').length==200"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="班级：">
           <el-select v-model="form.class" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Class')" filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
             <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
-            <el-option label="如未找到，请输入筛选..." value="000" :disabled="true" v-if="initSelect('User_Class').length==200"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -130,8 +124,8 @@ export default {
             groupCode: item.groupCode,
             groupItems: [],
           };
-          if (item.groupItems.length > 10) {
-            data.groupItems = item.groupItems.slice(0, 10);
+          if (item.groupItems.length > 500) {
+            data.groupItems = item.groupItems.slice(0, 100);
           } else {
             data.groupItems = item.groupItems;
           }

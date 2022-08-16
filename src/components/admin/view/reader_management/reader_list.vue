@@ -276,8 +276,8 @@ export default {
             groupCode: item.groupCode,
             groupItems: [],
           };
-          if (item.groupItems.length > 10) {
-            data.groupItems = item.groupItems.slice(0, 10);
+          if (item.groupItems.length > 500) {
+            data.groupItems = item.groupItems.slice(0, 100);
           } else {
             data.groupItems = item.groupItems;
           }
