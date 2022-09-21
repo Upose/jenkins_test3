@@ -51,7 +51,7 @@
                     <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                 </el-form-item> -->
-                <el-form-item :label="getCardType(item.type)" prop="no">
+                <el-form-item :label="getCardType(item.type,item.typeName)" prop="no">
                   <el-input disabled v-model="item.no"></el-input>
                 </el-form-item>
               </div>
@@ -117,7 +117,7 @@
                     <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
                 </el-form-item> -->
-                <el-form-item :label="getCardType(item.type)" prop="no">
+                <el-form-item :label="getCardType(item.type,item.typeName)" prop="no">
                   <el-input disabled v-model="item.no"></el-input>
                 </el-form-item>
               </div>
@@ -225,10 +225,11 @@ export default {
       let obj = select.groupItems.find(item => (item.value == status));
       return obj ? obj.key : '';
     },
-    getCardType(type) {
-      if (!type) return '读者证号：';
+    getCardType(type, typeName) {
+      if (typeName && typeName != '') return typeName + '：';
+      typeName = "读者证";
       let typeOption = this.initSelect('Card_Type');
-      return typeOption.find(item => item.value == type).key + '：';
+      return typeOption.find(item => item.value == type) ? typeOption.find(item => item.value == type).key + '：' : typeName + '：';
     },
     // 时间格式化
     dateChangeFormat(date, format = 'YYYY-mm-dd') {
