@@ -81,8 +81,8 @@
         </div>
       </div>
     </div>
-    <dialog_change ref="dialog_change" :departList="departList" :userList="multipleSelection" @getList="getList"></dialog_change>
-    <dialog_add ref="dialog_add" :dataKey="dataKey" :departList="departList" @update="initGetList"></dialog_add>
+    <dialog_change ref="dialog_change" :userList="multipleSelection" @getList="getList"></dialog_change>
+    <dialog_add ref="dialog_add" :dataKey="dataKey" @update="initGetList"></dialog_add>
   </div>
 </template>
 <script>
@@ -106,7 +106,6 @@ export default {
       multipleSelection: [],//勾选列表
       postForm: {},
       checkDep: [],
-      departList: [],
       nodeDepart: '',
       name: '',
       textProperties: [

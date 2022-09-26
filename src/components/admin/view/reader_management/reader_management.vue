@@ -76,7 +76,7 @@
                   <AuthSystem :id="id" v-if="activeName=='five'"></AuthSystem>
                 </el-tab-pane>
                 <el-tab-pane label="使用日志" name="six">
-                  <useLog :id="id" v-if="activeName=='six'"></useLog>
+                  <useLog :id="id" :userKey="postForm.userKey" v-if="activeName=='six'"></useLog>
                 </el-tab-pane>
               </el-tabs>
             </div>

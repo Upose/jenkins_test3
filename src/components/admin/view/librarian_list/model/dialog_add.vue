@@ -87,10 +87,11 @@ import updateIcon from '@/components/admin/view/model/updateIcon.vue';
 export default {
   name: 'index',
   components: { updateIcon },
-  props: ['dataKey', 'departList'],
+  props: ['dataKey'],
   data() {
     return {
       dialogVisible: false,
+      departList: [],
       ruleForm: {
         // "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "name": "",
@@ -161,6 +162,15 @@ export default {
   methods: {
     show() {
       this.dialogVisible = true;
+      this.getDepa();
+    },
+    // 获取部门
+    getDepa() {
+      http.getJson('org-count-list').then(res => {
+        this.departList = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
     },
     // 初始化下拉列表
     initSelect(code) {

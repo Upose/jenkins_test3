@@ -71,6 +71,7 @@ export default {
         'reset-card-secret-verify-key': baseURL + '/api/card/reset-card-secret-verify-key',//获取密码重置key
         'reset-card-secret-by-verify-key': baseURL + '/api/card/reset-card-secret-by-verify-key',//重置密码
         'set-principal-card': baseURL + '/api/reader/set-principal-card',//设为主卡/{cardId}
+        'set-user-principal-card': baseURL + '/api/reader/set-user-principal-card',//设为主卡
 
         /* 安全设置 */
         'safe-set-init-data': baseURL + '/api/security-config/init-data',//初始数据

@@ -17,11 +17,12 @@ import http from "@/assets/public/js/http";
 export default {
   name: 'index',
   components: {},
-  props: ['departList', 'userList'],
+  props: ['userList'],
   data() {
     return {
       dialogVisible: false,
       depart: '',
+      departList: []
     };
   },
   computed: {},
@@ -32,6 +33,15 @@ export default {
   methods: {
     show() {
       this.dialogVisible = true;
+      this.getDepa();
+    },
+    // 获取部门
+    getDepa() {
+      http.getJson('org-count-list').then(res => {
+        this.departList = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
     },
     sub() {
       let userIds = this.userList.map(item => {

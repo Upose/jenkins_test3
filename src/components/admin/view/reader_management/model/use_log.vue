@@ -46,7 +46,7 @@ export default {
       borrowData: {}
     }
   },
-  props: ['id'],
+  props: ['id', 'userKey'],
   mounted() {
     // this.getKey();
     this.getList();
@@ -55,7 +55,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('user-log-table-data', { userID: this.id, ...this.postForm, ...this.pageData }).then(res => {
+      http.getJson('user-log-table-data', { userID: this.id, userKey: this.userKey, ...this.postForm, ...this.pageData }).then(res => {
         this.borrowData = res.data;
         let list = res.data.items || [];
         this.tableData = list;
