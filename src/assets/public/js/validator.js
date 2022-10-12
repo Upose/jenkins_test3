@@ -49,29 +49,29 @@ var Level0Regex = new Regex(@"
  * */
 export function validatePassword(password, level = 0) {
     if (level == 0) {
-        let reg = /(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}/;
+        let reg = /\d{6,16}/;
         return reg.exec(password);
     } else if (level == 1) {
-        let reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,30}/;
+        let reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,16}/;
         return reg.exec(password);
     } else {
-        let reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=([\x21-\x7e]+)[^a-zA-Z0-9]).{8,30}/;
+        let reg = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=([\x21-\x7e]+)[^a-zA-Z0-9]).{8,16}/;
         return reg.exec(password);
     }
 }
 export function validatePasswordMsg(level = 0) {
     let v_pass = {
         0: {
-            reg: /(?=.*[0-9])(?=.*[a-zA-Z]).{6,30}/,
-            msg: '6至30个字符;必须包含字母、数字'
+            reg: /\d{6,16}/,
+            msg: '6至16个字符'
         },
         1: {
-            reg: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,30}/,
-            msg: '8至30个字符;必须包含小写字母、大写字母、数字'
+            reg: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,16}/,
+            msg: '6至16个字符;必须包含小写字母、大写字母、数字'
         },
         2: {
-            reg: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=([\x21-\x7e]+)[^a-zA-Z0-9]).{8,30}/,
-            msg: '8至30个字符;必须包含小写字母、大写字母、数字、特殊符号'
+            reg: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=([\x21-\x7e]+)[^a-zA-Z0-9]).{8,16}/,
+            msg: '8至16个字符;必须包含小写字母、大写字母、数字、特殊符号（. @$!%*#_~?&^）'
         }
     }
     return v_pass[level];
