@@ -9,6 +9,12 @@ import bus from '@/assets/public/js/bus';
 import validator from "@/assets/public/js/validator.js";
 import { timeFormat, friendlyError } from "@/assets/public/js/util";
 
+//2022.10.17 日志
+import logReportPlugin from "log-report-plugin";
+Vue.use(logReportPlugin, { app: "usermanage", api: "loganalysis/api/log-write/write-log" });
+// app: 应用id
+// api: 上报接口地址 loganalysis/api/log-write/write-log
+
 Vue.config.productionTip = false
 
 Vue.prototype.http = http;

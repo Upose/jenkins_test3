@@ -19,16 +19,18 @@
 </template>
 <script>
 /**日志分割线begin */
-import mixin from "@/assets/public/js/appLog/appLogMixin"
+// import mixin from "@/assets/public/js/appLog/appLogMixin"
 /**日志分割线end */
 export default {
   /**日志分割线begin */
-  mixins: [mixin],
-  provide(){
+  // mixins: [mixin],
+  // 2022.10.17 新日志
+  mixins: [Vue.$createLegacyMixin()],
+  provide() {
     return {
-      fatherMethodSearchOperationWriteLog:this.searchOperationWriteLog,
-      fatherMethodDownloadOperationWriteLog:this.downloadOperationWriteLog,
-      fatherMethodDatabaseClickWriteLog:this.databaseClickWriteLog,
+      fatherMethodSearchOperationWriteLog: this.searchOperationWriteLog,
+      fatherMethodDownloadOperationWriteLog: this.downloadOperationWriteLog,
+      fatherMethodDatabaseClickWriteLog: this.databaseClickWriteLog,
     }
   },
   /**日志分割线end */

@@ -19,6 +19,7 @@
     "es6-promise": "^4.2.8",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "log-report-plugin": "^1.0.11",
     "sortablejs": "^1.14.0",
     "vue": "^2.5.2",
     "vue-cropper": "^0.5.7",
