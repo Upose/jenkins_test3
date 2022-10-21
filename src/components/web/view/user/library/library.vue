@@ -6,7 +6,10 @@
         <template v-if="form">
           <div v-if="!isEdit">
             <div class="head-box">
-              <span class="title">{{userCenterName}}</span>
+              <i class="icon-home tbg-c2"></i>
+              <i class="icon-top-line tbg-c2"></i>
+              <i class="icon-e-title tbg-c2">Personal Library</i>
+              <span class="title tfont-c2 tafter-bg-c2">{{userCenterName}}</span>
               <div class="top-right">
                 <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
                 <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
@@ -611,8 +614,39 @@ export default {
   margin-top: 25px;
   height: 76px;
   width: 1200px;
-  background: url(../../../../../assets/web/img/personal/header-bg.png)
-    no-repeat 0 0;
+  // background: url(../../../../../assets/web/img/personal/header-bg.png)
+  //   no-repeat 0 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.6), transparent);
+  // background: transparent;
+  border-radius: 40px;
+  .icon-home {
+    position: absolute;
+    top: 13px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: url(~@/assets/web/img/personal/icon-home.png) no-repeat center;
+  }
+  .icon-top-line {
+    position: absolute;
+    top: 13px;
+    left: 83px;
+    width: 1px;
+    height: 50px;
+  }
+  .icon-e-title {
+    position: absolute;
+    top: 13px;
+    left: 98px;
+    width: 100px;
+    height: 23px;
+    border-radius: 0 12px 0 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 23px;
+    font-size: 12px;
+  }
   .title {
     display: block;
     float: left;
@@ -621,20 +655,32 @@ export default {
     margin-left: 98px;
     font-size: 20px;
     font-weight: bold;
-    color: #a00404;
-    &:after {
+    // color: #a00404;
+    &::after {
       content: "";
       position: absolute;
       top: 55%;
       left: 100%;
       margin-left: 23px;
-      width: 930px;
+      width: 880px;
       height: 1px;
-      background-image: linear-gradient(
+      // background: linear-gradient(to right, #a00404, rgba(225, 225, 225, 0.1));
+      // opacity: 0.1;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 55%;
+      left: 100%;
+      margin-left: 23px;
+      width: 880px;
+      height: 1px;
+      background: linear-gradient(
         to right,
-        #a00404,
-        rgba(225, 225, 225, 0.1)
+        transparent,
+        rgba(225, 225, 225, 0.9)
       );
+      z-index: 1;
     }
   }
   .top-right {
