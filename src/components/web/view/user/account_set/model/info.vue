@@ -200,7 +200,7 @@ export default {
     getInfo() {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
-        // this.form.addr = this.showAddrCode(this.form.addr);
+        this.form.addr = this.showAddrCode(this.form.addr);
         this.loading = false;
       }).catch((err) => {
         this.loading = false;
@@ -209,11 +209,17 @@ export default {
     },
     //处理地区编码
     showAddrCode(addr) {
-      var addrArray = (addr || "").split('|');
-      if (addrArray.length >= 2) {
-        return addrArray[1];
+      let addrCode = ''
+      if (addr && addr.indexOf('|') > -1) {
+        var addrArray = addr.split('|');
+        if (addrArray.length >= 2) {
+          addrCode = addrArray[1];
+        }
       }
-      return '';
+      if (addr && addr.indexOf('|') == -1) {
+        addrCode = addr;
+      }
+      return addrCode;
     },
 
     // 是否不可编辑
