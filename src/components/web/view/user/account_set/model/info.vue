@@ -200,7 +200,7 @@ export default {
     getInfo() {
       this.http.getJson('forward-reader-info').then((res) => {
         this.form = res.data;
-        this.form.addr = this.showAddrCode(this.form.addr);
+        // this.form.addr = this.showAddrCode(this.form.addr);
         this.loading = false;
       }).catch((err) => {
         this.loading = false;
