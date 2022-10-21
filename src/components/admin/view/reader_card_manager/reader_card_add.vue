@@ -46,10 +46,10 @@
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="发卡日期：" prop="issueDate">
-                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="截止日期：" prop="expireDate">
-                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态：" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择">
@@ -69,7 +69,7 @@
                 <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in cardForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
                   <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 "></el-input>
                   <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
-                  <el-date-picker class="wq95" v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+                  <el-date-picker class="wq95" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
                   <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
                     <el-radio :label="'true'">是</el-radio>
                     <el-radio :label="'false'">否</el-radio>

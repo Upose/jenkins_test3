@@ -16,11 +16,11 @@
         </el-form-item>
         <el-form-item label="发卡日期：">
           <!-- <el-input v-model="form.issueDate" class="w-inp"></el-input> -->
-          <el-date-picker v-model="form.issueDate" type="date" class="w-inp" disabled></el-date-picker>
+          <el-date-picker v-model="form.issueDate" type="date" value-format="yyyy-MM-dd" class="w-inp" disabled></el-date-picker>
         </el-form-item>
         <el-form-item label="截止日期：">
           <!-- <el-input v-model="form.expireDate" class="w-inp"></el-input> -->
-          <el-date-picker v-model="form.expireDate" type="date" class="w-inp" disabled></el-date-picker>
+          <el-date-picker v-model="form.expireDate" type="date" value-format="yyyy-MM-dd" class="w-inp" disabled></el-date-picker>
         </el-form-item>
         <el-form-item label="状态：">
           <el-input :value="getKeyValue(form.status)" class="w-inp" disabled></el-input>

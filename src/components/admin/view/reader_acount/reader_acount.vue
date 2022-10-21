@@ -27,7 +27,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="出生日期：">
-          <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期">
+          <el-date-picker v-model="postForm.birthday" value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="部门：">
@@ -59,7 +59,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="离校日期：">
-          <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="选择日期">
+          <el-date-picker v-model="postForm.leaveTime" type="date" value-format="yyyy-MM-dd" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="年级：">
@@ -118,7 +118,7 @@
         <el-form-item :label="item.propertyName+'：'" v-for="item in postForm.properties" :key="item.propertyCode">
           <el-input v-model="item.propertyValue" placeholder="请输入" v-if="item.propertyType == 0 || item.propertyType == 5 || item.propertyType == 6"></el-input>
           <el-input v-model="item.propertyValue" :min="1" label="label" v-if="item.propertyType == 1"></el-input>
-          <el-date-picker v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+          <el-date-picker v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
           <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
             <el-radio :label="'true'">是</el-radio>
             <el-radio :label="'false'">否</el-radio>

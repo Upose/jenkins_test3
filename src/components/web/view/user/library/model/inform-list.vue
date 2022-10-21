@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-25 15:24:58
+ * @LastEditTime: 2022-10-21 13:52:48
  * @Description: 
 -->
 <template>
@@ -13,7 +13,7 @@
     </div>
     <div class="app-content">
       <div class="item-box">
-        <p class="info-item1" v-for="item in list" :key="item" @click="linkTo(item.jumpLink)">
+        <p class="info-item1" v-for="item in list" :key="item" @click="linkTo(item)">
           <span class="info-item1-title" :title="item.title"><span class="info-item1-tag">{{item.lables&&item.lables!=''?item.lables:'新闻'}}</span>{{item.title}}</span>
           <span>{{timeFormat(item.publishDate)}}</span>
         </p>
@@ -48,13 +48,11 @@ export default {
         this.$message({ type: "error", message: "获取新闻公告失败!" });
       });
     },
-    linkTo(url, code) {
-      if (code) {
-        let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == code)
-        window.open(info.path + url);
+    linkTo(item) {
+      if (item.externalLink) {
+        window.open(item.externalLink)
       } else {
-        // window.open(url);
-        window.location.href = url;
+        location.href = item.jumpLink;
       }
     },
     timeFormat(date) {

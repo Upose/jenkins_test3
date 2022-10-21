@@ -22,7 +22,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="出生日期：">
-          <el-date-picker v-model="form.birthday" type="date" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Birthday')"></el-date-picker>
+          <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Birthday')"></el-date-picker>
         </el-form-item>
         <el-form-item label="所在地区：">
           <!-- <el-input v-model="form.addr" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input> -->

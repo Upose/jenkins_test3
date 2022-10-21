@@ -193,7 +193,7 @@ export default {
     getBriefInfo() {
       http.getJsonSelf('user-group-brief-info', `/${this.id}`).then(res => {
         this.briefInfo = res.data;
-        this.briefInfo.rulesContent = this.briefInfo.rulesContent.replace(/\n/g, "<br/>");
+        this.briefInfo.rulesContent = this.briefInfo.rulesContent ? this.briefInfo.rulesContent.replace(/\n/g, "<br/>") : '';
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })

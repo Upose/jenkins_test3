@@ -37,7 +37,7 @@
                 <el-input disabled v-model="item.identityNo"></el-input>
               </el-form-item> -->
               <el-form-item label="截止日期：" prop="expireDate">
-                <el-date-picker disabled v-model="item.expireDate" type="date">
+                <el-date-picker disabled v-model="item.expireDate" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="押金：" prop="desposit">
@@ -56,14 +56,14 @@
                 </el-form-item>
               </div>
               <el-form-item label="发卡日期：" prop="issueDate">
-                <el-date-picker disabled v-model="item.issueDate" type="date">
+                <el-date-picker disabled v-model="item.issueDate" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="物理码：" prop="physicNo">
                 <el-input disabled v-model="item.physicNo"></el-input>
               </el-form-item>
               <el-form-item label="最近同步日期：" prop="updateTime">
-                <el-date-picker disabled v-model="item.updateTime" type="date">
+                <el-date-picker disabled v-model="item.updateTime" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
             </div>
@@ -103,7 +103,7 @@
                 <el-input disabled v-model="item.identityNo"></el-input>
               </el-form-item> -->
               <el-form-item label="截止日期：" prop="expireDate">
-                <el-date-picker disabled v-model="item.expireDate" type="date">
+                <el-date-picker disabled v-model="item.expireDate" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="押金：" prop="desposit">
@@ -122,14 +122,14 @@
                 </el-form-item>
               </div>
               <el-form-item label="发卡日期：" prop="issueDate">
-                <el-date-picker disabled v-model="item.issueDate" type="date">
+                <el-date-picker disabled v-model="item.issueDate" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="物理码：" prop="physicNo">
                 <el-input disabled v-model="item.physicNo"></el-input>
               </el-form-item>
               <el-form-item label="最近同步日期：" prop="updateTime">
-                <el-date-picker disabled v-model="item.updateTime" type="date">
+                <el-date-picker disabled v-model="item.updateTime" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
               </el-form-item>
             </div>
