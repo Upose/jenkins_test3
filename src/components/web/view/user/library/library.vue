@@ -90,8 +90,8 @@
                 </div>
               </div>
               <SearchBox />
-              <AppList />
-              <DatabaseList />
+              <AppList v-if="myObj" :myObj="myObj" />
+              <DatabaseList v-if="myObj" :myObj="myObj" />
               <InformList />
             </div>
 
@@ -181,6 +181,7 @@ export default {
       cardList: [],//读者卡信息
       principal: {},//主卡
       appData: [],//我的应用列表
+      myObj: null,//用于我的应用、我的数据库获取列表
       tempParm: {},//模板总数据
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
@@ -347,6 +348,10 @@ export default {
     getTemp() {
       this.http.getJson('forward-personal-scene-detail').then((res) => {
         this.tempParm = res.data;
+        this.myObj = {
+          visitorLimitType: res.data.visitorLimitType,
+          userSetId: res.data.sceneUsers[0].userSetId,
+        }
         let tempData = res.data.sceneScreens[0].sceneApps;
         let targetList = []
         let schoolfellowIndex = -1;
