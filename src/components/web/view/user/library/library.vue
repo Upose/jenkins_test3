@@ -108,6 +108,12 @@
             </div>
           </div>
         </template>
+        <!-- 2022.11.2 新增校友导航 -->
+        <div v-if="isSchoolfellow" :class="schoolfellowInfo.appWidget.widgetCode" :data-set="`[{'topCount':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].topCount:''}','sortType':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].sortType:''}','id':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].id:''}'}]`">
+          <div :id="schoolfellowInfo.appWidget.widgetCode"></div>
+        </div>
+        <!-- 2022.11.2 新增校友导航 end -->
+        <div class="service_sys_temp19"></div>
         <div class="all-temp-box" id="all-temp-box">
           <div class="tmp-box" :class="isEdit?'sort':''" v-for="(item,index) in tempData" :key="index" :id="item.appId">
             <div class="edit-mark" v-if="isEdit">
@@ -128,15 +134,17 @@
     </div>
     <!-- <footer class="footer"></footer> -->
     <!-- 编辑按钮 -->
-    <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="icon-edit"></i>编辑主页</div>
-    <div class="edit-ing-btn" v-else>
-      <span class="mb" @click="handleReset">
-        <i class="edit-ing-reset"></i>重置
-      </span>
-      <span @click="handleSave">
-        <i class="edit-ing-save"></i>保存
-      </span>
-    </div>
+    <template v-if="!isSchoolfellow">
+      <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="icon-edit"></i>编辑主页</div>
+      <div class="edit-ing-btn" v-else>
+        <span class="mb" @click="handleReset">
+          <i class="edit-ing-reset"></i>重置
+        </span>
+        <span @click="handleSave">
+          <i class="edit-ing-save"></i>保存
+        </span>
+      </div>
+    </template>
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
     <!-- <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code> -->
@@ -160,9 +168,10 @@ import AppList from './model/app-list.vue';
 import DatabaseList from './model/database-list.vue';
 import InformList from './model/inform-list.vue';
 import SearchBox from './model/search-box.vue';
+import SchoolFellow from '@/components/web/view/user/library/template/SchoolFellow';
 
 export default {
-  components: { dialog_card, breadCrumbs, AppList, DatabaseList, InformList, SearchBox },
+  components: { dialog_card, breadCrumbs, AppList, DatabaseList, InformList, SearchBox, SchoolFellow },
   data() {
     return {
       userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
@@ -184,6 +193,9 @@ export default {
       identityList: {},
       identityListLoading: true,
       // wechatConfig: {},
+
+      isSchoolfellow: false,//是否为校友导航
+      schoolfellowInfo: {},//校友导航信息
     }
   },
   watch: {
@@ -335,14 +347,23 @@ export default {
     getTemp() {
       this.http.getJson('forward-personal-scene-detail').then((res) => {
         this.tempParm = res.data;
-        this.tempData = res.data.sceneScreens[0].sceneApps;
+        let tempData = res.data.sceneScreens[0].sceneApps;
         let targetList = []
-        this.tempData.forEach(item => {
+        let schoolfellowIndex = -1;
+        tempData.forEach((item, index) => {
           this.applyIdList.push(item.appId);
           targetList.push(item.appWidget.target);
           // this.addStyle(item.appWidget.target);
           // this.addScript(item.appWidget.target);
+
+          // 2022.11.2 重大定制校友导航
+          if (item.appWidget.name == '校友导航') {
+            this.isSchoolfellow = true;
+            schoolfellowIndex = index;
+            this.schoolfellowInfo = item;
+          }
         })
+        this.tempData = schoolfellowIndex == -1 ? tempData : tempData.filter((item, index) => index != schoolfellowIndex);
         setTimeout(() => {
           targetList.forEach(target => {
             this.addStyle(target);
