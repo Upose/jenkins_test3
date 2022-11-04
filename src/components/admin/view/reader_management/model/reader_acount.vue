@@ -567,7 +567,7 @@ export default {
       if (addrArray.length >= 2) {
         return addrArray[1];
       }
-      return '';
+      return addr;
     }
   }
 }
