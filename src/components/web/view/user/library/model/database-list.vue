@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-11-03 18:10:12
+ * @LastEditTime: 2022-11-09 17:19:40
  * @Description: 
 -->
 <template>
@@ -97,7 +97,7 @@ export default {
     height: 120px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     border-right: 1px solid #eee;
     background: #fff;
 

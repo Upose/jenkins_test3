@@ -62,7 +62,7 @@ export function validatePassword(password, level = 0) {
 export function validatePasswordMsg(level = 0) {
     let v_pass = {
         0: {
-            reg: /\d{6,16}/,
+            reg: /.{6,16}/,
             msg: '6至16个字符'
         },
         1: {
