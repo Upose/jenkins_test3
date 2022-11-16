@@ -21,6 +21,17 @@
                   <el-form-item label="读者姓名：" prop="name">
                     <el-input v-model="postForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
                   </el-form-item>
+                  <el-form-item label="用户类型：" prop="type">
+                    <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+                      <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="状态：" prop="status">
+                    <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
+                      <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+                    </el-select>
+                  </el-form-item>
                   <el-form-item label="单位名称：" prop="unit">
                     <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
                   </el-form-item>
@@ -72,14 +83,8 @@
                       <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                     </el-select>
                   </el-form-item>
-                  <el-form-item label="手机：" prop="phone">
-                    <el-input v-model="postForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit @blur="refChangeCardSecret"></el-input>
-                  </el-form-item>
                   <el-form-item label="身份证：" prop="idCard">
                     <el-input v-model="postForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
-                  </el-form-item>
-                  <el-form-item label="邮箱：" prop="email" class="youxiang">
-                    <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
                   </el-form-item>
                   <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
                     <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
@@ -111,6 +116,12 @@
                       <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
                     </el-radio-group>
                   </el-form-item>
+                  <el-form-item label="手机号：" prop="phone">
+                    <el-input v-model="postForm.phone" placeholder="请输入" clearable @blur="refChangeCardSecret"></el-input>
+                  </el-form-item>
+                  <el-form-item label="邮箱：" prop="email" class="youxiang">
+                    <el-input v-model="postForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
+                  </el-form-item>
                   <el-form-item label="出生年月：" prop="birthday">
                     <el-date-picker v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
                     </el-date-picker>
@@ -130,17 +141,7 @@
                     <el-date-picker v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
                     </el-date-picker>
                   </el-form-item>
-                  <el-form-item label="状态：" prop="status">
-                    <el-select v-model="postForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
-                      <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item label="用户类型：" prop="type">
-                    <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
-                      <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
+
                   <el-form-item label="头像：" prop="photo">
                     <updateIcon @coverUrl="coverUrl" :cover="postForm.photo"></updateIcon>
                   </el-form-item>
@@ -179,7 +180,7 @@
                 <el-form-item label="截止日期：" prop="expireDate">
                   <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
-                <el-form-item label="状态：" prop="status">
+                <el-form-item label="读者卡状态：" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择">
                     <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)">
                     </el-option>
@@ -266,7 +267,7 @@ export default {
           }
         ],
         phone: [
-          { required: true, message: '必填项', trigger: 'blur' },
+          // { required: true, message: '必填项', trigger: 'blur' },
           {
             validator: this.$validator.validatePattern,
             message: '格式错误',
