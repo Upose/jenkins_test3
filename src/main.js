@@ -10,11 +10,11 @@ import validator from "@/assets/public/js/validator.js";
 import { timeFormat, friendlyError } from "@/assets/public/js/util";
 
 //2022.11.8 日志 将日志提出为cdn引入模式
-// import FingerprintJS from '@fingerprintjs/fingerprintjs';
-// logReportPlugin(Vue, { app: "usermanage", api: "loganalysis/api/log-write/write-log" }, FingerprintJS)
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
+logReportPlugin(Vue, { app: "usermanage", api: "loganalysis/api/log-write/write-log" }, FingerprintJS)
 //2022.10.17 日志
-import logReportPlugin from "log-report-plugin";
-Vue.use(logReportPlugin, { app: "usermanage", api: "loganalysis/api/log-write/write-log" });
+// import logReportPlugin from "log-report-plugin";
+// Vue.use(logReportPlugin, { app: "usermanage", api: "loganalysis/api/log-write/write-log" });
 // app: 应用id
 // api: 上报接口地址 loganalysis/api/log-write/write-log
 
@@ -54,7 +54,7 @@ const i18n = new VueI18n({
 })
 
 let timer = setInterval(() => {
-  if (axios && axios.defaults && axios.defaults.loaded) {
+  if (axios && axios.defaults && axios.defaults.loaded && Vue.$createLegacyMixin) {
     clearInterval(timer);
     new Vue({
       el: '#zt_user_center_sys',
