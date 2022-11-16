@@ -348,10 +348,18 @@ export default {
     getTemp() {
       this.http.getJson('forward-personal-scene-detail').then((res) => {
         this.tempParm = res.data;
-        this.myObj = {
-          visitorLimitType: res.data.visitorLimitType,
-          userSetId: res.data.sceneUsers[0].userSetId,
+        if (res.data.sceneUsers.length) {
+          this.myObj = {
+            visitorLimitType: res.data.visitorLimitType,
+            userSetId: res.data.sceneUsers[0].userSetId,
+          }
+        } else {
+          this.myObj = {
+            visitorLimitType: null,
+            userSetId: null,
+          }
         }
+
         let tempData = res.data.sceneScreens[0].sceneApps;
         let targetList = []
         let schoolfellowIndex = -1;

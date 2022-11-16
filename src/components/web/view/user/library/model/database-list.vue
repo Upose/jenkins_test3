@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-11-09 17:19:40
+ * @LastEditTime: 2022-11-16 22:11:05
  * @Description: 
 -->
 <template>
@@ -47,7 +47,8 @@ export default {
   methods: {
     // 获取我的应用
     getMyApp() {
-      this.http.getJsonSelf('my-favorite-databases', '/6?visitorLimitType=' + this.myObj.visitorLimitType + '&userSetId=' + this.myObj.userSetId).then((res) => {
+      let prarms = this.myObj.visitorLimitType && this.myObj.userSetId ? '/6?visitorLimitType=' + this.myObj.visitorLimitType + '&userSetId=' + this.myObj.userSetId : '/6'
+      this.http.getJsonSelf('my-favorite-databases', prarms).then((res) => {
         this.list = res.data.databases;
         this.databaseMoreUrl = res.data.moreUrl;
       }).catch((err) => {
