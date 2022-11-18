@@ -22,16 +22,25 @@
                     <el-option v-for="item in userList" :key="item.id" :label="item.name+' '+item.phone" :value="item.id"></el-option>
                   </el-select>
                 </el-form-item>
-                <!-- <el-form-item label="统一认证号" prop="identityNo">
+                <el-form-item label="用户类型：" prop="cardReaderType">
+                  <el-select v-model="cardForm.cardReaderType" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+                    <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="读者号" prop="no">
+                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+                <el-form-item label="统一认证号" prop="identityNo">
                   <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item> -->
+                </el-form-item>
                 <!-- <el-form-item label="条形码号" prop="barCode">
                   <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item> -->
                 <el-form-item label="学号/工号：" prop="studentNo">
                   <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <div class="row-form">
+                <!-- <div class="row-form">
                   <el-form-item class="r-f-item1" prop="type">
                     <el-select v-model="cardForm.type" placeholder="请选择卡类型" clearable>
                       <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
@@ -41,7 +50,7 @@
                   <el-form-item class="r-f-item2" prop="no">
                     <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
                   </el-form-item>
-                </div>
+                </div> -->
                 <el-form-item label="物理码号：" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
@@ -128,12 +137,19 @@ export default {
       id: this.$route.query.id,
       userId: this.$route.query.userId,
       cardForm: {},
-      dataKey: {},
+      dataKey: null,
 
       loading: false,
       userList: [],
       cardRules: {
         userId: [
+          {
+            required: true,
+            message: '必填项',
+            trigger: 'change',
+          }
+        ],
+        cardReaderType: [
           {
             required: true,
             message: '必填项',
@@ -188,6 +204,18 @@ export default {
       fileList: [],
     }
   },
+  directives: {
+    'el-select-loadmore': (el, binding) => {
+      // 获取element-ui定义好的scroll盒子
+      const SELECTWRAP_DOM = el.querySelector(".el-select-dropdown .el-select-dropdown__wrap");
+      if (SELECTWRAP_DOM) {
+        SELECTWRAP_DOM.addEventListener("scroll", function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) binding.value && binding.value()
+        });
+      }
+    }
+  },
   created() {
     this.initData();
   },
@@ -222,6 +250,53 @@ export default {
       // if (this.id) {
       //   this.getData();
       // }
+    },
+    // 初始化下拉列表
+    initSelect(code) {
+      if (!this.dataKey) return;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
+      return select ? select.groupItems : [];
+    },
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      let filterList = [];//筛选出列表 用于下拉列表加载判断
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1) {
+            filterList.push(item);
+            if (curList.length <= 10) {
+              curList.push(item)
+            }
+          };
+        })
+      } else {
+        curList = allList.slice(0, 10);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+          item.filterList = filterList;
+        }
+      })
+    },
+    // 选择框下拉加载
+    optionLoadMore(code) {
+      return () => {
+        let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let filterList = (this.groupSelect.find(item => (item.groupCode == code))).filterList;
+        let curList = (this.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let curSelectList = filterList && filterList.length > 0 ? filterList : allList;
+        if (curSelectList.length > curList.length) {
+          curList = curSelectList.slice(0, curList.length + 10);
+          this.groupSelect.forEach(item => {
+            if (item.groupCode == code) {
+              item.groupItems = curList;
+            }
+          })
+        }
+      }
     },
     // 获取初始数据
     getKey() {
@@ -288,7 +363,7 @@ export default {
       if (mapUser) {
         var newStr = mapUser.phone || '';
         if (newStr.length <= 6) {
-          this.cardForm.secret = val;
+          this.cardForm.secret = newStr;
         } else {
           this.cardForm.secret = newStr.substring(newStr.length - 6);
         }
@@ -299,6 +374,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate((cardOk) => {
         if (cardOk) {
+          this.cardForm.readerType = this.dataKey.groupSelect.find(item => item.groupCode == 'User_Type').groupItems.find(item => item.value == this.cardForm.cardReaderType).key;
           if (this.id) {
             http.putJson('card', this.cardForm).then(res => {
               this.$message({ message: '编辑成功！', type: 'success' });

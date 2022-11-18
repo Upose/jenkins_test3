@@ -22,6 +22,9 @@
         <div class="editdiv">
           <el-form ref="form" :model="form" label-width="120px">
             <div class="harf-area">
+              <el-form-item label="读者类型：" prop="studentNo">
+                <el-input disabled v-model="item.readerType"></el-input>
+              </el-form-item>
               <el-form-item label="学号/工号：" prop="studentNo">
                 <el-input disabled v-model="item.studentNo"></el-input>
               </el-form-item>
@@ -45,16 +48,22 @@
               </el-form-item>
             </div>
             <div class="harf-area">
-              <div class="row-form">
-                <!-- <el-form-item prop="type" class="r-f-item1">
+              <!-- <div class="row-form">
+                <!~~ <el-form-item prop="type" class="r-f-item1">
                   <el-select disabled v-model="item.type" placeholder="请选择" style="width:100%">
                     <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
-                </el-form-item> -->
+                </el-form-item> ~~>
                 <el-form-item :label="getCardType(item.type,item.typeName)" prop="no">
                   <el-input disabled v-model="item.no"></el-input>
                 </el-form-item>
-              </div>
+              </div> -->
+              <el-form-item label="读者号：" prop="issueDate">
+                <el-input disabled v-model="item.no"></el-input>
+              </el-form-item>
+              <el-form-item label="统一认证号：" prop="issueDate">
+                <el-input disabled v-model="item.identityNo"></el-input>
+              </el-form-item>
               <el-form-item label="发卡日期：" prop="issueDate">
                 <el-date-picker disabled v-model="item.issueDate" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>
@@ -88,6 +97,9 @@
         <div class="editdiv">
           <el-form ref="form" :model="form" label-width="120px">
             <div class="harf-area">
+              <el-form-item label="读者类型：" prop="studentNo">
+                <el-input disabled v-model="item.readerType"></el-input>
+              </el-form-item>
               <el-form-item label="学号/工号：" prop="studentNo">
                 <el-input disabled v-model="item.studentNo"></el-input>
               </el-form-item>
@@ -111,16 +123,22 @@
               </el-form-item>
             </div>
             <div class="harf-area">
-              <div class="row-form">
-                <!-- <el-form-item prop="type" class="r-f-item1">
+              <!-- <div class="row-form">
+                <!~~ <el-form-item prop="type" class="r-f-item1">
                   <el-select disabled v-model="item.type" placeholder="请选择" style="width:100%">
                     <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
-                </el-form-item> -->
+                </el-form-item> ~~>
                 <el-form-item :label="getCardType(item.type,item.typeName)" prop="no">
                   <el-input disabled v-model="item.no"></el-input>
                 </el-form-item>
-              </div>
+              </div> -->
+              <el-form-item label="读者号：" prop="issueDate">
+                <el-input disabled v-model="item.no"></el-input>
+              </el-form-item>
+              <el-form-item label="统一认证号：" prop="issueDate">
+                <el-input disabled v-model="item.identityNo"></el-input>
+              </el-form-item>
               <el-form-item label="发卡日期：" prop="issueDate">
                 <el-date-picker disabled v-model="item.issueDate" type="date" value-format="yyyy-MM-dd">
                 </el-date-picker>

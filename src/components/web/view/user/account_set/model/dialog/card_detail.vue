@@ -2,14 +2,18 @@
   <el-dialog title="读者证详情" :visible.sync="dialogVisible" width="1000px" :before-close="dialogBeforeClose">
     <div>
       <el-form ref="form" :model="form" label-width="100px" class="detail" v-if="dataKey">
-        <!-- <el-form-item label="统一认证号">
-          <el-input v-model="form.identityNo" class="w-inp" disabled></el-input>
-        </el-form-item> -->
-        <el-form-item :label="form.typeName">
-          <el-input v-model="form.no" class="w-inp" disabled></el-input>
+        <!-- <el-form-item :label="form.typeName"> -->
+        <el-form-item label="读者类型">
+          <el-input v-model="form.readerType" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="学号/工号：">
           <el-input v-model="form.studentNo" class="w-inp" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="读者号：">
+          <el-input v-model="form.no" class="w-inp" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="统一认证号：">
+          <el-input v-model="form.identityNo" class="w-inp" disabled></el-input>
         </el-form-item>
         <el-form-item label="姓名：">
           <el-input v-model="form.userName" class="w-inp" disabled></el-input>

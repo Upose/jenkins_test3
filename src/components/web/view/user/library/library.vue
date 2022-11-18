@@ -72,7 +72,8 @@
                     </div> -->
                     <div class="list">
                       <div class="list-item">
-                        <div class="type-name">{{principal.typeName}}</div>
+                        <!-- <div class="type-name">{{principal.typeName}}</div> -->
+                        <div class="type-name">读者号</div>
                         <div class="kname" :title="principal.no">
                           {{principal.no}}
                         </div>

@@ -154,7 +154,7 @@
                 <el-form-item label="学工/工号：" prop="studentNo">
                   <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
-                <div class="row-form">
+                <!-- <div class="row-form">
                   <el-form-item prop="type" class="r-f-item1">
                     <el-select v-model="cardForm.type" placeholder="请选择" clearable>
                       <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
@@ -164,10 +164,13 @@
                   <el-form-item prop="no" class="r-f-item2">
                     <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
                   </el-form-item>
-                </div>
-                <!-- <el-form-item label="统一认证号" prop="identityNo">
+                </div> -->
+                <el-form-item label="读者号" prop="no">
+                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+                <el-form-item label="统一认证号" prop="identityNo">
                   <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item> -->
+                </el-form-item>
                 <!-- <el-form-item label="条形码号" prop="barCode">
                   <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item> -->
