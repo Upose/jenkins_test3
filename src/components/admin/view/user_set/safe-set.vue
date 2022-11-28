@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
  * @LastEditors: huyu
- * @LastEditTime: 2022-08-10 14:24:19
+ * @LastEditTime: 2022-11-26 19:19:57
  * @Description: 安全设置
 -->
 <template>
@@ -20,7 +20,7 @@
             <span>{{item.unit}}</span>
           </el-form-item>
         </div>
-        <el-form-item label="登录验证：">
+        <el-form-item label="登录人机验证：">
           <el-switch v-model="postForm.verifyCodeConfirm"></el-switch>
         </el-form-item>
         <el-form-item label="首次登录修改密码：">
@@ -59,14 +59,14 @@ export default {
           { title: '密码规则', value: '大写字母+小写字母+数字' },
           { title: '密码长度', value: '6-16', unit: '位' },
           { title: '密码过期时间', value: '3', unit: '年' },
-          { title: '登录失败锁定', value: '5', unit: '次/天' },
+          { title: '登录失败锁定', value: '10', unit: '次/天' },
           { title: '密码登录保持时长', value: '30', unit: '天' },
         ],
         '0': [
           { title: '密码规则', value: '无' },
           { title: '密码长度', value: '6-16', unit: '位' },
           { title: '密码过期时间', value: '无' },
-          { title: '登录失败锁定', value: '5', unit: '次/天' },
+          { title: '登录失败锁定', value: '0', unit: '次/天' },
           { title: '密码登录保持时长', value: '30', unit: '天' },
         ],
       }
