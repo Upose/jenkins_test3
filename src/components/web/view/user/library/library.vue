@@ -365,19 +365,22 @@ export default {
         let targetList = []
         let schoolfellowIndex = -1;
         tempData.forEach((item, index) => {
-          this.applyIdList.push(item.appId);
-          targetList.push(item.appWidget.target);
-          // this.addStyle(item.appWidget.target);
-          // this.addScript(item.appWidget.target);
+          if (item.appWidget) {
+            this.applyIdList.push(item.appId);
+            targetList.push(item.appWidget.target);
+            // this.addStyle(item.appWidget.target);
+            // this.addScript(item.appWidget.target);
 
-          // 2022.11.2 重大定制校友导航
-          if (item.appWidget.name == '校友导航') {
-            this.isSchoolfellow = true;
-            schoolfellowIndex = index;
-            this.schoolfellowInfo = item;
+            // 2022.11.2 重大定制校友导航
+            if (item.appWidget.name == '校友导航') {
+              this.isSchoolfellow = true;
+              schoolfellowIndex = index;
+              this.schoolfellowInfo = item;
+            }
           }
         })
-        this.tempData = schoolfellowIndex == -1 ? tempData : tempData.filter((item, index) => index != schoolfellowIndex);
+        // this.tempData = schoolfellowIndex == -1 ? tempData : tempData.filter((item, index) => index != schoolfellowIndex);
+        this.tempData = schoolfellowIndex == -1 ? tempData.filter(item => item.appWidget) : tempData.filter((item, index) => index != schoolfellowIndex && item.appWidget);
         setTimeout(() => {
           targetList.forEach(target => {
             this.addStyle(target);
