@@ -139,9 +139,9 @@
           </el-form-item>
 
           <el-form-item label="第三方信息：">
-            <div class="sides" v-if="postForm.WeChatOpenId">
-              <img :src="getImg('icon-wx')" class="pictures" />
-              <!-- <img :src="getImg('icon-qq')" v-if="postForm.QQOpenId" class="pictures" /> -->
+            <div class="sides" v-if="postForm.WeChatOpenId||postForm.qqOpenId">
+              <img :src="getImg('icon-wx')" v-if="postForm.WeChatOpenId" class="pictures" />
+              <img :src="getImg('icon-qq')" v-if="postForm.qqOpenId" class="pictures" />
             </div>
             <div class="unbind" v-else>暂无</div>
           </el-form-item>
