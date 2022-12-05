@@ -74,7 +74,7 @@
             </h2>
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
-                <el-table-column type="selection" width="45"></el-table-column>
+                <el-table-column type="selection" width="50"></el-table-column>
                 <template v-for="item in dataKey.showOnTableProperties">
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item" v-if="item.code != 'Card_Type'" :min-width="item.code=='Card_No'?'150':''">
                     <template slot-scope="scope">

@@ -42,7 +42,7 @@
           </div>
           <div>
             <el-table v-loading="loading" :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
-              <el-table-column type="selection" width="45" align="center"></el-table-column>
+              <el-table-column type="selection" width="50" align="center"></el-table-column>
               <el-table-column label="序号" type="index" prop="index" align="center" show-overflow-tooltip width="50">
                 <template slot-scope="scope">
                   <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>

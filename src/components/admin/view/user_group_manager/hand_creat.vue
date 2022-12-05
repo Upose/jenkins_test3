@@ -102,7 +102,7 @@
                         <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
                       </div>
                       <el-table v-loading="loading" :data="tableData" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange">
-                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column type="selection" width="50" align="center"></el-table-column>
                         <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
@@ -124,7 +124,7 @@
                       </el-table>
 
                       <el-table :data="chanceData" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
-                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column type="selection" width="50" align="center"></el-table-column>
                         <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
@@ -153,14 +153,14 @@
                         <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
                       </div>
                       <el-table :data="tableDataImp" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange" :row-class-name="tableRowClassName">
-                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column type="selection" width="50" align="center"></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="85" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
 
                       <el-table :data="chanceDataImp" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
-                        <el-table-column type="selection" width="48"></el-table-column>
+                        <el-table-column type="selection" width="50" align="center"></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="85" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
                             {{scope.row.name || scope.row.userName}}
