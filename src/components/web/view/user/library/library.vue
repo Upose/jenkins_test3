@@ -219,7 +219,11 @@ export default {
     this.getKey();
     // this.getInfo();
     this.wxBindList();
-
+    // // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
+    // this.getCard();
+    // this.getApplyList();
+    // this.getTemp();
+    // this.dragSort();
     if (this.$route.query.code) {
       this.wxCode = this.$route.query.code;
       this.wxdialogVisible = true;

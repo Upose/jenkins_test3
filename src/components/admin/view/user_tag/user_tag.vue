@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 10:29:18
  * @LastEditors: huyu
- * @LastEditTime: 2022-08-05 17:25:03
+ * @LastEditTime: 2022-12-06 11:35:36
  * @Description: 标签列表
 -->
 <template>
@@ -181,7 +181,7 @@ export default {
     },
     // 用户列表
     handleUser(row) {
-      this.$router.push({ path: '/admin_tagUserList', query: { id: row.id, sourceFrom: row.sourceFrom } })
+      this.$router.push({ path: '/admin_tagUserList', query: { id: row.id } })
     }
   },
 }
