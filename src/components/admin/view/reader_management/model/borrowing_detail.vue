@@ -10,9 +10,9 @@
         <span>{{borrowData.nowBorrowCount}}</span>
       </div>
       <div class="search-box">
-        <el-input v-model="postForm.title" placeholder="题名" class="w150"></el-input>
-        <el-input v-model="postForm.searchNo" placeholder="索书号" class="w150"></el-input>
-        <el-input v-model="postForm.collectionPlace" placeholder="馆藏地" class="w150"></el-input>
+        <el-input clearable v-model="postForm.title" placeholder="题名" class="w150"></el-input>
+        <el-input clearable v-model="postForm.searchNo" placeholder="索书号" class="w150"></el-input>
+        <el-input clearable v-model="postForm.collectionPlace" placeholder="馆藏地" class="w150"></el-input>
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" value-format="yyyy-MM-dd" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" value-format="yyyy-MM-dd" placeholder="归还时间" class="w150"></el-date-picker>
         <el-button type="primary" @click="getList" icon="iconfont el-icon-vip-fangdajing">查找</el-button>
