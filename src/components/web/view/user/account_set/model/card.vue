@@ -12,7 +12,7 @@
         <el-col :span="2"><span class="bule" @click="handleSet(item.id)" v-if="!item.isPrincipal">设为主卡</span></el-col>
         <el-col :span="6">
           <el-button size="mini" round class="new-btn bule-color" icon="el-icon-view" @click="$refs.card_detail.show(item.id)" v-if="item.status==1">查看</el-button>
-          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)" v-if="item.status==1">修改密码</el-button>
+          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)" v-if="item.status==1&&changePassword">修改密码</el-button>
         </el-col>
       </el-row>
       <h1>申请记录</h1>
@@ -61,9 +61,11 @@ export default {
       dataKey: null,
       setTime: timeFormat,
       cardClaimPermit: false,
+      changePassword: false,
     };
   },
   created() {
+    this.getChangePassword();
     this.getKey();
     this.checkCardClaimPermit();
     this.getCard();
@@ -78,6 +80,13 @@ export default {
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
+    },
+    getChangePassword() {
+      this.http.getJson('reader-comple-property').then(res => {
+        this.changePassword = res.data.changePassword;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
     },
     // 获取用户领卡权限
     checkCardClaimPermit() {
