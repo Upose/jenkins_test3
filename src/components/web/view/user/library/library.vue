@@ -219,11 +219,11 @@ export default {
     this.getKey();
     // this.getInfo();
     this.wxBindList();
-    // // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
-    // this.getCard();
-    // this.getApplyList();
-    // this.getTemp();
-    // this.dragSort();
+
+    this.getCard();
+    this.getApplyList();
+    this.getTemp();
+    this.dragSort();
     if (this.$route.query.code) {
       this.wxCode = this.$route.query.code;
       this.wxdialogVisible = true;
@@ -320,11 +320,11 @@ export default {
         this.form = res.data;
         this.identityListLoading = false;
         // console.log(this.form)
-        // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
-        this.getCard();
-        this.getApplyList();
-        this.getTemp();
-        this.dragSort();
+        // // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
+        // this.getCard();
+        // this.getApplyList();
+        // this.getTemp();
+        // this.dragSort();
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });

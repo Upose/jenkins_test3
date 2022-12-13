@@ -5,8 +5,9 @@
       <div class="form-content">
         <el-form-item label="开启敏感信息：">
           <el-switch v-model="postForm.sensitiveFilter"></el-switch>
+          <el-button type="primary" size="medium" class="mr" @click="$refs.DialogShowInfo.show()">前台展示</el-button>
           <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('SensitiveInfoVisitor')">授权馆员</el-button>
-          <div class="tips">设定后，读者敏感信息只有授权馆员才可查看</div>
+          <div class="tips">设定后，读者敏感信息将以“*”填充，仅授权馆员可查看明文</div>
         </el-form-item>
         <el-form-item label="开启读者注册审批：">
           <el-switch disabled v-model="postForm.UserRegister"></el-switch>
@@ -45,6 +46,8 @@
     <Dialog_staff ref="Dialog_staff"></Dialog_staff>
     <Dialog_set ref="Dialog_set"></Dialog_set>
     <selectUser ref="selectUser"></selectUser>
+
+    <DialogShowInfo ref="DialogShowInfo"></DialogShowInfo>
   </div>
 </template>
 
@@ -58,7 +61,7 @@ import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 import Dialog_staff from './model/dialog_staff';
 import Dialog_set from './model/dialog_set';
 import selectUser from './model/selectUser'
-
+import DialogShowInfo from '@/components/admin/view/user_set/model/DialogShowInfo';
 
 export default {
   name: 'index',
@@ -68,7 +71,7 @@ export default {
     //   this.$forceUpdate();
     // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, Dialog_staff, Dialog_set, selectUser },
+  components: { footerPage, serviceLMenu, breadcrumb, Dialog_staff, Dialog_set, selectUser, DialogShowInfo },
   data() {
     return {
       dataKey: null,// 键值对总数据

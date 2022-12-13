@@ -2,19 +2,19 @@
   <div class="set-box" v-if="dataKey">
     <el-alert title="完成以下认证信息，可以加强您账户的安全性" type="warning" show-icon></el-alert>
     <h1>姓名：{{form.name}}</h1>
-    <div class="set-item">
+    <div class="set-item" v-if="!setHideInfo(1)">
       <span class="img"><img v-show="form.idCardIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">身份证号</span>
       <span class="content">{{form.idCard}}</span>
       <span class="use" @click="$refs.set_idCard.show()" v-if="!isEdit('User_IdCard')">修改身份证</span>
     </div>
-    <div class="set-item">
+    <div class="set-item" v-if="!setHideInfo(2)">
       <span class="img"><img v-show="form.mobileIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">手机号码</span>
       <span class="content">{{form.phone}}</span>
       <span class="use" @click="$refs.set_phone.show()" v-if="!isEdit('User_Phone')">修改手机</span>
     </div>
-    <div class="set-item">
+    <div class="set-item" v-if="!setHideInfo(3)">
       <span class="img"><img v-show="form.emailIdentity" src="../../../../../../assets/web/img/icon_safe.png" alt=""></span>
       <span class="name">常用邮箱</span>
       <span class="content">{{form.email}}</span>
@@ -77,9 +77,11 @@ export default {
       form: {},
       dataKey: null,
       updateReaderInfo: false,
+      showInfo: [],
     };
   },
   created() {
+    this.getSetInfo();
     this.getInfo(true);
     this.getKey();
     this.checkModifyReaderPermit();
@@ -88,6 +90,19 @@ export default {
 
   },
   methods: {
+    // 获取设置时候展示的信息
+    getSetInfo() {
+      this.http.getJson('forward-sensitive-info-display', {}).then(res => {
+        this.showInfo = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    setHideInfo(type) {
+      if (!this.showInfo.length) return;
+      let cur = this.showInfo.find(item => item.configType == type);
+      return cur ? cur.isDisplay : false;
+    },
     qqHandle() {
       if (this.$route.query.qqNickName && this.$route.query.qqOpenId) {
         this.qqBindHandle({

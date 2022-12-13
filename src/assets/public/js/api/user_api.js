@@ -21,6 +21,7 @@ export default {
         'group-item': baseURL + '/api/property-group/group-item',//创建、编辑、删除属性组明细项
         'property-change-log': baseURL + '/api/property-group/property-change-log',//获取属性组变更日志
 
+
         'change-init-data': baseURL + '/api/data-approve/init-data',//初始化数据
         'property-change-log-table-data': baseURL + '/api/data-approve/property-change-log-table-data',//获取属性变更日志记录
         'property-change-log-detail-items': baseURL + '/api/data-approve/property-change-log-detail-items',//获取属性变更详情
@@ -116,6 +117,11 @@ export default {
         'set-info-append-reader': baseURL + '/api/basic-config/set-info-append-reader',//设置补充读者信息的用户
         'reader-edit-property': baseURL + '/api/basic-config/reader-edit-property',//获取读者可编辑信息
         'set-reader-edit-property': baseURL + '/api/basic-config/set-reader-edit-property',//设置可编辑属性
+
+        'sensitive-info-display': baseURL + '/api/basic-config/sensitive-info-display',//查询敏感信息前台设置20221213
+        'set-sensitive-info-display': baseURL + '/api/basic-config/set-sensitive-info-display',//设置敏感信息前台设置20221213
+        'reader-comple-property': baseURL + '/api/basic-config/reader-comple-property',//获取读者可编辑信息 20221213
+        'set-reader-comple-property': baseURL + '/api/basic-config/set-reader-comple-property',//设置可编辑属性 20221213
 
 
         'role-table-data': baseURL + '/api/role/role-table-data',//获取角色表格数据
