@@ -7,7 +7,7 @@
           <el-switch v-model="postForm.sensitiveFilter"></el-switch>
           <el-button type="primary" size="medium" class="mr" @click="$refs.DialogShowInfo.show()">前台展示</el-button>
           <el-button type="primary" size="medium" class="mr" @click="$refs.Dialog_staff.show('SensitiveInfoVisitor')">授权馆员</el-button>
-          <div class="tips">设定后，读者敏感信息将以“*”填充，仅授权馆员可查看明文</div>
+          <div class="tips">开启后，后台读者敏感信息展示将以“*”填充，授权馆员可查看明文；前台展示内容将按设置展示/隐藏</div>
         </el-form-item>
         <el-form-item label="开启读者注册审批：">
           <el-switch disabled v-model="postForm.UserRegister"></el-switch>

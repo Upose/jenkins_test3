@@ -93,7 +93,7 @@ export default {
     // 获取设置时候展示的信息
     getSetInfo() {
       this.http.getJson('forward-sensitive-info-display', {}).then(res => {
-        this.showInfo = res.data;
+        this.showInfo = res.data.sensitiveInfos;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
