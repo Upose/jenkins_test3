@@ -147,7 +147,8 @@ export default {
         {
             path: '/admin_readerCardEdit',
             name: 'admin_readerCardEdit',
-            component: r => require.ensure([], () => r(require('@/components/admin/view/reader_card_manager/reader_card_edit')), 'reader_card_edit'),
+            component: r => require.ensure([], () => r(require('@/components/admin/view/reader_card_manager/reader_card_add')), 'reader_card_edit'),
+            // component: r => require.ensure([], () => r(require('@/components/admin/view/reader_card_manager/reader_card_edit')), 'reader_card_edit'),
             meta: {
                 title: [{ name: '读者卡管理', path: '/admin_readerCardList' }, { name: '编辑读者卡' }],
                 keepAlive: true,
