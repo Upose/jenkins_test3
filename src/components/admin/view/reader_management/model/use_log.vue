@@ -12,15 +12,15 @@
     </div>
     <div class="login-list">
       <el-table v-loading="loading" :data="tableData" border style="width: 100%" class="list-table">
-        <el-table-column label="序号" prop="sort"></el-table-column>
-        <el-table-column label="时间" prop="eventTime">
+        <el-table-column label="序号" prop="sort" width="80" align="center"></el-table-column>
+        <el-table-column label="时间" prop="eventTime" align="center" width="150">
           <template slot-scope="scope">
             {{dateChangeFormat(scope.row.eventTime)}}
           </template>
         </el-table-column>
         <el-table-column label="事件" prop="eventName"></el-table-column>
         <el-table-column label="日志来源" prop="logFrom"></el-table-column>
-        <el-table-column label="日志说明" prop="logDesc"></el-table-column>
+        <el-table-column label="日志说明" prop="logDesc" min-width="300"></el-table-column>
       </el-table>
     </div>
     <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
@@ -65,6 +65,11 @@ export default {
         this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
+    },
+    // 分页 页面修改
+    pageChange(data) {
+      this.pageData[data.key] = data.value;
+      this.getList();
     },
     // 时间格式化
     dateChangeFormat(date, format = 'YYYY-mm-dd HH:MM') {
@@ -143,7 +148,7 @@ export default {
 }
 /deep/ .el-table .cell,
 /deep/ .el-table th.el-table__cell > .cell {
-  padding-left: 8%;
+  // padding-left: 8%;
 }
 // /deep/ .el-input__inner {
 //   height: 37px;

@@ -37,6 +37,7 @@ export default {
       pageData: {
         pageIndex: 1,
         pageSize: 10,
+        totalCount: 0
       },//分页参数
       tableData: [],//列表项
       postFrom: {
@@ -60,6 +61,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
+      this.pageData.totalCount = 0;
       http.getJson('property-change-log', { ...{ groupId: this.id }, ...this.postFrom, ...this.pageData }).then(res => {
         this.tableData = res.data.logs.items;
         //分页所需  数据总条数

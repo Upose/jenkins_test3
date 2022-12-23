@@ -21,7 +21,7 @@
               <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
               <div class="top-content-user-box">
                 <div class="my-name-box">
-                  <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
+                  <div class="avatar" @click="$router.push('/web_accountSet')"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
                   <div class="name">
                     <span class="text">{{form.name}} </span>
                     <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
@@ -834,6 +834,7 @@ export default {
     margin-right: 10px;
     border: 2px solid #fff;
     box-shadow: 0 0 8px #ddd;
+    cursor: pointer;
     img {
       width: 100%;
       height: 100%;
