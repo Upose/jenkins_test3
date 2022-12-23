@@ -387,6 +387,32 @@ export default {
       if (this.id) {
         this.getData();
       }
+
+    },
+    // 获取数据
+    getUserData() {
+      http.getJsonSelf('user-for-edit', `/${this.userId}`).then(res => {
+        // this.cardForm = res.data;
+        // this.cardForm.addr = this.showAddrCode(this.cardForm.addr)
+        let curUser = res.data;
+        for (const key in this.cardForm) {
+          if (Object.hasOwnProperty.call(this.cardForm, key)) {
+            if (curUser[key]) {
+              const noCheck = ['status', 'studentNo'];
+              if (noCheck.includes(key)) {// 不处理
+              } else if (key == 'type') {// 特殊处理
+                this.cardForm.cardReaderType = curUser.type;
+              } else {
+                this.cardForm[key] = curUser[key];
+              }
+            }
+          }
+        }
+        this.cardForm.secret = '******';
+        this.properties = res.data.properties;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取读者信息失败!' });
+      })
     },
     // 获取数据
     getData() {
@@ -436,7 +462,6 @@ export default {
           }
         }
       }
-      console.log(this.cardForm);
     },
     getDynamicRule(property) {
       var rules = [];
@@ -467,8 +492,12 @@ export default {
       http.getJson('card-init-data').then(res => {
         this.dataKey = res.data;
         // this.postForm = this.dataKey.userData || {};
-        if (!this.id && !this.userId) {
+        if (!this.id) {
           this.cardForm = this.dataKey.cardData || { secret: '' };
+          this.cardForm.status = this.cardForm.status + ''
+        }
+        if (this.userId) {
+          this.getUserData();
         }
         // 下拉框选项初始化时控制在10以内  
         res.data.groupSelect.forEach(item => {
