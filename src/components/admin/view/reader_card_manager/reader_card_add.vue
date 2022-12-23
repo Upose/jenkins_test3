@@ -640,7 +640,7 @@ export default {
           if (this.id) {
             http.putJson('card', this.cardForm).then(res => {
               this.$message({ message: '编辑成功！', type: 'success' });
-              this.getData();
+              this.$router.replace('/admin_readerCardList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
             })
