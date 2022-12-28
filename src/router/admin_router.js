@@ -246,5 +246,15 @@ export default {
                 parentRoute: '/admin_userTagList'
             },
         },
+        {
+            path: '/admin_activateManagement',
+            name: 'admin_activateManagement',
+            component: r => require.ensure([], () => r(require('@/components/admin/view/user-activate/index')), 'user-activate'),
+            meta: {
+                title: [{ name: '读者激活管理' }],
+                keepAlive: true,
+                parentRoute: '/admin_activateManagement'
+            },
+        },
     ]
 }
