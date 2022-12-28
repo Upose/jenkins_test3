@@ -14,8 +14,8 @@
     "build:cdut": "cross-env NODE_ENV=cdut node build/build.js"
   },
   "dependencies": {
-    "dlib3-tinymce": "^1.0.20",
     "@fingerprintjs/fingerprintjs": "^3.3.6",
+    "dlib3-tinymce": "^1.0.22",
     "echarts": "^5.1.2",
     "es6-promise": "^4.2.8",
     "less": "^3.9.0",

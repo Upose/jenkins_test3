@@ -8,10 +8,10 @@
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" placeholder="归还时间" class="w150"></el-date-picker> -->
 
-        <!-- <el-select v-model="postForm.type" slot="prepend" placeholder="日志类型" style="width:130px">
-          <el-option label="操作人姓名" value="'1'"></el-option>
-          <el-option label="操作人电话" value="'2'"></el-option>
-        </el-select> -->
+        <el-select v-model="postForm.LogType" slot="prepend" placeholder="日志类型" style="width:130px">
+          <el-option v-for="item in logType" :key="item.value" :label="item.key" :value="item.value"
+            clearable></el-option>
+        </el-select>
         <el-date-picker v-model="postForm.time" type="datetimerange" range-separator="至" start-placeholder="开始时间"
           end-placeholder="结束时间" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
         <el-button type="primary" @click="getList">查找</el-button>
@@ -50,15 +50,24 @@ export default {
       },//分页参数
       tableData: [],//列表项
       postForm: {},
-      borrowData: {}
+      borrowData: {},
+      logType: [],
     }
   },
   props: ['id', 'userKey'],
   mounted() {
     // this.getKey();
+    this.getLogType();
     this.getList();
   },
   methods: {
+    getLogType() {
+      http.getJson('user-log-type').then(res => {
+        this.logType = res.data;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取日志类型失败!' });
+      })
+    },
     // 获取列表数据
     getList() {
       this.loading = true;
@@ -73,6 +82,7 @@ export default {
         ...form,
         pageIndex: this.pageData.pageIndex,
         pageSize: this.pageData.pageSize,
+        LogType: this.postForm.LogType,
       }).then(res => {
         this.borrowData = res.data;
         let list = res.data.items || [];

@@ -153,6 +153,7 @@ export default {
 
         'user-permission-tree': baseURL + '/api/sys-menu/user-permission-tree',//获取当前登录用户应用权限
 
+        'user-log-type': baseURL + '/api/user/log-type',//获取日志类型
         /* 激活管理 */
         'activate-table-data': baseURL + '/api/activate-procedure/table-data',//获取激活场景列表
         'activate-activate-procedure': baseURL + '/api/activate-procedure',//删除激活场景/{id}
