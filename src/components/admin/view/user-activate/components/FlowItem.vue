@@ -2,25 +2,31 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:24:33
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 15:23:17
+ * @LastEditTime: 2022-12-28 18:39:00
  * @Description: 流程列表项
 -->
 <template>
-  <div class="fi-box flex-row-start">
+  <div class="fi-box flex-row-start" :class="{'fi-active':curIndex==index}" @click="$emit('chengeFlow',{index:index,type:'show'})">
     <div class="fb-left flex-column-between">
-      <div class="fl-btn flex-row-center hover-op"><i class="el-icon-caret-top"></i>上移</div>
-      <div class="fl-btn flex-row-center hover-op"><i class="el-icon-caret-bottom"></i>下移</div>
+      <div class="fl-btn flex-row-center hover-op" v-if="index!=0" @click.stop="$emit('chengeFlow',{index:index,type:'up'})"><i class="el-icon-caret-top"></i>上移</div>
+      <div class="fl-site" v-if="index==0||length-1==index"></div>
+      <div class="fl-btn flex-row-center hover-op" v-if="length-1!=index" @click.stop="$emit('chengeFlow',{index:index,type:'down'})"><i class="el-icon-caret-bottom"></i>下移</div>
     </div>
     <i class="fi-icon-line"></i>
-    <div class="fi-title ellipsis">图书馆</div>
-    <div class="fi-del-btn flex-row-center hover-op"><i class="el-icon-delete-solid"></i></div>
+    <div class="fi-title ellipsis">{{item.title}}</div>
+    <div class="fi-del-btn flex-row-center hover-op" @click.stop="$emit('chengeFlow',{index:index,type:'del'})" v-if="length>1"><i class="el-icon-delete-solid"></i></div>
   </div>
 </template>
 
 <script>
 export default {
   components: {},
-  props: {},
+  props: {
+    item: Object,
+    curIndex: Number,
+    index: Number,
+    length: Number
+  },
   data() {
     return {
 
@@ -53,6 +59,10 @@ export default {
       i {
         margin-right: 4px;
       }
+    }
+    .fl-site {
+      width: 58px;
+      height: 30px;
     }
   }
   .fi-icon-line {

@@ -152,5 +152,22 @@ export default {
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
 
         'user-permission-tree': baseURL + '/api/sys-menu/user-permission-tree',//获取当前登录用户应用权限
+
+        /* 激活管理 */
+        'activate-table-data': baseURL + '/api/activate-procedure/table-data',//获取激活场景列表
+        'activate-activate-procedure': baseURL + '/api/activate-procedure',//删除激活场景/{id}
+        // 'activate-': baseURL + '/api/activate-procedure/{id}',//获取激活场景信息
+        'activate-change-status': baseURL + '/api/activate-procedure/change-status',//修改激活场景状态
+        'activate-change-blocking': baseURL + '/api/activate-procedure/change-blocking',//修改激活场景流程阻塞状态
+        // 'activate-': baseURL + '/api/activate-procedure',//创建激活场景
+        // 'activate-': baseURL + '/api/activate-procedure',//修改激活场景
+        'activate-definition-table-data': baseURL + '/api/activate-procedure/definition-table-data',//获取激活流程列表
+        'activate-save-definition': baseURL + '/api/activate-procedure/save-definition',//保存激活流程
+        'activate-activate-reader': baseURL + '/api/activate-procedure/activate-reader',//激活读者
+        'activate-front-activate-definition-list': baseURL + '/api/activate-procedure/front-activate-definition-list',//获取激活流程
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
+        '': baseURL + '',//
     },
 }

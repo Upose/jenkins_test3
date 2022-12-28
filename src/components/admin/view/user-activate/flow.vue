@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 15:23:03
+ * @LastEditTime: 2022-12-28 19:06:02
  * @Description: 激活流程
 -->
 <template>
@@ -15,8 +15,12 @@
         <breadcrumb :cuMenu="'总导航管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
-          <div class="search-table-w">
+          <div class="search-table-w flex-row-between">
             <h1 class="search-title">读者激活管理</h1>
+            <div style="padding-right:20px">
+              <el-button type="primary" icon="iconfont el-icon-vip-baocun1" @click="handleSubmit" v-button-debounce>保 存</el-button>
+              <el-button icon="iconfont el-icon-vip-quxiao" @click="goBack">返回上一级</el-button>
+            </div>
           </div>
           <!--顶部查询 end-->
           <div class="table-w">
@@ -24,8 +28,8 @@
               <div class="flow-box flex-row-start-start">
                 <div class="fb-left">
                   <div class="fb-tit flex-row-start"><i class="icon-line"></i>流程信息</div>
-                  <FlowItem></FlowItem>
-                  <div class="fb-add hover-op">
+                  <FlowItem v-for="(item,index) in definitionList" :key="index" :item="item" :curIndex="curIndex" :index="index" :length="definitionList.length" @chengeFlow="chengeFlow"></FlowItem>
+                  <div class="fb-add hover-op" @click="addFlow">
                     <div class="flex-column-center">
                       <div class="icon-add">+</div>
                       <div>新增流程</div>
@@ -35,24 +39,28 @@
                 <div class="fb-right">
                   <el-form ref="form" :model="form" :rules="rules" label-width="110px" label-suffix="：">
                     <div class="fr-title flex-row-start"><i class="icon-lcxx"></i>流程信息</div>
-                    <el-form-item label="流程名称" prop="name">
-                      <el-input style="width:400px" v-model="form.name" clearable></el-input>
+                    <el-form-item label="流程名称" prop="title">
+                      <el-input style="width:400px" v-model="form.title" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="完成条件" prop="name">
-                      <el-select style="width:400px" v-model="form.name" placeholder="">
+                    <el-form-item label="完成条件" prop="finishType">
+                      <el-select style="width:400px" v-model="form.finishType" placeholder="">
                         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                         </el-option>
                       </el-select>
                     </el-form-item>
+                    <el-form-item label="浏览时间" prop="countdown" v-if="form.finishType==2">
+                      <!-- <el-input style="width:400px" v-model="form.countdown" clearable></el-input> -->
+                      <el-input-number style="width:400px" v-model="form.countdown" :min="1" label="描述文字"></el-input-number>
+                      <span>秒</span>
+                    </el-form-item>
                     <div class="fr-title top-line flex-row-start"><i class="icon-lcnr"></i>流程内容</div>
                     <el-form-item label="" prop="name" label-width="20px">
-                      <Dlib3Tinymce :contValue.sync="content" width="1160" editorId="mytextarea">
+                      <Dlib3Tinymce :contValue.sync="form.contents" width="1160" editorId="mytextarea">
                       </Dlib3Tinymce>
                     </el-form-item>
-                    <el-form-item label-width="20px">
-                      <el-button icon="iconfont el-icon-vip-quxiao" @click="handleCancel">取 消</el-button>
-                      <el-button type="primary" icon="iconfont el-icon-vip-baocun1" @click="handleSubmit" v-button-debounce>保 存</el-button>
-                    </el-form-item>
+                    <!-- <el-form-item label-width="20px">
+                      <el-button type="primary" @click="subFlow" v-button-debounce>确 定</el-button>
+                    </el-form-item> -->
                   </el-form>
                 </div>
               </div>
@@ -80,11 +88,28 @@ export default {
   props: {},
   data() {
     return {
-      form: {},
-      rules: [],
+      id: this.$route.query.id || '',
+      form: {
+        title: "",
+        finishType: 1,
+        countdown: 10,
+        contents: "",
+      },
+      rules: {
+        title: [
+          { required: true, message: '请输入', trigger: 'blur' },
+        ],
+        finishType: [
+          { required: true, message: '请输入', trigger: 'change' },
+        ],
+      },
       options: [
-        { label: '1', value: '1' }
-      ]
+        { label: '不限制', value: 1 },
+        { label: '浏览时间', value: 2 },
+        { label: '滑至页底', value: 3 },
+      ],//1不限制 2浏览时间 3滑至页底
+      definitionList: [],
+      curIndex: 0
     };
   },
   created() { },
@@ -92,8 +117,95 @@ export default {
     setTimeout(() => {
       this.initEditer();
     }, 300);
+    this.getFlowList();
+  },
+  beforeDestroy() {
+    // 销毁组件前销毁编辑器
+    window.tinymce.get('mytextarea').destroy();
   },
   methods: {
+    getFlowList() {
+      // this.definitionList = [
+      //   { title: 0 },
+      //   { title: 1 },
+      //   { title: 2 },
+      //   { title: 3 },
+      //   { title: 4 },
+      // ]
+      // return
+      this.$http.getJson('activate-definition-table-data', {
+        procedureid: this.id
+      }).then(res => {
+        if (res.data.length) {
+          this.definitionList = res.data;
+        } else {
+          this.definitionList.push({
+            title: "",
+            finishType: 1,
+            countdown: 10,
+            contents: "",
+          })
+        }
+        this.setForm(0)
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取流程信息失败!' });
+      })
+    },
+    setForm(index) {
+      this.form = this.definitionList[index];
+      tinymce.activeEditor.setContent(this.form.contents)
+    },
+    addFlow() {
+      this.definitionList.push({
+        title: "",
+        finishType: 1,
+        countdown: 10,
+        contents: "",
+      })
+      this.curIndex = this.definitionList.length - 1;
+      this.setForm(this.curIndex)
+    },
+    chengeFlow({ index, type }) {
+      if (type == 'show') {
+        this.curIndex = index;
+      }
+      if (type == 'del') {
+        if (this.curIndex == index) {
+          this.curIndex = index == this.definitionList.length - 1 ? index - 1 : index;
+        }
+        if (this.curIndex > index) {
+          this.curIndex = this.curIndex - 1;
+        }
+        this.definitionList.splice(index, 1);
+      }
+      if (type == 'up') {
+        let cur = this.definitionList.splice(index, 1);
+        this.definitionList.splice(index - 1, 0, cur[0])
+        this.curIndex = index - 1;
+      }
+      if (type == 'down') {
+        let cur = this.definitionList.splice(index, 1);
+        this.definitionList.splice(index + 1, 0, cur[0])
+        this.curIndex = index + 1;
+      }
+      this.setForm(this.curIndex)
+    },
+    subFlow() {
+      this.definitionList.push(this.form)
+    },
+    handleSubmit() {
+      this.$http.postJson('activate-save-definition', {
+        procedureId: this.id,
+        definitionList: this.definitionList
+      }).then(res => {
+
+      }).catch(err => {
+        this.$message({ type: 'error', message: '保存失败!' });
+      })
+    },
+    goBack() {
+      this.$router.back()
+    },
     initEditer() {
       //tinymce 编辑器
       tinymce.init({

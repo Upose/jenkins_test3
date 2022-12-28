@@ -2,25 +2,28 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:20:20
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 14:09:59
+ * @LastEditTime: 2022-12-28 17:16:39
  * @Description: 激活场景列表项
 -->
 <template>
   <div class="ai-box" :class="{'ai-green':index%2!=0}">
     <div class="ab-top flex-row-between">
-      <div class="at-tit">标题标题标题标题标题标题标题标题标题标题</div>
-      <el-switch v-model="model"></el-switch>
+      <div class="at-tit hover-line" @click="openAdd">{{item.title}}</div>
+      <el-switch @change="changeStatus" v-model="item.status" :active-value="1" :inactive-value="2"></el-switch>
     </div>
     <div class="ab-bottom">
-      <div class="ab-info">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+      <div class="ab-info">{{item.contents}}</div>
       <div class="flex-row-start">
-        <el-switch v-model="model"></el-switch>
+        <el-switch @change="changeBlocking" v-model="item.isBlocking"></el-switch>
         <span class="ai-tit">流程阻塞</span>
         <span class="ai-tip">必须达到条件才可以进入下一流程</span>
       </div>
       <div class="ab-btn flex-row-start">
-        <div class="ab-item"><i class="icon-yh"></i>本科新生、交换生本科新生、交换生</div>
-        <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:1} })"><i class="icon-lc"></i>流程设置</div>
+        <div class="ab-item">
+          <i class="icon-yh"></i>
+          <span v-for="item1 in item.visitingListModel.visitList" :key="item1.key">{{item1.value}}、</span>
+        </div>
+        <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })"><i class="icon-lc"></i>流程设置</div>
       </div>
     </div>
   </div>
@@ -30,7 +33,8 @@
 export default {
   components: {},
   props: {
-    index: Number
+    index: Number,
+    item: Object
   },
   data() {
     return {
@@ -40,7 +44,29 @@ export default {
   created() { },
   mounted() { },
   methods: {
-
+    openAdd() {
+      this.$emit('openAdd', this.item.id);
+    },
+    changeStatus() {
+      this.$http.postJson('activate-change-status', {
+        id: this.item.id,
+        status: this.item.status
+      }).then(res => {
+        this.$message({ type: 'success', message: '修改成功!' });
+      }).catch(err => {
+        this.$message({ type: 'error', message: '修改失败!' });
+      })
+    },
+    changeBlocking() {
+      this.$http.postJson('activate-change-blocking', {
+        id: this.item.id,
+        isBolcking: this.item.isBlocking
+      }).then(res => {
+        this.$message({ type: 'success', message: '修改成功!' });
+      }).catch(err => {
+        this.$message({ type: 'error', message: '修改失败!' });
+      })
+    },
   },
 };
 </script>

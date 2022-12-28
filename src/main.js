@@ -25,6 +25,7 @@ logReportPlugin(Vue, { app: "usermanage", api: "loganalysis/api/log-write/write-
 Vue.config.productionTip = false
 
 Vue.prototype.http = http;
+Vue.prototype.$http = http;
 Vue.prototype.bus = bus;
 Vue.prototype.$validator = validator;//前端Rule验证帮助类
 Vue.prototype.setTime = timeFormat;//格式化时间

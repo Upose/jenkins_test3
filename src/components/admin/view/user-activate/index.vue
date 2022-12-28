@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:09:20
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 13:27:49
+ * @LastEditTime: 2022-12-28 16:54:39
  * @Description: 用户激活管理
 -->
 <template>
@@ -21,9 +21,9 @@
           <!--顶部查询 end-->
           <div class="table-w">
             <div class="t-p">
-              <div class="ua-list">
-                <ActivateItem v-for="(item,index) in 3" :key="item" :index="index"></ActivateItem>
-                <div class="ua-add" @click="openAdd">
+              <div class="ua-list" v-loading="loading">
+                <ActivateItem v-for="(item,index) in list" :key="item.id" :index="index" :item="item" @openAdd="openAdd"></ActivateItem>
+                <div class="ua-add" @click="openAdd()">
                   <div class="flex-column-center">
                     <div class="icon-add">+</div>
                     <div>新增激活场景</div>
@@ -39,7 +39,7 @@
       </el-main>
     </el-container>
 
-    <ActivateAdd ref="ActivateAdd"></ActivateAdd>
+    <ActivateAdd ref="ActivateAdd" @updateList="getList"></ActivateAdd>
   </div>
 </template>
 
@@ -58,14 +58,33 @@ export default {
   props: {},
   data() {
     return {
-
+      loading: false,//等待框
+      list: [],
+      pageData: {
+        pageIndex: 1,
+        pageSize: 1000,
+      },//分页参数
     };
   },
   created() { },
-  mounted() { },
+  mounted() {
+    this.getList();
+  },
   methods: {
-    openAdd() {
-      this.$refs.ActivateAdd.show()
+    getList() {
+      this.loading = true;
+      this.http.getJson('activate-table-data', {
+        ...this.pageData
+      }).then(res => {
+        this.list = res.data.items;
+        this.loading = false;
+      }).catch(err => {
+        this.loading = false;
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    openAdd(id) {
+      this.$refs.ActivateAdd.show(id)
     }
   },
 };
