@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 15:11:26
+ * @LastEditTime: 2022-12-28 15:23:03
  * @Description: 激活流程
 -->
 <template>
@@ -25,7 +25,7 @@
                 <div class="fb-left">
                   <div class="fb-tit flex-row-start"><i class="icon-line"></i>流程信息</div>
                   <FlowItem></FlowItem>
-                  <div class="fb-add">
+                  <div class="fb-add hover-op">
                     <div class="flex-column-center">
                       <div class="icon-add">+</div>
                       <div>新增流程</div>
@@ -46,7 +46,8 @@
                     </el-form-item>
                     <div class="fr-title top-line flex-row-start"><i class="icon-lcnr"></i>流程内容</div>
                     <el-form-item label="" prop="name" label-width="20px">
-
+                      <Dlib3Tinymce :contValue.sync="content" width="1160" editorId="mytextarea">
+                      </Dlib3Tinymce>
                     </el-form-item>
                     <el-form-item label-width="20px">
                       <el-button icon="iconfont el-icon-vip-quxiao" @click="handleCancel">取 消</el-button>
@@ -87,14 +88,71 @@ export default {
     };
   },
   created() { },
-  mounted() { },
+  mounted() {
+    setTimeout(() => {
+      this.initEditer();
+    }, 300);
+  },
   methods: {
-
+    initEditer() {
+      //tinymce 编辑器
+      tinymce.init({
+        selector: '#mytextarea',
+        language: 'zh_CN',
+        height: 800,
+        min_height: 800,
+        width: 800,
+        toolbar_mode: 'wrap',
+        branding: false,
+        // toolbar_sticky: true,
+        resize: true,
+        fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px',
+        font_formats: '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;',
+        plugins: 'code upfile quickbars print preview searchreplace autolink directionality powerpaste visualblocks visualchars image link media template codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount textpattern help emoticons autosave bdmap indent2em autoresize kityformula-editor',
+        toolbar: 'code undo redo restoredraft | cut copy paste pastetext | forecolor backcolor bold italic underline strikethrough link anchor codesample | alignleft aligncenter alignright alignjustify outdent indent | \
+          styleselect formatselect fontselect fontsizeselect | bullist numlist | blockquote subscript superscript removeformat | \
+          table image media upfile charmap emoticons hr pagebreak insertdatetime print preview bdmap indent2em lineheight kityformula-editor',
+        images_upload_handler: (blobInfo, success, failure) => { // 图片上传
+          this.handleImgUpload(blobInfo, success, failure)
+        },
+        powerpaste_word_import: "merge",
+        powerpaste_html_import: 'merge',
+        powerpaste_allow_local_images: true,
+        powerpaste_keep_unsupported_src: true,
+        paste_data_images: true,
+        file_picker_types: 'media',
+        media_live_embeds: true,
+        file_picker_callback: (callback, value, meta) => {
+          console.log(meta);
+          let input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute("accept", ".mp4");
+          let that = this;
+          input.onchange = function () {
+            let file = this.files[0];
+            let fd = new FormData();
+            fd.append("files", file);
+            that.handleVideoUpload(fd, callback);
+          }
+          input.click();
+        },
+        video_template_callback: data => {
+          return '<span class="mce-preview-object mce-object-video" contenteditable="false" data-mce-object="video" data-mce-p-allowfullscreen="allowfullscreen" data-mce-p-frameborder="no" data-mce-p-scrolling="no" data-mce-p-src=' + data.source + ' data-mce-p-width=' + data.width + ' data-mce-p-height=' + data.height + ' data-mce-p-controls="controls" data-mce-html="%20"> <video width=' + data.width + ' height=' + data.height + ' controls="controls"> <source src=' + data.source + ' type=' + data.sourcemime + '></source> </video> </span>';
+        },
+        file_callback: (file, succFun) => {
+          this.handleFileUpload(file, succFun);
+        }
+      });
+      this.$forceUpdate();
+    }
   },
 };
 </script>
 
 <style scoped lang="less">
+.content {
+  min-width: 1600px;
+}
 .flow-box {
   padding-bottom: 20px;
 }

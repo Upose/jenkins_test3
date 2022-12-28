@@ -263,7 +263,7 @@ export default {
             meta: {
                 title: [{ name: '读者激活管理', path: '/admin_activateManagement' }, { name: '流程设置' }],
                 keepAlive: true,
-                parentRoute: '/admin_activateFlow'
+                parentRoute: '/admin_activateManagement'
             },
         },
     ]

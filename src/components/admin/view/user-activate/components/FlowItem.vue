@@ -2,18 +2,18 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:24:33
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 14:54:29
+ * @LastEditTime: 2022-12-28 15:23:17
  * @Description: 流程列表项
 -->
 <template>
   <div class="fi-box flex-row-start">
     <div class="fb-left flex-column-between">
-      <div class="fl-btn flex-row-center"><i class="el-icon-caret-top"></i>上移</div>
-      <div class="fl-btn flex-row-center"><i class="el-icon-caret-bottom"></i>下移</div>
+      <div class="fl-btn flex-row-center hover-op"><i class="el-icon-caret-top"></i>上移</div>
+      <div class="fl-btn flex-row-center hover-op"><i class="el-icon-caret-bottom"></i>下移</div>
     </div>
     <i class="fi-icon-line"></i>
     <div class="fi-title ellipsis">图书馆</div>
-    <div class="fi-del-btn flex-row-center"><i class="el-icon-delete-solid"></i></div>
+    <div class="fi-del-btn flex-row-center hover-op"><i class="el-icon-delete-solid"></i></div>
   </div>
 </template>
 
