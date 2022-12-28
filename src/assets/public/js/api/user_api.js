@@ -152,5 +152,7 @@ export default {
         'region-list': baseURL + '/api/property-group/region-list',//获取地址
 
         'user-permission-tree': baseURL + '/api/sys-menu/user-permission-tree',//获取当前登录用户应用权限
+
+        'user-log-type': baseURL + '/api/user/log-type',//获取日志类型
     },
 }
