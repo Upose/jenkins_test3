@@ -8,6 +8,7 @@ import http from '@/assets/public/js/http';
 import bus from '@/assets/public/js/bus';
 import validator from "@/assets/public/js/validator.js";
 import { timeFormat, friendlyError } from "@/assets/public/js/util";
+import Dlib3Tinymce from 'dlib3-tinymce'
 
 import '@/assets/public/css/flex.less'
 import '@/assets/public/css/style.less'
@@ -31,6 +32,8 @@ Vue.prototype.handleError = friendlyError;//异常消息处理
 
 Vue.use(VueI18n)
 Vue.use(vDebounce)
+Vue.use(Dlib3Tinymce)
+
 
 //判断是否本站地址url,返回true表示本站，无需open() | is_web:true表示前台；false表示后台
 Vue.prototype.isThirdpartyApp = function (is_web, url) {
