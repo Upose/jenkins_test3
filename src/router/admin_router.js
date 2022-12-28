@@ -256,5 +256,15 @@ export default {
                 parentRoute: '/admin_activateManagement'
             },
         },
+        {
+            path: '/admin_activateFlow',
+            name: 'admin_activateFlow',
+            component: r => require.ensure([], () => r(require('@/components/admin/view/user-activate/flow')), 'activate-flow'),
+            meta: {
+                title: [{ name: '读者激活管理', path: '/admin_activateManagement' }, { name: '流程设置' }],
+                keepAlive: true,
+                parentRoute: '/admin_activateFlow'
+            },
+        },
     ]
 }

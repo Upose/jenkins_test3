@@ -10,6 +10,7 @@ import validator from "@/assets/public/js/validator.js";
 import { timeFormat, friendlyError } from "@/assets/public/js/util";
 
 import '@/assets/public/css/flex.less'
+import '@/assets/public/css/style.less'
 
 //2022.11.8 日志 将日志提出为cdn引入模式
 import FingerprintJS from '@fingerprintjs/fingerprintjs';

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:20:20
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 13:24:02
+ * @LastEditTime: 2022-12-28 14:09:59
  * @Description: 激活场景列表项
 -->
 <template>
@@ -20,7 +20,7 @@
       </div>
       <div class="ab-btn flex-row-start">
         <div class="ab-item"><i class="icon-yh"></i>本科新生、交换生本科新生、交换生</div>
-        <div class="ab-item"><i class="icon-lc"></i>流程设置</div>
+        <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:1} })"><i class="icon-lc"></i>流程设置</div>
       </div>
     </div>
   </div>
@@ -46,6 +46,12 @@ export default {
 </script>
 
 <style scoped lang="less">
+.hover-o {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
 .ai-box {
   width: 390px;
   height: 198px;
