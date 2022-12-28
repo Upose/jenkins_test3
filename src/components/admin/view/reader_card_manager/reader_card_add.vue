@@ -3,93 +3,206 @@
   <div class="admin-warp-page">
     <el-container>
       <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
-        <serviceLMenu :isActive="4"></serviceLMenu>
+        <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <breadcrumb :cuMenu="'读者账号详情'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title">新增读者卡</h1>
+            <h1 class="search-title">{{!id&&!userId?'新增':'编辑'}}读者卡</h1>
           </div>
           <!--顶部查询 end-->
           <div class="login-list">
-            <div class="card-box">
-              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules">
-                <div class="read-title">读者卡信息</div>
-                <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
-                  <el-select @change="refChangeCardSecret" v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
-                    <el-option v-for="item in userList" :key="item.id" :label="item.name+' '+item.phone" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-                <!-- <el-form-item label="统一认证号" prop="identityNo">
-                  <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item> -->
-                <!-- <el-form-item label="条形码号" prop="barCode">
-                  <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item> -->
-                <el-form-item label="学号/工号：" prop="studentNo">
-                  <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <div class="row-form">
-                  <el-form-item class="r-f-item1" prop="type">
-                    <el-select v-model="cardForm.type" placeholder="请选择卡类型" clearable>
-                      <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
+            <div class="editdiv">
+              <el-form @submit.prevent ref="cardForm" :model="cardForm" label-width="140px" class="admin-form" :rules="readerRules">
+                <div class="read-title">读者信息</div>
+                <div class="harf-area">
+                  <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
+                    <el-select @change="changeUser" v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
+                      <el-option v-for="item in userList" :key="item.id" :label="item.name+' '+item.phone" :value="item.id"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <div class="row-form">
+                    <el-form-item prop="type" class="r-f-item1">
+                      <el-select v-model="cardForm.type" placeholder="请选择" clearable>
+                        <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item prop="no" class="r-f-item2">
+                      <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
+                    </el-form-item>
+                  </div>
+                  <el-form-item label="学工/工号：" prop="studentNo">
+                    <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="统一认证号" prop="identityNo">
+                    <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="物理码号：" prop="physicNo">
+                    <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="状态：" prop="status">
+                    <el-select v-model="cardForm.status" placeholder="请选择">
+                      <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
-                  <el-form-item class="r-f-item2" prop="no">
-                    <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
+                  <el-form-item label="读者类型：" prop="cardReaderType">
+                    <el-select v-model="cardForm.cardReaderType" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+                      <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="读者姓名：" prop="name">
+                    <el-input v-model="cardForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="性别：" prop="gender">
+                    <el-radio-group v-model="cardForm.gender" class="radios">
+                      <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                  <el-form-item label="单位名称：" prop="unit">
+                    <el-input v-model="cardForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="学历：" prop="edu">
+                    <el-select v-model="cardForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
+                      <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="职称：" prop="title">
+                    <el-select v-model="cardForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')" v-el-select-loadmore="optionLoadMore('User_Title')">
+                      <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="部门：" prop="depart">
+                    <!-- <el-select v-model="cardForm.depart" placeholder="请选择" clearable>
+                      <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select> -->
+                    <el-cascader v-bind="depList" :options="depList" v-model="cardForm.depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                  </el-form-item>
+                  <el-form-item label="所在学院：" prop="college">
+                    <el-select v-model="cardForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
+                      <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="所在系：" prop="collegeDepart">
+                    <el-select v-model="cardForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')" v-el-select-loadmore="optionLoadMore('User_CollegeDepart')">
+                      <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="专业：" prop="major">
+                    <el-select v-model="cardForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
+                      <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <!-- <el-form-item label="状态：" prop="status">
+                    <el-select v-model="cardForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
+                      <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+                    </el-select>
+                  </el-form-item> -->
+
+                  <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in cardForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                    <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
+                    <el-input-number class="wq100" v-model="item.propertyValue" clearable v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
+                    <el-date-picker v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" clearable placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+                    <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
+                      <el-radio :label="'true'">是</el-radio>
+                      <el-radio :label="'false'">否</el-radio>
+                    </el-radio-group>
+                    <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.propertyCode)" v-el-select-loadmore="optionLoadMore(item.propertyCode)">
+                      <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                    </el-select>
+                    <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                    <div v-if="item.propertyType == 6">
+                      <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
+                        <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
+                      </el-upload>
+                      <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)" v-button-debounce>下载附件</el-button>
+                    </div>
                   </el-form-item>
                 </div>
-                <el-form-item label="物理码号：" prop="physicNo">
-                  <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="发卡日期：" prop="issueDate">
-                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
-                </el-form-item>
-                <el-form-item label="截止日期：" prop="expireDate">
-                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable></el-date-picker>
-                </el-form-item>
-                <el-form-item label="状态：" prop="status">
-                  <el-select v-model="cardForm.status" placeholder="请选择">
-                    <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="卡密码：" prop="secret">
-                  <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="押金：" prop="deposit">
-                  <el-input-number class="wq100" :precision="2" :min="0" v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input-number>
-                </el-form-item>
-                <el-form-item label="设为主卡：">
-                  <el-switch v-model="cardForm.isPrincipal"></el-switch>
-                </el-form-item>
-                <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in cardForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
-                  <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 "></el-input>
-                  <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
-                  <el-date-picker class="wq95" v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
-                  <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
-                    <el-radio :label="'true'">是</el-radio>
-                    <el-radio :label="'false'">否</el-radio>
-                  </el-radio-group>
-                  <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable>
-                    <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
-                  </el-select>
-                  <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
-                  <div v-if="item.propertyType == 6">
-                    <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
-                      <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
-                      <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
-                    </el-upload>
-                    <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
-                  </div>
-                </el-form-item>
+                <div class="harf-area">
+                  <el-form-item label="年级：" prop="grade">
+                    <el-select v-model="cardForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
+                      <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="班级：" prop="class">
+                    <el-select v-model="cardForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
+                      <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                    </el-select>
+                  </el-form-item>
+                  <el-form-item label="出生年月：" prop="birthday">
+                    <el-date-picker v-model="cardForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="所在地：" prop="addr">
+                    <!-- <el-input v-model="cardForm.addr" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input> -->
+                    <el-cascader v-bind="addrList" :options="addrList" v-model="cardForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                  </el-form-item>
+                  <el-form-item label="详细地址：" prop="addrDetail">
+                    <el-input v-model="cardForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="手机号：" prop="phone">
+                    <el-input v-model="cardForm.phone" placeholder="请输入" clearable @blur="refChangeCardSecret"></el-input>
+                  </el-form-item>
+                  <el-form-item label="身份证：" prop="idCard">
+                    <el-input v-model="cardForm.idCard" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="邮箱：" prop="email" class="youxiang">
+                    <el-input v-model="cardForm.email" placeholder="请输入" clearable maxlength="30" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="离校日期：" prop="leaveTime">
+                    <el-date-picker v-model="cardForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="发卡日期：" prop="issueDate">
+                    <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable></el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="截止日期：" prop="expireDate">
+                    <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择" clearable></el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="卡密码：" v-if="!id&&!userId" prop="secret">
+                    <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="30" show-word-limit></el-input>
+                  </el-form-item>
+                  <el-form-item label="卡密码：" prop="secret" v-else>
+                    <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
+                    <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
+                      <template slot="append" v-if="isAuth('card:setSecret')">
+                        <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
+                      </template>
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="押金：" prop="deposit">
+                    <el-input-number class="wq100" :precision="2" :min="0" v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input-number>
+                  </el-form-item>
+                  <el-form-item label="设为主卡：">
+                    <el-switch v-model="cardForm.isPrincipal"></el-switch>
+                  </el-form-item>
+                </div>
               </el-form>
             </div>
+            <!-- <div class="card-box">
+              <el-form ref="cardForm" :model="cardForm" label-width="120px" :rules="cardRules">
+                <div class="read-title">读者卡信息</div>
+                <el-form-item label="读者号" prop="no">
+                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+              </el-form>
+            </div> -->
             <div class="btn_box">
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保 存</el-button>
+              <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce> 保存</el-button>
             </div>
           </div>
         </div>
@@ -107,15 +220,11 @@ import footerPage from "@/components/admin/common/footer";
 import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
+import updateIcon from "../model/updateIcon";
+
 export default {
   name: 'index',
-  created() {
-    // bus.$on('collapse', msg => {
-    //   this.$root.collapse = msg;
-    //   this.$forceUpdate();
-    // })
-  },
-  components: { footerPage, serviceLMenu, breadcrumb, paging },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, updateIcon },
   data() {
     let validateType = (rule, value, callback) => {
       if (!value) {
@@ -127,18 +236,64 @@ export default {
     return {
       id: this.$route.query.id,
       userId: this.$route.query.userId,
-      cardForm: {},
-      dataKey: {},
 
-      loading: false,
-      userList: [],
-      cardRules: {
+      renderIndex: 0,
+      // cardForm: {
+      //   gender: '男',
+      //   type: null,
+      // },
+      cardForm: {},
+      dataKey: null,
+      groupSelect: [],
+      properties: null,
+      readerRules: {
         userId: [
+          { required: true, message: '必填项', trigger: 'change' }
+        ],
+        name: [
+          { required: true, message: '必填项', trigger: 'blur' }
+        ],
+        gender: [
+          { required: true, message: '必选项', trigger: 'change' }
+        ],
+        studentNo: [
+          { required: true, message: '必填项', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '必填项', trigger: 'change' }
+        ],
+        status: [
+          { required: true, message: '必填项', trigger: 'change' }
+        ],
+
+
+        idCard: [
           {
-            required: true,
-            message: '必填项',
-            trigger: 'change',
+            validator: this.$validator.validatePattern,
+            message: '格式错误',
+            pattern: this.$validator.idCard,
+            trigger: 'blur'
           }
+        ],
+        phone: [
+          // { required: true, message: '必填项', trigger: 'blur' },
+          {
+            validator: this.$validator.validatePattern,
+            message: '格式错误',
+            pattern: this.$validator.mobile,
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          {
+            validator: this.$validator.validatePattern,
+            message: '格式错误',
+            pattern: this.$validator.email,
+            trigger: 'blur'
+          }
+        ],
+        studentNo: [
+          { required: true, message: '必填项', trigger: 'change' }
         ],
         no: [
           {
@@ -182,16 +337,132 @@ export default {
           }
         ]
       },
+      cardRules: {
+
+      },
+
+      depList: [],
       addrList: [],
       uploadUrl: localStorage.getItem('fileUrl') + '/api/file/upload-file',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] },
       fileList: [],
+
+      userList: []
     }
   },
+  // props: ['id'],
   created() {
+  },
+  beforeMount() {
+  },
+  mounted() {
     this.initData();
   },
+  directives: {
+    'el-select-loadmore': (el, binding) => {
+      // 获取element-ui定义好的scroll盒子
+      const SELECTWRAP_DOM = el.querySelector(".el-select-dropdown .el-select-dropdown__wrap");
+      if (SELECTWRAP_DOM) {
+        SELECTWRAP_DOM.addEventListener("scroll", function () {
+          const condition = this.scrollHeight - this.scrollTop <= this.clientHeight;
+          if (condition) binding.value && binding.value()
+        });
+      }
+    }
+  },
   methods: {
+    // 页面子权限判定
+    isAuth(name) {
+      let authList = this.$store.getters.authList;
+      let curAuth = authList.find(item => (item.router == '/admin_readerCardList'));
+      // let curAuth = authList.find(item=>(item.router == this.$route.path));
+      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
+      return curSonAuth ? true : false;
+    },
+    //初始化数据
+    initData() {
+      this.getKey();
+      this.getDepList();
+      this.getAddrList();
+      if (this.id) {
+        this.getData();
+      }
+
+    },
+    // 获取数据
+    getUserData() {
+      http.getJsonSelf('user-for-edit', `/${this.userId}`).then(res => {
+        // this.cardForm = res.data;
+        // this.cardForm.addr = this.showAddrCode(this.cardForm.addr)
+        let curUser = res.data;
+        for (const key in this.cardForm) {
+          if (Object.hasOwnProperty.call(this.cardForm, key)) {
+            if (curUser[key]) {
+              const noCheck = ['status', 'studentNo'];
+              if (noCheck.includes(key)) {// 不处理
+              } else if (key == 'type') {// 特殊处理
+                this.cardForm.cardReaderType = curUser.type;
+              } else {
+                this.cardForm[key] = curUser[key];
+              }
+            }
+          }
+        }
+        this.cardForm.secret = '******';
+        this.properties = res.data.properties;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取读者信息失败!' });
+      })
+    },
+    // 获取数据
+    getData() {
+      http.getJsonSelf('card', `/${this.id}`).then(res => {
+        this.cardForm = res.data;
+        this.cardForm.addr = this.showAddrCode(this.cardForm.addr)
+        this.cardForm.secret = '******';
+        this.properties = res.data.properties;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取设置失败!' });
+      })
+    },
+    //处理地区编码
+    showAddrCode(addr) {
+      var addrArray = (addr || "").split('|');
+      if (addrArray.length >= 2) {
+        return addrArray[1];
+      }
+      return addr;
+    },
+    // 搜索用户
+    remoteMethod(query) {
+      if (query !== '') {
+        this.loading = true;
+        http.getJson('user-select-list-data', { keyword: query, pageIndex: 1, pageSize: 20 }).then(res => {
+          this.userList = res.data.items;
+          this.loading = false;
+        }).catch(err => {
+          this.$message({ type: 'error', message: '获取设置失败!' });
+        })
+      } else {
+        this.options = [];
+      }
+    },
+    changeUser(val) {
+      let curUser = this.userList.find(item => item.id == val)
+      for (const key in this.cardForm) {
+        if (Object.hasOwnProperty.call(this.cardForm, key)) {
+          if (curUser[key]) {
+            const noCheck = ['status', 'studentNo'];
+            if (noCheck.includes(key)) {// 不处理
+            } else if (key == 'type') {// 特殊处理
+              this.cardForm.cardReaderType = curUser.type;
+            } else {
+              this.cardForm[key] = curUser[key];
+            }
+          }
+        }
+      }
+    },
     getDynamicRule(property) {
       var rules = [];
       if (property.required) {
@@ -216,18 +487,39 @@ export default {
       return rules;
 
     },
-    initData() {
-      this.getKey();
-      this.getAddrList();
-      // if (this.id) {
-      //   this.getData();
-      // }
-    },
     // 获取初始数据
     getKey() {
       http.getJson('card-init-data').then(res => {
         this.dataKey = res.data;
-        this.cardForm = this.dataKey.cardData;
+        // this.postForm = this.dataKey.userData || {};
+        if (!this.id) {
+          this.cardForm = this.dataKey.cardData || { secret: '' };
+          this.cardForm.status = this.cardForm.status + ''
+        }
+        if (this.userId) {
+          this.getUserData();
+        }
+        // 下拉框选项初始化时控制在10以内  
+        res.data.groupSelect.forEach(item => {
+          let data = {
+            groupCode: item.groupCode,
+            groupItems: [],
+          };
+          if (item.groupItems.length > 500) {
+            data.groupItems = item.groupItems.slice(0, 100);
+          } else {
+            data.groupItems = item.groupItems;
+          }
+          this.groupSelect.push(data);
+        });
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 获取部门列表
+    getDepList() {
+      http.getJson('org-list').then(res => {
+        this.depList = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -243,66 +535,112 @@ export default {
     // 初始化下拉列表
     initSelect(code) {
       if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      let select = this.groupSelect.find(item => (item.groupCode == code));
+      return select.groupItems || [];
     },
-    // 获取数据
-    getData() {
-      http.getJsonSelf('card', `/${this.id}`).then(res => {
-        this.cardForm = res.data;
-        this.properties = res.data.properties;
-      }).catch(err => {
-        this.$message({ type: 'error', message: '获取设置失败!' });
-      })
-    },
-    // 搜索用户
-    remoteMethod(query) {
-      if (query !== '') {
-        this.loading = true;
-        http.getJson('user-select-list-data', { keyword: query, pageIndex: 1, pageSize: 20 }).then(res => {
-          this.userList = res.data.items;
-          this.loading = false;
-        }).catch(err => {
-          this.$message({ type: 'error', message: '获取设置失败!' });
+    // 下拉列表过滤
+    handleFilter(val, code) {
+      let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+      let curList = [];
+      let filterList = [];//筛选出列表 用于下拉列表加载判断
+      if (val != '') {
+        allList.forEach(item => {
+          if (item.key.indexOf(val) != -1) {
+            filterList.push(item);
+            if (curList.length <= 10) {
+              curList.push(item)
+            }
+          };
         })
       } else {
-        this.options = [];
+        curList = allList.slice(0, 10);
+      }
+      this.groupSelect.forEach(item => {
+        if (item.groupCode == code) {
+          item.groupItems = curList;
+          item.filterList = filterList;
+        }
+      })
+    },
+    // 选择框下拉加载
+    optionLoadMore(code) {
+      return () => {
+        let allList = (this.dataKey.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let filterList = (this.groupSelect.find(item => (item.groupCode == code))).filterList;
+        let curList = (this.groupSelect.find(item => (item.groupCode == code))).groupItems;
+        let curSelectList = filterList && filterList.length > 0 ? filterList : allList;
+        if (curSelectList.length > curList.length) {
+          curList = curSelectList.slice(0, curList.length + 10);
+          this.groupSelect.forEach(item => {
+            if (item.groupCode == code) {
+              item.groupItems = curList;
+            }
+          })
+        }
       }
     },
+
     upaloadFile(index) {
       this.index = index;
     },
     // 上传成功
     uploadSuccess(response, file, fileList) {
       let data = response.data;
+      // console.log(data);
       this.cardForm.properties[this.index].propertyValue = data[0];
     },
     // 下载附件
     downloadFile(url) {
       window.open(localStorage.getItem('fileUrl') + url);
     },
-    refChangeCardSecret(val) {
-      var userId = val || '';
-      var userList = this.userList || [];
-      var mapUser = userList.find(x => { return x.id == userId });
-      if (mapUser) {
-        var newStr = mapUser.phone || '';
-        if (newStr.length <= 6) {
-          this.cardForm.secret = val;
-        } else {
-          this.cardForm.secret = newStr.substring(newStr.length - 6);
-        }
+    newGuid() {
+      var guid = "";
+      for (var i = 1; i <= 32; i++) {
+        var n = Math.floor(Math.random() * 16.0).toString(16);
+        guid += n;
+        if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+          guid += "-";
       }
-
+      return guid;
+    },
+    //重置密码
+    handleReset() {
+      var cardId = this.cardForm.id;
+      var newSecret = this.cardForm.no;
+      this.$confirm('是否确认重置密码?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // http.postJson('reset-card-secret', { cardId: cardId, secret: newSecret }).then(res => {
+        //   this.cardForm.secret = '******';
+        //   this.$message({ message: `重置成功！密码为：${newSecret}`, type: 'success' });
+        // }).catch(err => {
+        //   this.$message({ type: 'error', message: '编辑失败!' });
+        // })
+        let guid = this.newGuid();
+        http.getJsonSelf('reset-card-secret-verify-key', `/${guid}`).then(res => {
+          http.postJson('reset-card-secret-by-verify-key', { cardId: cardId, verifyCode: guid, verifyKey: res.data }).then(res1 => {
+            this.$message({ message: res1.data, type: 'success' });
+          }).catch(err => {
+            this.$message({ type: 'error', message: '重置失败!' });
+          })
+        }).catch(err => {
+          this.$message({ type: 'error', message: '重置失败!' });
+        })
+      }).catch(() => {
+        // this.$message({ type: 'info', message: '已取消删除!' });
+      });
     },
     //表单提交
     submitForm() {
-      this.$refs["form"].validate((cardOk) => {
+      this.$refs['cardForm'].validate((cardOk) => {
         if (cardOk) {
+          this.cardForm.readerType = this.dataKey.groupSelect.find(item => item.groupCode == 'User_Type').groupItems.find(item => item.value == this.cardForm.cardReaderType).key;
           if (this.id) {
             http.putJson('card', this.cardForm).then(res => {
               this.$message({ message: '编辑成功！', type: 'success' });
-              this.getData();
+              this.$router.replace('/admin_readerCardList');
             }).catch(err => {
               this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
             })
@@ -319,7 +657,12 @@ export default {
           }
         }
       });
-
+    },
+    refChangeCardSecret() {
+      var newStr = this.postForm.phone || '';
+      if (newStr.length == 11 && (!this.cardForm.secret || this.cardForm.secret == '')) {
+        this.cardForm.secret = newStr.substring(newStr.length - 6);
+      }
     },
   }
 }
@@ -327,7 +670,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
-@import "../../../../assets/admin/css/style.less";
+@import "../../../../assets/admin/css/form.less";
 .content {
   .s-w {
     min-height: 60px;
@@ -342,16 +685,29 @@ export default {
     }
   }
   .row-form {
+    width: 100%;
     height: 62px;
+    padding: 0;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    &::after {
+      content: "*";
+      position: absolute;
+      color: #f56c6c;
+      margin-right: 4px;
+      left: 25px;
+      top: 14px;
+    }
     /deep/ .r-f-item1 {
-      width: 320px;
+      width: 49%;
       float: left;
       .el-form-item__content {
-        margin-left: 107px !important;
+        margin-left: 40px !important;
       }
     }
     /deep/ .r-f-item2 {
-      width: 273px;
+      width: 50%;
       float: left;
       .el-form-item__content {
         margin-left: 0 !important;
@@ -367,7 +723,7 @@ export default {
   border-top: 1px solid #ebeef5;
 }
 .read-title {
-  padding: 20px 100px;
+  padding: 20px 40px;
   font-size: 16px;
   font-weight: bold;
 }
@@ -493,6 +849,10 @@ export default {
   width: 60%;
   display: inline-block;
   vertical-align: top;
+  .harf-area {
+    width: 49%;
+    float: left;
+  }
 }
 .editdiv ul {
   list-style-type: none;
@@ -634,25 +994,35 @@ export default {
   min-width: 500px;
 }
 .editdiv /deep/ .el-form-item {
-  width: 49%;
+  width: 100%;
   display: table;
   padding: 0;
   // float: left;
   display: inline-block;
+  vertical-align: top;
 }
 .card-box {
-  width: 600px;
+  width: 35%;
   display: inline-block;
   vertical-align: top;
 }
+
 /deep/ .el-input,
 /deep/ .el-select,
+/deep/ .admin-form .el-date-editor.el-input,
 .divStyle {
   width: 95%;
   float: left;
 }
+/deep/ .el-form-item__content {
+  // line-height: 39px;
+}
 /deep/ .el-cascader {
   width: 100%;
+}
+/deep/ .el-input-number__decrease,
+/deep/ .el-input-number__increase {
+  display: none;
 }
 .radios {
   width: 63%;
@@ -660,7 +1030,7 @@ export default {
   float: left;
 }
 .btn_box {
-  margin-left: 180px;
+  margin-left: 140px;
 }
 // .youxiang {
 //   width: 100%;
@@ -668,4 +1038,8 @@ export default {
 // .youxiang .divStyle {
 //   width: 40.5%;
 // }
+.d-ib {
+  display: inline-block;
+  vertical-align: top;
+}
 </style>

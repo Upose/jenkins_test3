@@ -3,6 +3,17 @@
     <div class="editdiv">
       <el-form v-loading="loading" ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules" :disabled="isAllowEdit">
         <div class="harf-area">
+          <el-form-item label="用户类型：" prop="type">
+            <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+              <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="状态：" prop="status">
+            <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
+              <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="单位名称：" prop="unit">
             <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
           </el-form-item>
@@ -56,20 +67,6 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="手机：" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
-            <el-input v-model="postForm.phone" placeholder="请输入" maxlength="11" show-word-limit>
-              <template slot="append">
-                <div v-if="postForm.mobileIdentity">
-                  <span class="yuan"></span>
-                  <span class="renzheng">已认证</span>
-                </div>
-                <div v-if="!postForm.mobileIdentity">
-                  <span class="renzheng tag-text">未认证</span>
-                </div>
-              </template>
-            </el-input>
-            <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone">手机号重复</div>
-          </el-form-item>
           <el-form-item label="身份证号：" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
             <el-input v-model="postForm.idCard" placeholder="请输入" maxlength="30" show-word-limit>
               <template slot="append">
@@ -84,6 +81,30 @@
             </el-input>
             <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard">身份证号重复</div>
           </el-form-item>
+        </div>
+        <div class="harf-area">
+          <el-form-item label="昵称：" prop="nickName">
+            <el-input v-model="postForm.nickName" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
+          </el-form-item>
+          <el-form-item label="性别：" prop="gender">
+            <el-radio-group v-model="postForm.gender" class="radios">
+              <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="手机号：" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
+            <el-input v-model="postForm.phone" placeholder="请输入">
+              <template slot="append">
+                <div v-if="postForm.mobileIdentity">
+                  <span class="yuan"></span>
+                  <span class="renzheng">已认证</span>
+                </div>
+                <div v-if="!postForm.mobileIdentity">
+                  <span class="renzheng tag-text">未认证</span>
+                </div>
+              </template>
+            </el-input>
+            <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone">手机号重复</div>
+          </el-form-item>
           <el-form-item label="邮箱：" prop="email" class="youxiang">
             <el-input v-model="postForm.email" placeholder="请输入" maxlength="30" show-word-limit>
               <template slot="append">
@@ -96,16 +117,6 @@
                 </div>
               </template>
             </el-input>
-          </el-form-item>
-        </div>
-        <div class="harf-area">
-          <el-form-item label="昵称：" prop="nickName">
-            <el-input v-model="postForm.nickName" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
-          </el-form-item>
-          <el-form-item label="性别：" prop="gender">
-            <el-radio-group v-model="postForm.gender" class="radios">
-              <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
-            </el-radio-group>
           </el-form-item>
           <el-form-item label="出生年月：" prop="birthday">
             <el-date-picker class="wq95" v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
@@ -126,28 +137,18 @@
             <el-date-picker class="wq95" v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="状态：" prop="status">
-            <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
-              <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="用户类型：" prop="type">
-            <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
-              <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
+
           <el-form-item label="第三方信息：">
-            <div class="sides" v-if="postForm.WeChatOpenId">
-              <img :src="getImg('icon-wx')" class="pictures" />
-              <!-- <img :src="getImg('icon-qq')" v-if="postForm.QQOpenId" class="pictures" /> -->
+            <div class="sides" v-if="postForm.WeChatOpenId||postForm.qqOpenId">
+              <img :src="getImg('icon-wx')" v-if="postForm.WeChatOpenId" class="pictures" />
+              <img :src="getImg('icon-qq')" v-if="postForm.qqOpenId" class="pictures" />
             </div>
             <div class="unbind" v-else>暂无</div>
           </el-form-item>
           <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
             <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
             <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
-            <el-date-picker class="wq95" v-model="item.propertyValue" type="date" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+            <el-date-picker class="wq95" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
             <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
               <el-radio :label="'true'">是</el-radio>
               <el-radio :label="'false'">否</el-radio>
@@ -237,7 +238,7 @@ export default {
           }
         ],
         phone: [
-          { required: true, message: '必填项', trigger: 'blur' },
+          // { required: true, message: '必填项', trigger: 'blur' },
           {
             validator: this.$validator.validatePattern,
             message: '格式错误',
@@ -567,7 +568,7 @@ export default {
       if (addrArray.length >= 2) {
         return addrArray[1];
       }
-      return '';
+      return addr;
     }
   }
 }

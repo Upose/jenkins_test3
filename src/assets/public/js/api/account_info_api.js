@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: wanjikun
  * @Date: 2022-04-02 14:53:27
- * @LastEditTime: 2022-07-19 15:26:31
- * @LastEditors: wanjikun
+ * @LastEditTime: 2022-12-13 15:35:58
+ * @LastEditors: huyu
  */
 /***前台 项目接口地址-用户中心-账户设置 */
 
@@ -44,6 +44,7 @@ export default {
         'reader-qq-login-config': baseURL + '/api/reader/qq-login-config', // 获取qq登录认证设置
         'reader-un-bound-qq': baseURL + '/api/reader/un-bound-qq', // qq解除绑定
 
+        'forward-sensitive-info-display': baseURL + '/api/reader/sensitive-info-display',//查询敏感信息前台设置
         '': baseURL + '',//
 
     },

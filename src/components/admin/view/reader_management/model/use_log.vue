@@ -84,6 +84,11 @@ export default {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
+    // 分页 页面修改
+    pageChange(data) {
+      this.pageData[data.key] = data.value;
+      this.getList();
+    },
     // 时间格式化
     dateChangeFormat(date, format = 'YYYY-mm-dd HH:MM') {
       date = new Date(date);
@@ -171,6 +176,7 @@ export default {
 /deep/ .el-table .cell,
 /deep/ .el-table th.el-table__cell>.cell {
   padding-left: 8%;
+
 }
 
 // /deep/ .el-input__inner {

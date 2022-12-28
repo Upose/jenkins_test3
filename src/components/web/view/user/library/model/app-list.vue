@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-25 15:25:22
+ * @LastEditTime: 2022-11-03 18:09:54
  * @Description: 
 -->
 <template>
@@ -34,7 +34,7 @@
 <script>
 export default {
   components: {},
-  props: {},
+  props: ['myObj'],
   data() {
     return {
       imgUrl: localStorage.getItem('fileUrl'),//图片域名
@@ -48,7 +48,9 @@ export default {
   methods: {
     // 获取我的应用
     getMyApp() {
-      this.http.getJson('forward-getmycollectionapps').then((res) => {
+      this.http.getJson('forward-getmycollectionapps', {
+        ...this.myObj
+      }).then((res) => {
         this.appData = res.data;
         console.log(this.appData)
       }).catch((err) => {

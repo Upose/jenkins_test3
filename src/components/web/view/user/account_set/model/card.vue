@@ -4,20 +4,21 @@
     <div class="item-box" v-if="dataKey">
       <!-- 读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in cardList" :key="item.id">
-        <el-col :span="6" class="number">{{item.typeName || '读者证号'}}：{{item.no}}</el-col>
+        <!-- <el-col :span="6" class="number">{{item.typeName || '读者证号'}}：{{item.no}}</el-col> -->
+        <el-col :span="6" class="number">读者号：{{item.no}}</el-col>
         <el-col :span="6">学号/工号：{{item.studentNo}}</el-col>
         <el-col :span="2" :class="item.status==1?'green':''">{{getKeyValue(item.status)}}</el-col>
         <el-col :span="8">有效期：{{setTime(item.issueDate)}}至{{setTime(item.expireDate)}}</el-col>
         <el-col :span="2"><span class="bule" @click="handleSet(item.id)" v-if="!item.isPrincipal">设为主卡</span></el-col>
         <el-col :span="6">
           <el-button size="mini" round class="new-btn bule-color" icon="el-icon-view" @click="$refs.card_detail.show(item.id)" v-if="item.status==1">查看</el-button>
-          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)" v-if="item.status==1">修改密码</el-button>
+          <el-button size="mini" round class="new-btn bule-color" icon="el-icon-edit" @click="$refs.password.show(item.id)" v-if="item.status==1&&changePassword">修改密码</el-button>
         </el-col>
       </el-row>
       <h1>申请记录</h1>
       <!-- 审核的读者卡列表 -->
       <el-row :gutter="10" class="crad-item" v-for="item in reviewList" :key="item.id">
-        <el-col :span="6" class="number">{{item.typeName || '读者证号'}}：{{item.no}}</el-col>
+        <el-col :span="6" class="number">读者号：{{item.no}}</el-col>
         <el-col :span="6">学号/工号：{{item.studentNo}}</el-col>
         <el-col :span="2" :class="item.status==1?'green':''">{{getKeyValue(item.status)}}</el-col>
         <el-col :span="8">有效期：{{setTime(item.issueDate)}}至{{setTime(item.expireDate)}}</el-col>
@@ -60,9 +61,11 @@ export default {
       dataKey: null,
       setTime: timeFormat,
       cardClaimPermit: false,
+      changePassword: false,
     };
   },
   created() {
+    this.getChangePassword();
     this.getKey();
     this.checkCardClaimPermit();
     this.getCard();
@@ -77,6 +80,13 @@ export default {
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
+    },
+    getChangePassword() {
+      this.http.getJson('reader-comple-property').then(res => {
+        this.changePassword = res.data.changePassword;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
     },
     // 获取用户领卡权限
     checkCardClaimPermit() {

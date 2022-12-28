@@ -62,7 +62,7 @@ export function validatePassword(password, level = 0) {
 export function validatePasswordMsg(level = 0) {
     let v_pass = {
         0: {
-            reg: /\d{6,16}/,
+            reg: /.{6,16}/,
             msg: '6至16个字符'
         },
         1: {
@@ -120,7 +120,8 @@ var customValidate = {
     //匹配邮箱地址
     email: "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$",
     //匹配手机号码 必须11位数字
-    mobile: "^(1[3-9][0-9])\\d{8}$",
+    // mobile: "^(1[3-9][0-9])\\d{8}$",
+    mobile: "^[0-9\\-\\+\\(\\)]*$",
     //匹配身份证
     idCard: "^((\d{18})|([0-9x]{18})|([0-9X]{18}))$",
 

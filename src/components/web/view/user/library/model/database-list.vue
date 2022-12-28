@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 17:08:07
  * @LastEditors: huyu
- * @LastEditTime: 2022-07-25 15:24:04
+ * @LastEditTime: 2022-11-16 22:11:05
  * @Description: 
 -->
 <template>
@@ -32,7 +32,7 @@
 <script>
 export default {
   components: {},
-  props: {},
+  props: ['myObj'],
   data() {
     return {
       imgUrl: localStorage.getItem('fileUrl'),//图片域名
@@ -47,7 +47,8 @@ export default {
   methods: {
     // 获取我的应用
     getMyApp() {
-      this.http.getJsonSelf('my-favorite-databases', '/6').then((res) => {
+      let prarms = this.myObj.visitorLimitType && this.myObj.userSetId ? '/6?visitorLimitType=' + this.myObj.visitorLimitType + '&userSetId=' + this.myObj.userSetId : '/6'
+      this.http.getJsonSelf('my-favorite-databases', prarms).then((res) => {
         this.list = res.data.databases;
         this.databaseMoreUrl = res.data.moreUrl;
       }).catch((err) => {
@@ -97,7 +98,7 @@ export default {
     height: 120px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     border-right: 1px solid #eee;
     background: #fff;
 

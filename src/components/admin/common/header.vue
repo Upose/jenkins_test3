@@ -64,10 +64,13 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        localStorage.removeItem('token');
-        let current = window.location.href;
-        localStorage.setItem('COM+', current);
-        location.href = window.casBaseUrl + '/cas/logout?service=' + encodeURIComponent(window.location);
+        // localStorage.removeItem('token');
+        // let current = window.location.href;
+        // localStorage.setItem('COM+', current);
+        // location.href = window.casBaseUrl + '/cas/logout?service=' + encodeURIComponent(window.location);
+
+        // ApplicationBuilder.js 统一退出方法
+        logoutCallback();
       }).catch(() => {
       });
     },

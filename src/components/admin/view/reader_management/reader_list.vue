@@ -90,7 +90,7 @@
             </h2>
             <div class="t-p">
               <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
-                <el-table-column type="selection" width="45"></el-table-column>
+                <el-table-column type="selection" width="50" align="center"></el-table-column>
                 <template v-for="item in dataKey.showOnTableProperties">
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" :key="item" v-if="item.code != 'Card_Type'">
                     <template slot-scope="scope">

@@ -22,14 +22,14 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="出生日期：">
-          <el-date-picker v-model="form.birthday" type="date" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Birthday')"></el-date-picker>
+          <el-date-picker v-model="form.birthday" value-format="yyyy-MM-dd" type="date" placeholder="请选择" style="width:400px" :disabled="isEdit('User_Birthday')"></el-date-picker>
         </el-form-item>
         <el-form-item label="所在地区：">
           <!-- <el-input v-model="form.addr" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input> -->
           <el-cascader style="width:400px" :disabled="isEdit('User_Addr')" :options="addrList" v-model="form.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址：">
-          <el-input v-model="form.addrDetail" placeholder="请输入" style="width:400px" :disabled="isEdit('User_Addr')"></el-input>
+          <el-input v-model="form.addrDetail" placeholder="请输入" style="width:400px" :disabled="isEdit('User_AddrDetail')"></el-input>
         </el-form-item>
       </el-form>
     </div>
@@ -209,11 +209,17 @@ export default {
     },
     //处理地区编码
     showAddrCode(addr) {
-      var addrArray = (addr || "").split('|');
-      if (addrArray.length >= 2) {
-        return addrArray[1];
+      let addrCode = ''
+      if (addr && addr.indexOf('|') > -1) {
+        var addrArray = addr.split('|');
+        if (addrArray.length >= 2) {
+          addrCode = addrArray[1];
+        }
       }
-      return '';
+      if (addr && addr.indexOf('|') == -1) {
+        addrCode = addr;
+      }
+      return addrCode;
     },
 
     // 是否不可编辑

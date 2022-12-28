@@ -10,42 +10,16 @@
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title">编辑读者卡</h1>
+            <h1 class="search-title">新增读者卡</h1>
           </div>
           <!--顶部查询 end-->
           <div class="login-list">
             <div class="card-box">
-              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules" :disabled="!isAuth('card:update')">
+              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules" inline>
                 <div class="read-title">读者卡信息</div>
-                <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
-                  <el-select v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
-                    <el-option v-for="item in userList" :key="item.id" :label="item.name+'_'+item.phone" :value="item.id"></el-option>
-                  </el-select>
-                </el-form-item>
-                <!-- <el-form-item label="统一认证号" prop="identityNo">
-                  <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item> -->
-                <!-- <el-form-item label="条形码号" prop="barCode">
-                  <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item> -->
-                <el-form-item label="用户类型：" prop="cardReaderType">
-                  <el-select v-model="cardForm.cardReaderType" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
-                    <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="学号/工号：" prop="studentNo">
-                  <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="读者号" prop="no">
-                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <el-form-item label="统一认证号" prop="identityNo">
-                  <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
-                </el-form-item>
-                <!-- <div class="row-form">
+                <div class="row-form">
                   <el-form-item class="r-f-item1" prop="type">
-                    <el-select v-model="cardForm.type" placeholder="请选择" clearable>
+                    <el-select v-model="cardForm.type" placeholder="请选择卡类型" clearable>
                       <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
                     </el-select>
@@ -53,29 +27,48 @@
                   <el-form-item class="r-f-item2" prop="no">
                     <el-input v-model="cardForm.no" placeholder="请输入读者卡号" clearable maxlength="20" show-word-limit></el-input>
                   </el-form-item>
-                </div> -->
+                </div>
+                <!-- <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
+                  <el-select @change="refChangeCardSecret" v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
+                    <el-option v-for="item in userList" :key="item.id" :label="item.name+' '+item.phone" :value="item.id"></el-option>
+                  </el-select>
+                </el-form-item> -->
+                <el-form-item label="用户类型：" prop="cardReaderType">
+                  <el-select v-model="cardForm.cardReaderType" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+                    <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="读者号" prop="no">
+                  <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+                <el-form-item label="统一认证号" prop="identityNo">
+                  <el-input v-model="cardForm.identityNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+                <!-- <el-form-item label="条形码号" prop="barCode">
+                  <el-input v-model="cardForm.barCode" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item> -->
+                <el-form-item label="学号/工号：" prop="studentNo">
+                  <el-input v-model="cardForm.studentNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
+                </el-form-item>
+
                 <el-form-item label="物理码号：" prop="physicNo">
                   <el-input v-model="cardForm.physicNo" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="发卡日期：" prop="issueDate">
-                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.issueDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="截止日期：" prop="expireDate">
-                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+                  <el-date-picker class="wq95" v-model="cardForm.expireDate" type="date" value-format="yyyy-MM-dd" placeholder="请选择" clearable></el-date-picker>
                 </el-form-item>
                 <el-form-item label="状态：" prop="status">
                   <el-select v-model="cardForm.status" placeholder="请选择">
-                    <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value">
+                    <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="Number(item.value)">
                     </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item label="卡密码：" prop="secret">
-                  <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
-                  <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
-                    <template slot="append" v-if="isAuth('card:setSecret')">
-                      <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
-                    </template>
-                  </el-input>
+                  <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="押金：" prop="deposit">
                   <el-input-number class="wq100" :precision="2" :min="0" v-model="cardForm.deposit" placeholder="请输入" clearable maxlength="10" show-word-limit></el-input-number>
@@ -83,10 +76,10 @@
                 <el-form-item label="设为主卡：">
                   <el-switch v-model="cardForm.isPrincipal"></el-switch>
                 </el-form-item>
-                <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
-                  <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 || item.propertyType == 5 || item.propertyType == 6"></el-input>
+                <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in cardForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+                  <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0 "></el-input>
                   <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
-                  <el-date-picker v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+                  <el-date-picker class="wq95" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
                   <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
                     <el-radio :label="'true'">是</el-radio>
                     <el-radio :label="'false'">否</el-radio>
@@ -94,11 +87,19 @@
                   <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable>
                     <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
                   </el-select>
+                  <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+                  <div v-if="item.propertyType == 6">
+                    <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
+                      <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
+                      <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
+                    </el-upload>
+                    <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)">下载附件</el-button>
+                  </div>
                 </el-form-item>
               </el-form>
             </div>
             <div class="btn_box">
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('card:update')" v-button-debounce>保 存</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保 存</el-button>
             </div>
           </div>
         </div>
@@ -136,14 +137,26 @@ export default {
     return {
       id: this.$route.query.id,
       userId: this.$route.query.userId,
-      postForm: {},
       cardForm: {},
       dataKey: null,
-      properties: null,
 
       loading: false,
       userList: [],
       cardRules: {
+        userId: [
+          {
+            required: true,
+            message: '必填项',
+            trigger: 'change',
+          }
+        ],
+        cardReaderType: [
+          {
+            required: true,
+            message: '必填项',
+            trigger: 'change',
+          }
+        ],
         no: [
           {
             required: true,
@@ -186,6 +199,10 @@ export default {
           }
         ]
       },
+      addrList: [],
+      uploadUrl: localStorage.getItem('fileUrl') + '/api/file/upload-file',
+      myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] },
+      fileList: [],
     }
   },
   directives: {
@@ -204,13 +221,36 @@ export default {
     this.initData();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_readerCardList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
+    getDynamicRule(property) {
+      var rules = [];
+      if (property.required) {
+        rules.push(
+          {
+            required: true,
+            message: '必填项',
+            trigger: ['blur', 'change']
+          }
+        );
+      }
+      if (property.propertyType == 1) {
+        rules.push(
+          {
+            validator: this.$validator.validatePattern,
+            pattern: this.$validator.amount,
+            message: '格式错误',
+            trigger: ['blur', 'change']
+          }
+        );
+      }
+      return rules;
+
+    },
+    initData() {
+      this.getKey();
+      this.getAddrList();
+      // if (this.id) {
+      //   this.getData();
+      // }
     },
     // 初始化下拉列表
     initSelect(code) {
@@ -259,41 +299,19 @@ export default {
         }
       }
     },
-    getDynamicRule(property) {
-      var rules = [];
-      if (property.required) {
-        rules.push(
-          {
-            required: true,
-            message: '必填项',
-            trigger: ['blur', 'change']
-          }
-        );
-      }
-      if (property.propertyType == 1) {
-        rules.push(
-          {
-            validator: this.$validator.validatePattern,
-            pattern: this.$validator.amount,
-            message: '格式错误',
-            trigger: ['blur', 'change']
-          }
-        );
-      }
-      return rules;
-
-    },
-    initData() {
-      this.getKey();
-      if (this.id) {
-        this.getData();
-      }
-    },
     // 获取初始数据
     getKey() {
       http.getJson('card-init-data').then(res => {
         this.dataKey = res.data;
-        this.postForm = this.dataKey.cardData;
+        this.cardForm = this.dataKey.cardData;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取数据失败!' });
+      })
+    },
+    // 获取地址列表
+    getAddrList() {
+      http.getJson('region-list').then(res => {
+        this.addrList = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -307,9 +325,7 @@ export default {
     // 获取数据
     getData() {
       http.getJsonSelf('card', `/${this.id}`).then(res => {
-        let data = res.data;
-        data.secret = '******';
-        this.cardForm = data;
+        this.cardForm = res.data;
         this.properties = res.data.properties;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取设置失败!' });
@@ -329,66 +345,58 @@ export default {
         this.options = [];
       }
     },
-    newGuid() {
-      var guid = "";
-      for (var i = 1; i <= 32; i++) {
-        var n = Math.floor(Math.random() * 16.0).toString(16);
-        guid += n;
-        if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
-          guid += "-";
-      }
-      return guid;
+    upaloadFile(index) {
+      this.index = index;
     },
-    //重置密码
-    handleReset() {
-      var cardId = this.cardForm.id;
-      var newSecret = this.cardForm.no;
-      this.$confirm('是否确认重置密码?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        // http.postJson('reset-card-secret', { cardId: cardId, secret: newSecret }).then(res => {
-        //   this.cardForm.secret = '******';
-        //   this.$message({ message: `重置成功！密码为：${newSecret}`, type: 'success' });
-        // }).catch(err => {
-        //   this.$message({ type: 'error', message: '编辑失败!' });
-        // })
-        let guid = this.newGuid();
-        http.getJsonSelf('reset-card-secret-verify-key', `/${guid}`).then(res => {
-          http.postJson('reset-card-secret-by-verify-key', { cardId: cardId, verifyCode: guid, verifyKey: res.data }).then(res1 => {
-            this.$message({ message: res1.data, type: 'success' });
-          }).catch(err => {
-            this.$message({ type: 'error', message: '重置失败!' });
-          })
-        }).catch(err => {
-          this.$message({ type: 'error', message: '重置失败!' });
-        })
-      }).catch(() => {
-        // this.$message({ type: 'info', message: '已取消删除!' });
-      });
+    // 上传成功
+    uploadSuccess(response, file, fileList) {
+      let data = response.data;
+      this.cardForm.properties[this.index].propertyValue = data[0];
+    },
+    // 下载附件
+    downloadFile(url) {
+      window.open(localStorage.getItem('fileUrl') + url);
+    },
+    refChangeCardSecret(val) {
+      var userId = val || '';
+      var userList = this.userList || [];
+      var mapUser = userList.find(x => { return x.id == userId });
+      if (mapUser) {
+        var newStr = mapUser.phone || '';
+        if (newStr.length <= 6) {
+          this.cardForm.secret = newStr;
+        } else {
+          this.cardForm.secret = newStr.substring(newStr.length - 6);
+        }
+      }
+
     },
     //表单提交
     submitForm() {
-      this.cardForm.readerType = this.dataKey.groupSelect.find(item => item.groupCode == 'User_Type').groupItems.find(item => item.value == this.cardForm.cardReaderType).key;
+      this.$refs["form"].validate((cardOk) => {
+        if (cardOk) {
+          this.cardForm.readerType = this.dataKey.groupSelect.find(item => item.groupCode == 'User_Type').groupItems.find(item => item.value == this.cardForm.cardReaderType).key;
+          if (this.id) {
+            http.putJson('card', this.cardForm).then(res => {
+              this.$message({ message: '编辑成功！', type: 'success' });
+              this.getData();
+            }).catch(err => {
+              this.$message({ type: 'error', message: this.handleError(err, '编辑失败') });
+            })
+          } else {
+            this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
+            http.postJson('card', this.cardForm).then(res => {
+              this.$message({ message: '新增成功！', type: 'success' });
+              // this.id = res.data;
+              // this.getData();
+              this.$router.replace('/admin_readerCardList');
+            }).catch(err => {
+              this.$message({ type: 'error', message: this.handleError(err, '新增失败') });
+            })
+          }
+        }
+      });
 
-      if (this.id) {
-        http.putJson('card', this.cardForm).then(res => {
-          this.$message({ message: '编辑成功！', type: 'success' });
-          this.$router.back();
-        }).catch(err => {
-          this.$message({ type: 'error', message: this.handleError(err, '编辑失败!') });
-        })
-      } else {
-        this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
-        http.postJson('card', this.cardForm).then(res => {
-          this.$message({ message: '新增成功！', type: 'success' });
-          this.id = res.data;
-          this.$router.back();
-        }).catch(err => {
-          this.$message({ type: 'error', message: this.handleError(err, '新增失败!') });
-        })
-      }
     },
   }
 }
@@ -396,7 +404,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
-@import "../../../../assets/admin/css/form.less";
+@import "../../../../assets/admin/css/style.less";
 .content {
   .s-w {
     min-height: 60px;
@@ -411,20 +419,16 @@ export default {
     }
   }
   .row-form {
-    width: 49%;
     height: 62px;
-    padding: 0;
-    display: inline-block;
-    vertical-align: top;
     /deep/ .r-f-item1 {
-      width: 49%;
+      width: 320px;
       float: left;
       .el-form-item__content {
-        margin-left: 100px !important;
+        margin-left: 107px !important;
       }
     }
     /deep/ .r-f-item2 {
-      width: 50%;
+      width: 273px;
       float: left;
       .el-form-item__content {
         margin-left: 0 !important;
@@ -706,18 +710,17 @@ export default {
 /deep/ .el-dialog {
   min-width: 500px;
 }
-/deep/ .el-form-item {
+.editdiv /deep/ .el-form-item {
   width: 49%;
   display: table;
   padding: 0;
   // float: left;
   display: inline-block;
-  vertical-align: top;
 }
 .card-box {
-  width: 80%;
-  display: inline-block;
-  vertical-align: top;
+  // width: 600px;
+  // display: inline-block;
+  // vertical-align: top;
 }
 /deep/ .el-input,
 /deep/ .el-select,
@@ -725,9 +728,8 @@ export default {
   width: 95%;
   float: left;
 }
-/deep/ .el-input-number__decrease,
-/deep/ .el-input-number__increase {
-  display: none;
+/deep/ .el-cascader {
+  width: 100%;
 }
 .radios {
   width: 63%;

@@ -28,11 +28,11 @@
               <el-input v-model="form.certificationNumber"></el-input>
             </el-form-item>
             <el-form-item label="发卡日期：">
-              <el-date-picker v-model="value1" type="date">
+              <el-date-picker v-model="value1" type="date" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="截止日期：">
-              <el-date-picker v-model="value2" type="date">
+              <el-date-picker v-model="value2" type="date" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
             <el-form-item label="状态：">
@@ -45,7 +45,7 @@
               <el-input v-model="form.status"></el-input>
             </el-form-item>
             <el-form-item label="最近同步日期：">
-              <el-date-picker v-model="datetime" type="date">
+              <el-date-picker v-model="datetime" type="date" value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
           </el-form>

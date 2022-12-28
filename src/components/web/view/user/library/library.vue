@@ -6,7 +6,10 @@
         <template v-if="form">
           <div v-if="!isEdit">
             <div class="head-box">
-              <span class="title">{{userCenterName}}</span>
+              <i class="icon-home tbg-c2"></i>
+              <i class="icon-top-line tbg-c2"></i>
+              <i class="icon-e-title tbg-c2">Personal Library</i>
+              <span class="title tfont-c2 tafter-bg-c2">{{userCenterName}}</span>
               <div class="top-right">
                 <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
                 <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
@@ -18,7 +21,7 @@
               <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
               <div class="top-content-user-box">
                 <div class="my-name-box">
-                  <div class="avatar"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
+                  <div class="avatar" @click="$router.push('/web_accountSet')"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
                   <div class="name">
                     <span class="text">{{form.name}} </span>
                     <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
@@ -69,7 +72,8 @@
                     </div> -->
                     <div class="list">
                       <div class="list-item">
-                        <div class="type-name">{{principal.typeName}}</div>
+                        <!-- <div class="type-name">{{principal.typeName}}</div> -->
+                        <div class="type-name">读者号</div>
                         <div class="kname" :title="principal.no">
                           {{principal.no}}
                         </div>
@@ -87,8 +91,8 @@
                 </div>
               </div>
               <SearchBox />
-              <AppList />
-              <DatabaseList />
+              <AppList v-if="myObj" :myObj="myObj" />
+              <DatabaseList v-if="myObj" :myObj="myObj" />
               <InformList />
             </div>
 
@@ -105,6 +109,12 @@
             </div>
           </div>
         </template>
+        <!-- 2022.11.2 新增校友导航 -->
+        <div v-if="isSchoolfellow" :class="schoolfellowInfo.appWidget.widgetCode" :data-set="`[{'topCount':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].topCount:''}','sortType':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].sortType:''}','id':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].id:''}'}]`">
+          <div :id="schoolfellowInfo.appWidget.widgetCode"></div>
+        </div>
+        <!-- 2022.11.2 新增校友导航 end -->
+        <div class="service_sys_temp19"></div>
         <div class="all-temp-box" id="all-temp-box">
           <div class="tmp-box" :class="isEdit?'sort':''" v-for="(item,index) in tempData" :key="index" :id="item.appId">
             <div class="edit-mark" v-if="isEdit">
@@ -125,15 +135,17 @@
     </div>
     <!-- <footer class="footer"></footer> -->
     <!-- 编辑按钮 -->
-    <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="icon-edit"></i>编辑主页</div>
-    <div class="edit-ing-btn" v-else>
-      <span class="mb" @click="handleReset">
-        <i class="edit-ing-reset"></i>重置
-      </span>
-      <span @click="handleSave">
-        <i class="edit-ing-save"></i>保存
-      </span>
-    </div>
+    <template v-if="!isSchoolfellow">
+      <div class="edit-btn" @click="handleEdit" v-if="!isEdit"><i class="icon-edit"></i>编辑主页</div>
+      <div class="edit-ing-btn" v-else>
+        <span class="mb" @click="handleReset">
+          <i class="edit-ing-reset"></i>重置
+        </span>
+        <span @click="handleSave">
+          <i class="edit-ing-save"></i>保存
+        </span>
+      </div>
+    </template>
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
     <!-- <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code> -->
@@ -157,9 +169,10 @@ import AppList from './model/app-list.vue';
 import DatabaseList from './model/database-list.vue';
 import InformList from './model/inform-list.vue';
 import SearchBox from './model/search-box.vue';
+import SchoolFellow from '@/components/web/view/user/library/template/SchoolFellow';
 
 export default {
-  components: { dialog_card, breadCrumbs, AppList, DatabaseList, InformList, SearchBox },
+  components: { dialog_card, breadCrumbs, AppList, DatabaseList, InformList, SearchBox, SchoolFellow },
   data() {
     return {
       userCenterName: JSON.parse(localStorage.getItem('headerFooterInfo')).userCenterName,
@@ -169,6 +182,7 @@ export default {
       cardList: [],//读者卡信息
       principal: {},//主卡
       appData: [],//我的应用列表
+      myObj: null,//用于我的应用、我的数据库获取列表
       tempParm: {},//模板总数据
       tempData: [],//模板组件数据
       applyList: [],//模板应用列表
@@ -181,6 +195,9 @@ export default {
       identityList: {},
       identityListLoading: true,
       // wechatConfig: {},
+
+      isSchoolfellow: false,//是否为校友导航
+      schoolfellowInfo: {},//校友导航信息
     }
   },
   watch: {
@@ -203,6 +220,10 @@ export default {
     // this.getInfo();
     this.wxBindList();
 
+    this.getCard();
+    this.getApplyList();
+    this.getTemp();
+    this.dragSort();
     if (this.$route.query.code) {
       this.wxCode = this.$route.query.code;
       this.wxdialogVisible = true;
@@ -299,11 +320,11 @@ export default {
         this.form = res.data;
         this.identityListLoading = false;
         // console.log(this.form)
-        // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
-        this.getCard();
-        this.getApplyList();
-        this.getTemp();
-        this.dragSort();
+        // // 先获取个人信息，再获取其他数据，保证token过期时不会大量报错
+        // this.getCard();
+        // this.getApplyList();
+        // this.getTemp();
+        // this.dragSort();
       }).catch((err) => {
         this.$message({ type: "error", message: "获取读者信息失败!" });
       });
@@ -332,14 +353,38 @@ export default {
     getTemp() {
       this.http.getJson('forward-personal-scene-detail').then((res) => {
         this.tempParm = res.data;
-        this.tempData = res.data.sceneScreens[0].sceneApps;
+        if (res.data.sceneUsers.length) {
+          this.myObj = {
+            visitorLimitType: res.data.visitorLimitType,
+            userSetId: res.data.sceneUsers[0].userSetId,
+          }
+        } else {
+          this.myObj = {
+            visitorLimitType: null,
+            userSetId: null,
+          }
+        }
+
+        let tempData = res.data.sceneScreens[0].sceneApps;
         let targetList = []
-        this.tempData.forEach(item => {
-          this.applyIdList.push(item.appId);
-          targetList.push(item.appWidget.target);
-          // this.addStyle(item.appWidget.target);
-          // this.addScript(item.appWidget.target);
+        let schoolfellowIndex = -1;
+        tempData.forEach((item, index) => {
+          if (item.appWidget) {
+            this.applyIdList.push(item.appId);
+            targetList.push(item.appWidget.target);
+            // this.addStyle(item.appWidget.target);
+            // this.addScript(item.appWidget.target);
+
+            // 2022.11.2 重大定制校友导航
+            if (item.appWidget.name == '校友导航') {
+              this.isSchoolfellow = true;
+              schoolfellowIndex = index;
+              this.schoolfellowInfo = item;
+            }
+          }
         })
+        // this.tempData = schoolfellowIndex == -1 ? tempData : tempData.filter((item, index) => index != schoolfellowIndex);
+        this.tempData = schoolfellowIndex == -1 ? tempData.filter(item => item.appWidget) : tempData.filter((item, index) => index != schoolfellowIndex && item.appWidget);
         setTimeout(() => {
           targetList.forEach(target => {
             this.addStyle(target);
@@ -611,8 +656,39 @@ export default {
   margin-top: 25px;
   height: 76px;
   width: 1200px;
-  background: url(../../../../../assets/web/img/personal/header-bg.png)
-    no-repeat 0 0;
+  // background: url(../../../../../assets/web/img/personal/header-bg.png)
+  //   no-repeat 0 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.6), transparent);
+  // background: transparent;
+  border-radius: 40px;
+  .icon-home {
+    position: absolute;
+    top: 13px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: url(~@/assets/web/img/personal/icon-home.png) no-repeat center;
+  }
+  .icon-top-line {
+    position: absolute;
+    top: 13px;
+    left: 83px;
+    width: 1px;
+    height: 50px;
+  }
+  .icon-e-title {
+    position: absolute;
+    top: 13px;
+    left: 98px;
+    width: 100px;
+    height: 23px;
+    border-radius: 0 12px 0 12px;
+    color: #fff;
+    text-align: center;
+    line-height: 23px;
+    font-size: 12px;
+  }
   .title {
     display: block;
     float: left;
@@ -621,20 +697,32 @@ export default {
     margin-left: 98px;
     font-size: 20px;
     font-weight: bold;
-    color: #a00404;
-    &:after {
+    // color: #a00404;
+    &::after {
       content: "";
       position: absolute;
       top: 55%;
       left: 100%;
       margin-left: 23px;
-      width: 930px;
+      width: 880px;
       height: 1px;
-      background-image: linear-gradient(
+      // background: linear-gradient(to right, #a00404, rgba(225, 225, 225, 0.1));
+      // opacity: 0.1;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 55%;
+      left: 100%;
+      margin-left: 23px;
+      width: 880px;
+      height: 1px;
+      background: linear-gradient(
         to right,
-        #a00404,
-        rgba(225, 225, 225, 0.1)
+        transparent,
+        rgba(225, 225, 225, 0.9)
       );
+      z-index: 1;
     }
   }
   .top-right {
@@ -746,6 +834,7 @@ export default {
     margin-right: 10px;
     border: 2px solid #fff;
     box-shadow: 0 0 8px #ddd;
+    cursor: pointer;
     img {
       width: 100%;
       height: 100%;

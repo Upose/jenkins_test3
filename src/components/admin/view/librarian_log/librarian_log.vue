@@ -6,7 +6,7 @@
         <el-option v-for="item in typesOptions" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
-      <el-date-picker v-model="times" type="date" placeholder="操作时间">
+      <el-date-picker v-model="times" value-format="yyyy-MM-dd" type="date" placeholder="操作时间">
       </el-date-picker>
       <el-button type="primary" class="searchs" v-button-debounce>
         <i class="iconfont el-icon-vip-fangdajing"></i>
