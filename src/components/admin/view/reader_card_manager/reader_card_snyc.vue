@@ -40,8 +40,7 @@
                     {{getKeyValue('syncCardLogStatus',scope.row.status)}}
                   </template>
                 </el-table-column>
-                <!-- <el-table-column prop="context" label="同步结果" align="center" show-overflow-tooltip></el-table-column> -->
-                <el-table-column prop="content" label="同步结果" width="140">
+                <el-table-column prop="content" label="同步结果" width="140" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleDetail(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>查看</el-button>
                   </template>
@@ -152,7 +151,7 @@ export default {
     },
     // 查看
     handleDetail(row) {
-      this.$refs.dialog_detail.show(row.context);
+      this.$refs.dialog_detail.show(row.contentInfo);
     }
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <el-dialog append-to-body title="同步日志详情" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
     <div class="pre-line">
-        {{detail}}
+      <span :class="{'color-red':!detail.isSucess}">{{detail.syncResult}}</span>
     </div>
     <!-- <div slot="footer">
       <el-button @click="dialogVisible = false">取 消</el-button>
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      detail:'',
+      detail: '',
     };
   },
   computed: {},
@@ -36,7 +36,7 @@ export default {
 </script>
 <style scoped lang='less'>
 .pre-line {
-   white-space: pre-line;
-   font-size: 14px;
+  white-space: pre-line;
+  font-size: 14px;
 }
 </style>
