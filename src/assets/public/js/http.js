@@ -14,7 +14,7 @@ export default {
     const result = response.data;
     if (result.statusCode == 200) {
       resolve(result);
-    } else if (result.statusCode == 400) {
+    } else if (result.statusCode == 400 || result.statusCode == 499) {
       Vue.prototype.$message({ type: 'error', message: typeof result.errors === 'string' ? result.errors : result.errors.Code[0] });
     } else {
       this.error(result.errors);

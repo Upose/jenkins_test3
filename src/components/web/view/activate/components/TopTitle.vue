@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-08-23 16:44:33
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 19:14:50
+ * @LastEditTime: 2022-12-29 11:47:19
  * @Description: 顶部标题
 -->
 <template>
@@ -24,10 +24,8 @@
         </div>
         <div class="navi-title-box">
           <!-- <span class="navi-title-big">课程文献中心</span> -->
-          <span class="navi-title-big">{{topParms.titleList[0].name}}</span>
-        </div>
-        <div class="navi-tab-box flex-row-start">
-          <div class="tab-item thover-bg-c2" :class="{'tab-active tbg-c2':$route.path==item.router}" v-for="item in topParms.tabList" :key="item.name" @click="handleTo(item.router)">{{item.name}}</div>
+          <span class="navi-title-big">账号</span>
+          <span class="navi-title-small">激活</span>
         </div>
       </div>
     </div>
@@ -76,7 +74,7 @@ export default {
   height: 130px;
   background-repeat: no-repeat !important;
   background-position: center !important;
-  background: url(../../assets/web/img/course/bg-top.png);
+  background: url("../../../../../assets/web/img/bg-top.png");
   background-size: 100% 100%;
 }
 .top-navi-brd-cont {
@@ -122,16 +120,6 @@ export default {
   .navi-title-box {
     margin-left: 10px;
     position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      top: 16px;
-      right: -20px;
-      width: 0;
-      height: 0;
-      border: 4px solid;
-      border-color: transparent transparent transparent #707070;
-    }
     .navi-title-big {
       font-size: 30px;
       font-weight: 490;

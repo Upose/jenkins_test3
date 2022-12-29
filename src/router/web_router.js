@@ -19,6 +19,5 @@ export default {
       component: r => require.ensure([], () => r(require("@/components/web/view/activate/index")), "activate"),
       meta: { title: "账号激活", keepAlive: true }
     },
-
   ]
 };

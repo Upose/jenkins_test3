@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-29 09:15:33
+ * @LastEditTime: 2022-12-29 14:13:35
  * @Description: 激活流程
 -->
 <template>
@@ -215,9 +215,15 @@ export default {
         this.$message.warning('请先完善流程信息及内容！');
         return;
       }
+      let definitionList = this.definitionList.map((item, index) => {
+        return {
+          ...item,
+          orderNum: index + 1
+        }
+      })
       this.$http.postJson('activate-save-definition', {
         procedureId: this.id,
-        definitionList: this.definitionList
+        definitionList: definitionList
       }).then(res => {
         this.$message.success('保存成功！');
         this.$router.replace('/admin_activateManagement');
