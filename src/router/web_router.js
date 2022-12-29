@@ -13,6 +13,12 @@ export default {
       component: r => require.ensure([], () => r(require("@/components/web/view/user/library/library")), "library"),
       meta: { title: "个人图书馆", keepAlive: true }
     },
+    {
+      path: "/web_activate",
+      name: "web_activate",
+      component: r => require.ensure([], () => r(require("@/components/web/view/activate/index")), "activate"),
+      meta: { title: "账号激活", keepAlive: true }
+    },
 
   ]
 };

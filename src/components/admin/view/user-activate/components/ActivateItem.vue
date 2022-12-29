@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:20:20
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 17:16:39
+ * @LastEditTime: 2022-12-28 19:34:44
  * @Description: 激活场景列表项
 -->
 <template>
@@ -21,7 +21,7 @@
       <div class="ab-btn flex-row-start">
         <div class="ab-item">
           <i class="icon-yh"></i>
-          <span v-for="item1 in item.visitingListModel.visitList" :key="item1.key">{{item1.value}}、</span>
+          <span>{{srtUser}}</span>
         </div>
         <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })"><i class="icon-lc"></i>流程设置</div>
       </div>
@@ -40,6 +40,11 @@ export default {
     return {
       model: false
     };
+  },
+  computed: {
+    srtUser() {
+      return this.item.visitingListModel.visitList.length ? this.item.visitingListModel.visitList.map(item => item.value).join('、') : '';
+    }
   },
   created() { },
   mounted() { },

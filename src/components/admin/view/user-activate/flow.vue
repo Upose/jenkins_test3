@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 19:06:02
+ * @LastEditTime: 2022-12-29 09:15:33
  * @Description: 激活流程
 -->
 <template>
@@ -25,7 +25,7 @@
           <!--顶部查询 end-->
           <div class="table-w">
             <div class="t-p">
-              <div class="flow-box flex-row-start-start">
+              <div class="flow-box flex-row-start-start" v-loading="loading">
                 <div class="fb-left">
                   <div class="fb-tit flex-row-start"><i class="icon-line"></i>流程信息</div>
                   <FlowItem v-for="(item,index) in definitionList" :key="index" :item="item" :curIndex="curIndex" :index="index" :length="definitionList.length" @chengeFlow="chengeFlow"></FlowItem>
@@ -89,6 +89,7 @@ export default {
   data() {
     return {
       id: this.$route.query.id || '',
+      loading: false,
       form: {
         title: "",
         finishType: 1,
@@ -125,14 +126,7 @@ export default {
   },
   methods: {
     getFlowList() {
-      // this.definitionList = [
-      //   { title: 0 },
-      //   { title: 1 },
-      //   { title: 2 },
-      //   { title: 3 },
-      //   { title: 4 },
-      // ]
-      // return
+      this.loading = true;
       this.$http.getJson('activate-definition-table-data', {
         procedureid: this.id
       }).then(res => {
@@ -147,7 +141,9 @@ export default {
           })
         }
         this.setForm(0)
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取流程信息失败!' });
       })
     },
@@ -156,6 +152,10 @@ export default {
       tinymce.activeEditor.setContent(this.form.contents)
     },
     addFlow() {
+      if (!this.chanceFlow()) {
+        this.$message.warning('请先完善流程信息及内容！');
+        return;
+      }
       this.definitionList.push({
         title: "",
         finishType: 1,
@@ -167,6 +167,10 @@ export default {
     },
     chengeFlow({ index, type }) {
       if (type == 'show') {
+        if (!this.chanceFlow()) {
+          this.$message.warning('请先完善流程信息及内容！');
+          return;
+        }
         this.curIndex = index;
       }
       if (type == 'del') {
@@ -179,11 +183,19 @@ export default {
         this.definitionList.splice(index, 1);
       }
       if (type == 'up') {
+        if (!this.chanceFlow()) {
+          this.$message.warning('请先完善流程信息及内容！');
+          return;
+        }
         let cur = this.definitionList.splice(index, 1);
         this.definitionList.splice(index - 1, 0, cur[0])
         this.curIndex = index - 1;
       }
       if (type == 'down') {
+        if (!this.chanceFlow()) {
+          this.$message.warning('请先完善流程信息及内容！');
+          return;
+        }
         let cur = this.definitionList.splice(index, 1);
         this.definitionList.splice(index + 1, 0, cur[0])
         this.curIndex = index + 1;
@@ -193,18 +205,28 @@ export default {
     subFlow() {
       this.definitionList.push(this.form)
     },
+    // 检查流程信息是否完善
+    chanceFlow() {
+      let no = this.definitionList.filter(item => !item.title || !item.contents);
+      return no.length ? false : true;
+    },
     handleSubmit() {
+      if (!this.chanceFlow()) {
+        this.$message.warning('请先完善流程信息及内容！');
+        return;
+      }
       this.$http.postJson('activate-save-definition', {
         procedureId: this.id,
         definitionList: this.definitionList
       }).then(res => {
-
+        this.$message.success('保存成功！');
+        this.$router.replace('/admin_activateManagement');
       }).catch(err => {
         this.$message({ type: 'error', message: '保存失败!' });
       })
     },
     goBack() {
-      this.$router.back()
+      this.$router.replace('/admin_activateManagement');
     },
     initEditer() {
       //tinymce 编辑器
