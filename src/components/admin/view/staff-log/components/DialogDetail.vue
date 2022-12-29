@@ -1,7 +1,14 @@
+<!--
+ * @Author: huyu
+ * @Date: 2022-12-29 18:57:29
+ * @LastEditors: huyu
+ * @LastEditTime: 2022-12-29 18:57:47
+ * @Description: 
+-->
 <template>
-  <el-dialog append-to-body title="同步日志详情" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
+  <el-dialog append-to-body title="馆员日志详情" :visible.sync="dialogVisible" width="700px" :before-close="dialogBeforeClose">
     <div class="pre-line">
-      <span :class="{'color-red':!detail.isSucess}">{{detail.syncResult}}</span>
+      <span>{{detail}}</span>
     </div>
   </el-dialog>
 </template>

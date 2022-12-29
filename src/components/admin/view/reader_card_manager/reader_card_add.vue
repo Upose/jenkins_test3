@@ -441,7 +441,7 @@ export default {
           this.userList = res.data.items;
           this.loading = false;
         }).catch(err => {
-          this.$message({ type: 'error', message: '获取设置失败!' });
+          this.$message({ type: 'error', message: '获取用户失败!' });
         })
       } else {
         this.options = [];

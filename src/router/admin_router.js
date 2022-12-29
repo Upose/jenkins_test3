@@ -207,6 +207,16 @@ export default {
             },
         },
         {
+            path: '/admin_stafflog',
+            name: 'admin_stafflog',
+            component: r => require.ensure([], () => r(require('@/components/admin/view/staff-log/index')), 'staff-log'),
+            meta: {
+                title: [{ name: '馆员日志' }],
+                keepAlive: true,
+                parentRoute: '/admin_stafflog'
+            },
+        },
+        {
             path: '/admin_userSet',
             name: 'admin_userSet',
             component: r => require.ensure([], () => r(require('@/components/admin/view/user_set/user_set')), 'user_set'),

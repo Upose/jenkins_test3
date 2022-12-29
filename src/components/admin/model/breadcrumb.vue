@@ -1,7 +1,7 @@
 <!--面包屑-->
 <template>
   <div class="breadcrumb-page">
-    <el-breadcrumb separator-class="el-icon-arrow-right" :class="fontColor?'fff':'gray'">
+    <el-breadcrumb separator-class="el-icon-arrow-right" :class="'fff'">
       <!-- 馆员工作台 -->
       <span class="el-breadcrumb__item cu-p" aria-current="page" @click="toWorkbench">
         <span role="link" class="el-breadcrumb__inner"><i class="el-icon-s-home"></i></span>

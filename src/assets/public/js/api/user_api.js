@@ -93,6 +93,7 @@ export default {
         'departments-list-data': baseURL + '/api/staff/departments-list-data',//获取部门信息
         'staff': baseURL + '/api/staff',//删除馆员身份
         'temp-staff': baseURL + '/api/staff/temp-staff',//添加临时馆员
+        'staff-log-table-data': baseURL + '/api/staff/staff-log-table-data',//获取馆员日志列表数据
 
 
         'group-table-data': baseURL + '/api/user-group/table-data',//获取用户组数据

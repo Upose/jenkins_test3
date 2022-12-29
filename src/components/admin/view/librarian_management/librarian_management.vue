@@ -19,9 +19,6 @@
                 <el-tab-pane label="馆员管理" name="first">
                   <Librarian></Librarian>
                 </el-tab-pane>
-                <!-- <el-tab-pane label="馆员日志" name="second">
-                            <LibrarianLog></LibrarianLog>
-                        </el-tab-pane> -->
               </el-tabs>
             </div>
           </div>
@@ -41,7 +38,6 @@ import breadcrumb from "@/components/admin/model/breadcrumb";
 import paging from "@/components/admin/model/paging";
 import serviceLMenu from "@/components/admin/model/serviceLMenu_user";
 import Librarian from "../librarian_list/librarian_list";
-import LibrarianLog from "../librarian_log/librarian_log";
 export default {
   name: 'index',
   created() {
@@ -50,7 +46,7 @@ export default {
     //   this.$forceUpdate();
     // })
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, Librarian, LibrarianLog },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, Librarian, },
   data() {
     return {
       activeName: "first",
