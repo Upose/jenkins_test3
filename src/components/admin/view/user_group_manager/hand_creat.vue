@@ -633,6 +633,9 @@ export default {
 @import "../../../../assets/admin/css/color.less"; /**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
 @import "../../../../assets/admin/css/form.less";
+.content {
+  min-width: 1300px;
+}
 .content-box {
   min-height: 600px;
   background-color: @m-col-b0;
