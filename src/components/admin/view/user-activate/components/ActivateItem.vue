@@ -2,12 +2,12 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:20:20
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 10:22:11
+ * @LastEditTime: 2023-01-05 10:33:19
  * @Description: 激活场景列表项
 -->
 <template>
   <div class="ai-box" :class="{'ai-green':index%2!=0}">
-    <i class="el-icon-error ai-del hover-op" @click="delFlow" v-has="'procedure:delete'"></i>
+    <i class="el-icon-error ai-del hover-op" @click.stop="delFlow" v-has="'procedure:delete'"></i>
     <div class="ab-top flex-row-between">
       <div class="at-tit hover-line" @click="openAdd">{{item.title}}</div>
       <el-switch @change="changeStatus" v-model="item.status" :active-value="1" :inactive-value="2" :disabled="!$_has('procedure:changestatus')"></el-switch>
@@ -24,7 +24,7 @@
           <i class="icon-yh"></i>
           <span>{{srtUser}}</span>
         </div>
-        <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })" v-has="'definition:list'"><i class="icon-lc"></i>流程设置</div>
+        <div class="ab-item hover-o" @click.stop="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })" v-has="'definition:list'"><i class="icon-lc"></i>流程设置</div>
       </div>
     </div>
   </div>
