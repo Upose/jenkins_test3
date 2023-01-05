@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-29 14:13:35
+ * @LastEditTime: 2023-01-05 13:55:00
  * @Description: 激活流程
 -->
 <template>
@@ -40,7 +40,7 @@
                   <el-form ref="form" :model="form" :rules="rules" label-width="110px" label-suffix="：">
                     <div class="fr-title flex-row-start"><i class="icon-lcxx"></i>流程信息</div>
                     <el-form-item label="流程名称" prop="title">
-                      <el-input style="width:400px" v-model="form.title" clearable></el-input>
+                      <el-input style="width:400px" v-model="form.title" clearable maxlength='20' show-word-limit></el-input>
                     </el-form-item>
                     <el-form-item label="完成条件" prop="finishType">
                       <el-select style="width:400px" v-model="form.finishType" placeholder="">

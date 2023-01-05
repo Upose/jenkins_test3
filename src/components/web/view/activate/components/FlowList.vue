@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-29 10:29:47
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-29 15:14:22
+ * @LastEditTime: 2023-01-05 13:59:16
  * @Description: 流程列表
 -->
 <template>
@@ -39,6 +39,13 @@ export default {
       boxWidth: 0,
       boxLeft: 0,
     };
+  },
+  watch: {
+    flow() {
+      this.$nextTick(() => {
+        this.getBoxWidth();
+      })
+    }
   },
   created() { },
   mounted() {
@@ -78,13 +85,14 @@ export default {
   right: 0;
   top: 0;
   height: 44px;
+  z-index: 10;
 
   .fl-btn {
     width: 30px;
     height: 30px;
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 0px 30px rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
     border-radius: 50%;
     color: #707070;
     margin-left: 5px;

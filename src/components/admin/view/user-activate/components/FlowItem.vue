@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:24:33
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 18:39:00
+ * @LastEditTime: 2023-01-05 13:55:40
  * @Description: 流程列表项
 -->
 <template>
@@ -47,6 +47,7 @@ export default {
   border-radius: 4px;
   padding: 8px 10px;
   margin-bottom: 10px;
+  cursor: pointer;
   .fb-left {
     height: 100%;
     .fl-btn {

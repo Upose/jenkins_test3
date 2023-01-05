@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 11:43:16
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 10:20:49
+ * @LastEditTime: 2023-01-05 13:54:10
  * @Description: 新建激活场景
 -->
 <template>
@@ -11,10 +11,10 @@
     <div class="aa-form">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading" :disabled="!$_has('procedure:update')">
         <el-form-item label="场景名称" prop="title">
-          <el-input v-model="form.title" clearable></el-input>
+          <el-input v-model="form.title" clearable maxlength='20' show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="场景说明" prop="contents">
-          <el-input type="textarea" :rows="3" v-model="form.contents"></el-input>
+          <el-input type="textarea" :rows="3" v-model="form.contents" maxlength='200' show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>

@@ -2,23 +2,23 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-29 15:15:43
+ * @LastEditTime: 2023-01-05 14:04:42
  * @Description: 账号激活
 -->
 <template>
   <div class="container">
     <div class="content-box">
       <TopTitle :topParms="topParms" :bList="bList"></TopTitle>
-      <div class="content">
+      <div class="content" v-loading="loading">
         <FlowList :flow="flow" :curFlowIndex="curFlowIndex"></FlowList>
         <template v-if="curFlowIndex<flow.length">
           <div class="act-cont">
-            <div class="ac-title flex-row-start">{{curFlow.title}}</div>
-            <div class="ac-info">
-              <div v-html="curFlow.contents"></div>
+            <div class="ac-title flex-row-start">{{curFlow.title}}<span class="ac-tip">{{tips}}</span></div>
+            <div class="ac-info" @scroll="scrollContent" ref="flowBox">
+              <div v-html="curFlow.contents" ref="flowCont"></div>
             </div>
           </div>
-          <div class="act-btn flex-row-center tbg-c2 hover-op" @click="goNext">
+          <div class="act-btn flex-row-center tbg-c2 hover-op" :class="{'hover-no':!isToNext}" @click="goNext">
             <span class="ab-title">下一步</span>
             <span class="ab-tag flex-row-center"><i class="el-icon-right"></i></span>
             <i class="icon-sj tbg-c2"></i>
@@ -55,10 +55,14 @@ export default {
         { name: '账号激活' },
       ],//面包屑参数
 
+      loading: false,
       flow: [],// 流程列表
       isBlocking: true,// 流程阻塞
       curFlow: {},// 当前流程
       curFlowIndex: 0,// 当前流程下标
+      isToNext: false,//是否可以点击下一步
+      tips: '',//流程阻塞提示
+      countdownTimer: null,//浏览倒计时
     };
   },
   created() {
@@ -70,20 +74,80 @@ export default {
   },
   methods: {
     getData() {
+      this.loading = true;
       this.$http.getJson('activate-front-activate-definition-list', {}).then(res => {
         this.flow = res.data.definitionList;
         this.isBlocking = res.data.isBlocking;
         this.curFlow = res.data.definitionList[0];
+        this.loading = false;
+        this.$nextTick(() => {
+          this.setIsNext();
+        })
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取激活流程失败!' });
       })
     },
+    // 激活成功
+    activateSuccess() {
+      this.$http.postJson('activate-activate-reader', {}).then(res => {
+        this.curFlowIndex += 1;
+      }).catch(err => {
+        this.$message({ type: 'error', message: '激活失败!' });
+      })
+    },
     goNext() {
+      if (!this.isToNext) return;
       if (this.curFlowIndex < this.flow.length - 1) {
         this.curFlowIndex += 1;
         this.curFlow = this.flow[this.curFlowIndex];
+        this.setIsNext();
       } else {
-        this.curFlowIndex += 1;
+        this.activateSuccess();
+      }
+    },
+    // 进入下一步
+    setIsNext() {
+      this.$refs.flowBox.scrollTop = 0;
+      if (this.isBlocking == false) {
+        this.isToNext = true;
+        this.tips = '';
+        return;
+      }
+      if (this.curFlow.finishType == 1) {
+        this.isToNext = true;
+        this.tips = '';
+        return;
+      }
+      if (this.curFlow.finishType == 2) {
+        this.isToNext = false;
+        let countdown = this.curFlow.countdown;
+        this.tips = `（需浏览${countdown}秒后进行下一步！）`;
+        this.countdownTimer = setInterval(() => {
+          if (countdown > 0) {
+            countdown -= 1;
+            this.tips = `（需浏览${countdown}秒后进行下一步！）`;
+          } else {
+            this.tips = '（浏览时间到，可进行下一步！）';
+            this.isToNext = true;
+            clearInterval(this.countdownTimer);
+          }
+        }, 1000);
+        return;
+      }
+      if (this.curFlow.finishType == 3) {
+        this.isToNext = false;
+        this.tips = `（需浏览至内容底部后进行下一步！）`;
+      }
+    },
+    // 滚动监听
+    scrollContent() {
+      if (this.isBlocking && this.curFlow.finishType == 3) {
+        if (this.$refs.flowBox.scrollTop + 660 < this.$refs.flowCont.offsetHeight) {
+          this.isToNext = false;
+        } else {
+          this.isToNext = true;
+        }
       }
     }
   },
@@ -112,6 +176,12 @@ export default {
     font-size: 20px;
     font-weight: bold;
     border-bottom: 1px solid #e6e6e6;
+    .ac-tip {
+      color: #666;
+      font-size: 14px;
+      margin-left: 10px;
+      font-weight: normal;
+    }
   }
   .ac-info {
     margin-top: 14px;
@@ -177,6 +247,12 @@ export default {
     width: 40px;
     transform: skew(-32deg);
     border-radius: 4px;
+  }
+  &.hover-no {
+    opacity: 0.6;
+    &:hover {
+      cursor: not-allowed;
+    }
   }
 }
 </style>
