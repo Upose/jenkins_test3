@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 15:12:14
+ * @LastEditTime: 2023-01-05 15:16:07
  * @Description: 账号激活
 -->
 <template>
@@ -29,7 +29,7 @@
             <i class="el-icon-success"></i>
             激活已完成
           </div>
-          <div class="au-btn tbg-c2 hover-op" @click="goUse">前往使用</div>
+          <div class="au-btn tbg-c2 hover-op" @click="goIndex">前往首页</div>
         </div>
       </div>
     </div>
@@ -88,8 +88,8 @@ export default {
         this.$message({ type: 'error', message: '获取激活流程失败!' });
       })
     },
-    goUse() {
-      let url = localStorage.getItem('COM+') || this.$setHhref({ type: 'dlib', url: ['index'] }) || location.origin;
+    goIndex() {
+      let url = this.$setHhref({ type: 'dlib', url: ['index'] }) || location.origin;
       this.loading.replace(url);
     },
     // 激活成功
