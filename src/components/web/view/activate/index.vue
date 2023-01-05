@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 15:16:07
+ * @LastEditTime: 2023-01-05 15:28:43
  * @Description: 账号激活
 -->
 <template>
@@ -89,8 +89,8 @@ export default {
       })
     },
     goIndex() {
-      let url = this.$setHhref({ type: 'dlib', url: ['index'] }) || location.origin;
-      this.loading.replace(url);
+      let url = this.$setHref({ type: 'dlib', url: ['index'] }) || location.origin;
+      window.location.replace(url);
     },
     // 激活成功
     activateSuccess() {
