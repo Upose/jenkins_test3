@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 14:04:42
+ * @LastEditTime: 2023-01-05 14:46:42
  * @Description: 账号激活
 -->
 <template>
@@ -125,8 +125,8 @@ export default {
         this.tips = `（需浏览${countdown}秒后进行下一步！）`;
         this.countdownTimer = setInterval(() => {
           if (countdown > 0) {
-            countdown -= 1;
             this.tips = `（需浏览${countdown}秒后进行下一步！）`;
+            countdown -= 1;
           } else {
             this.tips = '（浏览时间到，可进行下一步！）';
             this.isToNext = true;
