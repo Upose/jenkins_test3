@@ -2,12 +2,12 @@
  * @Author: huyu
  * @Date: 2022-12-28 11:43:16
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 13:54:10
+ * @LastEditTime: 2023-01-05 15:46:50
  * @Description: 新建激活场景
 -->
 <template>
   <el-drawer :with-header="false" :visible.sync="drawer" :size="800" :wrapperClosable="false">
-    <div class="aa-tit flex-row-start"><span>新增激活场景</span></div>
+    <div class="aa-tit flex-row-start"><span>{{id?'编辑':'新增'}}激活场景</span></div>
     <div class="aa-form">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading" :disabled="!$_has('procedure:update')">
         <el-form-item label="场景名称" prop="title">
