@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:09:20
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 16:54:39
+ * @LastEditTime: 2023-01-05 10:12:31
  * @Description: 用户激活管理
 -->
 <template>
@@ -22,8 +22,8 @@
           <div class="table-w">
             <div class="t-p">
               <div class="ua-list" v-loading="loading">
-                <ActivateItem v-for="(item,index) in list" :key="item.id" :index="index" :item="item" @openAdd="openAdd"></ActivateItem>
-                <div class="ua-add" @click="openAdd()">
+                <ActivateItem v-for="(item,index) in list" :key="item.id" :index="index" :item="item" @openAdd="openAdd" @updateList="getList"></ActivateItem>
+                <div class="ua-add" @click="openAdd()" v-has="'procedure:create'">
                   <div class="flex-column-center">
                     <div class="icon-add">+</div>
                     <div>新增激活场景</div>

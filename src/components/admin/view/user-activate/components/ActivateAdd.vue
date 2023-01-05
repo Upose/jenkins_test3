@@ -2,51 +2,53 @@
  * @Author: huyu
  * @Date: 2022-12-28 11:43:16
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 17:13:41
+ * @LastEditTime: 2023-01-05 10:20:49
  * @Description: 新建激活场景
 -->
 <template>
   <el-drawer :with-header="false" :visible.sync="drawer" :size="800" :wrapperClosable="false">
     <div class="aa-tit flex-row-start"><span>新增激活场景</span></div>
-    <el-form class="aa-form" ref="form" :model="form" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading">
-      <el-form-item label="场景名称" prop="title">
-        <el-input v-model="form.title" clearable></el-input>
-      </el-form-item>
-      <el-form-item label="场景说明" prop="contents">
-        <el-input type="textarea" :rows="3" v-model="form.contents"></el-input>
-      </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
-      </el-form-item>
-      <el-form-item label="流程阻塞" prop="isBlocking">
-        <el-switch v-model="form.isBlocking"></el-switch>
-      </el-form-item>
-      <el-form-item label="" prop="name" label-width="0px">
-        <div class="select-user check-box">
-          <div class="box-title">选择用户</div>
-          <div class="check-list" v-loading="loading">
-            <el-tabs v-model="active" :tab-position="'left'" @tab-click="handelChange" style="height: 200px;" v-if="dataKey">
-              <el-tab-pane label="类型" name="type">
-                <el-checkbox :indeterminate="isUserTypeIndeterminate" v-model="checkUserTypeAll" @change="handleCheckAllUserTypeChange">全部读者</el-checkbox>
-                <el-checkbox-group v-model="checkedUserTypes" @change="handleCheckedUserTypeChange">
-                  <el-checkbox v-for="item in dataKey.userTypeList" :label="item.code" :key="item.groupItemId">{{item.name}}</el-checkbox>
-                </el-checkbox-group>
-              </el-tab-pane>
-              <el-tab-pane label="分组" name="group">
-                <el-checkbox :indeterminate="isGroupListIndeterminate" v-model="checkGroupListAll" @change="handleCheckAllGroupListChange">全部读者</el-checkbox>
-                <el-checkbox-group v-model="checkedGroupList" @change="handleCheckedGroupListChange">
-                  <el-checkbox v-for="item in dataKey.groupList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
-                </el-checkbox-group>
-              </el-tab-pane>
-            </el-tabs>
+    <div class="aa-form">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading" :disabled="!$_has('procedure:update')">
+        <el-form-item label="场景名称" prop="title">
+          <el-input v-model="form.title" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="场景说明" prop="contents">
+          <el-input type="textarea" :rows="3" v-model="form.contents"></el-input>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
+        </el-form-item>
+        <el-form-item label="流程阻塞" prop="isBlocking">
+          <el-switch v-model="form.isBlocking"></el-switch>
+        </el-form-item>
+        <el-form-item label="" prop="name" label-width="0px">
+          <div class="select-user check-box">
+            <div class="box-title">选择用户</div>
+            <div class="check-list" v-loading="loading">
+              <el-tabs v-model="active" :tab-position="'left'" @tab-click="handelChange" style="height: 200px;" v-if="dataKey">
+                <el-tab-pane label="类型" name="type">
+                  <el-checkbox :indeterminate="isUserTypeIndeterminate" v-model="checkUserTypeAll" @change="handleCheckAllUserTypeChange">全部读者</el-checkbox>
+                  <el-checkbox-group v-model="checkedUserTypes" @change="handleCheckedUserTypeChange">
+                    <el-checkbox v-for="item in dataKey.userTypeList" :label="item.code" :key="item.groupItemId">{{item.name}}</el-checkbox>
+                  </el-checkbox-group>
+                </el-tab-pane>
+                <el-tab-pane label="分组" name="group">
+                  <el-checkbox :indeterminate="isGroupListIndeterminate" v-model="checkGroupListAll" @change="handleCheckAllGroupListChange">全部读者</el-checkbox>
+                  <el-checkbox-group v-model="checkedGroupList" @change="handleCheckedGroupListChange">
+                    <el-checkbox v-for="item in dataKey.groupList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+                  </el-checkbox-group>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
           </div>
-        </div>
-      </el-form-item>
-      <el-form-item label-width="0px">
+        </el-form-item>
+      </el-form>
+      <div>
         <el-button icon="iconfont el-icon-vip-quxiao" @click="handleCancel">取 消</el-button>
-        <el-button type="primary" icon="iconfont el-icon-vip-baocun1" @click="handleSubmit" v-button-debounce>保 存</el-button>
-      </el-form-item>
-    </el-form>
+        <el-button type="primary" icon="iconfont el-icon-vip-baocun1" @click="handleSubmit" v-button-debounce v-has="'procedure:update'">保 存</el-button>
+      </div>
+    </div>
   </el-drawer>
 </template>
 

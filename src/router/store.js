@@ -9,8 +9,9 @@ export default new Vuex.Store({
     language: 'zh-CN',//语言
     skin_template: 'template1',
     authList: [],
+    allAuthList: [],
     appInfo: {},//应用名及版本号信息
-    baseinfo:{},
+    baseinfo: {},
   },
   getters: {
     token: (state) => state.token,
@@ -49,6 +50,10 @@ export default new Vuex.Store({
     },
     setAppInfo: (state, data) => {
       state.appInfo = data;
+    },
+    // 设置state值
+    SET_STORE: (state, data) => {
+      state[data.name] = data.value;
     }
   },
 });

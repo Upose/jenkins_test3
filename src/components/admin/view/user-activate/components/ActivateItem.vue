@@ -2,19 +2,20 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:20:20
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-28 19:34:44
+ * @LastEditTime: 2023-01-05 10:22:11
  * @Description: 激活场景列表项
 -->
 <template>
   <div class="ai-box" :class="{'ai-green':index%2!=0}">
+    <i class="el-icon-error ai-del hover-op" @click="delFlow" v-has="'procedure:delete'"></i>
     <div class="ab-top flex-row-between">
       <div class="at-tit hover-line" @click="openAdd">{{item.title}}</div>
-      <el-switch @change="changeStatus" v-model="item.status" :active-value="1" :inactive-value="2"></el-switch>
+      <el-switch @change="changeStatus" v-model="item.status" :active-value="1" :inactive-value="2" :disabled="!$_has('procedure:changestatus')"></el-switch>
     </div>
     <div class="ab-bottom">
       <div class="ab-info">{{item.contents}}</div>
       <div class="flex-row-start">
-        <el-switch @change="changeBlocking" v-model="item.isBlocking"></el-switch>
+        <el-switch @change="changeBlocking" v-model="item.isBlocking" :disabled="!$_has('procedure:changestatus')"></el-switch>
         <span class="ai-tit">流程阻塞</span>
         <span class="ai-tip">必须达到条件才可以进入下一流程</span>
       </div>
@@ -23,7 +24,7 @@
           <i class="icon-yh"></i>
           <span>{{srtUser}}</span>
         </div>
-        <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })"><i class="icon-lc"></i>流程设置</div>
+        <div class="ab-item hover-o" @click="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })" v-has="'definition:list'"><i class="icon-lc"></i>流程设置</div>
       </div>
     </div>
   </div>
@@ -72,6 +73,20 @@ export default {
         this.$message({ type: 'error', message: '修改失败!' });
       })
     },
+    delFlow() {
+      this.$confirm('是否确认删除该场景?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.deleteJsonSelf('activate-activate-procedure', `/${this.item.id}`).then(res => {
+          this.$message({ type: 'success', message: '删除成功!' });
+          this.$emit('updateList')
+        }).catch(err => {
+          this.$message({ type: 'error', message: '删除失败!' });
+        })
+      }).catch(() => { })
+    }
   },
 };
 </script>
@@ -89,6 +104,23 @@ export default {
   background: linear-gradient(270deg, #8fb7ff 0%, #7192fc 100%);
   border-radius: 5px;
   color: #fff;
+  position: relative;
+
+  .ai-del {
+    position: absolute;
+    font-size: 18px;
+    top: -5px;
+    right: -5px;
+    color: #f56c6c;
+    background: #fff;
+    border-radius: 50%;
+    display: none;
+  }
+  &:hover {
+    .ai-del {
+      display: block;
+    }
+  }
   .ab-top {
     height: 58px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.3);

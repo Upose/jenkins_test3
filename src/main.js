@@ -10,6 +10,8 @@ import validator from "@/assets/public/js/validator.js";
 import { timeFormat, friendlyError } from "@/assets/public/js/util";
 import Dlib3Tinymce from 'dlib3-tinymce'
 
+import '@/assets/public/js/plugin'
+
 import '@/assets/public/css/flex.less'
 import '@/assets/public/css/style.less'
 

@@ -5,7 +5,7 @@
       <!-- <keep-alive>
         <router-view></router-view>
       </keep-alive> -->
-      <router-view></router-view>
+      <router-view v-if="authLoad"></router-view>
     </div>
     <!-- <footerpage class="footer-page"></footerpage> -->
   </div>
@@ -18,14 +18,46 @@ export default {
   name: 'index',
   components: { headerpage, footerpage },
   data() {
-    return {}
+    return {
+      authLoad: false
+    }
   },
   created() {
     // 设置网页标题
     document.title = this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
   },
+  mounted() {
+    this.getAuth();
+  },
   methods: {
-
+    getAuth() {
+      this.http.getJson('user-permission-tree').then(res => {
+        this.$store.commit('setAuthList', res.data.permissionNodes);
+        this.handleSetAuth(res.data.permissionNodes);
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取侧边栏数据失败!' });
+      })
+    },
+    // 取所有权限
+    handleSetAuth(list) {
+      let authList = [];
+      list.forEach(item => {
+        eachGetAuth(item)
+      })
+      // 递归取权限
+      function eachGetAuth(ele) {
+        if (ele.permission) {
+          authList.push(ele.permission);
+        }
+        if (ele.permissionNodes && ele.permissionNodes.length) {
+          ele.permissionNodes.forEach(item => {
+            eachGetAuth(item)
+          })
+        }
+      }
+      this.$store.commit('SET_STORE', { name: 'allAuthList', value: authList })
+      this.authLoad = true;
+    },
   }
 }
 </script>
