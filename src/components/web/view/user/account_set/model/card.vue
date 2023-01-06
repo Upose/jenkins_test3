@@ -82,8 +82,8 @@ export default {
       });
     },
     getChangePassword() {
-      this.http.getJson('reader-comple-property').then(res => {
-        this.changePassword = res.data.changePassword;
+      this.http.getJson('reader-can-change-password-status').then(res => {
+        this.changePassword = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })

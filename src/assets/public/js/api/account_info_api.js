@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: wanjikun
  * @Date: 2022-04-02 14:53:27
- * @LastEditTime: 2022-12-13 15:35:58
+ * @LastEditTime: 2023-01-06 16:16:57
  * @LastEditors: huyu
  */
 /***前台 项目接口地址-用户中心-账户设置 */
@@ -45,6 +45,7 @@ export default {
         'reader-un-bound-qq': baseURL + '/api/reader/un-bound-qq', // qq解除绑定
 
         'forward-sensitive-info-display': baseURL + '/api/reader/sensitive-info-display',//查询敏感信息前台设置
+        'reader-can-change-password-status': baseURL + '/api/basic-config/reader-can-change-password-status',//获取是否开启修改密码状态 true/修改密码 false/关闭修改密码
         '': baseURL + '',//
 
     },
