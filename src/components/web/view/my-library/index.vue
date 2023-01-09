@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2023-01-09 09:25:59
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-09 16:56:00
+ * @LastEditTime: 2023-01-09 17:27:05
  * @Description: 个人中心 新
 -->
 <template>
@@ -166,7 +166,6 @@ export default {
     },
     //引入css文件
     addStyle(url) {
-      url = 'http://192.168.21.46' + url;
       url = url + '/component.css?v=' + new Date().getTime();
       var link = document.createElement("link");
       link.setAttribute("rel", "stylesheet");
@@ -176,7 +175,6 @@ export default {
     },
     //引入js文件
     addScript(url) {
-      url = 'http://192.168.21.46' + url;
       url = url + '/component.js?v=' + new Date().getTime();
       var js_element = document.createElement("script");
       js_element.setAttribute("type", "text/javascript");
