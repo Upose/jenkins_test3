@@ -1,3 +1,10 @@
+<!--
+ * @Author: huyu
+ * @Date: 2021-11-04 15:52:55
+ * @LastEditors: huyu
+ * @LastEditTime: 2023-01-09 17:29:11
+ * @Description: 个人中心 已废弃
+-->
 <template>
   <div class="container">
     <div class="content-box" :class="isEdit?'no-background':''">
