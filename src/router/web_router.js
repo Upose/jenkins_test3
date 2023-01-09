@@ -14,6 +14,12 @@ export default {
       meta: { title: "个人图书馆", keepAlive: true }
     },
     {
+      path: "/web_library1",
+      name: "web_library1",
+      component: r => require.ensure([], () => r(require("@/components/web/view/my-library/index")), "library"),
+      meta: { title: "个人图书馆", keepAlive: true }
+    },
+    {
       path: "/web_activate",
       name: "web_activate",
       component: r => require.ensure([], () => r(require("@/components/web/view/activate/index")), "activate"),
