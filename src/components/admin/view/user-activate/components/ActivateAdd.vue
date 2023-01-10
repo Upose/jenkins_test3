@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 11:43:16
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 15:46:50
+ * @LastEditTime: 2023-01-10 13:30:23
  * @Description: 新建激活场景
 -->
 <template>
@@ -11,16 +11,18 @@
     <div class="aa-form">
       <el-form ref="form" :model="form" :rules="rules" label-width="100px" label-suffix="：" v-loading="loading" :disabled="!$_has('procedure:update')">
         <el-form-item label="场景名称" prop="title">
-          <el-input v-model="form.title" clearable maxlength='20' show-word-limit></el-input>
+          <el-input v-model="form.title" clearable maxlength='16' show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="场景说明" prop="contents">
           <el-input type="textarea" :rows="3" v-model="form.contents" maxlength='200' show-word-limit></el-input>
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
+          <span class="tips">开启后即对用户范围内，未激活账号生效（需新增后配置流程）</span>
         </el-form-item>
         <el-form-item label="流程阻塞" prop="isBlocking">
           <el-switch v-model="form.isBlocking"></el-switch>
+          <span class="tips">必须达到条件才可以进入下一流程</span>
         </el-form-item>
         <el-form-item label="" prop="name" label-width="0px">
           <div class="select-user check-box">
@@ -245,6 +247,11 @@ export default {
 
 <style scoped lang="less">
 @import "../../../../../assets/admin/css/color.less"; /**颜色配置 */
+.tips {
+  color: #999;
+  font-size: 12px;
+  margin-left: 10px;
+}
 .aa-tit {
   height: 62px;
   border-bottom: 1px solid #ebeef5;

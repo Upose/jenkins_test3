@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 15:28:43
+ * @LastEditTime: 2023-01-10 13:39:43
  * @Description: 账号激活
 -->
 <template>
@@ -102,6 +102,8 @@ export default {
     },
     goNext() {
       if (!this.isToNext) return;
+      document.documentElement.scrollTop = 0;
+      console.log(document.documentElement.scrollTop);
       if (this.curFlowIndex < this.flow.length - 1) {
         this.curFlowIndex += 1;
         this.curFlow = this.flow[this.curFlowIndex];
