@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 10:20:20
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-05 10:33:19
+ * @LastEditTime: 2023-01-10 14:21:02
  * @Description: 激活场景列表项
 -->
 <template>
@@ -10,7 +10,10 @@
     <i class="el-icon-error ai-del hover-op" @click.stop="delFlow" v-has="'procedure:delete'"></i>
     <div class="ab-top flex-row-between">
       <div class="at-tit hover-line" @click="openAdd">{{item.title}}</div>
-      <el-switch @change="changeStatus" v-model="item.status" :active-value="1" :inactive-value="2" :disabled="!$_has('procedure:changestatus')"></el-switch>
+      <div>
+        状态
+        <el-switch @change="changeStatus" v-model="item.status" :active-value="1" :inactive-value="2" :disabled="!$_has('procedure:changestatus')"></el-switch>
+      </div>
     </div>
     <div class="ab-bottom">
       <div class="ab-info">{{item.contents}}</div>
@@ -22,7 +25,10 @@
       <div class="ab-btn flex-row-start">
         <div class="ab-item">
           <i class="icon-yh"></i>
-          <span>{{srtUser}}</span>
+          <el-tooltip effect="dark" :content="srtUser" placement="bottom-start" :visible-arrow="false">
+            <span>{{srtUser}}</span>
+          </el-tooltip>
+          <!-- <span :title="srtUser">{{srtUser}}</span> -->
         </div>
         <div class="ab-item hover-o" @click.stop="$router.push({ path:'/admin_activateFlow',query:{id:item.id} })" v-has="'definition:list'"><i class="icon-lc"></i>流程设置</div>
       </div>
@@ -129,7 +135,7 @@ export default {
       font-size: 18px;
       line-height: 25px;
       font-weight: bold;
-      max-width: 300px;
+      max-width: 260px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
