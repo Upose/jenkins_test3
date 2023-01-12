@@ -30,6 +30,7 @@
                 <div>
                   <!-- <div class="id">用户id：{{postForm.userKey}}</div> -->
                   <span class="names">{{postForm.name}}</span>
+                  <span class="rm-activate-tag" v-if="!postForm.isActive">未激活</span>
                   <!-- <span class="numers">{{postForm.nickName}}</span> -->
                   <!-- <span class="level">LV{{integralData.level}}</span> -->
                   <!-- <span class="async">同步</span> -->
@@ -401,7 +402,6 @@ export default {
     float: left;
   }
 }
-.names,
 .numers,
 .level,
 .async {
@@ -414,6 +414,13 @@ export default {
   font-size: 18px !important;
   font-weight: bold;
   color: #34395e;
+}
+.rm-activate-tag {
+  padding: 3px 8px;
+  background: #f1f1f1;
+  border-radius: 4px;
+  margin-left: 10px;
+  color: #555;
 }
 .numers {
   color: #34395e;
