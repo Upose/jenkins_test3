@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-10 13:39:43
+ * @LastEditTime: 2023-01-13 11:50:31
  * @Description: 账号激活
 -->
 <template>
@@ -55,6 +55,7 @@ export default {
         { name: '账号激活' },
       ],//面包屑参数
 
+      token: '',
       loading: false,
       flow: [],// 流程列表
       isBlocking: true,// 流程阻塞
@@ -68,6 +69,10 @@ export default {
   created() {
     // 设置网页标题
     document.title = '账号激活-' + this.$store.getters.appInfo.appName + '-' + JSON.parse(localStorage.getItem('orgInfo')).orgName;
+
+    // 登录之后需要激活，不保存登录状态，token放到sessionStorage
+    this.token = sessionStorage.getItem('token');
+    // sessionStorage.removeItem('token');
   },
   mounted() {
     this.getData();
@@ -75,7 +80,9 @@ export default {
   methods: {
     getData() {
       this.loading = true;
+      localStorage.setItem('token', this.token)
       this.$http.getJson('activate-front-activate-definition-list', {}).then(res => {
+        localStorage.removeItem('token')
         this.flow = res.data.definitionList;
         this.isBlocking = res.data.isBlocking;
         this.curFlow = res.data.definitionList[0];
@@ -84,6 +91,7 @@ export default {
           this.setIsNext();
         })
       }).catch(err => {
+        localStorage.removeItem('token')
         this.loading = false;
         this.$message({ type: 'error', message: '获取激活流程失败!' });
       })
@@ -94,9 +102,11 @@ export default {
     },
     // 激活成功
     activateSuccess() {
+      localStorage.setItem('token', this.token)
       this.$http.postJson('activate-activate-reader', {}).then(res => {
         this.curFlowIndex += 1;
       }).catch(err => {
+        localStorage.removeItem('token')
         this.$message({ type: 'error', message: '激活失败!' });
       })
     },
