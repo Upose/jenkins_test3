@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <div class="certificate-title">
       <el-button type="primary" class="serach-btn" @click="handleAdd" icon="iconfont el-icon-vip-tianjia2" v-if="isAuth('card:create')">添加卡片</el-button>
     </div>
@@ -53,6 +53,7 @@ export default {
   components: { CardContent },
   data() {
     return {
+      loading: false,
       showBox: true,
       tableData: [],
       dataKey: null,
@@ -94,13 +95,16 @@ export default {
     },
     // 获取数据
     getData() {
+      this.loading = true;
       http.getJsonSelf('user-card-list-data', `/${this.id}`).then(res => {
         let list = res.data;
         list.forEach((item, index) => {
           item.showBox = index == 0 ? true : false;
         })
         this.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },

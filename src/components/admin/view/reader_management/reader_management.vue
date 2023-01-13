@@ -7,7 +7,6 @@
       </el-aside>
       <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
         <breadcrumb :cuMenu="'读者账号详情'" :fontColor="'fff'"></breadcrumb>
-        <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">读者账号详情</h1>
@@ -18,8 +17,8 @@
               <el-button type="primary" size="medium" class="blue-btn" @click="handleSend" v-if="isAuth('reader:sendMessage')">发送消息</el-button>
             </div>
           </div>
-          <!--顶部查询 end-->
-          <div class="login-list">
+          <div class="loading-box" v-loading="loading" v-if="loading"></div>
+          <div class="login-list" v-else>
             <div class="reader-top">
               <div class="reader-left" @click="upImg">
                 <img :src="iconUrl" alt="" v-if="iconUrl!=''">
@@ -62,7 +61,7 @@
             <div class="reader-box">
               <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="基本信息" name="first">
-                  <ReaderAcount @hide-to-staff="hideToStaff" :id="id" :iconUrl="postForm.photo"></ReaderAcount>
+                  <ReaderAcount @hide-to-staff="hideToStaff" :id="id" :iconUrl="postForm.photo||''"></ReaderAcount>
                 </el-tab-pane>
                 <el-tab-pane label="证件信息" name="second">
                   <Certificate :id="id" v-if="activeName=='second'"></Certificate>
@@ -83,7 +82,7 @@
             </div>
           </div>
         </div>
-        <!---content end--->
+
         <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
           <UpdateImg @imgUrl="imgUrl"></UpdateImg>
         </el-dialog>
@@ -120,6 +119,7 @@ export default {
   components: { footerPage, serviceLMenu, breadcrumb, paging, AuthSystem, ReaderAcount, Intergral, Certificate, borrowingDetail, useLog, UpdateImg },
   data() {
     return {
+      loading: true,
       id: this.$route.query.id,
       dataKey: null,
       postForm: null,
@@ -184,7 +184,9 @@ export default {
       http.getJsonSelf('user', `/${this.id}`).then(res => {
         this.postForm = res.data;
         this.getIntegralData(res.data.userKey);
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -307,6 +309,9 @@ export default {
   border-right: 1px solid #ebeef5;
   padding: 0.7% 0;
 }
+.loading-box {
+  height: 500px;
+}
 .login-list {
   width: 100%;
   background: #fff;
@@ -372,6 +377,9 @@ export default {
 }
 /deep/ .el-tabs__nav-wrap::after {
   background-color: #fff;
+}
+/deep/ .el-tabs__content {
+  min-height: 100px;
 }
 .reader-left {
   width: 9%;

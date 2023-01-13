@@ -1,16 +1,16 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <div class="auth-title">应用授权</div>
     <div class="auth-box">
       <div class="auth-box-child" v-for="item in tableData.filter(x=>x.type==0)" :key="item">
-        <div class="bgs"><img :src="fileUrl+item.icon" /></div>
+        <div class="bgs flex-row-center"><img :src="fileUrl+item.icon" /></div>
         <span>{{item.appName}}</span>
       </div>
     </div>
     <div class="auth-title">馆员授权</div>
     <div class="auth-box">
       <div class="auth-box-child" v-for="item in tableData.filter(x=>x.type==1)" :key="item">
-        <div class="bgs"><img :src="fileUrl+item.icon" /></div>
+        <div class="bgs flex-row-center"><img :src="fileUrl+item.icon" /></div>
         <span>{{item.appName}}</span>
       </div>
     </div>
@@ -21,6 +21,7 @@ import http from "@/assets/public/js/http";
 export default {
   data() {
     return {
+      loading: true,
       fileUrl: localStorage.getItem('fileUrl'),
       dataKey: null,
       pageData: {
@@ -42,7 +43,9 @@ export default {
         this.borrowData = res.data;
         let list = res.data || [];
         this.tableData = list;
+        this.loading = false;
       }).catch(err => {
+        this.loading = false;
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
     },
@@ -97,7 +100,7 @@ export default {
 .auth-box-child {
   width: 25%;
   float: left;
-  margin: 0 0 1.5% 0;
+  margin: 0 0 20px 0;
 }
 .auth-box-child span {
   color: #34395e;

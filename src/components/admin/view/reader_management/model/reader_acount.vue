@@ -214,7 +214,7 @@ export default {
   data() {
     return {
       loading: false,
-      postForm: null,
+      postForm: {},
       dataKey: null,
       groupSelect: [],
       properties: null,

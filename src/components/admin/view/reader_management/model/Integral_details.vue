@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: huyu
- * @LastEditTime: 2022-08-10 14:22:04
+ * @LastEditTime: 2023-01-13 09:41:05
  * @Description: 
 -->
 <template>
@@ -30,7 +30,7 @@
       <el-button type="primary" class="serach-btn" @click="handleSearch" v-button-debounce>查找</el-button>
     </div>
     <div class="login-list">
-      <el-table :data="tableData" border style="width: 100%" class="list-table">
+      <el-table :data="tableData" border style="width: 100%" class="list-table" v-loading="loading">
         <el-table-column label="序号" width="55" align="center">
           <template slot-scope="scope">
             {{scope.$index+1}}
