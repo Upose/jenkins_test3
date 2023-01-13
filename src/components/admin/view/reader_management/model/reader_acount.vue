@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="editdiv">
-      <el-form v-loading="loading" ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules" :disabled="isAllowEdit">
+      <el-form ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules" :disabled="isAllowEdit">
         <div class="harf-area">
           <el-form-item label="用户类型：" prop="type">
             <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">

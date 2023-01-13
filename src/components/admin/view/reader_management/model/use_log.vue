@@ -8,13 +8,11 @@
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" placeholder="归还时间" class="w150"></el-date-picker> -->
 
-        <el-select v-model="postForm.LogType" slot="prepend" placeholder="日志类型" style="width:130px">
-          <el-option v-for="item in logType" :key="item.value" :label="item.key" :value="item.value"
-            clearable></el-option>
+        <el-select v-model="postForm.LogType" slot="prepend" placeholder="日志类型" style="width:130px" clearable>
+          <el-option v-for="item in logType" :key="item.value" :label="item.key" :value="item.value" clearable></el-option>
         </el-select>
-        <el-date-picker v-model="postForm.time" type="datetimerange" range-separator="至" start-placeholder="开始时间"
-          end-placeholder="结束时间" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
-        <el-button type="primary" @click="getList">查找</el-button>
+        <el-date-picker v-model="postForm.time" type="datetimerange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+        <el-button type="primary" @click="initList">查找</el-button>
       </div>
     </div>
     <div class="login-list">
@@ -27,7 +25,7 @@
         </el-table-column>
         <el-table-column label="事件" prop="eventName" width="180" align="center"></el-table-column>
         <el-table-column label="日志来源" prop="logFrom" width="200" align="center"></el-table-column>
-        <el-table-column label="日志说明" prop="logDesc" min-width="200" align="center"></el-table-column>
+        <el-table-column label="日志说明" prop="logDesc" min-width="200"></el-table-column>
       </el-table>
     </div>
     <paging :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
@@ -47,6 +45,7 @@ export default {
       pageData: {
         pageIndex: 1,
         pageSize: 20,
+        totalCount: 0
       },//分页参数
       tableData: [],//列表项
       postForm: {},
@@ -67,6 +66,11 @@ export default {
       }).catch(err => {
         this.$message({ type: 'error', message: '获取日志类型失败!' });
       })
+    },
+    initList() {
+      this.pageData.pageIndex = 1;
+
+      this.getList();
     },
     // 获取列表数据
     getList() {
@@ -183,11 +187,10 @@ export default {
   background: #f8faff;
 }
 
-/deep/ .el-table .cell,
-/deep/ .el-table th.el-table__cell>.cell {
-  padding-left: 8%;
-
-}
+// /deep/ .el-table .cell,
+// /deep/ .el-table th.el-table__cell > .cell {
+//   padding-left: 8%;
+// }
 
 // /deep/ .el-input__inner {
 //   height: 37px;
