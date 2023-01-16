@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 19:10:37
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-13 11:50:31
+ * @LastEditTime: 2023-01-16 15:29:59
  * @Description: 账号激活
 -->
 <template>
@@ -80,21 +80,23 @@ export default {
   methods: {
     getData() {
       this.loading = true;
-      localStorage.setItem('token', this.token)
-      this.$http.getJson('activate-front-activate-definition-list', {}).then(res => {
-        localStorage.removeItem('token')
-        this.flow = res.data.definitionList;
-        this.isBlocking = res.data.isBlocking;
-        this.curFlow = res.data.definitionList[0];
-        this.loading = false;
-        this.$nextTick(() => {
-          this.setIsNext();
+      setTimeout(() => {
+        localStorage.setItem('token', this.token)
+        this.$http.getJson('activate-front-activate-definition-list', {}).then(res => {
+          localStorage.removeItem('token')
+          this.flow = res.data.definitionList;
+          this.isBlocking = res.data.isBlocking;
+          this.curFlow = res.data.definitionList[0];
+          this.loading = false;
+          this.$nextTick(() => {
+            this.setIsNext();
+          })
+        }).catch(err => {
+          localStorage.removeItem('token')
+          this.loading = false;
+          this.$message({ type: 'error', message: '获取激活流程失败!' });
         })
-      }).catch(err => {
-        localStorage.removeItem('token')
-        this.loading = false;
-        this.$message({ type: 'error', message: '获取激活流程失败!' });
-      })
+      }, 1000);
     },
     goIndex() {
       let url = this.$setHref({ type: 'dlib', url: ['index'] }) || location.origin;
