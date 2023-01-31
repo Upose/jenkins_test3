@@ -15,7 +15,7 @@
           <!--顶部查询 end-->
           <div class="login-list">
             <div class="editdiv">
-              <el-form @submit.prevent ref="cardForm" :model="cardForm" label-width="140px" class="admin-form" :rules="readerRules">
+              <el-form @submit.prevent ref="cardForm" :model="cardForm" label-width="140px" class="admin-form" :rules="readerRules" :disabled="!$_has('card:update')">
                 <div class="read-title">读者信息</div>
                 <div class="harf-area">
                   <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
@@ -202,7 +202,7 @@
             </div> -->
             <div class="btn_box">
               <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-button-debounce> 保存</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'card:update'" v-button-debounce> 保存</el-button>
             </div>
           </div>
         </div>

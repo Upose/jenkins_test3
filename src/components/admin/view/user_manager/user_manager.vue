@@ -87,7 +87,7 @@
                   <span class="grey-btn" v-else>馆员查询</span>
                   <a :href="$setHref({ url:'/admin_readerAdd?type=staff' })" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</a>
                   <span class="grey-btn" v-else>新增馆员</span>
-                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first&dia=dialog_add' })" v-if="isAuth('staff:list','/admin_librarianManagement')">新增临时馆员</a>
+                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first&dia=dialog_add' })" v-if="isAuth('staff:createTemp','/admin_librarianManagement')">新增临时馆员</a>
                   <span class="grey-btn" v-else>新增临时馆员</span>
                   <!-- <span @click="to('/admin_librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
                 </div>

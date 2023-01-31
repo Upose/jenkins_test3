@@ -34,7 +34,8 @@
                 </el-table-column>
                 <el-table-column prop="name" label="用户组名称">
                   <template slot-scope="scope">
-                    <a class="hover-line" :href="$setHref({ url: scope.row.sourceFrom == 0?'/admin_ruleCreat':'/admin_handCreat', query: { id: scope.row.id } })">{{scope.row.name}}</a>
+                    <a class="hover-line" :href="$setHref({ url: scope.row.sourceFrom == 0?'/admin_ruleCreat':'/admin_handCreat', query: { id: scope.row.id } })" v-if="$_has('userGroup:update')">{{scope.row.name}}</a>
+                    <span v-else>{{scope.row.name}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="userCount" label="读者数" align="center"></el-table-column>
