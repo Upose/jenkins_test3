@@ -5,9 +5,12 @@
     </div>
     <!-- <a href="javascript:;" class="m-cut" @click="collapseChage"><i class="iconfont" :class="$root.collapse?'el-icon-vip-zhankai':'el-icon-vip-shouqi'"></i></a> -->
     <div class="m-box-list" :class="{'logo-collapse-left':$root.collapse}">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane :label="item.appName" :name="index" v-for="(item,index) in dataList" :key="index"></el-tab-pane>
-      </el-tabs>
+      </el-tabs> -->
+      <div class="ah-link-box">
+        <a class="ah-link" :href="item.backendUrl" v-for="(item,index) in dataList" :key="index">{{item.appName}}</a>
+      </div>
     </div>
     <div class="login-msg-warp">
       <div class="u-img-w">
@@ -90,6 +93,19 @@ export default {
   background-color: @m-col-b0;
   a {
     color: @ph-col-n10;
+  }
+  .ah-link-box {
+    .ah-link {
+      line-height: 20px;
+      padding: 10px 20px;
+      display: inline-block;
+      &:hover {
+        color: #6777ef;
+      }
+      &:first-child {
+        padding-left: 0;
+      }
+    }
   }
   .logo-w {
     vertical-align: middle;

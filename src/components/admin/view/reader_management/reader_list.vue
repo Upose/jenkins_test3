@@ -95,7 +95,8 @@
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" :key="item" v-if="item.code != 'Card_Type'">
                     <template slot-scope="scope">
                       <span v-if="item.code=='Card_No'">{{scope.row.displayNo}}</span>
-                      <span v-else @click="clickRow(item,scope.row)" :class="item.code=='User_Name'?'cu-p':''">{{getKeyValue(item.code,scope.row)}}</span>
+                      <a :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })" class="hover-line" v-else-if="item.code=='User_Name'">{{getKeyValue(item.code,scope.row)}}</a>
+                      <span v-else>{{getKeyValue(item.code,scope.row)}}</span>
                     </template>
                   </el-table-column>
                 </template>

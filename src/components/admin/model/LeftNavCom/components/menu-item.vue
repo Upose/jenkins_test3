@@ -2,14 +2,14 @@
  * @Description: 菜单项
  * @Author: wanjikun
  * @Date: 2022-07-25 14:19:52
- * @LastEditTime: 2022-07-27 10:02:05
- * @LastEditors: gongqin
+ * @LastEditTime: 2023-01-31 11:14:33
+ * @LastEditors: huyu
 -->
 <template>
-  <div class="s-row" :class="isActive(item.router)?'active':''" :title="item.name" @click="openPage(item)">
+  <a :href="$setHref({ url:item.router })" class="s-row" :class="isActive(item.router)?'active':''" :title="item.name">
     <i class="iconfont el-icon-vip-daohanglanmu"></i>
     <span>{{item.name}}</span>
-  </div>
+  </a>
 </template>
 <script>
 export default {
@@ -33,6 +33,7 @@ export default {
 <style lang="less" scoped>
 @import "~@/assets/admin/css/color.less"; /**颜色配置 */
 .s-row {
+  display: block;
   height: 40px;
   line-height: 40px;
   font-size: 13px;

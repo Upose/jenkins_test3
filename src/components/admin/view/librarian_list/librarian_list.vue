@@ -48,7 +48,11 @@
                   <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="姓名" prop="name" show-overflow-tooltip></el-table-column>
+              <el-table-column label="姓名" prop="name" show-overflow-tooltip>
+                <template slot-scope="scope">
+                  <a class="hover-line" :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })">{{scope.row.name}}</a>
+                </template>
+              </el-table-column>
               <el-table-column label="工号" prop="studentNo" show-overflow-tooltip></el-table-column>
               <el-table-column label="部门" prop="departName" show-overflow-tooltip></el-table-column>
               <el-table-column label="职称" prop="title" align="center" show-overflow-tooltip></el-table-column>

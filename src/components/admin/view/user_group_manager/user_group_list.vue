@@ -32,7 +32,11 @@
                     <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="name" label="用户组名称"></el-table-column>
+                <el-table-column prop="name" label="用户组名称">
+                  <template slot-scope="scope">
+                    <a class="hover-line" :href="$setHref({ url: scope.row.sourceFrom == 0?'/admin_ruleCreat':'/admin_handCreat', query: { id: scope.row.id } })">{{scope.row.name}}</a>
+                  </template>
+                </el-table-column>
                 <el-table-column prop="userCount" label="读者数" align="center"></el-table-column>
                 <el-table-column prop="sourceFrom" label="用户来源" align="center">
                   <template slot-scope="scope">

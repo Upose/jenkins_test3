@@ -78,7 +78,7 @@
                 <template v-for="item in dataKey.showOnTableProperties">
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item" v-if="item.code != 'Card_Type'" :min-width="item.code=='Card_No'?'150':''">
                     <template slot-scope="scope">
-                      <span v-if="item.code=='Card_No'">{{scope.row.displayNo}}</span>
+                      <a :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })" v-if="item.code=='Card_No'" class="hover-line">{{scope.row.displayNo}}</a>
                       <span v-else>{{getKeyValue(item.code,scope.row)}}</span>
                     </template>
                   </el-table-column>

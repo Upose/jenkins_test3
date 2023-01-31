@@ -15,17 +15,17 @@
                 </div>
                 <div class="box-title">读者信息管理</div>
                 <div class="box-words">
-                  <span @click="to('/admin_readerList')" v-if="isAuth('reader:list','/admin_readerList')">读者查询</span>
+                  <a :href="$setHref({ url:'/admin_readerList' })" v-if="isAuth('reader:list','/admin_readerList')">读者查询</a>
                   <span class="grey-btn" v-else>读者查询</span>
-                  <span @click="to('/admin_readerAdd')" v-if="isAuth('reader:create','/admin_readerList')">新增读者</span>
+                  <a :href="$setHref({ url:'/admin_readerAdd' })" v-if="isAuth('reader:create','/admin_readerList')">新增读者</a>
                   <span class="grey-btn" v-else>新增读者</span>
-                  <span @click="to('/admin_importUser')" v-if="isAuth('reader:import','/admin_readerList')">批量导入</span>
+                  <a :href="$setHref({ url:'/admin_importUser' })" v-if="isAuth('reader:import','/admin_readerList')">批量导入</a>
                   <span class="grey-btn" v-else>批量导入</span>
                 </div>
                 <div class="box-words">
-                  <span @click="to('/admin_readerCardList')" v-if="isAuth('card:list','/admin_readerCardList')">卡号管理</span>
+                  <a :href="$setHref({ url:'/admin_readerCardList' })" v-if="isAuth('card:list','/admin_readerCardList')">卡号管理</a>
                   <span class="grey-btn" v-else>卡号管理</span>
-                  <span @click="to('/admin_changeAudit','reader')" v-if="isAuth('approve:readerList','/admin_changeAudit')">修改审核</span>
+                  <a :href="$setHref({ url:'/admin_changeAudit?type=reader' })" v-if="isAuth('approve:readerList','/admin_changeAudit')">修改审核</a>
                   <span class="grey-btn" v-else>修改审核</span>
                 </div>
               </div>
@@ -36,9 +36,9 @@
                 <div class="box-title">读者分组管理</div>
                 <div class="box-words">
                   <!-- <span>标签管理</span> -->
-                  <span @click="to('/admin_userGroupList')" v-if="isAuth('userGroup:list','/admin_userGroupList')">用户组管理</span>
+                  <a :href="$setHref({ url:'/admin_userGroupList' })" v-if="isAuth('userGroup:list','/admin_userGroupList')">用户组管理</a>
                   <span class="grey-btn" v-else>用户组管理</span>
-                  <span @click="to('/admin_userTagList')" v-if="isAuth('userTag:list','/admin_userTagList')">标签管理</span>
+                  <a :href="$setHref({ url:'/admin_userTagList' })" v-if="isAuth('userTag:list','/admin_userTagList')">标签管理</a>
                   <span class="grey-btn" v-else>标签管理</span>
                 </div>
                 <div class="box-words">
@@ -67,13 +67,13 @@
                 <div class="box-title">读者数据标准</div>
                 <div class="box-words">
                   <span class="grey-btn">数据源管理</span>
-                  <span @click="to('/admin_attributeList')" v-if="isAuth('property:list','/admin_attributeList')">读者信息属性</span>
+                  <a :href="$setHref({ url:'/admin_attributeList' })" v-if="isAuth('property:list','/admin_attributeList')">读者信息属性</a>
                   <span class="grey-btn" v-else>读者信息属性</span>
                 </div>
                 <div class="box-words">
-                  <span @click="to('/admin_attributeList', 'attribute_group')" v-if="isAuth('propertyGroup:list','/admin_attributeList')">属性组管理</span>
+                  <a :href="$setHref({ url:'/admin_attributeList?type=attribute_group' })" v-if="isAuth('propertyGroup:list','/admin_attributeList')">属性组管理</a>
                   <span class="grey-btn" v-else>属性组管理</span>
-                  <span @click="to('/admin_changeAudit','attribute')" v-if="isAuth('approve:propertyList','/admin_changeAudit')">属性组修改审核</span>
+                  <a :href="$setHref({ url:'/admin_changeAudit?type=attribute' })" v-if="isAuth('approve:propertyList','/admin_changeAudit')">属性组修改审核</a>
                   <span class="grey-btn" v-else>属性组修改审核</span>
                 </div>
               </div>
@@ -83,11 +83,11 @@
                 </div>
                 <div class="box-title">馆员管理</div>
                 <div class="box-words">
-                  <span @click="to('/admin_librarianManagement','first')" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员查询</span>
+                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first' })" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员查询</a>
                   <span class="grey-btn" v-else>馆员查询</span>
-                  <span @click="to('/admin_readerAdd', 'staff')" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</span>
+                  <a :href="$setHref({ url:'/admin_readerAdd?type=staff' })" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</a>
                   <span class="grey-btn" v-else>新增馆员</span>
-                  <span @click="to('/admin_librarianManagement', 'first', 'dialog_add')" v-if="isAuth('staff:list','/admin_librarianManagement')">新增临时馆员</span>
+                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first&dia=dialog_add' })" v-if="isAuth('staff:list','/admin_librarianManagement')">新增临时馆员</a>
                   <span class="grey-btn" v-else>新增临时馆员</span>
                   <!-- <span @click="to('/admin_librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
                 </div>
@@ -100,11 +100,11 @@
                 </div>
                 <div class="box-title">读者应用</div>
                 <div class="box-words">
-                  <span @click="linkTo('noticecenter','/noticecenter/#/admin_messageCreate')">消息发送</span>
+                  <a :href="$setHref({ type:'dlib',url:['noticecenter','/admin_messageCreate'] })">消息发送</a>
                   <!-- <span class="grey-btn" v-else>消息发送</span> -->
-                  <span @click="linkTo('scorecenter','/scorecenter/#/admin_integralWork')">积分管理</span>
+                  <a :href="$setHref({ type:'dlib',url:['scorecenter','/admin_integralWork'] })">积分管理</a>
                   <!-- <span class="grey-btn" v-else>积分管理</span> -->
-                  <span @click="linkTo('useridentify','/useridentify/#/admin_loginConfig')">登录配置</span>
+                  <a :href="$setHref({ type:'dlib',url:['useridentify','/admin_loginConfig'] })">登录配置</a>
                   <!-- <span class="grey-btn" v-else>登录配置</span> -->
                 </div>
               </div>
@@ -239,7 +239,8 @@ export default {
 
   margin: auto;
 }
-.box-words span {
+.box-words span,
+.box-words a {
   // display: block;
   // float: left;
   margin: 3% 0 3% 3%;
@@ -255,7 +256,8 @@ export default {
   cursor: pointer;
 }
 @media (max-width: 1680px) {
-  .box-words span {
+  .box-words span,
+  .box-words a {
     padding: 0 2%;
   }
 }
@@ -263,7 +265,8 @@ export default {
   .box-words {
     width: 92%;
   }
-  .box-words span {
+  .box-words span,
+  .box-words a {
     font-size: 12px;
     padding: 0 2%;
     margin: 3% 0 3% 2%;
