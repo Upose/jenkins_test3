@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 10:29:18
  * @LastEditors: huyu
- * @LastEditTime: 2022-12-06 11:35:36
+ * @LastEditTime: 2023-01-31 14:40:01
  * @Description: 标签列表
 -->
 <template>
@@ -36,7 +36,7 @@
                   </el-menu>
                 </div>
                 <div class="table-list">
-                  <el-table ref="singleTable" stripe :data="isAuth('userTag:list')?tableData:[]" border class="admin-table" v-loading="loading">
+                  <el-table ref="singleTable" stripe :data="tableData" border class="admin-table" v-loading="loading">
                     <el-table-column type="index" width="50" align="center" label="序号"></el-table-column>
                     <el-table-column prop="name" label="标签名"></el-table-column>
                     <el-table-column prop="sourceFrom" label="用户数">
@@ -49,16 +49,16 @@
                         {{setTime(scope.row.lastSyncTime,'分')}}
                       </template>
                     </el-table-column>
-                    <el-table-column prop="status" label="是否启用" align="center" v-if="isAuth('userTag:toogleTagStatus')">
+                    <el-table-column prop="status" label="是否启用" align="center" v-has="'userTag:toogleTagStatus'">
                       <template slot-scope="scope">
                         <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" @change="handleCangeStatus(scope.row)"></el-switch>
                       </template>
                     </el-table-column>
                     <el-table-column prop="content" label="操作" fixed="right" width="250" align="center">
                       <template slot-scope="scope">
-                        <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('userTag:delete')">删除</el-button>
-                        <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('userTag:update')">编辑</el-button> -->
-                        <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-tickets" round v-if="isAuth('userTag:userList')">用户列表</el-button>
+                        <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'userTag:delete'">删除</el-button>
+                        <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-has="'userTag:update'">编辑</el-button> -->
+                        <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-tickets" round v-has="'userTag:userList'">用户列表</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
@@ -107,14 +107,6 @@ export default {
     this.initData();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_userTagList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     initData() {
       this.getTagGroup()
       this.getList();

@@ -7,7 +7,7 @@
     </div>
 
     <div class="t-p">
-      <el-table v-loading="loading" :data="isAuth('setting:staffList')?tableData:[]" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" :data="tableData" border style="width: 100%" class="list-table" :header-cell-style="{background:'#F1F3F7'}">
         <!-- <el-table-column type="selection" width="55" align="center"></el-table-column> -->
         <el-table-column label="序号" type="index" align="center" width="55">
           <template slot-scope="scope">
@@ -36,7 +36,7 @@
         <el-table-column label="操作" fixed="right" width="200" align="center">
           <template slot-scope="scope">
             <!-- <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="el-icon-delete" class="operate-red-btn" round>删除</el-button> -->
-            <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('setting:staffRoleSet')">修改角色</el-button>
+            <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-has="'setting:staffRoleSet'">修改角色</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -84,14 +84,6 @@ export default {
     this.getList();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_userSet'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     // 获取列表数据
     getList() {
       this.loading = true;

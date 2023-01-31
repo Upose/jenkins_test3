@@ -41,16 +41,16 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
               </div>
               <div class="r-btn">
-                <el-button size="medium" type="primary" @click="handMathChange" v-if="isAuth('userGroup:batchUpdate')">批量修改</el-button>
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel" v-if="isAuth('userGroup:userListDeleteUser')">批量移除</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('userGroup:userListAddUser')">添加用户</el-button>
-                <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('userGroup:userListExportUser')">导出数据</el-button>
-                <el-button type="primary" size="medium" @click="handleSendMessage" v-if="isAuth('userGroup:sendMessage')">发送信息</el-button>
+                <el-button size="medium" type="primary" @click="handMathChange" v-has="'userGroup:batchUpdate'">批量修改</el-button>
+                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel" v-has="'userGroup:userListDeleteUser'">批量移除</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-has="'userGroup:userListAddUser'">添加用户</el-button>
+                <el-button type="primary" size="medium" @click="exportExcel" v-has="'userGroup:userListExportUser'">导出数据</el-button>
+                <el-button type="primary" size="medium" @click="handleSendMessage" v-has="'userGroup:sendMessage'">发送信息</el-button>
                 <!-- <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button> -->
               </div>
             </h2>
             <div class="t-p">
-              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:userList')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="50" align="center"></el-table-column>
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
                 <el-table-column prop="name" label="姓名" show-overflow-tooltip>
@@ -172,14 +172,6 @@ export default {
     this.initData();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_userGroupList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     initData() {
       //   this.getSysAttr()
       this.getKey();

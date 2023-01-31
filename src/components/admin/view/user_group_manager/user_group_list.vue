@@ -21,12 +21,12 @@
           <div class="table-w">
             <h2 class="m-title">
               <div class="r-btn">
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/admin_ruleCreat')" v-if="isAuth('userGroup:create')">规则新建用户组</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/admin_handCreat')" v-if="isAuth('userGroup:create')">手动新建用户组</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/admin_ruleCreat')" v-has="'userGroup:create'">规则新建用户组</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd('/admin_handCreat')" v-has="'userGroup:create'">手动新建用户组</el-button>
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('userGroup:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" v-loading="loading">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table" v-loading="loading">
                 <el-table-column type="index" width="50" align="center" label="序号">
                   <template slot-scope="scope">
                     <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
@@ -52,9 +52,9 @@
                 </el-table-column>
                 <el-table-column prop="content" label="操作" fixed="right" width="300" align="center">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('userGroup:delete')">删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('userGroup:update')">编辑</el-button>
-                    <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-tickets" round v-if="isAuth('userGroup:userList')">用户列表</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'userGroup:delete'">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-has="'userGroup:update'">编辑</el-button>
+                    <el-button @click="handleUser(scope.row)" type="text" size="mini" icon="el-icon-tickets" round v-has="'userGroup:userList'">用户列表</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->
                   </template>
                 </el-table-column>
@@ -111,14 +111,6 @@ export default {
     this.initData();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_userGroupList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     initData() {
       //   this.getSysAttr()
       this.getKey();

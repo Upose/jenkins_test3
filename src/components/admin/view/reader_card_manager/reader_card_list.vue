@@ -64,16 +64,16 @@
             <h2 class="m-title">
               <!-- <el-button type="primary" size="medium" @click="$router.push('/readerCardSnyc')">同步日志</el-button> -->
               <div class="r-btn">
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('card:batchUpdate')">批量修改</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('card:create')">新增读者卡</el-button>
-                <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:export')">导出数据</el-button>
-                <el-button type="primary" size="medium" @click="syncNow" v-if="isAuth('card:increatSync')">增量同步</el-button>
-                <!-- <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:increatSync')">增量同步</el-button> -->
-                <!-- <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('card:allSync')">全量同步</el-button> -->
+                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-has="'card:batchUpdate'">批量修改</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-has="'card:create'">新增读者卡</el-button>
+                <el-button type="primary" size="medium" @click="exportExcel" v-has="'card:export'">导出数据</el-button>
+                <el-button type="primary" size="medium" @click="syncNow" v-has="'card:increatSync'">增量同步</el-button>
+                <!-- <el-button type="primary" size="medium" @click="exportExcel" v-has="'card:increatSync'">增量同步</el-button> -->
+                <!-- <el-button type="primary" size="medium" @click="exportExcel" v-has="'card:allSync'">全量同步</el-button> -->
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('card:list')?tableData:[]" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
                 <el-table-column type="selection" width="50"></el-table-column>
                 <template v-for="item in dataKey.showOnTableProperties">
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item" v-if="item.code != 'Card_Type'" :min-width="item.code=='Card_No'?'150':''">
@@ -85,8 +85,8 @@
                 </template>
                 <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('card:delete')">删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('card:detail')">查看</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'card:delete'">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-has="'card:detail'">查看</el-button>
                   </template>
                 </el-table-column>
 
@@ -175,14 +175,6 @@ export default {
       //   this.getSysAttr()
       this.getKey();
       this.getList();
-    },
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_readerCardList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {

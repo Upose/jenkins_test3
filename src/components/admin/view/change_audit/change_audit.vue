@@ -76,24 +76,16 @@ export default {
 
     this.initData();
   },
-  components: { footerPage, serviceLMenu, breadcrumb, paging, attribute, attributeGroup,reader,register,card },
+  components: { footerPage, serviceLMenu, breadcrumb, paging, attribute, attributeGroup, reader, register, card },
   data() {
     return {
       check_num: "reader",
-      dataKey:null,
+      dataKey: null,
     };
   },
   mounted() {
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name){
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item=>(item.router == '/admin_changeAudit'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item=>(item.permission==name)) : null;
-      return curSonAuth?true:false;
-    },
     /**目录，内容切换**/
     checkClick(val) {
       this.check_num = val;

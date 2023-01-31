@@ -2,11 +2,11 @@
   <div>
     <div class="m-title search-term-table">
       <div class="r-btn">
-        <el-button type="primary" size="medium" @click="handleAdd" v-if="isAuth('property:create')">新增属性</el-button>
+        <el-button type="primary" size="medium" @click="handleAdd" v-has="'property:create'">新增属性</el-button>
       </div>
     </div>
     <div class="t-p">
-      <el-table v-loading="loading" stripe ref="singleTable" :data=" isAuth('property:list')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data="tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <!-- <el-table-column type="selection" width="45"></el-table-column> -->
         <el-table-column label="序号" align="center" width="58" type="index"></el-table-column>
         <el-table-column prop="name" align="center" label="属性名称" show-overflow-tooltip></el-table-column>
@@ -28,19 +28,19 @@
             <span>{{ scope.row.unique?'唯一':'不唯一'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="showOnTable" label="列表是否展示" align="center" v-if="isAuth('property:update')">
+        <el-table-column prop="showOnTable" label="列表是否展示" align="center" v-has="'property:update'">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.showOnTable?'是':'否'}}</span> -->
             <span v-if="scope.row.showOnTableSwitch">
-              <el-switch v-model="scope.row.showOnTable" @change="handleCangeShow(scope.row)"></el-switch>
+              <el-switch v-model="scope.row.showOnTable" @change="handleCangeShow(scope.row)" :disabled="!$_has('property:update')"></el-switch>
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="canSearch" label="是否可检索" align="center" v-if="isAuth('property:update')">
+        <el-table-column prop="canSearch" label="是否可检索" align="center" v-has="'property:update'">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.canSearch?'是':'否'}}</span> -->
             <span v-if="scope.row.sysBuildIn == 1 && scope.row.canSearchSwitch">
-              <el-switch v-model="scope.row.canSearch" @change="handleCangeSearch(scope.row)"></el-switch>
+              <el-switch v-model="scope.row.canSearch" @change="handleCangeSearch(scope.row)" :disabled="!$_has('property:update')"></el-switch>
             </span>
           </template>
         </el-table-column>
@@ -53,10 +53,10 @@
           <template slot-scope="scope">
             <div v-if="scope.row.approveStatus == 1">
               <template v-if="!scope.row.sysBuildIn">
-                <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('property:delete')">删除</el-button>
-                <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('property:update')">编辑</el-button>
+                <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'property:delete'">删除</el-button>
+                <el-button @click="handleEdit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-has="'property:update'">编辑</el-button>
               </template>
-              <el-button @click="handleEditGroup(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" v-if="scope.row.type == 4&&isAuth('propertyGroup:edit')" round>编辑属性组</el-button>
+              <el-button @click="handleEditGroup(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" v-if="scope.row.type == 4" v-has="'propertyGroup:edit'" round>编辑属性组</el-button>
             </div>
             <span v-else>
               审批中...
@@ -98,14 +98,6 @@ export default {
     this.getList();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_attributeList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     // 获取初始数据
     getKey() {
       http.getJson('init-data').then(res => {

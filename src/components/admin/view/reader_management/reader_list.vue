@@ -81,15 +81,15 @@
           <div class="table-w">
             <h2 class="m-title">
               <div class="r-btn">
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-if="isAuth('reader:batchUpdate')">批量修改</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-if="isAuth('reader:create')">新增读者</el-button>
-                <el-button type="primary" size="medium" @click="handleMergeReader" v-if="isAuth('reader:export')">合并读者</el-button>
-                <el-button type="primary" size="medium" @click="exportExcel" v-if="isAuth('reader:export')">导出数据</el-button>
-                <el-button type="primary" size="medium" @click="importExcel" v-if="isAuth('reader:import')">导入数据</el-button>
+                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-has="'reader:batchUpdate'">批量修改</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-has="'reader:create'">新增读者</el-button>
+                <el-button type="primary" size="medium" @click="handleMergeReader" v-has="'reader:export'">合并读者</el-button>
+                <el-button type="primary" size="medium" @click="exportExcel" v-has="'reader:export'">导出数据</el-button>
+                <el-button type="primary" size="medium" @click="importExcel" v-has="'reader:import'">导入数据</el-button>
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="isAuth('reader:list')?tableData:[]" border class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border class="admin-table">
                 <el-table-column type="selection" width="50" align="center"></el-table-column>
                 <template v-for="item in dataKey.showOnTableProperties">
                   <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" :key="item" v-if="item.code != 'Card_Type'">
@@ -102,8 +102,8 @@
                 </template>
                 <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('reader:delete')">删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('reader:detail')">查看</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'reader:delete'">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-has="'reader:detail'">查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -230,14 +230,6 @@ export default {
       this.getKey();
       this.getDepList();
       this.getList();
-    },
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_readerList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {
@@ -595,7 +587,7 @@ export default {
       this.multipleSelection = val;
     },
     clickRow(item, row) {
-      if (item.code == "User_Name" && this.isAuth('reader:detail')) {
+      if (item.code == "User_Name" && this.$_has('reader:detail')) {
         this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
       }
     },

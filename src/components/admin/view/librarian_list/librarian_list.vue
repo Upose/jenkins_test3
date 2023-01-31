@@ -21,9 +21,9 @@
             <img src="@/assets/admin/img/userManager/icon-table2x.png" />
             <span>馆员列表</span>
           </div>
-          <span class="tianjia" @click="$refs.dialog_add.show()" v-if="isAuth('staff:createTemp')">添加临时馆员</span>
-          <span class="xzgy" @click="handleAdd" v-if="isAuth('staff:create')">新增馆员</span>
-          <span class="bdzz" @click="handleChange" v-if="isAuth('staff:setDepart')">变动组织</span>
+          <span class="tianjia" @click="$refs.dialog_add.show()" v-has="'staff:createTemp'">添加临时馆员</span>
+          <span class="xzgy" @click="handleAdd" v-has="'staff:create'">新增馆员</span>
+          <span class="bdzz" @click="handleChange" v-has="'staff:setDepart'">变动组织</span>
         </div>
         <div class="right-box">
           <div class="box-title">
@@ -41,7 +41,7 @@
 
           </div>
           <div>
-            <el-table v-loading="loading" :data="isAuth('staff:list')?tableData:[]" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
+            <el-table v-loading="loading" :data="tableData" border style="width: 100%" class="list-table" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="50" align="center"></el-table-column>
               <el-table-column label="序号" type="index" prop="index" align="center" show-overflow-tooltip width="50">
                 <template slot-scope="scope">
@@ -71,8 +71,8 @@
               </el-table-column>
               <el-table-column label="操作" fixed="right" width="200" align="center">
                 <template slot-scope="scope">
-                  <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-if="isAuth('staff:delete')">删除</el-button>
-                  <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('staff:detail')">查看</el-button>
+                  <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'staff:delete'">删除</el-button>
+                  <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-has="'staff:detail'">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -128,19 +128,11 @@ export default {
     this.getList();
     // this.getDepa();
     let dia = this.$route.query.dia || ''
-    if (this.isAuth('staff:createTemp') && dia && dia == 'dialog_add') {
+    if (this.$_has('staff:createTemp') && dia && dia == 'dialog_add') {
       this.$refs.dialog_add.show();
     }
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_librarianManagement'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     getDataKey() {
       http.getJson('staff-init-data').then(res => {
         this.dataKey = res.data;

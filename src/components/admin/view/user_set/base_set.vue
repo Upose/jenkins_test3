@@ -1,7 +1,7 @@
 <!---信息导航-应用设置-->
 <template>
   <div class="content">
-    <el-form :model="postForm" ref="ruleForm" label-width="170px" class="admin-form" :disabled="!isAuth('setting:basicSet')">
+    <el-form :model="postForm" ref="ruleForm" label-width="170px" class="admin-form" :disabled="!$_has('setting:basicSet')">
       <div class="form-content">
         <el-form-item label="开启敏感信息：">
           <el-switch v-model="postForm.sensitiveFilter"></el-switch>
@@ -86,14 +86,6 @@ export default {
   methods: {
     initData() {
       this.getData();
-    },
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_userSet'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
     },
     // 获取设置
     getData() {

@@ -13,8 +13,8 @@
             <!-- <span class="fsxx">发送消息</span>
             <span class="zwhy" @click="handleChange">转为馆员</span> -->
             <div class="right-btn-box">
-              <el-button v-if="showToStaff&&isAuth('reader:batchSetAsStaff')" size="medium" type="primary" class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
-              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend" v-if="isAuth('reader:sendMessage')">发送消息</el-button>
+              <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary" class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
+              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend" v-has="'reader:sendMessage'">发送消息</el-button>
             </div>
           </div>
           <div class="loading-box" v-loading="loading" v-if="loading"></div>
@@ -162,14 +162,6 @@ export default {
       } else {
         this.postForm = {}
       }
-    },
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_readerList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
     },
     // 获取初始数据
     getKey() {

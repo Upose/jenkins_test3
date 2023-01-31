@@ -15,7 +15,7 @@
           <!--顶部查询 end-->
           <div class="login-list">
             <div class="card-box">
-              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules" :disabled="!isAuth('card:update')">
+              <el-form ref="form" :model="cardForm" label-width="180px" :rules="cardRules" :disabled="!$_has('card:update')">
                 <div class="read-title">读者卡信息</div>
                 <el-form-item label="选择用户：" v-if="!id&&!userId" prop="userId">
                   <el-select v-model="cardForm.userId" filterable remote reserve-keyword placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
@@ -72,7 +72,7 @@
                 <el-form-item label="卡密码：" prop="secret">
                   <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
                   <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
-                    <template slot="append" v-if="isAuth('card:setSecret')">
+                    <template slot="append" v-has="'card:setSecret'">
                       <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
                     </template>
                   </el-input>
@@ -98,7 +98,7 @@
               </el-form>
             </div>
             <div class="btn_box">
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-if="isAuth('card:update')" v-button-debounce>保 存</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'card:update'" v-button-debounce>保 存</el-button>
             </div>
           </div>
         </div>
@@ -204,14 +204,6 @@ export default {
     this.initData();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_readerCardList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     // 初始化下拉列表
     initSelect(code) {
       if (!this.dataKey) return;

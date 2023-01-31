@@ -15,17 +15,17 @@
                 </div>
                 <div class="box-title">读者信息管理</div>
                 <div class="box-words">
-                  <a :href="$setHref({ url:'/admin_readerList' })" v-if="isAuth('reader:list','/admin_readerList')">读者查询</a>
+                  <a :href="$setHref({ url:'/admin_readerList' })" v-if="$_has('reader:list')">读者查询</a>
                   <span class="grey-btn" v-else>读者查询</span>
-                  <a :href="$setHref({ url:'/admin_readerAdd' })" v-if="isAuth('reader:create','/admin_readerList')">新增读者</a>
+                  <a :href="$setHref({ url:'/admin_readerAdd' })" v-if="$_has('reader:create')">新增读者</a>
                   <span class="grey-btn" v-else>新增读者</span>
-                  <a :href="$setHref({ url:'/admin_importUser' })" v-if="isAuth('reader:import','/admin_readerList')">批量导入</a>
+                  <a :href="$setHref({ url:'/admin_importUser' })" v-if="$_has('reader:import')">批量导入</a>
                   <span class="grey-btn" v-else>批量导入</span>
                 </div>
                 <div class="box-words">
-                  <a :href="$setHref({ url:'/admin_readerCardList' })" v-if="isAuth('card:list','/admin_readerCardList')">卡号管理</a>
+                  <a :href="$setHref({ url:'/admin_readerCardList' })" v-if="$_has('card:list')">卡号管理</a>
                   <span class="grey-btn" v-else>卡号管理</span>
-                  <a :href="$setHref({ url:'/admin_changeAudit?type=reader' })" v-if="isAuth('approve:readerList','/admin_changeAudit')">修改审核</a>
+                  <a :href="$setHref({ url:'/admin_changeAudit?type=reader' })" v-if="$_has('approve:readerList')">修改审核</a>
                   <span class="grey-btn" v-else>修改审核</span>
                 </div>
               </div>
@@ -36,9 +36,9 @@
                 <div class="box-title">读者分组管理</div>
                 <div class="box-words">
                   <!-- <span>标签管理</span> -->
-                  <a :href="$setHref({ url:'/admin_userGroupList' })" v-if="isAuth('userGroup:list','/admin_userGroupList')">用户组管理</a>
+                  <a :href="$setHref({ url:'/admin_userGroupList' })" v-if="$_has('userGroup:list')">用户组管理</a>
                   <span class="grey-btn" v-else>用户组管理</span>
-                  <a :href="$setHref({ url:'/admin_userTagList' })" v-if="isAuth('userTag:list','/admin_userTagList')">标签管理</a>
+                  <a :href="$setHref({ url:'/admin_userTagList' })" v-if="$_has('userTag:list')">标签管理</a>
                   <span class="grey-btn" v-else>标签管理</span>
                 </div>
                 <div class="box-words">
@@ -52,11 +52,11 @@
                 </div>
                 <div class="box-title">读者卡管理</div>
                 <div class="box-words">
-                  <span @click="to('/admin_readerCardList')" v-if="isAuth('card:list','/admin_readerCardList')">读者卡列表</span>
+                  <span @click="to('/admin_readerCardList')" v-if="$_has('card:list','/admin_readerCardList')">读者卡列表</span>
                   <span class="grey-btn" v-else>读者卡列表</span>
-                  <span @click="to('/admin_readerCardAdd')" v-if="isAuth('card:create','/admin_readerCardList')">新增读者卡</span>
+                  <span @click="to('/admin_readerCardAdd')" v-if="$_has('card:create','/admin_readerCardList')">新增读者卡</span>
                   <span class="grey-btn" v-else>新增读者卡</span>
-                  <span @click="to('/admin_changeAudit','card')" v-if="isAuth('approve:cardClaimList','/admin_changeAudit')">领卡审核</span>
+                  <span @click="to('/admin_changeAudit','card')" v-if="$_has('approve:cardClaimList','/admin_changeAudit')">领卡审核</span>
                   <span class="grey-btn" v-else>领卡审核</span>
                 </div>
               </div> -->
@@ -67,13 +67,13 @@
                 <div class="box-title">读者数据标准</div>
                 <div class="box-words">
                   <span class="grey-btn">数据源管理</span>
-                  <a :href="$setHref({ url:'/admin_attributeList' })" v-if="isAuth('property:list','/admin_attributeList')">读者信息属性</a>
+                  <a :href="$setHref({ url:'/admin_attributeList' })" v-if="$_has('property:list')">读者信息属性</a>
                   <span class="grey-btn" v-else>读者信息属性</span>
                 </div>
                 <div class="box-words">
-                  <a :href="$setHref({ url:'/admin_attributeList?type=attribute_group' })" v-if="isAuth('propertyGroup:list','/admin_attributeList')">属性组管理</a>
+                  <a :href="$setHref({ url:'/admin_attributeList?type=attribute_group' })" v-if="$_has('propertyGroup:list')">属性组管理</a>
                   <span class="grey-btn" v-else>属性组管理</span>
-                  <a :href="$setHref({ url:'/admin_changeAudit?type=attribute' })" v-if="isAuth('approve:propertyList','/admin_changeAudit')">属性组修改审核</a>
+                  <a :href="$setHref({ url:'/admin_changeAudit?type=attribute' })" v-if="$_has('approve:propertyList')">属性组修改审核</a>
                   <span class="grey-btn" v-else>属性组修改审核</span>
                 </div>
               </div>
@@ -83,13 +83,13 @@
                 </div>
                 <div class="box-title">馆员管理</div>
                 <div class="box-words">
-                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first' })" v-if="isAuth('staff:list','/admin_librarianManagement')">馆员查询</a>
+                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first' })" v-if="$_has('staff:list')">馆员查询</a>
                   <span class="grey-btn" v-else>馆员查询</span>
-                  <a :href="$setHref({ url:'/admin_readerAdd?type=staff' })" v-if="isAuth('reader:create','/admin_readerList')">新增馆员</a>
+                  <a :href="$setHref({ url:'/admin_readerAdd?type=staff' })" v-if="$_has('reader:create')">新增馆员</a>
                   <span class="grey-btn" v-else>新增馆员</span>
-                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first&dia=dialog_add' })" v-if="isAuth('staff:createTemp','/admin_librarianManagement')">新增临时馆员</a>
+                  <a :href="$setHref({ url:'/admin_librarianManagement?type=first&dia=dialog_add' })" v-if="$_has('staff:createTemp')">新增临时馆员</a>
                   <span class="grey-btn" v-else>新增临时馆员</span>
-                  <!-- <span @click="to('/admin_librarianManagement','second')" v-if="isAuth('','')">馆员日志</span> -->
+                  <!-- <span @click="to('/admin_librarianManagement','second')" v-if="$_has('','')">馆员日志</span> -->
                 </div>
               </div>
             </div>
@@ -138,15 +138,6 @@ export default {
     //   this.initData();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name, path) {
-      let authList = this.$store.getters.authList;
-      console.log(authList)
-      let curAuth = authList.find(item => (item.router == path));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     // 前往页面
     to(path, type, dia) {
       this.$router.push({ path: path, query: { type: type, dia: dia } })

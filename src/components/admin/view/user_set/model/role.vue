@@ -7,7 +7,7 @@
     </div>
 
     <div class="t-p">
-      <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('setting:roleList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data="tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column type="index" label="序号" align="center" width="50px">
           <template slot-scope="scope">
             <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
@@ -16,13 +16,13 @@
         <el-table-column prop="name" label="角色名称" align="center" width="150px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="staffCount" label="馆员" align="center" width="100px">
           <template slot-scope="scope">
-            <span class="cu-p" @click="handleEditStaff(scope.row)" v-if="isAuth('setting:roleStaffSet')">{{scope.row.staffCount}}</span>
+            <span class="cu-p" @click="handleEditStaff(scope.row)" v-if="$_has('setting:roleStaffSet')">{{scope.row.staffCount}}</span>
             <span v-else>{{scope.row.staffCount}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="permissionCount" label="权限" align="center" width="100px">
           <template slot-scope="scope">
-            <span class="cu-p" @click="handleEditAuth(scope.row)" v-if="isAuth('setting:rolePermissionSet')">{{scope.row.permissionCount}}</span>
+            <span class="cu-p" @click="handleEditAuth(scope.row)" v-if="$_has('setting:rolePermissionSet')">{{scope.row.permissionCount}}</span>
             <span v-else>{{scope.row.permissionCount}}</span>
           </template>
         </el-table-column>
@@ -34,9 +34,9 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" align="center" width="320">
           <template slot-scope="scope">
-            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:roleDelete')">删除</el-button>
-            <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round :disabled="scope.row.sysBuildIn" v-if="isAuth('setting:rolePermissionSet')">编辑权限</el-button>
-            <el-button @click="handleEditStaff(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="isAuth('setting:roleStaffSet')">编辑馆员</el-button>
+            <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round :disabled="scope.row.sysBuildIn" v-has="'setting:roleDelete'">删除</el-button>
+            <el-button @click="handleEditAuth(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round :disabled="scope.row.sysBuildIn" v-has="'setting:rolePermissionSet'">编辑权限</el-button>
+            <el-button @click="handleEditStaff(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-has="'setting:roleStaffSet'">编辑馆员</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -81,14 +81,6 @@ export default {
     this.getList();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_userSet'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     // 获取列表数据
     getList() {
       this.loading = true;

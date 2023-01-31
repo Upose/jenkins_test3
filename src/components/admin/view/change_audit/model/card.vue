@@ -19,7 +19,7 @@
     </div>
 
     <div class="t-p">
-      <el-table v-loading="loading" stripe ref="singleTable" :data="isAuth('approve:cardClaimList')?tableData:[]" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
+      <el-table v-loading="loading" stripe ref="singleTable" :data="tableData" @selection-change="handleSelectionApp" border class="admin-table" :header-cell-style="{background:'#F1F3F7'}">
         <el-table-column label="序号" align="center" width="58" type="index">
           <template slot-scope="scope">
             <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
@@ -41,12 +41,12 @@
         </el-table-column>
         <el-table-column prop="content" label="操作" fixed="right" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="scope.row.status == 0&&isAuth('approve:cardClaimApprove')">审核</el-button>
+            <el-button @click="handleAudit(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-bianji" round v-if="scope.row.status == 0" v-has="'approve:cardClaimApprove'">审核</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="content" label="详细日志">
           <template slot-scope="scope">
-            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-if="isAuth('approve:cardClaimDetail')">详细记录</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-has="'approve:cardClaimDetail'">详细记录</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -92,14 +92,6 @@ export default {
     this.getList();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_changeAudit'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     // 获取列表数据
     getList() {
       this.loading = true;

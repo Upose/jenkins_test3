@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading">
     <div class="certificate-title">
-      <el-button type="primary" class="serach-btn" @click="handleAdd" icon="iconfont el-icon-vip-tianjia2" v-if="isAuth('card:create')">添加卡片</el-button>
+      <el-button type="primary" class="serach-btn" @click="handleAdd" icon="iconfont el-icon-vip-tianjia2" v-has="'card:create'">添加卡片</el-button>
     </div>
     <div class="certificate-box" v-for="(item,index) in tableData" :key="index">
       <div class="certificate-box-top">
@@ -10,8 +10,8 @@
         <span class="times">有效期：{{dateChangeFormat(item.expireDate)}}</span>
         <span class="card" v-if="item.isPrincipal">主卡</span>
         <span class="set-card" v-if="!item.isPrincipal" @click="handleSetCard(item)" v-button-debounce>设为主卡</span>
-        <el-button class="caozuo" @click="handleEditPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-bianji">修改密码</el-button>
-        <el-button class="caozuo" @click="handleResetPass(item)" v-if="isAuth('card:setSecret')" icon="iconfont el-icon-vip-chushi">重置密码</el-button>
+        <el-button class="caozuo" @click="handleEditPass(item)" v-has="'card:setSecret'" icon="iconfont el-icon-vip-bianji">修改密码</el-button>
+        <el-button class="caozuo" @click="handleResetPass(item)" v-has="'card:setSecret'" icon="iconfont el-icon-vip-chushi">重置密码</el-button>
         <el-button class="caozuo" @click="handleLook(item)" icon="iconfont el-icon-vip-yulan">查看</el-button>
         <el-button class="caozuo" @click="shouqi(index,'tableData')">
           <i class="el-icon-arrow-up" v-if="item.showBox"></i><span v-if="item.showBox">收起</span>
@@ -67,14 +67,6 @@ export default {
     this.getLog();
   },
   methods: {
-    // 页面子权限判定
-    isAuth(name) {
-      let authList = this.$store.getters.authList;
-      let curAuth = authList.find(item => (item.router == '/admin_readerCardList'));
-      // let curAuth = authList.find(item=>(item.router == this.$route.path));
-      let curSonAuth = curAuth ? curAuth.permissionNodes.find(item => (item.permission == name)) : null;
-      return curSonAuth ? true : false;
-    },
     shouqi(index, list) {
       this.$set(this[list][index], 'showBox', !this[list][index].showBox)
       // this.tableData[index].showBox = !this.tableData[index].showBox
