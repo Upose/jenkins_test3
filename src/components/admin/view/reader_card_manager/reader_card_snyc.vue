@@ -20,7 +20,7 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div> -->
               <div class="r-btn">
-                <el-button type="primary" size="medium" @click="$refs.dialog_set.show()">同步配置</el-button>
+                <el-button type="primary" size="medium" @click="$refs.dialog_set.show()" v-has="'card:increatSync'">同步配置</el-button>
               </div>
             </h2>
             <div class="t-p">
