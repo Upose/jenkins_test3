@@ -638,6 +638,7 @@ export default {
             })
           } else {
             this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
+            this.cardForm.id = undefined;
             http.postJson('card', this.cardForm).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
               // this.id = res.data;
