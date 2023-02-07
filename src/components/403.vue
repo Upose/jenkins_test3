@@ -19,37 +19,44 @@
 <script>
 export default {
   name: '403page',
-  beforeRouteEnter(to, from, next) {
-    if (from.fullPath.indexOf('admin') > -1) {
-      this.home = 'admin';
-    }
-    next();
-  },
   data() {
     return {
-      code: 'index',
-      path: '/index',
+      path: '',
       home: 'web',
+      hintTxt: this.$route.query.txt || '',
     }
   },
   mounted() {
-    document.title = '403';
-    if (this.home == 'web') {
-      this.code = 'index';
-      this.path = '/index?page=1';
-    } else {
-      this.code = 'workbench'
-      this.path = '/admin_workbench';
-    }
+    document.title = '403'
+    this.get403();
   },
   methods: {
-    goHome() {
-      let url = this.$setHref({ type: 'dlib', url: [this.code, this.path] });
-      location.href = url;
+    get403() {
+      let is_admin = window.sessionStorage.getItem('backHome');
+      let path = window.sessionStorage.getItem('backUrl');
+      if (is_admin && is_admin != null && is_admin != undefined && is_admin != '') {
+        this.home = is_admin;
+      }
+      if (path && path != null && path != undefined && path != '') {
+        this.path = path;
+      }
     },
     goBack() {
-      window.history.go(-1);
-    }
+      if (this.path && this.path != '') {
+        window.location.replace(this.path);
+      } else {
+        this.goHome();
+      }
+    },
+    goHome() {
+      if (this.home == 'admin') {
+        let url = this.$setHref({ type: 'dlib', url: ['workbench', `/admin_workbench`] })
+        location.href = url;
+      } else {
+        let url = this.$setHref({ type: 'dlib', url: ['index'] })
+        location.href = url;
+      }
+    },
   },
 }
 </script>
