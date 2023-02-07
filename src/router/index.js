@@ -6,6 +6,8 @@ Vue.use(Router)
 
 
 export default new Router({
+  mode: 'history',
+  base: process.env.NODE_ENV == 'production' ? '/usermanage/' : '',// 打包时需要配置二级目录名
   routes: [
     //{ path: '/', redirect: '/admin_userManager' },
     {
@@ -56,14 +58,19 @@ export default new Router({
       name: '404',
       component: r => require.ensure([], () => r(require('@/components/404')), 'index'),
     },
-    {//重定向中间件
-      path: '/',
-      name: 'reset',
-      beforeEnter: async (to, from, next) => {
-        let path = await casCallbake('/admin_userManager');
-        next(path);
-      }
+    {
+      path: '/500',
+      name: '500',
+      component: r => require.ensure([], () => r(require('@/components/500')), 'index'),
     },
+    // {//重定向中间件
+    //   path: '/',
+    //   name: 'reset',
+    //   beforeEnter: async (to, from, next) => {
+    //     let path = await casCallbake('/admin_userManager');
+    //     next(path);
+    //   }
+    // },
     {
       path: '*',
       redirect: '/404',

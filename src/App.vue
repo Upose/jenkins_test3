@@ -13,7 +13,8 @@ export default {
       post_details: false,
     }
   },
-  created() {
+  async created() {
+    await casCallbake('/web_library');
     this.getBaseInfo();
     this.getAppsDetails();
   },
@@ -22,27 +23,27 @@ export default {
   },
   methods: {
     //获取应用名称信息等
-    async getAppsDetails(){
+    async getAppsDetails() {
       var res = await handleAppState('usermanage');
-      if(res.code == 200){
-        this.$store.commit('setAppInfo',res.data);
+      if (res.code == 200) {
+        this.$store.commit('setAppInfo', res.data);
         this.post_details = true;
-      }else if(res.code == 499){
-        this.$router.push({ path: "/403", query: {txt:res.message} });
+      } else if (res.code == 499) {
+        this.$router.push({ path: "/403", query: { txt: res.message } });
         this.post_details = true;
-      }else if(res.code == 500){
-        this.$message({type: 'error',message: '获取应用详情失败!'});
+      } else if (res.code == 500) {
+        this.$message({ type: 'error', message: '获取应用详情失败!' });
       }
     },
     //获取基础信息
-    async getBaseInfo(){
+    async getBaseInfo() {
       var res = await handleGetBaseInfo();
-      if(res.code == 200){
-        this.$store.commit('baseinfo',res.data);
+      if (res.code == 200) {
+        this.$store.commit('baseinfo', res.data);
         this.$root.fileUrl = res.data.orgInfo.fileUrl;
         this.isInfoLoad = true;
-      }else{
-        this.$message({ type: 'error', message: res.message||'获取基础数据失败！' });
+      } else {
+        this.$message({ type: 'error', message: res.message || '获取基础数据失败！' });
       }
     },
   },

@@ -28,9 +28,8 @@ export default {
   },
   methods: {
     toWorkbench() {
-      let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
-      let info = urlInfo.find(item => item.code == 'workbench');
-      window.location.href = info.path + '/workbench/#/admin_workbench';
+      let url = this.$setHref({ type: 'dlib', url: ['workbench', `/admin_workbench`] })
+      location.href = url;
     }
   },
 }

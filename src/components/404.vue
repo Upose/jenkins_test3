@@ -19,43 +19,36 @@
 <script>
 export default {
   name: '404page',
-  beforeRouteEnter(to,from,next){
-    if(from.fullPath.indexOf('admin')>-1){
+  beforeRouteEnter(to, from, next) {
+    if (from.fullPath.indexOf('admin') > -1) {
       this.home = 'admin';
     }
     next();
   },
-  data () {
+  data() {
     return {
-      code:'index',
-      path:'/#/index',
-      home:'web',
+      code: 'index',
+      path: '/index',
+      home: 'web',
     }
   },
-  mounted(){
-    document.title = '404'
-    if(this.home == 'admin'){
-      this.code = 'workbench'
-      this.path = '/workbench/#/admin_workbench';
-    }else{
+  mounted() {
+    if (this.home == 'web') {
       this.code = 'index';
-      this.path = '/#/index?page=1';
+      this.path = '/index?page=1';
+    } else {
+      this.code = 'workbench'
+      this.path = '/admin_workbench';
     }
   },
-  methods:{
-    linkTo(code, url) {
-      if (url) {
-        let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
-        let info = urlInfo.find(item => item.code == code);
-        window.location.href = info.path + url;
-      }
+  methods: {
+    goHome() {
+      let url = this.$setHref({ type: 'dlib', url: [this.code, this.path] });
+      location.href = url;
     },
-    goBack(){
+    goBack() {
       window.history.go(-1);
-    },
-    goHome(){
-      this.linkTo(this.code,this.path);
-    },
+    }
   },
 }
 </script>

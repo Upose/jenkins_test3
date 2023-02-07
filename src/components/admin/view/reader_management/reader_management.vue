@@ -217,8 +217,8 @@ export default {
     },
     // 发送消息
     handleSend() {
-      let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == 'noticecenter');
-      location.href = info.path + '/noticecenter/#/admin_messageCreate?userId=' + this.id;
+      let url = this.$setHref({ type: 'dlib', url: ['noticecenter', '/admin_messageCreate?userId=' + this.id] })
+      location.href = url;
     },
     // 时间格式化
     dateChangeFormat(format, date) {

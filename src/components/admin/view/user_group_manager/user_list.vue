@@ -292,8 +292,8 @@ export default {
     },
     // 发送信息
     handleSendMessage() {
-      let info = JSON.parse(localStorage.getItem('urlInfo')).find(item => item.code == 'noticecenter');
-      location.href = info.path + '/noticecenter/#/admin_messageCreate?groupId=' + this.id;
+      let url = this.$setHref({ type: 'dlib', url: ['noticecenter', '/admin_messageCreate?groupId=' + this.id] })
+      location.href = url;
     }
   },
 }

@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-02 18:25:54
  * @LastEditors: huyu
- * @LastEditTime: 2023-01-09 17:20:35
+ * @LastEditTime: 2023-02-07 13:42:11
  * @Description: 个人图书馆--检索组件--从模板组件复制过来
 -->
 <template>
@@ -216,11 +216,8 @@ export default {
       if (this.isSearchPage) {
         this.$emit('showHighSearch');
       } else {
-        // let href = `${this.webBase}#/web_searchingResult?high=h`;
-        // console.log(href);
-        // window.location.href = href;
-        let href = `/articlesearch/#/web_searchingResult?high=h`;
-        this.linkTo('articlesearch', href)
+        let url = this.$setHref({ type: 'dlib', url: ['articlesearch', `/web_searchingResult?high=h`] })
+        location.href = url;
       }
     },
     /***订阅此检索 */
@@ -260,10 +257,8 @@ export default {
       if (this.cu_colum.actionType == 1) {//普通检索
         if (this.cu_colum.tableType == 2) {
           //站内检索，跳转地址,带参到站内检索页面 
-          // this.$router.push({path:'/web_siteSearch',query:{}}) //web_siteSearch?keyword=数据库&type=8
-          let href = `${this.webBase}#/web_siteSearch?keyword=${encodeURIComponent(this.basicInputKeyWord)}&type=${encodeURIComponent(this.cu_colum.articleType)}&symbol=${encodeURIComponent((this.search ? (this.search.symbol || 'U') : 'U'))}&searchMatchType=${encodeURIComponent(this.search ? (this.search.searchMatchType || searchMatchType.Fuzzy) : searchMatchType.Fuzzy)}`;
-          // console.log(href);return;
-          window.location.href = href;
+          let url = this.$setHref({ type: 'dlib', url: ['articlesearch', `/web_siteSearch?keyword=${encodeURIComponent(this.basicInputKeyWord)}&type=${encodeURIComponent(this.cu_colum.articleType)}&symbol=${encodeURIComponent((this.search ? (this.search.symbol || 'U') : 'U'))}&searchMatchType=${encodeURIComponent(this.search ? (this.search.searchMatchType || searchMatchType.Fuzzy) : searchMatchType.Fuzzy)}`] })
+          location.href = url;
         } else {//普通搜索
           this.searchExpressionResolver.clearConditions();//情况条件
           if (this.search && this.search.symbol != "U") {
@@ -330,11 +325,9 @@ export default {
       this.postJsonAsync("/api/search-const/encrypt-search-parameter", list).then((x) => {
         let keyword = this.basicInputKeyWord || "";
         // if (keyword.length >= 100) keyword = keyword.substring(0, 100);
-        // let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
         // window.location.href = href;
-        let href = `/articlesearch/#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
-        this.linkTo('articlesearch', href)
-        // location.reload();
+        let url = this.$setHref({ type: 'dlib', url: ['articlesearch', `/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`] })
+        location.href = url;
       });
     },
     //当输入框获取焦点的时候
