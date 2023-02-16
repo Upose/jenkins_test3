@@ -3,7 +3,7 @@
     <div>
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="身份证号：">
-          <el-input v-model="idCard" placeholder="请输入"></el-input>
+          <el-input v-model="idCard" placeholder="请输入" maxlength="30" show-word-limit></el-input>
         </el-form-item>
       </el-form>
     </div>

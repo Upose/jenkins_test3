@@ -143,14 +143,14 @@ export default {
         password: [
           { required: true, message: '必填项', trigger: 'blur' },
         ],
-        idCard: [
-          {
-            validator: this.$validator.validatePattern,
-            message: '格式错误',
-            pattern: this.$validator.idCard,
-            trigger: 'blur'
-          }
-        ],
+        // idCard: [
+        //   {
+        //     validator: this.$validator.validatePattern,
+        //     message: '格式错误',
+        //     pattern: this.$validator.idCard,
+        //     trigger: 'blur'
+        //   }
+        // ],
       },
     };
   },
