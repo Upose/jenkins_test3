@@ -267,14 +267,14 @@ export default {
         ],
 
 
-        idCard: [
-          {
-            validator: this.$validator.validatePattern,
-            message: '格式错误',
-            pattern: this.$validator.idCard,
-            trigger: 'blur'
-          }
-        ],
+        // idCard: [
+        //   {
+        //     validator: this.$validator.validatePattern,
+        //     message: '格式错误',
+        //     pattern: this.$validator.idCard,
+        //     trigger: 'blur'
+        //   }
+        // ],
         phone: [
           // { required: true, message: '必填项', trigger: 'blur' },
           {
@@ -638,6 +638,7 @@ export default {
             })
           } else {
             this.cardForm.userId = this.cardForm.userId ? this.cardForm.userId : this.$route.query.userId;
+            this.cardForm.id = undefined;
             http.postJson('card', this.cardForm).then(res => {
               this.$message({ message: '新增成功！', type: 'success' });
               // this.id = res.data;
