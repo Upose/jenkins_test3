@@ -2,15 +2,16 @@
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="4"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}" v-loading="loading">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }" v-loading="loading">
         <breadcrumb :cuMenu="'总导航管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
-            <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav" @click="$router.push('/admin_readerCardSnyc')">同步日志</span></h1>
+            <h1 class="search-title"><span class="tab-nav current">读者卡管理</span><span class="tab-nav"
+                @click="$router.push('/admin_readerCardSnyc')">同步日志</span></h1>
             <div class="search-term" v-if="dataKey">
               <div class="search-item-box">
                 <el-input placeholder="读者姓名" v-model="postForm.name" style="width:200px" clearable>
@@ -23,21 +24,24 @@
               <div class="search-item-box">
                 <div class="search-item">
                   <el-select v-model="postForm.cardType" placeholder="卡类型" clearable>
-                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                    <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                 </div>
               </div>
               <div class="search-item-box">
                 <div class="search-item">
                   <el-select v-model="postForm.cardStatus" placeholder="卡状态" clearable>
-                    <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                    <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                 </div>
               </div>
               <div class="search-item-box">
                 <el-input placeholder="请输入" v-model="searchTextValue" style="width:300px" clearable>
                   <el-select v-model="searchTextCode" slot="prepend" placeholder="请选择" style="width:130px">
-                    <el-option v-for="item in textProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                    <el-option v-for="item in textProperties" :key="item.code" :label="item.name"
+                      :value="item.code"></el-option>
                   </el-select>
                 </el-input>
                 <el-select v-model="searchType2" placeholder="" style="width:100px">
@@ -50,13 +54,16 @@
                 <div class="search-item w400">
                   <div class="date-checkbox">
                     <el-select v-model="searchDateCode" placeholder="请选择" size="medium" clearable>
-                      <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                      <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name"
+                        :value="item.code"></el-option>
                     </el-select>
-                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" size="medium" type="daterange"
+                      range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                   </div>
                 </div>
               </div>
-              <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
+              <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch"
+                v-button-debounce>查找</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
@@ -64,8 +71,10 @@
             <h2 class="m-title">
               <!-- <el-button type="primary" size="medium" @click="$router.push('/readerCardSnyc')">同步日志</el-button> -->
               <div class="r-btn">
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-has="'card:batchUpdate'">批量修改</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-has="'card:create'">新增读者卡</el-button>
+                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange"
+                  v-has="'card:batchUpdate'">批量修改</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd"
+                  v-has="'card:create'">新增读者卡</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-has="'card:export'">导出数据</el-button>
                 <el-button type="primary" size="medium" @click="syncNow" v-has="'card:increatSync'">增量同步</el-button>
                 <!-- <el-button type="primary" size="medium" @click="exportExcel" v-has="'card:increatSync'">增量同步</el-button> -->
@@ -73,20 +82,25 @@
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border :header-cell-style="{background:'#F1F3F7'}" class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe
+                :data="tableData" border :header-cell-style="{ background: '#F1F3F7' }" class="admin-table">
                 <el-table-column type="selection" width="50"></el-table-column>
-                <template v-for="item in dataKey.showOnTableProperties">
-                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item" v-if="item.code != 'Card_Type'" :min-width="item.code=='Card_No'?'150':''">
+                <template v-for="item in dataKey ? dataKey.showOnTableProperties : []">
+                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item"
+                    v-if="item.code != 'Card_Type'" :min-width="item.code == 'Card_No' ? '150' : ''">
                     <template slot-scope="scope">
-                      <a :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })" v-if="item.code=='Card_No'" class="hover-line">{{scope.row.displayNo}}</a>
-                      <span v-else>{{getKeyValue(item.code,scope.row)}}</span>
+                      <a :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })"
+                        v-if="item.code == 'Card_No'" class="hover-line">{{ scope.row.displayNo }}</a>
+                      <span v-else>{{ getKeyValue(item.code, scope.row) }}</span>
                     </template>
                   </el-table-column>
                 </template>
                 <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'card:delete'">删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-has="'card:detail'">查看</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1"
+                      class="operate-red-btn" round v-has="'card:delete'">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
+                      round v-has="'card:detail'">查看</el-button>
                   </template>
                 </el-table-column>
 
@@ -179,7 +193,6 @@ export default {
     // 获取初始数据
     getKey() {
       http.getJson('card-init-data').then(res => {
-        this.dataKey = res.data;
         // 处理表头
         this.tableSysArrt = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
           return item.code;
@@ -189,9 +202,9 @@ export default {
         })
         this.tableSysArrtKey = res.data.showOnTableProperties && res.data.showOnTableProperties.map(item => {
           let icode = '';
-          let nm = item.code.split('_');
+          let nm = item.code.split('_') || [];
           if (item.code.indexOf('User_') !== -1 && item.code != 'User_StudentNo') {
-            icode = (nm[0]).toLowerCase() + nm[1];
+            icode = (nm.length > 0 ? (nm[0]).toLowerCase() : '') + (nm.length > 1 ? nm[1] : '');
           } else {
             icode = nm.length > 1 ? nm[1].replace(nm[1][0], nm[1][0].toLowerCase()) : '';
           }
@@ -199,14 +212,17 @@ export default {
         })
         this.sysArrtKey = res.data.canSearchProperties && res.data.canSearchProperties.map(item => {
           let icode = '';
-          let nm = item.code.split('_');
+          let nm = item.code.split('_') || [];
           if (item.code.indexOf('User_') !== -1 && item.code != 'User_StudentNo') {
-            icode = (nm[0]).toLowerCase() + nm[1];
+            icode = (nm.length > 0 ? (nm[0]).toLowerCase() : '') + (nm.length > 1 ? nm[1] : '');
           } else {
             icode = nm.length > 1 ? nm[1].replace(nm[1][0], nm[1][0].toLowerCase()) : '';
           }
           return icode
         })
+
+        this.dataKey = res.data || {};
+        console.log(this.dataKey)
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
       })
@@ -215,7 +231,7 @@ export default {
     getList() {
       this.loading = true;
       http.getJson('card-table-data', { ...this.postForm, ...this.pageData, searchType1: this.searchType1, searchType2: this.searchType2 }).then(res => {
-        this.tableData = res.data.items;
+        this.tableData = res.data.items || [];
 
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
@@ -278,7 +294,7 @@ export default {
     // 数据处理
     getKeyValue(code, row) {
       let value = '';
-      let curItem = this.dataKey.showOnTableProperties.find((item) => (item.code == code));
+      let curItem = this.dataKey ? this.dataKey.showOnTableProperties.find((item) => (item.code == code)) || {} : {};
       if (!curItem.external) {
         let key = this.tableSysArrtKey[this.tableSysArrt.indexOf(code)];
         if (curItem.type == 2) {//时间
@@ -286,8 +302,8 @@ export default {
         } else if (curItem.type == 3) {//是否
           value = row[key] ? '是' : '否';
         } else if (curItem.type == 4) {//属性组
-          let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
-          let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.tableSysArrtKey[this.tableSysArrt.indexOf(code)]]))
+          let slsectItems = this.dataKey ? this.dataKey.groupSelect.find((item) => (item.groupCode == code)) || {} : {};
+          let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.tableSysArrtKey[this.tableSysArrt.indexOf(code)]])) || {}
           value = itemss ? itemss.key : row[key];
         } else {//默认
           value = row[key] ? row[key] : '';
@@ -300,8 +316,8 @@ export default {
           } else if (items && items.propertyType == 3) {//是否
             value = items.propertyValue ? '是' : '否';
           } else if (items && items.propertyType == 4) {//属性组
-            let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
-            let itemss = slsectItems.groupItems.find((item) => (item.value == items.propertyValue))
+            let slsectItems = this.dataKey ? this.dataKey.groupSelect.find((item) => (item.groupCode == code)) || {} : {};
+            let itemss = slsectItems.groupItems.find((item) => (item.value == items.propertyValue)) || {}
             value = itemss ? itemss.key : '';
           } else {//默认
             value = items ? items.propertyValue : '';
@@ -312,9 +328,9 @@ export default {
     },
     // 初始化下拉列表
     initSelect(code) {
-      if (!this.dataKey) return;
+      if (!this.dataKey || !this.dataKey.groupSelect || !this.dataKey.groupSelect.length) return;
       let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select ? select.groupItems : false;
+      return select ? select.groupItems : [];
     },
     // 时间格式化
     dateChangeFormat(format, date) {
@@ -415,15 +431,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
+
 .search-item-box {
   display: inline-block;
   margin-right: 10px;
+
   &.text {
     width: 100%;
   }
 }
+
 .search-item {
   width: 150px;
   display: inline-block;
@@ -435,9 +455,11 @@ export default {
   margin-right: 40px;
   padding-bottom: 10px;
 }
+
 .search-table-w .search-title .current {
   border-bottom: 2px solid @m-col-b7;
 }
+
 .date-checkbox {
   width: 400px;
   display: flex;
@@ -457,6 +479,7 @@ export default {
       color: #909399;
     }
   }
+
   /deep/ .el-date-editor {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -467,9 +490,11 @@ export default {
     }
   }
 }
+
 .w400 {
   width: 400px;
 }
+
 /deep/ .el-input {
   margin-bottom: 0 !important;
 }
