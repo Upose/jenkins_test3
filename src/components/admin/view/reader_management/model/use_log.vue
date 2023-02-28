@@ -8,10 +8,16 @@
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" placeholder="归还时间" class="w150"></el-date-picker> -->
 
-        <el-select v-model="postForm.LogType" slot="prepend" placeholder="日志类型" style="width:130px" clearable>
-          <el-option v-for="item in logType" :key="item.value" :label="item.key" :value="item.value" clearable></el-option>
+        <el-select v-model="postForm.UserKey" placeholder="读者卡号" class="selects" clearable>
+          <el-option v-for="item in cardData" :key="item.cardkey" :label="item.displayNo" :value="item.cardkey">
+          </el-option>
         </el-select>
-        <el-date-picker v-model="postForm.time" type="datetimerange" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+        <el-select v-model="postForm.LogType" slot="prepend" placeholder="日志类型" style="width:130px" clearable>
+          <el-option v-for="item in logType" :key="item.value" :label="item.key" :value="item.value"
+            clearable></el-option>
+        </el-select>
+        <el-date-picker v-model="postForm.time" type="datetimerange" range-separator="至" start-placeholder="开始时间"
+          end-placeholder="结束时间" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
         <el-button type="primary" @click="initList">查找</el-button>
       </div>
     </div>
@@ -51,15 +57,28 @@ export default {
       postForm: {},
       borrowData: {},
       logType: [],
+      cardData: [],
     }
   },
   props: ['id', 'userKey'],
-  mounted() {
+  async mounted() {
     // this.getKey();
+    await this.getCardData();
     this.getLogType();
     this.getList();
   },
   methods: {
+    // 获取用户读者卡信息
+    async getCardData() {
+      try {
+        let res = await http.getJsonSelf('user-card-list-data', `/${this.id}`);
+        let list = res.data;
+        this.cardData = list;
+      } catch (err) {
+        this.loading = false;
+        this.$message({ type: 'error', message: '获取用户读者卡信息失败!' });
+      }
+    },
     getLogType() {
       http.getJson('user-log-type').then(res => {
         this.logType = res.data;
@@ -75,15 +94,18 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      let form = {};
+      let form = {
+        userKey: this.postForm.userKey
+      };
       if (this.postForm.time && this.postForm.time.length) {
         form.StartTime = this.postForm.time[0];
         form.EndTime = this.postForm.time[1];
       }
       http.getJson('user-log-table-data', {
         userID: this.id,
-        userKey: this.userKey,
+        // userKey: this.userKey,
         ...form,
+        readerKey: this.userKey,
         pageIndex: this.pageData.pageIndex,
         pageSize: this.pageData.pageSize,
         LogType: this.postForm.LogType,
