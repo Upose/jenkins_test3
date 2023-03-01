@@ -153,7 +153,7 @@ var ApplicationBuilder = /** @class */ (function () {
                 if (error.response.status == 410) {
                     var current = window.location.href;
                     localStorage.setItem('captchaReturnUrl', current);
-                    window.location.href = _this.oriinalPart() + '#/captcha';
+                    window.location.href = _this.oriinalPart() + '/captcha';
                     window.location.reload();
                 }
                 return MyPromise.reject(error);
@@ -167,7 +167,7 @@ var ApplicationBuilder = /** @class */ (function () {
         if (axios) {
             axios.interceptors.response.use(undefined, function (error) {
                 if (error.response.status == 429) {
-                    window.location.href = _this.oriinalPart() + '#/blacklistcenter';
+                    window.location.href = _this.oriinalPart() + '/blacklistcenter';
                     window.location.reload();
                 }
                 return MyPromise.reject(error);

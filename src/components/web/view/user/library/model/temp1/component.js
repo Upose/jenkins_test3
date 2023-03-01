@@ -112,59 +112,66 @@ function unified_retrieval_sys_temp1() {
   </div><!--学科分类-弹窗-->
 </div>`;
   var rxjs = window.rxjs;
-  var list = document.getElementsByClassName('unified_retrieval_sys_temp1');
+  var list = document.getElementsByClassName("unified_retrieval_sys_temp1");
   for (var i = 0; i < list.length; i++) {
-    if (list[i].getAttribute('class').indexOf('jl_vip_zt_vray') < 0) {
-      list[i].setAttribute('class', 'unified_retrieval_sys_temp1 jl_vip_zt_vray jl_vip_zt_warp');
+    if (list[i].getAttribute("class").indexOf("jl_vip_zt_vray") < 0) {
+      list[i].setAttribute(
+        "class",
+        "unified_retrieval_sys_temp1 jl_vip_zt_vray jl_vip_zt_warp"
+      );
       var unified_retrieval_sys_temp1_set_list = null;
-      var columnid = '';
+      var columnid = "";
       if (list[i].dataset && list[i].dataset.set) {
-        unified_retrieval_sys_temp1_set_list = JSON.parse(list[i].dataset.set.replace(/'/g, '"'));
+        unified_retrieval_sys_temp1_set_list = JSON.parse(
+          list[i].dataset.set.replace(/'/g, '"')
+        );
         columnid = unified_retrieval_sys_temp1_set_list[i].id;
       }
       // console.log(list[i].lastChild.id);
       new Vue({
-        el: '#' + list[i].lastChild.id,
+        el: "#" + list[i].lastChild.id,
         template: unified_retrieval_sys_temp1_temmplate,
         created() {
-          let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
-          let info = urlInfo.find(item => item.code == 'articlesearch');
-          this.webBase = info.path + '/articlesearch/';
+          let urlInfo = JSON.parse(localStorage.getItem("urlInfo"));
+          let info = urlInfo.find(item => item.code == "articlesearch");
+          this.webBase = info.path + "/articlesearch";
         },
         data() {
           return {
-            request_of: true,//默认true，请求完成fasle
+            request_of: true, //默认true，请求完成fasle
             baseUrl: "/articlesearch",
-            fileUrl: window.localStorage.getItem('fileUrl'),//图片地址前缀
-            webBase: location.origin + '/articlesearch/',
-            searchExpressionResolver: new searchExpressionCore(),//拼接表达式
-            search: null,//下拉选中条件
-            basicInputKeyWord: '',//input输入框
-            cu_colum: { //当前栏目列表
-              searchBoxFields: [],//栏目下拉选项
+            fileUrl: window.localStorage.getItem("fileUrl"), //图片地址前缀
+            webBase: location.origin + "/articlesearch",
+            searchExpressionResolver: new searchExpressionCore(), //拼接表达式
+            search: null, //下拉选中条件
+            basicInputKeyWord: "", //input输入框
+            cu_colum: {
+              //当前栏目列表
+              searchBoxFields: [] //栏目下拉选项
             },
-            details: { //页面-总详情
-              searchBoxTitleItems: [],//栏目列表
+            details: {
+              //页面-总详情
+              searchBoxTitleItems: [] //栏目列表
             },
             /**检索条件为空的时候出来的提示面板 */
             emptySearchModel: {
               show: false, //是否显示下拉弹窗
               hotComponent: null, //智能推荐-功能推荐
-              hotKeyword: null,//智能推荐-检索发现
+              hotKeyword: null //智能推荐-检索发现
             },
             /**当输入关键词的时候提示的项 */
             onKeywordInputSuggestModel: {
               show: false,
-              autoComplete: null,//自动补全
-              regexInfo: null,//智能匹配
-              matchComponent: null,//智能识别 - 顶部服务和新闻
+              autoComplete: null, //自动补全
+              regexInfo: null, //智能匹配
+              matchComponent: null //智能识别 - 顶部服务和新闻
             },
-            subjectAllList: [],//分类表格所有数据
-            subjectAlert: false,//学科分类-弹窗显示
-            subjectCheckRow: null,//右侧选中的行-下标
-            LsubjectCheckList: [],//左侧选中的数据
-            RsubjectCheckList: [],//添加到右侧的数据
-          }
+            subjectAllList: [], //分类表格所有数据
+            subjectAlert: false, //学科分类-弹窗显示
+            subjectCheckRow: null, //右侧选中的行-下标
+            LsubjectCheckList: [], //左侧选中的数据
+            RsubjectCheckList: [] //添加到右侧的数据
+          };
         },
         mounted() {
           if (!rxjs)
@@ -173,53 +180,69 @@ function unified_retrieval_sys_temp1() {
             );
           this.initComponentAsync().then(() => {
             this.emptySearch().then(() => {
-              this.emptySearchModel.show = false;//空检索-无内容显示的弹窗
+              this.emptySearchModel.show = false; //空检索-无内容显示的弹窗
             }); //获取热门检索
             if (this.$refs.mainInput)
-              rxjs.fromEvent(this.$refs.mainInput, "keyup").pipe(
-                rxjs.operators.map(() => this.basicInputKeyWord),
-                rxjs.operators.debounceTime(200), //防抖
-                rxjs.operators.throttleTime(200), //节流
-                rxjs.operators.distinctUntilChanged()
-              ).subscribe((x) => {
-                this.rxAutoComplete(x);
-              });
+              rxjs
+                .fromEvent(this.$refs.mainInput, "keyup")
+                .pipe(
+                  rxjs.operators.map(() => this.basicInputKeyWord),
+                  rxjs.operators.debounceTime(200), //防抖
+                  rxjs.operators.throttleTime(200), //节流
+                  rxjs.operators.distinctUntilChanged()
+                )
+                .subscribe(x => {
+                  this.rxAutoComplete(x);
+                });
           });
-          this.getJsonAsync("/api/search-const/all-available-domain-info-friendly-show", {}).then((x) => { //学科分类是0 中途分类是1
+          this.getJsonAsync(
+            "/api/search-const/all-available-domain-info-friendly-show",
+            {}
+          ).then(x => {
+            //学科分类是0 中途分类是1
             this.subjectAllList = x.data;
-          })
+          });
         },
         methods: {
           /**获取页面数据 */
           initComponentAsync() {
             return Promise.all([
-              this.getJsonAsync("/api/search-box-configure/web-search-configure-by-id?id=" + columnid).then((x) => {
+              this.getJsonAsync(
+                "/api/search-box-configure/web-search-configure-by-id?id=" +
+                  columnid
+              ).then(x => {
                 this.details = x.data;
-                if (this.details.searchBoxTitleItems && this.details.searchBoxTitleItems.length > 0) {
-                  this.tabClick(this.details.searchBoxTitleItems[0])
+                if (
+                  this.details.searchBoxTitleItems &&
+                  this.details.searchBoxTitleItems.length > 0
+                ) {
+                  this.tabClick(this.details.searchBoxTitleItems[0]);
                 }
                 this.request_of = false;
-              }),
+              })
             ]);
           },
           //高级检索
           highSearch() {
             if (this.isSearchPage) {
-              this.$emit('showHighSearch');
+              this.$emit("showHighSearch");
             } else {
-              let href = `${this.webBase}#/web_searchingResult?high=h`;
+              let href = `${this.webBase}/web_searchingResult?high=h`;
               console.log(href);
               window.location.href = href;
             }
           },
           /***订阅此检索 */
           takeSearch() {
-            alert('产品：此功能先不处理');
+            alert("产品：此功能先不处理");
           },
           //栏目点击
           tabClick(val) {
             this.cu_colum = val;
-            if (this.cu_colum.searchBoxFields && this.cu_colum.searchBoxFields.length > 0) {
+            if (
+              this.cu_colum.searchBoxFields &&
+              this.cu_colum.searchBoxFields.length > 0
+            ) {
               this.search = this.cu_colum.searchBoxFields[0];
             } else {
               this.search = null;
@@ -231,68 +254,101 @@ function unified_retrieval_sys_temp1() {
           //检索-按钮
           searchClick() {
             // console.log(this.search);
-            if (!this.basicInputKeyWord) { alert('请输入检索内容'); return; } else {
-              this.basicInputKeyWord = this.basicInputKeyWord.replace(/(^\s*)|(\s*$)/g, "");
+            if (!this.basicInputKeyWord) {
+              alert("请输入检索内容");
+              return;
+            } else {
+              this.basicInputKeyWord = this.basicInputKeyWord.replace(
+                /(^\s*)|(\s*$)/g,
+                ""
+              );
               let reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
               if (reg.test(this.basicInputKeyWord)) {
                 if (this.basicInputKeyWord.length > 100) {
-                  alert('输入字符长度不得大于100');
+                  alert("输入字符长度不得大于100");
                   return;
                 }
               } else {
                 if (this.basicInputKeyWord.length > 100) {
-                  alert('输入字符长度不得大于200');
+                  alert("输入字符长度不得大于200");
                   return;
                 }
               }
             }
-            if (this.cu_colum.actionType == 1) {//普通检索
+            if (this.cu_colum.actionType == 1) {
+              //普通检索
               if (this.cu_colum.tableType == 2) {
-                //站内检索，跳转地址,带参到站内检索页面 
+                //站内检索，跳转地址,带参到站内检索页面
                 // this.$router.push({path:'/web_siteSearch',query:{}}) //web_siteSearch?keyword=数据库&type=8
-                let href = `${this.webBase}#/web_siteSearch?keyword=${encodeURIComponent(this.basicInputKeyWord)}&type=${encodeURIComponent(this.cu_colum.articleType)}&symbol=${encodeURIComponent((this.search ? (this.search.symbol || 'U') : 'U'))}&searchMatchType=${encodeURIComponent(this.search ? (this.search.searchMatchType || searchMatchType.Fuzzy) : searchMatchType.Fuzzy)}`;
+                let href = `${
+                  this.webBase
+                }/web_siteSearch?keyword=${encodeURIComponent(
+                  this.basicInputKeyWord
+                )}&type=${encodeURIComponent(
+                  this.cu_colum.articleType
+                )}&symbol=${encodeURIComponent(
+                  this.search ? this.search.symbol || "U" : "U"
+                )}&searchMatchType=${encodeURIComponent(
+                  this.search
+                    ? this.search.searchMatchType || searchMatchType.Fuzzy
+                    : searchMatchType.Fuzzy
+                )}`;
                 // console.log(href);return;
                 window.location.href = href;
-              } else {//普通搜索
-                this.searchExpressionResolver.clearConditions();//情况条件
+              } else {
+                //普通搜索
+                this.searchExpressionResolver.clearConditions(); //情况条件
                 if (this.search && this.search.symbol != "U") {
-                  if (this.search.symbol == 'CC' || this.search.symbol == 'LC' || this.search.symbol == 'C' || this.search.symbol == 'L') {//表示学科分类号和中途分类
+                  if (
+                    this.search.symbol == "CC" ||
+                    this.search.symbol == "LC" ||
+                    this.search.symbol == "C" ||
+                    this.search.symbol == "L"
+                  ) {
+                    //表示学科分类号和中途分类
                     if (this.basicInputKeyWord) {
-                      let rsubject_list = this.basicInputKeyWord.split('+') || [];
+                      let rsubject_list =
+                        this.basicInputKeyWord.split("+") || [];
                       if (rsubject_list.length > 0) {
                         rsubject_list.forEach(x => {
-                          this.searchExpressionResolver.addSimpleSearchCondition({
-                            searchType: this.search.symbol,
-                            value: x.replace(/(^\s*)|(\s*$)/g, ""),//传输入项
-                            matchType: this.search.searchMatchType,
-                          });
-                        })
+                          this.searchExpressionResolver.addSimpleSearchCondition(
+                            {
+                              searchType: this.search.symbol,
+                              value: x.replace(/(^\s*)|(\s*$)/g, ""), //传输入项
+                              matchType: this.search.searchMatchType
+                            }
+                          );
+                        });
                       }
                     }
                   } else {
                     this.searchExpressionResolver.addSimpleSearchCondition({
                       searchType: this.search.symbol,
-                      value: this.basicInputKeyWord,//传输入项
-                      matchType: this.search.searchMatchType,
+                      value: this.basicInputKeyWord, //传输入项
+                      matchType: this.search.searchMatchType
                     });
                   }
-
                 } else {
                   this.searchExpressionResolver.addSimpleSearchCondition({
                     searchType: "U",
                     value: this.basicInputKeyWord,
-                    matchType: searchMatchType.Fuzzy,
+                    matchType: searchMatchType.Fuzzy
                   });
                 }
                 if (this.cu_colum.predefinedSearchConditions) {
                   this.cu_colum.predefinedSearchConditions.forEach(item => {
-                    this.searchExpressionResolver.addSimpleSearchCondition(item);
+                    this.searchExpressionResolver.addSimpleSearchCondition(
+                      item
+                    );
                   });
                 }
                 this.goToSearch();
               }
             } else if (this.cu_colum.actionType == 2) {
-              window.location.href = this.cu_colum.link.replace(/\{0\}/, this.basicInputKeyWord);
+              window.location.href = this.cu_colum.link.replace(
+                /\{0\}/,
+                this.basicInputKeyWord
+              );
             }
           },
           /**进入到检索结果页面 */
@@ -305,10 +361,19 @@ function unified_retrieval_sys_temp1() {
               }
               list.filterRule.ruleBody = result;
             }
-            this.postJsonAsync("/api/search-const/encrypt-search-parameter", list).then((x) => {
+            this.postJsonAsync(
+              "/api/search-const/encrypt-search-parameter",
+              list
+            ).then(x => {
               let keyword = this.basicInputKeyWord || "";
               if (keyword.length >= 100) keyword = keyword.substring(0, 100);
-              let href = `${this.webBase}#/web_searchingResult?key=${x.data}&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(columnid)}&c=${this.cu_colum ? this.cu_colum.id : ''}&p=${this.search ? this.search.symbol : ''}`;
+              let href = `${this.webBase}/web_searchingResult?key=${
+                x.data
+              }&keyword=${encodeURIComponent(keyword)}&id=${encodeURIComponent(
+                columnid
+              )}&c=${this.cu_colum ? this.cu_colum.id : ""}&p=${
+                this.search ? this.search.symbol : ""
+              }`;
               window.location.href = href;
               // location.reload();
             });
@@ -320,16 +385,29 @@ function unified_retrieval_sys_temp1() {
               return Promise.resolve(null); //将热门组件和检索词缓存起来
             }
             return Promise.all([
-              this.getJsonAsync("/api/search/hot-component", { limit: 4, sid: this.details.id }),
-              this.getJsonAsync("/api/search/hot-words", { limit: 8 }),
-            ]).then((resultArray) => {
-              this.emptySearchModel.hotComponent = resultArray[0].data && resultArray[0].data.length > 0 ? resultArray[0].data : null;
-              if (resultArray[1].data && resultArray[1].data.hits && resultArray[1].data.hits.source) {
-                this.emptySearchModel.hotKeyword = resultArray[1].data.hits.source;
+              this.getJsonAsync("/api/search/hot-component", {
+                limit: 4,
+                sid: this.details.id
+              }),
+              this.getJsonAsync("/api/search/hot-words", { limit: 8 })
+            ]).then(resultArray => {
+              this.emptySearchModel.hotComponent =
+                resultArray[0].data && resultArray[0].data.length > 0
+                  ? resultArray[0].data
+                  : null;
+              if (
+                resultArray[1].data &&
+                resultArray[1].data.hits &&
+                resultArray[1].data.hits.source
+              ) {
+                this.emptySearchModel.hotKeyword =
+                  resultArray[1].data.hits.source;
               } else {
                 this.emptySearchModel.hotKeyword = null;
               }
-              this.emptySearchModel.show = this.emptySearchModel.hotKeyword || this.emptySearchModel.hotComponent;
+              this.emptySearchModel.show =
+                this.emptySearchModel.hotKeyword ||
+                this.emptySearchModel.hotComponent;
               /////////// 这里是假数据---弹窗调试完后删除 //////////////////
               // this.emptySearchModel.hotComponent = [{title:'链接'}];
               // this.emptySearchModel.hotKeyword = [{word:'最热新闻'}];
@@ -347,21 +425,45 @@ function unified_retrieval_sys_temp1() {
             let _this = this;
             if (x == null) return;
             Promise.all([
-              Promise.resolve(searchOption.autoMapRegexInfo.find((y) => y.regex.test(x))),
-              this.postJsonAsync("/api/search/match-component", { pageIndex: 1, pageSize: 5, keyword: x, }),
-              this.getJsonAsync("/api/search/auto-complete", { limit: 10, keyword: x, }),
-            ]).then((resultArray) => {
-              _this.onKeywordInputSuggestModel.regexInfo = resultArray[0];
-              _this.onKeywordInputSuggestModel.matchComponent = resultArray[1].data && resultArray[1].data.hits && resultArray[1].data.hits.source && resultArray[1].data.hits.source.length > 0 ? resultArray[1].data.hits.source : null;
-              _this.onKeywordInputSuggestModel.autoComplete = resultArray[2].data && resultArray[2].data.length > 0 ? resultArray[2].data : null;
-              if (!_this.onKeywordInputSuggestModel.regexInfo && !_this.onKeywordInputSuggestModel.matchComponent && !_this.onKeywordInputSuggestModel.autoComplete) {
+              Promise.resolve(
+                searchOption.autoMapRegexInfo.find(y => y.regex.test(x))
+              ),
+              this.postJsonAsync("/api/search/match-component", {
+                pageIndex: 1,
+                pageSize: 5,
+                keyword: x
+              }),
+              this.getJsonAsync("/api/search/auto-complete", {
+                limit: 10,
+                keyword: x
+              })
+            ])
+              .then(resultArray => {
+                _this.onKeywordInputSuggestModel.regexInfo = resultArray[0];
+                _this.onKeywordInputSuggestModel.matchComponent =
+                  resultArray[1].data &&
+                  resultArray[1].data.hits &&
+                  resultArray[1].data.hits.source &&
+                  resultArray[1].data.hits.source.length > 0
+                    ? resultArray[1].data.hits.source
+                    : null;
+                _this.onKeywordInputSuggestModel.autoComplete =
+                  resultArray[2].data && resultArray[2].data.length > 0
+                    ? resultArray[2].data
+                    : null;
+                if (
+                  !_this.onKeywordInputSuggestModel.regexInfo &&
+                  !_this.onKeywordInputSuggestModel.matchComponent &&
+                  !_this.onKeywordInputSuggestModel.autoComplete
+                ) {
+                  _this.onKeywordInputSuggestModel.show = false;
+                } else {
+                  _this.onKeywordInputSuggestModel.show = true;
+                }
+              })
+              .catch(() => {
                 _this.onKeywordInputSuggestModel.show = false;
-              } else {
-                _this.onKeywordInputSuggestModel.show = true;
-              }
-            }).catch(() => {
-              _this.onKeywordInputSuggestModel.show = false;
-            });
+              });
           },
           /**自动补全或者热门关键词的检索 */
           searchKeyword(keyword) {
@@ -370,7 +472,7 @@ function unified_retrieval_sys_temp1() {
             this.searchExpressionResolver.addSimpleSearchCondition({
               searchType: "U",
               value: keyword,
-              matchType: searchMatchType.Fuzzy,
+              matchType: searchMatchType.Fuzzy
             });
             this.basicInputKeyWord = keyword;
             this.goToSearch();
@@ -380,29 +482,42 @@ function unified_retrieval_sys_temp1() {
             this.searchExpressionResolver.addSimpleSearchCondition({
               searchType: regexInfo.searchType,
               value: this.basicInputKeyWord,
-              matchType: searchMatchType.Fuzzy,
+              matchType: searchMatchType.Fuzzy
             });
             this.goToSearch();
           },
           mapServiceComponentName(type) {
             switch (parseInt(type)) {
-              case 1 << 1: return "服务";//2
-              case 1 << 2: return "功能";//4
-              case 1 << 3: return "数据库";//8
-              case 1 << 4: return "专题";//16
-              case 1 << 5: return "新闻";//32
-              case 1 << 6: return "回答";//64
-              case 1 << 7: return "应用";//128
-              case 1 << 8: return "活动";//256
-              default: break;
+              case 1 << 1:
+                return "服务"; //2
+              case 1 << 2:
+                return "功能"; //4
+              case 1 << 3:
+                return "数据库"; //8
+              case 1 << 4:
+                return "专题"; //16
+              case 1 << 5:
+                return "新闻"; //32
+              case 1 << 6:
+                return "回答"; //64
+              case 1 << 7:
+                return "应用"; //128
+              case 1 << 8:
+                return "活动"; //256
+              default:
+                break;
             }
           },
           //获取学科分类弹窗
           initSubject() {
-            if (this.search.symbol == 'CC' || this.search.symbol == 'C') {
-              this.LsubjectCheckList = this.subjectAllList.filter(x => x.type == 0);//学科分类
+            if (this.search.symbol == "CC" || this.search.symbol == "C") {
+              this.LsubjectCheckList = this.subjectAllList.filter(
+                x => x.type == 0
+              ); //学科分类
             } else {
-              this.LsubjectCheckList = this.subjectAllList.filter(x => x.type == 1);//中图分类
+              this.LsubjectCheckList = this.subjectAllList.filter(
+                x => x.type == 1
+              ); //中图分类
             }
           },
           /**父级选中 */
@@ -411,28 +526,30 @@ function unified_retrieval_sys_temp1() {
               if (item.checked) {
                 item.children.forEach(item => {
                   item.checked = true;
-                })
+                });
               } else {
                 item.children.forEach(item => {
                   item.checked = false;
-                })
+                });
               }
             }
           },
           /**子级选中 */
           sboxChange(parent, item) {
-            if (item.checked) {//选中的时候，判断父级是否全部选中，全部选中则将父级设置为选中，取消选中时则相反操作。
+            if (item.checked) {
+              //选中的时候，判断父级是否全部选中，全部选中则将父级设置为选中，取消选中时则相反操作。
               var is_check = parent.children.filter(x => !x.checked);
               if (is_check && is_check.length == 0) {
-                parent['checked'] = true;
+                parent["checked"] = true;
               }
-            } else {//只要是false，直接将父级设置为false
-              parent['checked'] = false;
+            } else {
+              //只要是false，直接将父级设置为false
+              parent["checked"] = false;
             }
           },
           /***折叠展开操作 */
           openRowItem(item) {
-            item['isOpen'] = !item['isOpen'];
+            item["isOpen"] = !item["isOpen"];
             console.log(item);
             this.$forceUpdate();
           },
@@ -450,10 +567,11 @@ function unified_retrieval_sys_temp1() {
           /***确定 */
           subjectSubmit() {
             if (this.RsubjectCheckList.length > 0) {
-              this.basicInputKeyWord = '';
+              this.basicInputKeyWord = "";
               this.RsubjectCheckList.forEach(it => {
-                this.basicInputKeyWord = this.basicInputKeyWord + it.domainIdCode + ' + ';
-              })
+                this.basicInputKeyWord =
+                  this.basicInputKeyWord + it.domainIdCode + " + ";
+              });
               this.basicInputKeyWord = this.basicInputKeyWord.slice(0, -3);
             }
             this.subjectAlertClose();
@@ -496,7 +614,10 @@ function unified_retrieval_sys_temp1() {
             if (this.basicInputKeyWord == null) return "";
             if (!message) return message;
             let highlightToken = this.basicInputKeyWord;
-            return message.toLowerCase().split(highlightToken).join(`<i class='reds'>${highlightToken}</i>`);
+            return message
+              .toLowerCase()
+              .split(highlightToken)
+              .join(`<i class='reds'>${highlightToken}</i>`);
           },
           /*******************************封装方法******************************************************************/
           //向指定的连接发起get请求
@@ -504,27 +625,32 @@ function unified_retrieval_sys_temp1() {
             if (!url.startsWith("/")) url = "/" + url;
             let requestUrl = this.baseUrl + url;
             if (querys != null) {
-              let queryString = Object.keys(querys).map((x) => `${x}=${querys[x]}`).join("&");
+              let queryString = Object.keys(querys)
+                .map(x => `${x}=${querys[x]}`)
+                .join("&");
               if (queryString) requestUrl += `?${queryString}`;
             }
-            return axios({ url: requestUrl, method: "GET", }).then((response) => response.data);
+            return axios({ url: requestUrl, method: "GET" }).then(
+              response => response.data
+            );
           },
           /**向指定的连接发起Post请求 */
           async postJsonAsync(url, data) {
             if (!url.startsWith("/")) url = "/" + url;
             let requestUrl = this.baseUrl + url;
             if (data == null) data = {};
-            return axios({ url: requestUrl, method: "POST", data: data, }).then((response) => response.data);
-          },
-        },
+            return axios({ url: requestUrl, method: "POST", data: data }).then(
+              response => response.data
+            );
+          }
+        }
       });
     }
   }
-
 }
 var inter = setInterval(() => {
   if (new searchExpressionCore()) {
     unified_retrieval_sys_temp1();
     clearInterval(inter);
   }
-}, 50)
+}, 50);

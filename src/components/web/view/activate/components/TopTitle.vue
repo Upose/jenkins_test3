@@ -11,7 +11,7 @@
     <div class="top-navi-brd-cont">
       <!-- 面包屑 -->
       <div class="top-brd-box">
-        <span class="icon-home brd-hover" @click="linkTo('index','/#/index')"></span>
+        <span class="icon-home brd-hover" @click="linkTo('index','/index')"></span>
         <span v-for="(item,index) in bList" :key="index">
           <span class="brd-mlr">></span>
           <span class="brd-hover">{{item.name}}</span>

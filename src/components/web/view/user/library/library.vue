@@ -7,32 +7,38 @@
 -->
 <template>
   <div class="container">
-    <div class="content-box" :class="isEdit?'no-background':''">
+    <div class="content-box" :class="isEdit ? 'no-background' : ''">
       <div class="lib-content">
-        <breadCrumbs :blist="[{name:userCenterName}]"></breadCrumbs>
+        <breadCrumbs :blist="[{ name: userCenterName }]"></breadCrumbs>
         <template v-if="form">
           <div v-if="!isEdit">
             <div class="head-box">
               <i class="icon-home tbg-c2"></i>
               <i class="icon-top-line tbg-c2"></i>
               <i class="icon-e-title tbg-c2">Personal Library</i>
-              <span class="title tfont-c2 tafter-bg-c2">{{userCenterName}}</span>
+              <span class="title tfont-c2 tafter-bg-c2">{{ userCenterName }}</span>
               <div class="top-right">
-                <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/#/admin_workbench','workbench')"><img src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
-                <span class="item" @click="$router.push('/web_accountSet')"><img src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
-                <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img src="../../../../../assets/web/img/personal/icon_swzy.png" alt=""> 设为主页</span>
-                <span class="set-item" @click="handleCancalSetIndex" v-else><img src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
+                <span class="item" v-if="form.isStaff" @click="linkTo('/workbench/admin_workbench', 'workbench')"><img
+                    src="../../../../../assets/web/img/personal/icon_gy.png" alt=""> 馆员工作台</span>
+                <span class="item" @click="$router.push('/web_accountSet')"><img
+                    src="../../../../../assets/web/img/personal/icon_seting.png" alt=""> 账号设置</span>
+                <span class="set-item" @click="handleSetIndex" v-if="!tempParm.isPersonalIndex"><img
+                    src="../../../../../assets/web/img/personal/icon_swzy.png" alt=""> 设为主页</span>
+                <span class="set-item" @click="handleCancalSetIndex" v-else><img
+                    src="../../../../../assets/web/img/icon_swzy.png" alt=""> 取消设为主页</span>
               </div>
             </div>
             <div class="top-content">
               <!-- <div class="top-content-title-box child_bg">{{userCenterName}} <i class="top-content-title-box-right child_bg"></i></div> -->
               <div class="top-content-user-box">
                 <div class="my-name-box">
-                  <div class="avatar" @click="$router.push('/web_accountSet')"><img :src="imgUrl+(form.photo?form.photo:'/public/image/default-user-head/default-user-head.png')" alt=""></div>
-                  <div class="name">
-                    <span class="text">{{form.name}} </span>
+                  <div class="avatar" @click="$router.push('/web_accountSet')"><img
+                    :src="imgUrl + (form.photo ? form.photo : '/public/image/default-user-head/default-user-head.png')"
+                    alt=""></div>
+                <div class="name">
+                    <span class="text">{{ form.name }} </span>
                     <!-- <span class="grade" v-show="form.grade">{{form.grade}}</span> -->
-                    <span class="leave" v-if="form.showLevel">LV.{{form.scoreLevel}}</span>
+                    <span class="leave" v-if="form.showLevel">LV.{{ form.scoreLevel }}</span>
                     <!-- <div class="w-q">
                       <img src="../../../../../assets/web/img/wex.png" alt="">
                       <img src="../../../../../assets/web/img/qq.png" alt="">
@@ -41,60 +47,69 @@
                 </div>
                 <div class="certification" v-if="!identityListLoading">
                   <!-- <span>
-                    <img :src="replaceImg('qq')" alt="" class="gray">
-                    未认证
-                  </span> -->
-                  <span :class="{'cup': !identityList.weChatIdentity}" title="QQ" @click="!identityList.qqIdentity&&handleBind('qq')">
-                    <img style="width:10px" :src="replaceImg('qq')" alt="" :class="{'gray': !identityList.qqIdentity}">
-                    {{identityList.qqIdentity?'已认证':'未认证'}}
+                      <img :src="replaceImg('qq')" alt="" class="gray">
+                      未认证
+                    </span> -->
+                  <span :class="{ 'cup': !identityList.weChatIdentity }" title="QQ"
+                    @click="!identityList.qqIdentity && handleBind('qq')">
+                    <img style="width:10px" :src="replaceImg('qq')" alt="" :class="{ 'gray': !identityList.qqIdentity }">
+                    {{ identityList.qqIdentity ? '已认证' : '未认证' }}
                   </span>
-                  <span title="微信" @click="!identityList.weChatIdentity&&handleBind('wx')" :class="{'cup': !identityList.weChatIdentity}">
-                    <img style="width:13px" :src="replaceImg('we')" alt="" :class="{'gray': !identityList.weChatIdentity}">
-                    {{identityList.weChatIdentity?'已认证':'未认证'}}
+                  <span title="微信" @click="!identityList.weChatIdentity && handleBind('wx')"
+                    :class="{ 'cup': !identityList.weChatIdentity }">
+                    <img style="width:13px" :src="replaceImg('we')" alt=""
+                      :class="{ 'gray': !identityList.weChatIdentity }">
+                    {{ identityList.weChatIdentity ? '已认证' : '未认证' }}
                   </span>
-                  <span title="手机号" @click="!identityList.mobileIdentity&&handleBind('phone')" :class="{'cup': !identityList.mobileIdentity}">
-                    <img style="width:8px" :src="replaceImg('phone')" alt="" :class="{'gray': !identityList.mobileIdentity}">
-                    {{form.mobileIdentity?'已认证':'未认证'}}
+                  <span title="手机号" @click="!identityList.mobileIdentity && handleBind('phone')"
+                    :class="{ 'cup': !identityList.mobileIdentity }">
+                    <img style="width:8px" :src="replaceImg('phone')" alt=""
+                      :class="{ 'gray': !identityList.mobileIdentity }">
+                    {{ form.mobileIdentity ? '已认证' : '未认证' }}
                   </span>
-                  <span title="身份证" @click="!identityList.idCardIdentity&&handleBind('card')" :class="{'cup': !identityList.idCardIdentity}">
-                    <img style="width:13px" :src="replaceImg('card')" alt="" :class="{'gray': !identityList.idCardIdentity}">
-                    {{form.idCardIdentity?'已认证':'未认证'}}
+                  <span title="身份证" @click="!identityList.idCardIdentity && handleBind('card')"
+                    :class="{ 'cup': !identityList.idCardIdentity }">
+                    <img style="width:13px" :src="replaceImg('card')" alt=""
+                      :class="{ 'gray': !identityList.idCardIdentity }">
+                    {{ form.idCardIdentity ? '已认证' : '未认证' }}
                   </span>
-                  <span title="邮箱" @click="!identityList.emailIdentity&&handleBind('msg')" :class="{'cup': !identityList.emailIdentity}">
-                    <img style="width:13px" :src="replaceImg('msg')" alt="" :class="{'gray': !identityList.emailIdentity}">
-                    {{form.emailIdentity?'已认证':'未认证'}}
+                  <span title="邮箱" @click="!identityList.emailIdentity && handleBind('msg')"
+                    :class="{ 'cup': !identityList.emailIdentity }">
+                    <img style="width:13px" :src="replaceImg('msg')" alt=""
+                      :class="{ 'gray': !identityList.emailIdentity }">
+                    {{ form.emailIdentity ? '已认证' : '未认证' }}
                   </span>
                 </div>
-                <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
-                  <div>
-                    <div class="title">
-                      <span>我的读者卡</span>
-                      <i class="next"></i>
+              <div class="card" @click="$refs.dialog_card.show()" v-if="dataKey">
+                <div>
+                  <div class="title">
+                    <span>我的读者卡</span>
+                    <i class="next"></i>
                     </div>
                     <!-- <div class="blue-area"></div>
-                    <div class="status">
-                      <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
-                      <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
-                      <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
-                    </div> -->
+                      <div class="status">
+                        <span v-if="principal.status==1">{{getKeyValue(principal.status)}}</span>
+                        <span v-if="principal.status==2">{{getKeyValue(principal.status)}}</span>
+                        <span v-if="principal.status==3">{{getKeyValue(principal.status)}}</span>
+                      </div> -->
                     <div class="list">
                       <div class="list-item">
                         <!-- <div class="type-name">{{principal.typeName}}</div> -->
                         <div class="type-name">读者号</div>
                         <div class="kname" :title="principal.no">
-                          {{principal.no}}
+                          {{ principal.no }}
                         </div>
                       </div>
                       <i class="card-line"></i>
                       <div class="list-item" v-if="principal.studentNo">
                         <div class="type-name">学号/工号</div>
                         <div class="kname" :title="principal.studentNo">
-                          {{principal.studentNo}}
+                          {{ principal.studentNo }}
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p class="time">有效期至 &nbsp; {{setTime(principal.expireDate)}}</p>
+                  <p class="time">有效期至 &nbsp; {{ setTime(principal.expireDate) }}</p>
                 </div>
               </div>
               <SearchBox />
@@ -111,21 +126,24 @@
                 <span class="left">选择应用</span>
               </div>
               <div class="chance-app">
-                <span :class="isSelect(item.appId)?'app-select':''" v-for="item in applyList" :key="item.id" @click="handleApply(item)">{{item.name}}</span>
+                <span :class="isSelect(item.appId) ? 'app-select' : ''" v-for="item in applyList" :key="item.id"
+                  @click="handleApply(item)">{{ item.name }}</span>
               </div>
             </div>
           </div>
         </template>
         <!-- 2022.11.2 新增校友导航 -->
-        <div v-if="isSchoolfellow" :class="schoolfellowInfo.appWidget.widgetCode" :data-set="`[{'topCount':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].topCount:''}','sortType':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].sortType:''}','id':'${schoolfellowInfo.appPlateItems[0]?schoolfellowInfo.appPlateItems[0].id:''}'}]`">
+        <div v-if="isSchoolfellow" :class="schoolfellowInfo.appWidget.widgetCode"
+          :data-set="`[{'topCount':'${schoolfellowInfo.appPlateItems[0] ? schoolfellowInfo.appPlateItems[0].topCount : ''}','sortType':'${schoolfellowInfo.appPlateItems[0] ? schoolfellowInfo.appPlateItems[0].sortType : ''}','id':'${schoolfellowInfo.appPlateItems[0] ? schoolfellowInfo.appPlateItems[0].id : ''}'}]`">
           <div :id="schoolfellowInfo.appWidget.widgetCode"></div>
         </div>
         <!-- 2022.11.2 新增校友导航 end -->
         <div class="service_sys_temp19"></div>
         <div class="all-temp-box" id="all-temp-box">
-          <div class="tmp-box" :class="isEdit?'sort':''" v-for="(item,index) in tempData" :key="index" :id="item.appId">
+          <div class="tmp-box" :class="isEdit ? 'sort' : ''" v-for="(item, index) in tempData" :key="index" :id="item.appId">
             <div class="edit-mark" v-if="isEdit">
-              <el-popover class="edit-right" placement="bottom" width="120" trigger="click" popper-class="b-b" :id="'pop'+item.appId">
+              <el-popover class="edit-right" placement="bottom" width="120" trigger="click" popper-class="b-b"
+                :id="'pop' + item.appId">
                 <div class="popover-content">
                   <p @click="handleCancel(item)">取消关注</p>
                   <p @click="handleTop(item)">置顶</p>
@@ -133,7 +151,8 @@
                 <span slot="reference" class="font-w hide-more">···</span>
               </el-popover>
             </div>
-            <div :class="item.appWidget.widgetCode" :data-set="`[{'topCount':'${item.appPlateItems[0]?item.appPlateItems[0].topCount:''}','sortType':'${item.appPlateItems[0]?item.appPlateItems[0].sortType:''}','id':'${item.appPlateItems[0]?item.appPlateItems[0].id:''}'}]`">
+            <div :class="item.appWidget.widgetCode"
+              :data-set="`[{'topCount':'${item.appPlateItems[0] ? item.appPlateItems[0].topCount : ''}','sortType':'${item.appPlateItems[0] ? item.appPlateItems[0].sortType : ''}','id':'${item.appPlateItems[0] ? item.appPlateItems[0].id : ''}'}]`">
               <div :id="item.appWidget.widgetCode"></div>
             </div>
           </div>
@@ -156,7 +175,8 @@
     <!-- 弹窗组件 -->
     <dialog_card ref="dialog_card" :cardList="cardList" :dataKey="dataKey"></dialog_card>
     <!-- <dialog_code ref="dialog_code" :wechatConfig="wechatConfig"></dialog_code> -->
-    <el-dialog center title="" :visible.sync="wxdialogVisible" :close-on-click-modal="false" :close-on-press-escape="false" width="400px">
+    <el-dialog center title="" :visible.sync="wxdialogVisible" :close-on-click-modal="false"
+      :close-on-press-escape="false" width="400px">
       <div>请问是否确定绑定微信？</div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="wxdialogVisible = false">取 消</el-button>
@@ -620,6 +640,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import url("../../../../../assets/web/css/user.less");
+
 .b-b {
   border-radius: 16px;
 }
@@ -630,23 +651,26 @@ export default {
   height: 96px;
   background: #a21e1e;
 }
+
 .footer {
   width: 100%;
   height: 100px;
   background: #cccccc;
 }
+
 .content-box {
   width: 100%;
-  background: url("../../../../../assets/web/img/personal/top-bg.png") no-repeat
-    #eeeeee;
+  background: url("../../../../../assets/web/img/personal/top-bg.png") no-repeat #eeeeee;
   background-size: 100% 804px;
   padding-bottom: 80px;
+
   .lib-content {
     width: 1200px;
     margin: 0 auto;
     position: relative;
     padding-top: 7px;
   }
+
   /deep/ .my-breadCrumbs {
     &.main_text_color {
       color: #333333;
@@ -654,6 +678,7 @@ export default {
     }
   }
 }
+
 .no-background {
   background: #eeeeee;
 }
@@ -668,6 +693,7 @@ export default {
   background: linear-gradient(to right, rgba(255, 255, 255, 0.6), transparent);
   // background: transparent;
   border-radius: 40px;
+
   .icon-home {
     position: absolute;
     top: 13px;
@@ -677,6 +703,7 @@ export default {
     border-radius: 50%;
     background: url(~@/assets/web/img/personal/icon-home.png) no-repeat center;
   }
+
   .icon-top-line {
     position: absolute;
     top: 13px;
@@ -684,6 +711,7 @@ export default {
     width: 1px;
     height: 50px;
   }
+
   .icon-e-title {
     position: absolute;
     top: 13px;
@@ -696,6 +724,7 @@ export default {
     line-height: 23px;
     font-size: 12px;
   }
+
   .title {
     display: block;
     float: left;
@@ -704,6 +733,7 @@ export default {
     margin-left: 98px;
     font-size: 20px;
     font-weight: bold;
+
     // color: #a00404;
     &::after {
       content: "";
@@ -716,6 +746,7 @@ export default {
       // background: linear-gradient(to right, #a00404, rgba(225, 225, 225, 0.1));
       // opacity: 0.1;
     }
+
     &::before {
       content: "";
       position: absolute;
@@ -724,14 +755,13 @@ export default {
       margin-left: 23px;
       width: 880px;
       height: 1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        rgba(225, 225, 225, 0.9)
-      );
+      background: linear-gradient(to right,
+          transparent,
+          rgba(225, 225, 225, 0.9));
       z-index: 1;
     }
   }
+
   .top-right {
     // display: flex;
     // justify-content: end;
@@ -740,12 +770,14 @@ export default {
     // align-content: center;
     float: right;
     padding-top: 25px;
+
     span {
       margin-left: 20px;
       cursor: pointer;
       font-size: 16px;
       color: #333333;
       align-items: center;
+
       &:hover {
         opacity: 0.8;
       }
@@ -778,6 +810,7 @@ export default {
     }
   }
 }
+
 .top-content {
   width: 1200px;
   height: 466px;
@@ -790,6 +823,7 @@ export default {
   background: #f6f7fa;
   margin-bottom: 20px;
   padding: 20px;
+
   // background: url(../../../../../assets/web/img/personal/top-cont-bg.png)
   // no-repeat 0 0;
   .top-content-title-box {
@@ -804,6 +838,7 @@ export default {
     padding-left: 70px;
     border-radius: 6px 0 0 6px;
     margin-bottom: 6px;
+
     .top-content-title-box-right {
       position: absolute;
       right: -30px;
@@ -814,6 +849,7 @@ export default {
       transform: skew(30deg);
     }
   }
+
   .top-content-user-box {
     position: relative;
     box-sizing: border-box;
@@ -824,6 +860,7 @@ export default {
     border-radius: 16px;
     padding: 10px;
   }
+
   .my-name-box {
     display: flex;
     align-items: center;
@@ -832,6 +869,7 @@ export default {
     left: 10px;
     height: 84px;
   }
+
   .avatar {
     width: 84px;
     height: 84px;
@@ -842,18 +880,22 @@ export default {
     border: 2px solid #fff;
     box-shadow: 0 0 8px #ddd;
     cursor: pointer;
+
     img {
       width: 100%;
       height: 100%;
     }
   }
+
   .name {
     width: 150px;
+
     .text {
       font-size: 20px;
       font-weight: bold;
       color: #3a3536;
     }
+
     .grade {
       display: inline-block;
       padding: 0 7px;
@@ -870,6 +912,7 @@ export default {
       font-weight: normal;
       letter-spacing: 2px;
     }
+
     .leave {
       width: 48px;
       height: 24px;
@@ -885,6 +928,7 @@ export default {
       color: #fff;
     }
   }
+
   .w-q {
     // position: absolute;
     // top: 50px;
@@ -899,6 +943,7 @@ export default {
       margin-right: 2px;
     }
   }
+
   .certification {
     position: absolute;
     top: 120px;
@@ -907,6 +952,7 @@ export default {
     width: 260px;
     display: flex;
     flex-wrap: wrap;
+
     span {
       // display: inline-block;
       margin-right: 5px;
@@ -918,19 +964,21 @@ export default {
       margin-bottom: 6px;
       display: flex;
       align-items: center;
+
       img {
         // vertical-align: middle;
         // width: 14px;
         margin-right: 5px;
+
         &.gray {
           filter: contrast(5%);
         }
       }
     }
   }
+
   .card {
-    background: url("../../../../../assets/web/img/personal/bg-card.png")
-      no-repeat;
+    background: url("../../../../../assets/web/img/personal/bg-card.png") no-repeat;
     background-size: 100%;
     cursor: pointer;
     position: absolute;
@@ -939,6 +987,7 @@ export default {
     width: 280px;
     height: 221px;
     opacity: 1;
+
     .title {
       font-size: 14px;
       font-weight: bold;
@@ -948,16 +997,17 @@ export default {
       position: absolute;
       top: 65px;
       left: 90px;
+
       .next {
         vertical-align: -3px;
         display: inline-block;
         width: 16px;
         height: 16px;
-        background: url(../../../../../assets/web/img/personal/next.png)
-          no-repeat center #6a5efa;
+        background: url(../../../../../assets/web/img/personal/next.png) no-repeat center #6a5efa;
         border-radius: 50%;
       }
     }
+
     .blue-area {
       width: 6px;
       height: 30px;
@@ -967,20 +1017,24 @@ export default {
       top: 72px;
       left: 10px;
     }
+
     .status {
       position: absolute;
       top: 24px;
       right: 15px;
       transform: rotate(50deg);
+
       span {
         color: #584927;
         font-size: 16px;
       }
     }
+
     .list {
       position: absolute;
       top: 110px;
       left: 15px;
+
       .card-line {
         display: block;
         height: 1px;
@@ -988,15 +1042,18 @@ export default {
         width: 250px;
         background: url("../../../../../assets/web/img/personal/icon-line.png");
       }
+
       .list-item {
         display: flex;
         justify-content: center;
+
         .type-name {
           color: #2f2c23;
           font-size: 14px;
           margin-bottom: 4px;
           margin-right: 6px;
         }
+
         .kname {
           color: #3a3536;
           font-size: 14px;
@@ -1005,6 +1062,7 @@ export default {
         }
       }
     }
+
     .time {
       font-size: 12px;
       color: #fff;
@@ -1021,6 +1079,7 @@ export default {
   margin-top: 24px;
   overflow: hidden;
 }
+
 .tmp-box {
   width: 588px;
   height: 320px;
@@ -1031,9 +1090,11 @@ export default {
   margin-right: 24px;
   margin-bottom: 24px;
   position: relative;
+
   &:nth-child(2n) {
     margin-right: 0;
   }
+
   .edit-mark {
     position: absolute;
     top: 0;
@@ -1050,6 +1111,7 @@ export default {
       top: 18px;
       font-weight: 600;
       font-size: 18px;
+
       /deep/ .el-popover__reference-wrapper {
         width: 100px;
         height: 30px;
@@ -1060,11 +1122,13 @@ export default {
         left: 1px;
       }
     }
+
     .hide-more {
       cursor: pointer;
     }
   }
 }
+
 .b-n {
   border: none;
 }
@@ -1076,6 +1140,7 @@ export default {
     padding: 0 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
+
     &:hover {
       opacity: 0.8;
     }
@@ -1085,6 +1150,7 @@ export default {
     }
   }
 }
+
 .edit-btn {
   width: 60px;
   height: 118px;
@@ -1103,6 +1169,7 @@ export default {
   font-size: 14px;
   font-weight: 400;
   color: #2d3240;
+
   i {
     width: 26px;
     height: 24px;
@@ -1110,10 +1177,12 @@ export default {
     margin-bottom: 2px;
     background: url(../../../../../assets/web/img/personal/icon-edit.png);
   }
+
   &:hover {
     opacity: 0.9;
   }
 }
+
 .edit-ing-btn {
   width: 60px;
   height: 168px;
@@ -1136,31 +1205,39 @@ export default {
     height: 26px;
     margin-bottom: 7px;
   }
+
   .edit-ing-reset {
     height: 27px;
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAbCAYAAABiFp9rAAAAAXNSR0IArs4c6QAAA65JREFUSEu1ll9oHFUUxr/v7qYa+yfFWoIUpWLSus6s3VlEUcnOCCpCpPiH0oqioC+KVkSxovgkUhUKYumjPlSFPFiVWqgPEbsbU2rQdDbZ2UXXKLGNVWvNNqVp0+7uPTKT7LIbN9m0ifN4z3fO75wz9557iSafEXc6lMhmkF2A3CiCa0leA8GEUP6hYEALvwnp8Z7h4eHJmnCqo+P2FSMjA2f8Nc7FiUadmySMt0g80iyZwC5S0MCeyQJ3jo4mi6Zlfwlwg+cmO+cEmTH7FSi+SeDKBUFqRCIYATFIYKu/rLXclk2nvp9VkROOWvgAxJNzA6QIwd8CriFxRbNERORtz029XgcyY87HVHh8trOI9Irg05KWr38a7vvNT9TXmPFEBFp1UwWJmY2gIpLz3JRRBZkx+zUq7qwVC/ALhU9n3EOpJpnTsBI7FNU7jXQa6AxAkViiM0SVqW2FQA6d49mHfh0cnGjWnqA6yz5M8s7GIHk1AJmWs692d/mVnNW4dTSdPL0QiK+JWvZ+kDaAtgat380Oq2ttK9XvAFsqgnIZXbmhZP9CIbU6wzCWkWva0aLaNWQtwbZT5fEDNGKJ55RSeypigRzwjqY2Xw5kPh+altNDYlsVVJaHvaHUF/8DyM6TDE4vgFLh5IVVY2NHzi85KBq3zwFsDQKLnMi4qXVLDfHj0bTsMkk1DUI24yYbHrzFwmnG7QmCq6Y5ctw7mrp+sUEb+fsVZUneXDFOFEtXH8v0F5YCFrmlK86Qas+57PVBPSSru04LtmTd5L7FgkzLeZnErpl//xVNK/EUqT6sbm+RXs9N3bcY0PqYs3olMQZi+XQcOU9/cQXxZ93I17o7k+47eLkw07LfJ/lC1V/k4Myss3eT3F4zHf7AxSnL8wb+ulRYNOY8BoVP6vyk7ASgYN4hlAexuqaFORTlfs/rO75QmGElnlDTvyFc8dGC/Vk3+WD1PjIsZ5sieuozkYIWvpRNJz+qXHaNoBs23bFumWp5g1TP1NvlxAVyU34wearuhjXi9g4FvvufYCJ5AT6TMvtQRnpyEqevatMRpegf7ntIPFo7/Wd22kkNfXfW/TYXTIbZQU3L3k7yPQChhbZstk5Efi7p8gM/DvXnK7aGz62IlUiEofaCWH8pMBHRIPZOnZl6sfKemxfkGzduvGtlS2v4eSg8S/C6+YFSFOHnQHGX5x7+oZF2zgdkjThkxJ17laBbiBsgWA7KRQiPEXqkJMioYvG7bPbI+HzJ/Au/Pm0ACvdYCAAAAABJRU5ErkJggg==");
   }
+
   .edit-ing-save {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAAAXNSR0IArs4c6QAAARtJREFUSEvtlj1uwkAQhd+zXaTgBqGgQKmABDokiiUn4gBJlwvkJNwAtqDHhSXocJSGQ4AnWglH2NoYG+1SRLiy5Jn59s2fl/2h2oHowNEjGWZJrD/L4dgfKXHE+A1jg3kBGWIZVgBlgncKVk0UHokoBOYkWmW/c1gBJBmmSax1E5CxrapzDvMOytPoBNQbqm8S7apMFEHAFoJ9o9QREYHJJR9vXXeTObKp++eKRKBJpJcKW+e7CDokVG7rpL1NsKfn18cwQGTeN+vFV+9FKQZYOgedL+fDAeMwwIN3kFllRol3kFdF3YFqR6cabWOdeqtRuRPvoDqzabWpTh3wRmGjX/lfJxHKhMCHdWCvPn4Nxxtub8cXSKs4QfoD+//EXRgP8hEAAAAASUVORK5CYII=");
   }
+
   &:hover {
     opacity: 0.9;
   }
+
   span {
     display: block;
   }
+
   .mb {
     margin-bottom: 20px;
   }
 }
+
 .green {
   color: #fff;
   background: #4fcd92;
 }
+
 .yellow {
   color: #fff;
   background: #ffa520;
 }
+
 .gery {
   color: #fff;
   background: #555;
@@ -1168,9 +1245,11 @@ export default {
 
 .tmp-box {
   position: relative;
+
   &:nth-child(2n) {
     margin-right: 0;
   }
+
   .edit-mark {
     position: absolute;
     top: 0;
@@ -1180,9 +1259,11 @@ export default {
     border: 1px dashed #aaa;
   }
 }
+
 /deep/ .my-breadCrumbs {
   position: absolute;
 }
+
 .apply {
   height: 200px;
   background: #ffffff;
@@ -1191,6 +1272,7 @@ export default {
   //   padding: 25px;
   overflow: hidden;
 }
+
 .chance {
   // height: 200px;
   background: #ffffff;
@@ -1199,6 +1281,7 @@ export default {
   // padding: 25px;
   overflow: hidden;
   margin-top: 44px;
+
   .chance-app {
     padding: 24px 20px 40px;
 
@@ -1211,12 +1294,12 @@ export default {
       color: #666;
       display: inline-block;
     }
+
     .app-select {
       border-color: #458dda;
       color: #458dda;
       position: relative;
-      background: url("../../../../../assets/web/img/active-bottom.png")
-        no-repeat right bottom;
+      background: url("../../../../../assets/web/img/active-bottom.png") no-repeat right bottom;
 
       &::after {
         position: absolute;
@@ -1232,6 +1315,7 @@ export default {
     }
   }
 }
+
 .title-box {
   height: 60px;
   display: flex;
@@ -1245,6 +1329,7 @@ export default {
     font-size: 20px;
     font-weight: bold;
   }
+
   .right {
     font-size: 16px;
     color: #666;
@@ -1255,6 +1340,7 @@ export default {
     }
   }
 }
+
 .app-content {
   height: 140px;
   display: flex;
@@ -1277,6 +1363,7 @@ export default {
     align-items: center;
     align-content: space-evenly;
     cursor: pointer;
+
     &:hover {
       opacity: 0.8;
     }
@@ -1287,6 +1374,7 @@ export default {
       border-radius: 8px;
       background: #e3f2ff;
       display: inline-block;
+
       img {
         width: 50%;
         height: 50%;
@@ -1294,6 +1382,7 @@ export default {
       }
     }
   }
+
   .title-name {
     margin-top: 8px;
     text-align: center;
@@ -1301,32 +1390,40 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
   .item-box {
     width: 930px;
     display: flex;
+
     .app-item {
       width: 80px;
       margin: 0 24px;
       padding: 5px;
       cursor: pointer;
+
       &:first-child {
         margin-left: 0;
       }
+
       &:last-child {
         margin-right: 0;
       }
+
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
       }
+
       .app {
         width: 62px;
         height: 62px;
         border-radius: 16px;
         margin: 0 auto;
+
         img {
           width: 50%;
           height: 50%;
         }
+
         background: #e3f2ff;
         display: flex;
         justify-content: center;
@@ -1334,6 +1431,7 @@ export default {
       }
     }
   }
+
   .right-arr {
     font-size: 24px;
     margin-left: 60px;
@@ -1341,21 +1439,25 @@ export default {
     color: #666;
     width: 50px;
     text-align: center;
+
     p {
       font-size: 14px;
     }
+
     &:hover {
       opacity: 0.8;
     }
   }
 }
+
 .cup {
   cursor: pointer;
+
   &:hover {
     opacity: 0.8;
   }
 }
+
 .sort {
   cursor: move;
-}
-</style>
+}</style>

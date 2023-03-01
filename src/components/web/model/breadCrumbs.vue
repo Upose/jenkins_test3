@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="my-breadCrumbs main_text_color">
-      <span class="el-icon-s-home bc-fs" @click="linkTo('index','/#/index')"></span>
-      <div v-for="(item,index) in blist" :key="index">
+      <span class="el-icon-s-home bc-fs" @click="linkTo('index', '/index')"></span>
+      <div v-for="(item, index) in blist" :key="index">
         <i>></i>
-        <span @click="linkTo(item.code,item.url)">{{item.name}}</span>
+        <span @click="linkTo(item.code, item.url)">{{ item.name }}</span>
       </div>
     </div>
   </div>
@@ -28,9 +28,9 @@ export default {
       if (url) {
         let urlInfo = JSON.parse(localStorage.getItem('urlInfo'));
         let info = urlInfo.find(item => item.code == code);
-        if(code == 'index'){
-          window.location.href = info.path + url+'?page=1';
-        }else{
+        if (code == 'index') {
+          window.location.href = info.path + url + '?page=1';
+        } else {
           window.location.href = info.path + url;
         }
       }
@@ -43,18 +43,21 @@ export default {
 .my-breadCrumbs {
   width: 1200px;
   margin: 0 auto;
+
   // position: absolute;
   div {
     display: inline-block;
   }
+
   span {
     cursor: pointer;
+
     &:hover {
       opacity: 0.8;
     }
   }
+
   .bc-fs {
     font-size: 16px;
   }
-}
-</style>
+}</style>
