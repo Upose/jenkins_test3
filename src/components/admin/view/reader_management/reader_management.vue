@@ -11,13 +11,13 @@
           <div class="search-table-w">
             <h1 class="search-title">读者账号详情</h1>
           <!-- <span class="fsxx">发送消息</span>
-                <span class="zwhy" @click="handleChange">转为馆员</span> -->
-            <div class="right-btn-box">
+                    <span class="zwhy" @click="handleChange">转为馆员</span> -->
+          <!-- <div class="right-btn-box">
               <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
                 class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
               <el-button type="primary" size="medium" class="blue-btn" @click="handleSend"
                 v-has="'reader:sendMessage'">发送消息</el-button>
-            </div>
+              </div> -->
           </div>
           <div class="loading-box" v-loading="loading" v-if="loading"></div>
           <div class="login-list" v-else>

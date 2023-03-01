@@ -1,7 +1,15 @@
+<!--
+ * @Description: 
+ * @Author: gongqin
+ * @Date: 2022-03-08 10:42:32
+ * @LastEditors: gongqin
+ * @LastEditTime: 2023-03-01 11:13:41
+-->
 <template>
   <el-dialog append-to-body title="导入数据" :visible.sync="dialogVisible" width="400px" :before-close="dialogBeforeClose">
     <div>
-      <el-upload class="upload-demo" drag :action="uploadUrl" :headers="myHeaders" ref="upload" :auto-upload="false" :on-success="uploadSuccess">
+      <el-upload class="upload-demo" drag :action="uploadUrl" :headers="myHeaders" ref="upload" :auto-upload="false"
+        :on-success="uploadSuccess">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
@@ -9,7 +17,8 @@
     </div>
     <div slot="footer">
       <el-button @click="dialogVisible = false" icon="iconfont el-icon-vip-quxiao">取 消</el-button>
-      <el-button type="primary" @click="submitUpload" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保 存</el-button>
+      <el-button type="primary" @click="submitUpload" icon="iconfont el-icon-vip-baocun1" v-button-debounce>保
+        存</el-button>
     </div>
   </el-dialog>
 </template>
@@ -18,7 +27,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      uploadUrl: window.apiDomainAndPort + '/usermanage/api/user-group/import-group-user',
+      // uploadUrl: window.apiDomainAndPort + '/usermanage/api/user-group/import-group-user',
+      uploadUrl: window.apiDomainAndPort + '/usermanagev2/api/user-group/import-group-user',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] }
     }
   },

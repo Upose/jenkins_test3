@@ -2,13 +2,13 @@
  * @Author: huyu
  * @Date: 2022-05-20 14:40:28
  * @LastEditors: gongqin
- * @LastEditTime: 2023-02-28 18:47:38
+ * @LastEditTime: 2023-03-01 09:44:06
  * @Description: 
 -->
 <template>
   <div>
     <div class="integral-box">
-      <div>
+      <div class="integral-box-num">
         <div class="integral-num" v-if="integralData">
           <span>总积分：</span>
           <span>{{ integralData.userScore }}</span>
@@ -22,8 +22,8 @@
           <span>{{ integralData.overdueScore }}</span>
         </div>
       </div>
-      <el-select v-model="postForm.UserKey" placeholder="读者卡号" class="selects" clearable>
-        <el-option v-for="item in cardData" :key="item.cardkey" :label="item.displayNo" :value="item.cardkey">
+      <el-select v-model="postForm.userKey" placeholder="读者卡号" class="selects">
+        <el-option v-for="item in cardData" :key="item.cardKey" :label="item.displayNo" :value="item.cardKey">
         </el-option>
       </el-select>
       <el-input class="handle-input mr10 inputs" v-model="postForm.keyword" placeholder="发生事件" clearable></el-input>
@@ -81,7 +81,9 @@ export default {
         pageSize: 20,
       },//分页参数
       tableData: [],//列表项
-      postForm: {},
+      postForm: {
+        userKey: "",
+      },
       integralData: null,
       cardData: [],
     }
@@ -89,7 +91,6 @@ export default {
   async mounted() {
     // this.getKey();
     await this.getCardData();
-    this.postForm.userKey = this.userKey;
     this.getList();
     this.getData();
   },
@@ -98,7 +99,11 @@ export default {
     async getCardData() {
       try {
         let res = await http.getJsonSelf('user-card-list-data', `/${this.id}`);
-        let list = res.data;
+        let list = res.data || [];
+        if (list.length) {
+          let principal = list.find(item => item.isPrincipal) || {};
+          this.postForm.userKey = principal.cardKey ? principal.cardKey : "";
+        }
         this.cardData = list;
       } catch (err) {
         this.loading = false;
@@ -107,7 +112,7 @@ export default {
     },
     // 获取数据
     getData() {
-      http.getJsonSelf('reader-score-summary', `/${this.userKey}`).then(res => {
+      http.getJsonSelf('reader-score-summary', `/${this.postForm.userKey}`).then(res => {
         this.integralData = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
@@ -116,7 +121,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('reader-event-score-table-data', { userKey: this.userKey, ...this.postForm, ...this.pageData }).then(res => {
+      http.getJson('reader-event-score-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         let list = res.data.items || [];
         this.tableData = list;
         this.pageData.totalCount = res.data.totalCount;
@@ -133,6 +138,7 @@ export default {
     },
     // 查找
     handleSearch() {
+      console.log(this.postForm)
       this.postForm.keyword = this.postForm.keyword != '' ? this.postForm.keyword : null;
       this.initGetList();
     },

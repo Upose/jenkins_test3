@@ -10,8 +10,8 @@
         <span>{{ borrowData.nowBorrowCount }}</span>
       </div>
       <div class="search-box">
-        <el-select v-model="postForm.cardKey" placeholder="读者卡号" class="selects" clearable>
-          <el-option v-for="item in cardData" :key="item.cardkey" :label="item.displayNo" :value="item.cardkey">
+        <el-select v-model="postForm.cardKey" placeholder="读者卡号" class="selects">
+          <el-option v-for="item in cardData" :key="item.cardKey" :label="item.displayNo" :value="item.cardKey">
           </el-option>
         </el-select>
         <el-input clearable v-model="postForm.title" placeholder="题名" class="w150"></el-input>
@@ -57,7 +57,9 @@ export default {
         pageSize: 10000,
       },//分页参数
       tableData: [],//列表项
-      postForm: {},
+      postForm: {
+        cardKey: "",
+      },
       borrowData: {},
       cardData: [],
     }
@@ -66,7 +68,6 @@ export default {
   async mounted() {
     // this.getKey();
     await this.getCardData();
-    this.postForm.cardKey = this.userKey;
     this.getList();
   },
   methods: {
@@ -74,7 +75,11 @@ export default {
     async getCardData() {
       try {
         let res = await http.getJsonSelf('user-card-list-data', `/${this.id}`);
-        let list = res.data;
+        let list = res.data || [];
+        if (list.length) {
+          let principal = list.find(item => item.isPrincipal) || {};
+          this.postForm.cardKey = principal.cardKey ? principal.cardKey : "";
+        }
         this.cardData = list;
       } catch (err) {
         this.loading = false;

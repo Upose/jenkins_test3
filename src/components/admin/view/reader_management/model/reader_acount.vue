@@ -4,27 +4,35 @@
       <el-form ref="readerForm" :model="postForm" label-width="100px" :rules="readerRules" :disabled="isAllowEdit">
         <div class="harf-area">
           <el-form-item label="用户类型：" prop="type">
-            <el-select v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+            <el-select v-model="postForm.type" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Type')"
+              v-el-select-loadmore="optionLoadMore('User_Type')">
               <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="状态：" prop="status">
-            <el-select v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
-              <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+            <el-select v-model="postForm.status" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Status')"
+              v-el-select-loadmore="optionLoadMore('User_Status')">
+              <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key"
+                :value="Number(item.value)"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="单位名称：" prop="unit">
             <el-input v-model="postForm.unit" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="学历：" prop="edu">
-            <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
+            <el-select v-model="postForm.edu" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
               <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="职称：" prop="title">
-            <el-select v-model="postForm.title" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Title')" v-el-select-loadmore="optionLoadMore('User_Title')">
+            <el-select v-model="postForm.title" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Title')"
+              v-el-select-loadmore="optionLoadMore('User_Title')">
               <el-option v-for="item in initSelect('User_Title')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select>
@@ -35,39 +43,53 @@
               <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select> -->
-            <el-cascader :options="depList" v-model="postForm.depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+            <el-cascader :options="depList" v-model="postForm.depart"
+              :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false }" clearable></el-cascader>
           </el-form-item>
           <el-form-item label="所在学院：" prop="college">
-            <el-select v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
-              <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value">
+            <el-select v-model="postForm.college" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_College')"
+              v-el-select-loadmore="optionLoadMore('User_College')">
+              <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key"
+                :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="所在系：" prop="collegeDepart">
-            <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_CollegeDepart')" v-el-select-loadmore="optionLoadMore('User_CollegeDepart')">
-              <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key" :value="item.value">
+            <el-select v-model="postForm.collegeDepart" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_CollegeDepart')"
+              v-el-select-loadmore="optionLoadMore('User_CollegeDepart')">
+              <el-option v-for="item in initSelect('User_CollegeDepart')" :key="item.value" :label="item.key"
+                :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="专业：" prop="major">
-            <el-select v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
+            <el-select v-model="postForm.major" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Major')"
+              v-el-select-loadmore="optionLoadMore('User_Major')">
               <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="年级：" prop="grade">
-            <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
+            <el-select v-model="postForm.grade" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Grade')"
+              v-el-select-loadmore="optionLoadMore('User_Grade')">
               <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="班级：" prop="class">
-            <el-select v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
+            <el-select v-model="postForm.class" placeholder="请选择" clearable filterable
+              :filter-method="(value) => handleFilter(value, 'User_Class')"
+              v-el-select-loadmore="optionLoadMore('User_Class')">
               <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="身份证号：" prop="idCard" :class="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard?'is-error':''">
+          <el-form-item label="身份证号：" prop="idCard"
+            :class="mergeInfo && mergeInfo.repeateIdCard && postForm.idCard == mergeInfo.idCard ? 'is-error' : ''">
             <el-input v-model="postForm.idCard" placeholder="请输入" maxlength="30" show-word-limit>
               <template slot="append">
                 <div v-if="postForm.idCardIdentity">
@@ -79,7 +101,8 @@
                 </div>
               </template>
             </el-input>
-            <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeateIdCard&&postForm.idCard==mergeInfo.idCard">身份证号重复</div>
+            <div class="el-form-item__error" v-if="mergeInfo && mergeInfo.repeateIdCard && postForm.idCard == mergeInfo.idCard">
+              身份证号重复</div>
           </el-form-item>
         </div>
         <div class="harf-area">
@@ -88,10 +111,12 @@
           </el-form-item>
           <el-form-item label="性别：" prop="gender">
             <el-radio-group v-model="postForm.gender" class="radios">
-              <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
+              <el-radio v-for="item in initSelect('User_Gender')" :key="item.value"
+                :label="item.key">{{ item.key }}</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="手机号：" prop="phone" :class="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone?'is-error is-required':''">
+          <el-form-item label="手机号：" prop="phone"
+            :class="mergeInfo && mergeInfo.repeatePhone && postForm.phone == mergeInfo.phone ? 'is-error is-required' : ''">
             <el-input v-model="postForm.phone" placeholder="请输入">
               <template slot="append">
                 <div v-if="postForm.mobileIdentity">
@@ -103,7 +128,8 @@
                 </div>
               </template>
             </el-input>
-            <div class="el-form-item__error" v-if="mergeInfo&&mergeInfo.repeatePhone&&postForm.phone==mergeInfo.phone">手机号重复</div>
+            <div class="el-form-item__error" v-if="mergeInfo && mergeInfo.repeatePhone && postForm.phone == mergeInfo.phone">
+              手机号重复</div>
           </el-form-item>
           <el-form-item label="邮箱：" prop="email" class="youxiang">
             <el-input v-model="postForm.email" placeholder="请输入" maxlength="30" show-word-limit>
@@ -119,7 +145,8 @@
             </el-input>
           </el-form-item>
           <el-form-item label="出生年月：" prop="birthday">
-            <el-date-picker class="wq95" v-model="postForm.birthday" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd">
+            <el-date-picker class="wq95" v-model="postForm.birthday" type="date" placeholder="选择日期" clearable
+              value-format="yyyy-MM-dd" format="yyyy-MM-dd">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="所在地：" prop="addr">
@@ -128,41 +155,53 @@
               </el-option>
             </el-select> -->
             <!-- <el-input v-model="postForm.addr" placeholder="请输入" maxlength="50" clearable show-word-limit></el-input> -->
-            <el-cascader :options="addrList" v-model="postForm.addr" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+            <el-cascader :options="addrList" v-model="postForm.addr"
+              :props="{ value: 'idDisp', label: 'name', children: 'children', emitPath: false }" clearable></el-cascader>
           </el-form-item>
           <el-form-item label="详细地址：" prop="addrDetail">
-            <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable show-word-limit></el-input>
+            <el-input v-model="postForm.addrDetail" placeholder="请输入" maxlength="120" clearable
+              show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="离校日期：" prop="leaveTime">
-            <el-date-picker class="wq95" v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
+            <el-date-picker class="wq95" v-model="postForm.leaveTime" type="date" placeholder="选择日期" clearable
+              value-format="yyyy-MM-dd" format="yyyy年MM月dd日">
             </el-date-picker>
           </el-form-item>
 
           <el-form-item label="第三方信息：">
-            <div class="sides" v-if="postForm.WeChatOpenId||postForm.qqOpenId">
+            <div class="sides" v-if="postForm.WeChatOpenId || postForm.qqOpenId">
               <img :src="getImg('icon-wx')" v-if="postForm.WeChatOpenId" class="pictures" />
               <img :src="getImg('icon-qq')" v-if="postForm.qqOpenId" class="pictures" />
             </div>
             <div class="unbind" v-else>暂无</div>
           </el-form-item>
-          <el-form-item :label="item.propertyName+'：'" v-for="(item,index) in postForm.properties" :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
-            <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入" v-if="item.propertyType == 0"></el-input>
-            <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1" placeholder="请输入"></el-input-number>
-            <el-date-picker class="wq95" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd" placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
+          <el-form-item :label="item.propertyName + '：'" v-for="(item, index) in postForm.properties"
+            :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
+            <el-input v-model="item.propertyValue" maxlength="20" clearable show-word-limit placeholder="请输入"
+              v-if="item.propertyType == 0"></el-input>
+            <el-input-number class="wq100" v-model="item.propertyValue" v-if="item.propertyType == 1"
+              placeholder="请输入"></el-input-number>
+            <el-date-picker class="wq95" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd"
+              placeholder="选择日期" v-if="item.propertyType == 2"></el-date-picker>
             <el-radio-group v-model="item.propertyValue" v-if="item.propertyType == 3" class="radios">
               <el-radio :label="'true'">是</el-radio>
               <el-radio :label="'false'">否</el-radio>
             </el-radio-group>
-            <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
-              <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+            <el-select v-model="item.propertyValue" placeholder="请选择" v-if="item.propertyType == 4" clearable filterable
+              :filter-method="(value) => handleFilter(value, item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
+              <el-option v-for="item in initSelect(item.propertyCode)" :key="item.value" :label="item.key"
+                :value="item.value"></el-option>
             </el-select>
-            <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue" :props="{ value:'idDisp',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+            <el-cascader v-if="item.propertyType == 5" :options="addrList" v-model="item.propertyValue"
+              :props="{ value: 'idDisp', label: 'name', children: 'children', emitPath: false }" clearable></el-cascader>
             <div v-if="item.propertyType == 6">
-              <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders" name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
+              <el-upload class="d-ib upload-demo" :action="uploadUrl" :file-list="fileList" :headers="myHeaders"
+                name="files" :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess">
                 <el-button size="small" type="primary" @click="upaloadFile(index)">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">附件大小不超过20m</div>
               </el-upload>
-              <el-button type="text" size="small" v-if="item.propertyValue&&item.propertyValue!=''" @click="downloadFile(item.propertyValue)" v-button-debounce>下载附件</el-button>
+              <el-button type="text" size="small" v-if="item.propertyValue && item.propertyValue != ''"
+                @click="downloadFile(item.propertyValue)" v-button-debounce>下载附件</el-button>
             </div>
           </el-form-item>
         </div>
@@ -171,14 +210,15 @@
         </el-form-item> -->
       </el-form>
       <div class="btn_box">
-        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'reader:update'" v-button-debounce>保存</el-button>
+        <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'reader:update'"
+          v-button-debounce>保存</el-button>
       </div>
     </div>
     <div class="reader-right">
-      <div class="right-title">添加至用户分组</div>
+      <!-- <div class="right-title">添加至用户分组</div>
       <div class="right-box">
         <span :class="isGrounp(item.id)?'grounpSel':''" v-for="item in grounpList" :key="item.id" :data-id="item.id" @click="handleAddGrounp(item.id)">{{item.name}}</span>
-      </div>
+      </div> -->
       <!-- <div class="right-title">添加至用户分组</div> -->
       <!-- <div class="right-box user-tag">
         <span v-for="item in userTagList" :key="item.id" :data-id="item.id">{{item.name}}</span>
@@ -189,12 +229,14 @@
         <span @click="addTag">学妹<img src="@/assets/admin/img/userManager/icon_add2x.png" class="imgs" /></span>
       </div> -->
     </div>
-    <el-dialog append-to-body :title="titles" :visible.sync="editVisible" width="26%" :modal-append-to-body="false" :close-on-click-modal="false">
+    <el-dialog append-to-body :title="titles" :visible.sync="editVisible" width="26%" :modal-append-to-body="false"
+      :close-on-click-modal="false">
       <el-form ref="form" :model="form" label-width="70px">
         <div class="tables">
           <div class="right-box">
-            <span v-for="(item,index) in list" :key="index" @click="changeStatus($event,index,item)" :class="item.ischecked?'xuanzhong':''">
-              {{item.name}}
+            <span v-for="(item, index) in list" :key="index" @click="changeStatus($event, index, item)"
+              :class="item.ischecked ? 'xuanzhong' : ''">
+              {{ item.name }}
               <i class="el-icon-check duihao" v-if="item.ischecked"></i>
             </span>
           </div>
@@ -572,31 +614,38 @@ export default {
   width: 33%;
   float: left;
 }
+
 .divStyle {
   height: 40px;
   line-height: 40px;
   border: 1px solid #c0c4cc;
 }
+
 .divStyle span {
   padding: 0 !important;
   float: right !important;
 }
+
 .divStyle span:first-child {
   float: left !important;
   color: #6c757d;
   margin-left: 5%;
 }
+
 /deep/ .el-select .el-input {
   width: 100%;
 }
+
 .reader-left,
 .reader-middle {
   float: left;
 }
+
 .reader-right {
   float: right;
   width: 50%;
 }
+
 .reader-right span {
   font-size: 14px;
   color: #909399;
@@ -605,30 +654,37 @@ export default {
   float: right;
   cursor: pointer;
 }
+
 /deep/ .el-tabs__item {
   height: 46px;
 }
+
 /deep/ .el-tabs__nav-wrap::after {
   background-color: #fff;
 }
+
 .reader-left {
   width: 9%;
   height: 9%;
   border-radius: 12px;
   margin: 0 2% 0 1.5%;
 }
+
 .reader-middle {
   width: 30%;
 }
+
 .middle-top,
 .integral,
 .times {
   width: 100%;
   display: table;
 }
+
 .middle-top {
   margin-top: 3%;
 }
+
 .names,
 .numers,
 .level,
@@ -637,17 +693,20 @@ export default {
   display: block;
   margin-right: 2%;
 }
+
 .names {
   font-size: 18px !important;
   font-weight: bold;
   color: #34395e;
 }
+
 .numers {
   color: #34395e;
   font-size: 16px !important;
   font-weight: bold;
   margin-top: 5px;
 }
+
 .level {
   color: #5568f5;
   font-size: 15px;
@@ -657,6 +716,7 @@ export default {
   line-height: 26px;
   height: 26px;
 }
+
 .async {
   color: #5568f5;
   border: 1px solid #5568f5;
@@ -665,42 +725,51 @@ export default {
   line-height: 26px;
   height: 26px;
 }
+
 .integral,
 .times {
   margin-top: 3%;
   width: 100%;
   display: table;
 }
+
 .integral span {
   display: block;
   float: left;
   font-size: 14px;
   color: #f58b58;
 }
+
 .integral span:first-child {
   color: #34395e;
 }
+
 .times {
   color: #34395e;
   font-size: 14px;
 }
+
 .editdiv {
   width: 65%;
   float: left;
+
   .harf-area {
     width: 49%;
     float: left;
   }
 }
+
 .editdiv ul {
   list-style-type: none;
   padding: 0;
 }
+
 .editdiv ul li {
   width: 100%;
   display: table;
   padding: 1% 0;
 }
+
 .editdiv ul li span {
   float: left;
   padding: 12px 2% 12px 0;
@@ -708,23 +777,28 @@ export default {
   color: #3c4b5d;
   text-align: right;
 }
+
 .editdiv ul li span:first-child {
   width: 15%;
 }
+
 .editdiv ul li span i {
   color: red;
   margin: 10px 0 0 0px;
 }
+
 .reader-right {
   width: 30%;
   float: right;
 }
+
 .right-title {
   width: 100%;
   font-size: 15px;
   font-weight: bold;
   display: table;
 }
+
 .right-box {
   width: 100%;
   // display: table;
@@ -732,14 +806,17 @@ export default {
   margin: 2% 0 6% 0;
   display: flex;
   flex-wrap: wrap;
+
   .grounpSel {
     border-color: #6777ef;
     color: #6777ef;
   }
+
   &.user-tag {
     span {
       cursor: auto;
     }
+
     .imgs {
       width: 13px;
       height: 11px;
@@ -748,6 +825,7 @@ export default {
     }
   }
 }
+
 .right-box span {
   display: block;
   float: left;
@@ -764,19 +842,23 @@ export default {
 .el-select-dropdown__item {
   padding-left: 3% !important;
 }
+
 /deep/ .el-radio {
   margin: 2% 9% 0 0;
 }
+
 /deep/ .el-input-number__decrease,
 /deep/ .el-input-number__increase {
   display: none;
 }
+
 .tag-box {
   position: absolute;
   width: 80px;
   right: 30px;
   text-align: right;
 }
+
 .yuan {
   width: 8px !important;
   height: 8px;
@@ -785,14 +867,17 @@ export default {
   margin: 16px 2% 0 0;
   display: inline-block;
 }
+
 .renzheng {
   color: #6c757d;
   width: auto !important;
   margin-right: 3%;
 }
+
 .tag-text {
   color: #909399;
 }
+
 .baocun {
   background: #6777ef;
   border: 0;
@@ -800,12 +885,15 @@ export default {
   color: #fff;
   text-align: center;
 }
+
 .xuanzhong {
   border: 1px solid #6777ef !important;
 }
+
 /deep/.el-dialog__body {
   padding: 10px 20px;
 }
+
 .duihao {
   width: 12px;
   height: 10px;
@@ -818,34 +906,40 @@ export default {
   float: right;
   margin: -7px -13px 0 2px !important;
 }
+
 .btns {
   padding: 2.5% 4% 2% 4%;
   font-size: 15px;
   background: #6777ef;
   border: 0;
 }
+
 .quxiao {
   color: #6d6d6d;
   background: #f3f3f3;
   border: 1px solid #f3f3f3;
 }
+
 .btns1 {
   float: left !important;
   padding: 3.2% 3.9% 2.9% 3.9% !important;
   margin: 2% 1% 0 0 !important;
   background: #6777ef;
 }
+
 .btns img {
   width: 14px;
   height: 12.6px;
   float: left;
   margin-right: 6px;
 }
+
 .btns span {
   display: block;
   font-size: 14px;
   float: left;
 }
+
 .btns1 span {
   display: block;
   font-size: 14px;
@@ -854,9 +948,11 @@ export default {
   min-width: 30px !important;
   color: #fff !important;
 }
+
 /deep/ .el-dialog {
   min-width: 500px;
 }
+
 /deep/ .el-form-item {
   width: 100%;
   display: table;
@@ -865,6 +961,7 @@ export default {
   display: inline-block;
   vertical-align: top;
 }
+
 /deep/ .el-input,
 /deep/ .el-select,
 .divStyle {
@@ -872,21 +969,26 @@ export default {
   float: left;
   min-width: 220px;
 }
+
 /deep/ .el-form-item__content {
   line-height: 1;
 }
+
 /deep/ .el-cascader {
   width: 100%;
 }
+
 .radios {
   width: 63%;
   margin-top: 2.2%;
   float: left;
 }
+
 .btn_box {
   margin-left: 100px;
   clear: both;
 }
+
 // .youxiang {
 //   width: 100%;
 // }
@@ -897,6 +999,7 @@ export default {
   display: inline-block;
   vertical-align: top;
 }
+
 .el-form {
   .sides {
     .pictures {
@@ -906,6 +1009,7 @@ export default {
       cursor: pointer;
     }
   }
+
   .unbind {
     text-align: left;
     vertical-align: middle;
@@ -917,5 +1021,4 @@ export default {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
-}
-</style>
+}</style>
