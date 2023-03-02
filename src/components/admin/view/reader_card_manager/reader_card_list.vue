@@ -461,8 +461,8 @@ export default {
           if (key == 'depart' || key == 'college' || key == 'collegeDepart' || key == 'type' || key == 'cardType') {
             value = row[`${key}Name`];
           } else {
-            let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
-            let itemss = slsectItems.groupItems.find((item) => (item.value == row[this.tableSysArrtKey[this.tableSysArrt.indexOf(code)]]))
+            let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code)) || {};
+            let itemss = slsectItems.groupItems ? (slsectItems.groupItems.find((item) => (item.value == row[this.tableSysArrtKey[this.tableSysArrt.indexOf(code)]]))) : '';
             value = itemss ? itemss.key : row[key];
           }
         } else if (curItem.type == 5) {//地址
@@ -479,8 +479,8 @@ export default {
           } else if (items && items.propertyType == 3) {//是否
             value = items.propertyValue ? '是' : '否';
           } else if (items && items.propertyType == 4) {//属性组
-            let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code));
-            let itemss = slsectItems.groupItems.find((item) => (item.value == items.propertyValue))
+            let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code)) || {};
+            let itemss = slsectItems.groupItems ? (slsectItems.groupItems.find((item) => (item.value == items.propertyValue))) : '';
             value = itemss ? itemss.key : '';
           } else if (curItem.type == 5) {//地址
             value = items.propertyValue ? this.showAddrName(items.propertyValue) : "";
@@ -495,8 +495,8 @@ export default {
     // 初始化下拉列表
     initSelect(code) {
       if (this.groupSelect.length == 0) return;
-      let select = this.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      let select = this.groupSelect.find(item => (item.groupCode == code)) || {};
+      return select.groupItems ? select.groupItems : [];
     },
     // 时间格式化
     dateChangeFormat(format, date) {
