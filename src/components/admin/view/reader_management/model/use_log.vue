@@ -99,6 +99,8 @@ export default {
       let form = {};
       if (this.postForm.userKey) {
         form.userKey = this.postForm.userKey; // 卡标识
+      } else {
+        form.readerKey = this.userKey; // 读者标识,选了userKey不传readerKey
       }
       if (this.postForm.time && this.postForm.time.length) {
         form.StartTime = this.postForm.time[0];
@@ -107,7 +109,6 @@ export default {
       http.getJson('user-log-table-data', {
         userID: this.id,
         ...form,
-        readerKey: this.userKey, // 读者标识
         pageIndex: this.pageData.pageIndex,
         pageSize: this.pageData.pageSize,
         LogType: this.postForm.LogType,

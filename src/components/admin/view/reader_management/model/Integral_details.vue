@@ -138,7 +138,6 @@ export default {
     },
     // 查找
     handleSearch() {
-      console.log(this.postForm)
       this.postForm.keyword = this.postForm.keyword != '' ? this.postForm.keyword : null;
       this.initGetList();
     },
@@ -149,6 +148,7 @@ export default {
         pageSize: 20,
       }
       this.getList();
+      this.getData();
     },
   }
 }

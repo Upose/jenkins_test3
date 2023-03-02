@@ -23,53 +23,60 @@
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="10" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注：">
-                <el-input type="textarea" :rows="4" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
+                <el-input type="textarea" :rows="4" v-model="postForm.desc" class="w500" maxlength="100"
+                  show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择：" v-if="dataKey">
-                <div class="rule-box" v-for="(it,idx) in ruleList" :key="idx">
-                  <div class="rule-item" v-for="(item,index) in it.rules" :key="index">
+                <div class="rule-box" v-for="(it, idx) in ruleList" :key="idx">
+                  <div class="rule-item" v-for="(item, index) in it.rules" :key="index">
                     <el-select v-model="item.propertyId" placeholder="请选择" class="w150" @change="handleChange(item)">
-                      <el-option v-for="items in selectOption" :key="items.id" :label="items.name" :value="items.id"></el-option>
+                      <el-option v-for="items in selectOption" :key="items.id" :label="items.name"
+                        :value="items.id"></el-option>
                     </el-select>
                     <!-- 属性组 -->
-                    <template v-if="item.propertyType==4">
+                    <template v-if="item.propertyType == 4">
                       <el-select v-model="item.compareType" placeholder="请选择" class="w110">
                         <el-option v-for="items in compare" :key="items.value" :label="items.key" :value="items.value">
                         </el-option>
                       </el-select>
-                      <el-select v-model="item.propertyValue" placeholder="请选择" class="w150" v-if="item.propertyType==4">
-                        <el-option v-for="items in item.valueList" :key="items.value" :label="items.key" :value="items.value"></el-option>
+                      <el-select v-model="item.propertyValue" placeholder="请选择" class="w150"
+                        v-if="item.propertyType == 4">
+                        <el-option v-for="items in item.valueList" :key="items.value" :label="items.key"
+                          :value="items.value"></el-option>
                       </el-select>
                     </template>
 
                     <!-- 日期 -->
-                    <template v-else-if="item.propertyType==2">
+                    <template v-else-if="item.propertyType == 2">
                       <el-select v-model="item.compareType" placeholder="请选择" class="w110">
-                        <el-option v-for="(value,key) in dataKey.compareType" :key="value" :label="key" :value="value">
+                        <el-option v-for="(value, key) in dataKey.compareType" :key="value" :label="key" :value="value">
                         </el-option>
                       </el-select>
-                      <el-date-picker placeholder="请选择" class="w150" v-model="item.propertyValue" type="date" value-format="yyyy-MM-dd"></el-date-picker>
+                      <el-date-picker placeholder="请选择" class="w150" v-model="item.propertyValue" type="date"
+                        value-format="yyyy-MM-dd"></el-date-picker>
                     </template>
                     <el-select v-model="item.unionWay" placeholder="请选择" class="w100">
                       <el-option v-for="items in union" :key="items.value" :label="items.key" :value="items.value">
                       </el-option>
                     </el-select>
-                    <div class="btns-el-btn" @click="addCoumn(idx,index)" v-if="(it.rules.length-1)==index && it.rules.length < 6">
+                    <div class="btns-el-btn" @click="addCoumn(idx, index)"
+                      v-if="(it.rules.length - 1) == index && it.rules.length < 6">
                       <i class="el-icon-plus"></i>
                       <span>添加</span>
                     </div>
-                    <div class="btns-el-btn" @click="removeCoumn(idx,index)" v-if="it.rules.length!=1">
+                    <div class="btns-el-btn" @click="removeCoumn(idx, index)" v-if="it.rules.length != 1">
                       <i class="el-icon-minus"></i>
                       <span>删除</span>
                     </div>
                   </div>
                   <div class="rule-box-right">
                     <div class="rule-box-btn">
-                      <div class="btns-el-btn" @click="addCoumnRule(idx)" v-if="(ruleList.length-1)==idx && ruleList.length < 6">
+                      <div class="btns-el-btn" @click="addCoumnRule(idx)"
+                        v-if="(ruleList.length - 1) == idx && ruleList.length < 6">
                         <i class="el-icon-plus"></i>
                         <span>添加</span>
                       </div>
-                      <div class="btns-el-btn" @click="removeCoumnRule(idx)" v-if="ruleList.length!=1">
+                      <div class="btns-el-btn" @click="removeCoumnRule(idx)" v-if="ruleList.length != 1">
                         <i class="el-icon-minus"></i>
                         <span>删除</span>
                       </div>
@@ -83,7 +90,8 @@
               </el-form-item>
               <el-form-item>
                 <el-button size="medium" @click="reset" icon="iconfont el-icon-vip-chushi">重 置</el-button>
-                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun" v-button-debounce>保 存</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun"
+                  v-button-debounce>保 存</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -146,6 +154,8 @@ export default {
           { min: 2, max: 50, message: '长度在 2 到 10 个字符', trigger: 'blur' }
         ],
       },
+
+      userDepart: [],
     };
   },
   mounted() {
@@ -153,6 +163,7 @@ export default {
   },
   methods: {
     initData() {
+      this.getOrgList();
       this.getKey();
       if (this.id) {
         // this.getData();
@@ -173,6 +184,21 @@ export default {
           }]
         }]
       }
+    },
+    // 获取初始数据
+    getOrgList() {
+      http.getJson('org-list').then(res => {
+        if (res.data && res.data.length) {
+          this.userDepart = res.data.map(item => {
+            return {
+              key: item.name,
+              value: item.fullPath,
+            }
+          })
+        }
+      }).catch(err => {
+        this.$message({ type: 'error', message: '获取部门数据失败!' });
+      })
     },
     // 获取初始数据
     getKey() {
@@ -211,12 +237,15 @@ export default {
     },
     // 选择属性
     handleChange(cur) {
+      cur.propertyValue = "";
       cur.propertyType = this.selectOption.find(item => item.id == cur.propertyId).propertyType;
       cur.propertyCode = this.selectOption.find(item => item.id == cur.propertyId).code;
-      if (cur.propertyType == 4) {
+      if (cur.propertyType == 4 && cur.propertyCode != 'User_Depart') {
         let items = this.dataKey.userProperties.find(item => (item.id == cur.propertyId))
         let itemss = this.dataKey.groupSelect.find(item => (item.groupCode == items.code))
         cur.valueList = itemss ? itemss.groupItems : [];
+      } else if (cur.propertyCode == 'User_Depart') {
+        cur.valueList = this.userDepart;
       }
     },
     // 添加-组规则
@@ -328,9 +357,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
 @import "../../../../assets/admin/css/form.less";
+
 .content-box {
   min-height: 600px;
   background-color: @m-col-b0;
@@ -338,9 +369,11 @@ export default {
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
   padding: 20px;
 }
+
 .w500 {
   width: 500px;
 }
+
 .rule-box {
   width: 640px;
   padding: 20px;
@@ -348,12 +381,15 @@ export default {
   border: 1px solid #ddd;
   margin-bottom: 20px;
   position: relative;
+
   .rule-box-right {
     position: absolute;
     right: -120px;
     bottom: 0;
+
     .rule-box-btn {
       margin-bottom: 15px;
+
       span,
       i {
         font-size: 14px;
@@ -361,19 +397,24 @@ export default {
     }
   }
 }
+
 .w100 {
   width: 100px;
 }
+
 .w110 {
   width: 110px;
 }
+
 .w150 {
   width: 150px !important;
 }
+
 .rule-item {
   position: relative;
   margin-bottom: 15px;
 }
+
 .btns-el-btn {
   cursor: pointer;
   display: inline-block;
@@ -385,9 +426,11 @@ export default {
   line-height: 20px;
   vertical-align: top;
   margin-left: 10px;
+
   &:hover {
     opacity: 0.8;
   }
+
   span {
     display: block;
     font-size: 12px;

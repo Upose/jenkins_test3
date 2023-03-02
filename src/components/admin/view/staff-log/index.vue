@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
  * @LastEditors: gongqin
- * @LastEditTime: 2023-03-01 11:28:35
+ * @LastEditTime: 2023-03-02 14:02:54
  * @Description: 馆员日志
 -->
 <template>
@@ -57,13 +57,13 @@
                     {{ setTime(scope.row.operationTime, '分') }}
                   </template>
                 </el-table-column>
+                <el-table-column prop="studentNo" label="学工号" show-overflow-tooltip align="center">
+                </el-table-column>
                 <el-table-column prop="userName" label="操作人姓名" show-overflow-tooltip align="center">
                 </el-table-column>
                 <el-table-column prop="userIP" label="登录IP" show-overflow-tooltip align="center">
                 </el-table-column>
                 <el-table-column prop="appName" label="操作模块" show-overflow-tooltip align="center">
-                </el-table-column>
-                <el-table-column prop="studentNo" label="学工号" show-overflow-tooltip align="center">
                 </el-table-column>
                 <el-table-column prop="showOperationType" label="操作" show-overflow-tooltip align="center">
                 </el-table-column>
