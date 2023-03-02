@@ -94,7 +94,7 @@
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime)}}
                   </template>
-                            </el-table-column> -->
+                              </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
@@ -299,7 +299,7 @@ export default {
     //导出excel
     exportExcel() {
       this.postForm.groupID = this.id;
-      this.$refs.dialog_export.show(this.postForm, this.pageData, 'reader')
+      this.$refs.dialog_export.show(this.postForm, this.pageData, 'card')
     },
     // 发送信息
     handleSendMessage() {

@@ -75,8 +75,8 @@ export default {
     // 初始化下拉列表
     initSelect(code) {
       if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code)) || {};
+      return select.groupItems ? select.groupItems : [];
     },
     //表单提交
     submitForm() {
@@ -99,6 +99,8 @@ export default {
   },
 }
 </script>
-<style lang="less" scoped>@import "../../../../../assets/admin/css/color.less";
+<style lang="less" scoped>
+@import "../../../../../assets/admin/css/color.less";
 /**颜色配置 */
-@import "../../../../../assets/admin/css/form.less";</style>
+@import "../../../../../assets/admin/css/form.less";
+</style>
