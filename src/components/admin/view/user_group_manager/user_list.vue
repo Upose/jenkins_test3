@@ -60,11 +60,17 @@
                 stripe :data="tableData" border :header-cell-style="{ background: '#F1F3F7' }" class="admin-table">
                 <el-table-column type="selection" width="50" align="center"></el-table-column>
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
-                <el-table-column prop="studentNo" label="学工号" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="studentNo" label="学工号" show-overflow-tooltip>
+                <!-- <template slot-scope="scope">
+                    <a class="hover-line" :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })">
+                      {{ scope.row.studentNo }}
+                    </a>
+                    </template> -->
+                </el-table-column>
                 <el-table-column prop="name" label="姓名" show-overflow-tooltip>
                   <template slot-scope="scope">
                     <a class="hover-line"
-                      :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })">{{ scope.row.name
+                      :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })">{{ scope.row.name
                       }}</a>
                   </template>
                 </el-table-column>
@@ -94,7 +100,7 @@
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime)}}
                   </template>
-                              </el-table-column> -->
+                                    </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"

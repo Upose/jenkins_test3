@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 14:07:48
  * @LastEditors: gongqin
- * @LastEditTime: 2023-03-02 09:13:57
+ * @LastEditTime: 2023-03-02 18:10:56
  * @Description: 标签管理-用户列表
 -->
 <template>
@@ -36,13 +36,13 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
-                    <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
-                    <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
-                    <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
-                    <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
-                    <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
-                  </div>
-                </h2> -->
+                        <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
+                        <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
+                        <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
+                        <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
+                        <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
+                      </div>
+                    </h2> -->
             <div class="t-p">
               <el-table v-loading="loading" @selection-change="handleSelectionChange" ref="singleTable" stripe
                 :data="tableData" border class="admin-table">
@@ -51,7 +51,7 @@
                 <el-table-column prop="name" label="姓名" show-overflow-tooltip>
                   <template slot-scope="scope">
                     <a class="hover-line"
-                      :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })">{{ scope.row.name
+                      :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })">{{ scope.row.name
                       }}</a>
                   </template>
                 </el-table-column>
@@ -79,10 +79,10 @@
                   </template>
                 </el-table-column>
                 <!-- <el-table-column prop="createTime" label="截止日期">
-                      <template slot-scope="scope">
-                        {{setTime(scope.row.createTime)}}
-                      </template>
-                    </el-table-column> -->
+                          <template slot-scope="scope">
+                            {{setTime(scope.row.createTime)}}
+                          </template>
+                        </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"

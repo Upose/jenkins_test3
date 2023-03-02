@@ -4,7 +4,8 @@
       <div class="librarianList-left">
         <div class="left-title">
           <span class="zhuzhi">组织架构</span>
-          <router-link class="xinzeng" :to="{ path: '/admin_attributeDepManager' }" v-has="'staff:create'">新增</router-link>
+          <router-link class="xinzeng" :to="{ path: '/admin_attributeDepManager' }"
+            v-has="'staff:create'">新增</router-link>
         </div>
         <div class="left-box">
           <!-- <el-tree :data="checkDep" :props="defaultProps" @node-click="handleNodeClick" class="trees" :default-expand-all="true" :highlight-current="true" node-key="id">
@@ -53,8 +54,8 @@
               </el-table-column>
               <el-table-column label="姓名" prop="name" show-overflow-tooltip>
                 <template slot-scope="scope">
-                  <a class="hover-line"
-                    :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })">{{ scope.row.name }}</a>
+                  <a class="hover-line" :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })">{{
+                    scope.row.name }}</a>
                 </template>
               </el-table-column>
               <el-table-column label="工号" prop="studentNo" show-overflow-tooltip></el-table-column>
@@ -641,4 +642,5 @@ export default {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}</style>
+}
+</style>
