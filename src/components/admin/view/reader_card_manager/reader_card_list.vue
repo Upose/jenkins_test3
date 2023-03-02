@@ -86,7 +86,8 @@
                 :data="tableData" border :header-cell-style="{ background: '#F1F3F7' }" class="admin-table">
                 <el-table-column type="selection" width="50"></el-table-column>
                 <template v-for="item in dataKey ? dataKey.showOnTableProperties : []">
-                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)" :label="item.name" :key="item"
+                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item.code)"
+                    :width="item.displayWidth ? item.displayWidth : 130" :label="item.name" :key="item"
                     v-if="item.code != 'Card_Type'" :min-width="item.code == 'Card_No' ? '150' : ''">
                     <template slot-scope="scope">
                       <a :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })"
