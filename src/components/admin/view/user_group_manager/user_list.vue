@@ -94,7 +94,7 @@
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime)}}
                   </template>
-                          </el-table-column> -->
+                            </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
@@ -243,7 +243,8 @@ export default {
     },
     // 查看
     handleLook(row) {
-      this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
+      // this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
+      this.$router.push({ path: '/admin_readerCardEdit', query: { id: row.id } }); // 读者卡详情
     },
     // 添加用户
     handAdd() {
