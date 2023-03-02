@@ -34,9 +34,9 @@
                     </el-select>
                   </el-form-item>
                   <div class="row-form">
-                    <el-form-item prop="type" class="r-f-item1">
-                      <el-select v-model="cardForm.type" placeholder="请选择" clearable>
-                        <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key"
+                    <el-form-item prop="cardType" class="r-f-item1">
+                      <el-select v-model="cardForm.cardType" placeholder="请选择" clearable>
+                        <el-option v-for="item in initSelect('Card_CardType')" :key="item.value" :label="item.key"
                           :value="item.value">
                         </el-option>
                       </el-select>
@@ -110,7 +110,7 @@
                   <!-- <el-select v-model="cardForm.depart" placeholder="请选择" clearable>
                       <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                                                            </el-select> -->
+                                                                      </el-select> -->
                     <el-cascader v-bind="depList" :options="depList" v-model="cardForm.depart"
                       :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false }"
                       clearable></el-cascader>
@@ -146,7 +146,7 @@
                     <el-select v-model="cardForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
                       <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
                     </el-select>
-                                                          </el-form-item> -->
+                                                                    </el-form-item> -->
 
                   <el-form-item :label="item.propertyName + '：'" v-for="(item, index) in cardForm.properties"
                     :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
@@ -266,7 +266,7 @@
                   <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
               </el-form>
-                                                    </div> -->
+                                                              </div> -->
             <div class="right-btn-box">
               <div class="btn-list">
                 <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
@@ -413,7 +413,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        type: [
+        cardType: [
           {
             validator: validateType,
             trigger: 'change'
@@ -783,7 +783,7 @@ export default {
     },
     // 判断用户是否在用户组
     isGrounp(id) {
-      return this.cardForm.groupIds.includes(id);
+      return this.cardForm.groupIds && this.cardForm.groupIds.length ? this.cardForm.groupIds.includes(id) : false;
     },
     // 添加到用户组
     handleAddGrounp(id) {
