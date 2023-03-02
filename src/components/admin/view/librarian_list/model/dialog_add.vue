@@ -1,7 +1,8 @@
 <template>
   <el-dialog append-to-body title="添加临时馆员" :visible.sync="dialogVisible" width="600px" :before-close="dialogBeforeClose">
     <el-alert title="临时馆员只能登录管理后台，如需登录前台请先添加读者信息" type="warning" show-icon></el-alert>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm admin-form" v-if="dataKey">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm admin-form"
+      v-if="dataKey">
       <el-form-item label="读者名称：" prop="name">
         <el-input v-model="ruleForm.name" placeholder="请输入" maxlength="20" clearable show-word-limit></el-input>
       </el-form-item>
@@ -34,7 +35,8 @@
           <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
           </el-option>
         </el-select> -->
-        <el-cascader :options="departList" v-model="depart" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false }" clearable></el-cascader>
+        <el-cascader :options="departList" v-model="ruleForm.depart"
+          :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false }" clearable></el-cascader>
       </el-form-item>
       <el-form-item label="手机：" prop="phone">
         <el-input v-model="ruleForm.phone" placeholder="请输入" clearable maxlength="11" show-word-limit></el-input>
@@ -46,28 +48,33 @@
         <el-input v-model="ruleForm.account" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="密码：" prop="password">
-        <el-input v-model="ruleForm.password" placeholder="请输入" show-password clearable maxlength="30" show-word-limit></el-input>
+        <el-input v-model="ruleForm.password" placeholder="请输入" show-password clearable maxlength="30"
+          show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="性别：" prop="gender">
         <el-radio-group v-model="ruleForm.gender">
-          <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{item.key}}</el-radio>
+          <el-radio v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key">{{ item.key
+          }}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="生效日期：" prop="issueDate">
         <!-- <el-date-picker v-model="ruleForm.issueDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="times-box">
               </el-date-picker> -->
-        <el-date-picker style="width:87%" value-format="yyyy-MM-dd" v-model="ruleForm.issueDate" type="date" placeholder="请选择"></el-date-picker>
+        <el-date-picker style="width:87%" value-format="yyyy-MM-dd" v-model="ruleForm.issueDate" type="date"
+          placeholder="请选择"></el-date-picker>
       </el-form-item>
       <el-form-item label="截止日期：" prop="expireDate">
         <!-- <el-date-picker v-model="ruleForm.issueDate" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" class="times-box">
               </el-date-picker> -->
-        <el-date-picker style="width:87%" value-format="yyyy-MM-dd" v-model="ruleForm.expireDate" type="date" placeholder="请选择"></el-date-picker>
+        <el-date-picker style="width:87%" value-format="yyyy-MM-dd" v-model="ruleForm.expireDate" type="date"
+          placeholder="请选择"></el-date-picker>
       </el-form-item>
       <el-form-item label="状态：" prop="status">
         <el-select v-model="ruleForm.status" placeholder="请选择">
           <!-- <el-option v-for="item in titleOptions" :key="item.value" :label="item.label" :value="item.value">
                 </el-option> -->
-          <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
+          <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key"
+            :value="Number(item.value)"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="头像：">
@@ -212,6 +219,7 @@ export default {
 /deep/ .el-cascader {
   width: 100%;
 }
+
 .demo-ruleForm {
   margin-top: 20px;
   max-height: 400px;
