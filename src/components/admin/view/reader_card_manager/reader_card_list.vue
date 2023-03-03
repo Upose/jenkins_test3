@@ -375,7 +375,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('card-table-data', { ...this.postForm, ...this.pageData, searchType1: this.searchType1, searchType2: this.searchType2 }).then(res => {
+      http.getJson('card-table-data', { ...this.postForm, ...this.pageData }).then(res => {
         this.tableData = res.data.items || [];
 
         //分页所需  数据总条数
@@ -597,7 +597,7 @@ export default {
       }
 
       this.postForm = search;
-      console.log(search);
+      // console.log(search);
       this.initGetList();
     },
 
