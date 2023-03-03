@@ -144,7 +144,7 @@
             </div>
           </div>
           <!--管理页列表 end--->
-          <someChange ref="someChange" :dataKey="dataKey" :cardList="multipleSelection"></someChange>
+          <someChange ref="someChange" :dataKey="dataKey" :cardList="multipleSelection" targetType="2"></someChange>
           <dialog_export ref="dialog_export"></dialog_export>
         </div>
         <!---顶部查询板块 end--->

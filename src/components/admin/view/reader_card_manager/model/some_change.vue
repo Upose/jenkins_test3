@@ -34,7 +34,7 @@ import http from "@/assets/public/js/http";
 
 export default {
   name: 'preview',
-  props: ['dataKey', 'cardList'],
+  props: ['dataKey', 'cardList', 'targetType'],
   data() {
     return {
       id: '',
@@ -89,7 +89,8 @@ export default {
           this.postForm.fields.push(key);
         }
       }
-      http.putJson('card-batch-update', this.postForm).then(res => {
+      // targetType  目标修改类型：1读者 2读者卡
+      http.putJson('card-batch-update', { ...this.postForm, targetType: this.targetType }).then(res => {
         this.dialogVisible = false;
         this.$message({ message: '修改成功！', type: 'success' });
       }).catch(err => {
