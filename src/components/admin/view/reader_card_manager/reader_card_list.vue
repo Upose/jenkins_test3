@@ -220,7 +220,7 @@ export default {
       searchType1: 3,
       searchType2: 1,
       dateRangeProperties: [
-        { name: '发卡日期', code: 'CardIssueDate' }
+        // { name: '发卡日期', code: 'CardIssueDate' }
       ],
       searchTextCode: '',//文本输入code
       searchTextValue: '',//文本输入值
