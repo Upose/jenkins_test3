@@ -597,7 +597,7 @@ export default {
       }
 
       this.postForm = search;
-      // console.log(search);
+      console.log(search);
       this.initGetList();
     },
 
