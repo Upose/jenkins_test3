@@ -393,7 +393,7 @@ export default {
           if (!item.external && item.type == 2) {
             this.dateRangeProperties.push(item);
           }
-          if (!item.external && (item.type == 4 || item.type == 3)) {
+          if (!item.external && (item.type == 4 || item.type == 3) && item.name != '读者状态') {
             this.selectProperties.push(item);
           }
         });

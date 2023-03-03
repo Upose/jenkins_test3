@@ -228,16 +228,19 @@ export default {
         this.ruleList = res.data.rules;
         this.ruleList.forEach(item => {
           item.rules.forEach(item1 => {
-            this.handleChange(item1);
+            this.handleChange(item1, 'init');
           })
         });
+        console.log(this.ruleList, 'ruleList')
       }).catch(err => {
         this.$message({ type: 'error', message: '获取设置失败!' });
       })
     },
     // 选择属性
-    handleChange(cur) {
-      cur.propertyValue = "";
+    handleChange(cur, init) {
+      if (!init) {
+        cur.propertyValue = "";
+      }
       cur.propertyType = this.selectOption.find(item => item.id == cur.propertyId).propertyType;
       cur.propertyCode = this.selectOption.find(item => item.id == cur.propertyId).code;
       if (cur.propertyType == 4 && cur.propertyCode != 'User_Depart') {

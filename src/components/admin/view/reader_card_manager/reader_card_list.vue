@@ -450,6 +450,7 @@ export default {
     getKeyValue(code, row) {
       let value = '';
       let curItem = this.dataKey.showOnTableProperties.find((item) => (item.code == code));
+
       if (!curItem.external) {
         let key = this.tableSysArrtKey[this.tableSysArrt.indexOf(code)];
         // console.log(this.sysArrt, code, key, curItem, 'key')
