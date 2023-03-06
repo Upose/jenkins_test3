@@ -27,8 +27,7 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      // uploadUrl: window.apiDomainAndPort + '/usermanage/api/user-group/import-group-user',
-      uploadUrl: window.apiDomainAndPort + '/usermanagev2/api/user-group/import-group-user',
+      uploadUrl: window.apiDomainAndPort + '/usermanage/api/user-group/import-group-user',
       myHeaders: { Authorization: 'Bearer ' + window.localStorage['token'] }
     }
   },

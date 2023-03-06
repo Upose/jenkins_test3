@@ -1,6 +1,5 @@
 /***后台管理系统 项目接口地址-用户中心 */
-// var baseURL = '/usermanage';//请求前端地址 用户中心
-var baseURL = "/usermanagev2"; //请求前端地址
+var baseURL = '/usermanage';//请求前端地址 用户中心
 var baseURL1 = "/appcenter"; //请求前端地址 应用中心
 
 export default {
