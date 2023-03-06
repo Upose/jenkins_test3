@@ -3,7 +3,7 @@
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="卡类型：">
         <el-select v-model="postForm.type" placeholder="请选择" clearable>
-          <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key"
+          <el-option v-for="item in initSelect('Card_CardType')" :key="item.value" :label="item.key"
             :value="item.value"></el-option>
         </el-select>
       </el-form-item>
