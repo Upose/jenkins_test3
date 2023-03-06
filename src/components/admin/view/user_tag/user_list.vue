@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-05-18 14:07:48
  * @LastEditors: gongqin
- * @LastEditTime: 2023-03-02 18:10:56
+ * @LastEditTime: 2023-03-06 11:33:53
  * @Description: 标签管理-用户列表
 -->
 <template>
@@ -36,13 +36,13 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
-                        <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
-                        <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
-                        <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
-                        <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
-                        <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
-                      </div>
-                    </h2> -->
+                            <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
+                            <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
+                            <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
+                            <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
+                            <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
+                          </div>
+                        </h2> -->
             <div class="t-p">
               <el-table v-loading="loading" @selection-change="handleSelectionChange" ref="singleTable" stripe
                 :data="tableData" border class="admin-table">
@@ -79,10 +79,10 @@
                   </template>
                 </el-table-column>
                 <!-- <el-table-column prop="createTime" label="截止日期">
-                          <template slot-scope="scope">
-                            {{setTime(scope.row.createTime)}}
-                          </template>
-                        </el-table-column> -->
+                              <template slot-scope="scope">
+                                {{setTime(scope.row.createTime)}}
+                              </template>
+                            </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
@@ -95,7 +95,7 @@
             </div>
           </div>
           <!--管理页列表 end--->
-          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection"></someChange>
+          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection" targetType="2"></someChange>
           <dialog_export ref="dialog_export"></dialog_export>
         </div>
         <!---顶部查询板块 end--->

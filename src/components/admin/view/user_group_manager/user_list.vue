@@ -65,7 +65,7 @@
                     <a class="hover-line" :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })">
                       {{ scope.row.studentNo }}
                     </a>
-                    </template> -->
+                      </template> -->
                 </el-table-column>
                 <el-table-column prop="name" label="姓名" show-overflow-tooltip>
                   <template slot-scope="scope">
@@ -100,7 +100,7 @@
                   <template slot-scope="scope">
                     {{setTime(scope.row.createTime)}}
                   </template>
-                                    </el-table-column> -->
+                                      </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
                     <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
@@ -113,7 +113,7 @@
             </div>
           </div>
           <!--管理页列表 end--->
-          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection"></someChange>
+          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection" targetType="2"></someChange>
           <dialog_export ref="dialog_export"></dialog_export>
         </div>
         <!---顶部查询板块 end--->
