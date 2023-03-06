@@ -453,13 +453,15 @@ export default {
 
       if (!curItem.external) {
         let key = this.tableSysArrtKey[this.tableSysArrt.indexOf(code)];
-        // console.log(this.sysArrt, code, key, curItem, 'key')
+        console.log(this.sysArrt, code, key, curItem, 'key')
         if (curItem.type == 2) {//时间
           value = row[key] ? this.dateChangeFormat('YYYY-mm-dd', row[key]) : "";
         } else if (curItem.type == 3) {//是否
           value = row[key] ? '是' : '否';
         } else if (curItem.type == 4) {//属性组
-          if (key == 'depart' || key == 'college' || key == 'collegeDepart' || key == 'type' || key == 'cardType') {
+          if (key === 'cardCardType') {
+            value = row.cardTypeName;
+          } else if (key == 'depart' || key == 'college' || key == 'collegeDepart' || key == 'type' || key == 'cardType') {
             value = row[`${key}Name`];
           } else {
             let slsectItems = this.dataKey.groupSelect.find((item) => (item.groupCode == code)) || {};
@@ -497,6 +499,7 @@ export default {
     initSelect(code) {
       if (this.groupSelect.length == 0) return;
       let select = this.groupSelect.find(item => (item.groupCode == code)) || {};
+      // console.log(code, select)
       return select.groupItems ? select.groupItems : [];
     },
     // 时间格式化

@@ -110,7 +110,8 @@
                   <!-- <el-select v-model="cardForm.depart" placeholder="请选择" clearable>
                       <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                                                                                      </el-select> -->
+                                                                                            </el-select> -->
+
                     <el-cascader v-bind="depList" :options="depList" v-model="cardForm.depart"
                       :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false }"
                       clearable></el-cascader>
@@ -146,7 +147,7 @@
                     <el-select v-model="cardForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
                       <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
                     </el-select>
-                                                                                    </el-form-item> -->
+                    </el-form-item> -->
 
                   <el-form-item :label="item.propertyName + '：'" v-for="(item, index) in cardForm.properties"
                     :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
@@ -266,7 +267,7 @@
                   <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
               </el-form>
-                                                                              </div> -->
+            </div> -->
             <div class="right-btn-box" v-if="id">
               <div class="btn-list">
                 <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
@@ -717,7 +718,11 @@ export default {
     },
     //表单提交
     submitForm() {
-      console.log(this.dataKey.needApprove)
+      if (!this.cardForm.seeSensitiveInfo) {
+        this.$message.warning('您没有用户隐私信息查看权限，不能修改信息。')
+        return
+      }
+      // console.log(this.dataKey.needApprove)
       this.$refs['cardForm'].validate((cardOk) => {
         if (cardOk) {
           this.cardForm.readerType = this.dataKey.groupSelect.find(item => item.groupCode == 'User_Type').groupItems.find(item => item.value == this.cardForm.cardReaderType).key;
