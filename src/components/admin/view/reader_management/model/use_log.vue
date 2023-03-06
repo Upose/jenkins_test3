@@ -8,7 +8,7 @@
         <el-date-picker v-model="postForm.BorrowStartTime" type="date" placeholder="借阅时间" class="w150"></el-date-picker>
         <el-date-picker v-model="postForm.ReturnStartTime" type="date" placeholder="归还时间" class="w150"></el-date-picker> -->
 
-        <el-select v-model="postForm.userKey" placeholder="读者卡号" class="selects" clearable>
+        <el-select v-model="postForm.userKey" placeholder="学工号" class="selects" clearable>
           <el-option v-for="item in cardData" :key="item.cardKey" :label="item.displayNo" :value="item.cardKey">
           </el-option>
         </el-select>
@@ -24,7 +24,7 @@
     <div class="login-list">
       <el-table v-loading="loading" :data="tableData" border style="width: 100%" class="list-table">
         <el-table-column label="序号" prop="sort" width="70" align="center"></el-table-column>
-        <el-table-column label="读者卡号" prop="studentNo" width="180" align="center"></el-table-column>
+        <el-table-column label="学工号" prop="studentNo" width="180" align="center"></el-table-column>
         <el-table-column label="时间" prop="eventTime" width="200" align="center">
           <template slot-scope="scope">
             {{ dateChangeFormat(scope.row.eventTime) }}
