@@ -1,34 +1,34 @@
 <!--
  * @Author: huyu
  * @Date: 2022-05-18 14:07:48
- * @LastEditors: huyu
- * @LastEditTime: 2023-01-31 13:33:42
+ * @LastEditors: gongqin
+ * @LastEditTime: 2023-03-02 18:10:56
  * @Description: 标签管理-用户列表
 -->
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="6"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
         <breadcrumb :cuMenu="'总导航管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">用户列表</h1>
             <div class="user-top-box">
-              <div class="title"><span>{{briefInfo.name}}</span></div>
+              <div class="title"><span>{{ briefInfo.name }}</span></div>
               <div class="top-number">
-                <p>{{briefInfo.count}}人<span>|</span>{{briefInfo.percent|showPercent}}</p>
-                <p class="total">总人数{{briefInfo.totalCount}}</p>
-              </div>
-              <div style="width:15em">更新时间：{{setTime(briefInfo.lastSyncTime,'分')}}</div>
+                <p>{{ briefInfo.count }}人<span>|</span>{{ briefInfo.percent | showPercent }}</p>
+                <p class="total">总人数{{ briefInfo.totalCount }}</p>
             </div>
+            <div style="width:15em">更新时间：{{ setTime(briefInfo.lastSyncTime, '分') }}</div>
           </div>
-          <!--顶部查询 end-->
-          <div class="table-w">
-            <!-- <h2 class="m-title">
+        </div>
+        <!--顶部查询 end-->
+        <div class="table-w">
+          <!-- <h2 class="m-title">
               <div class="search-term" style="float:left" v-if="dataKey">
                 <el-input v-model="postForm.Name" placeholder="姓名" style="width:180px" clearable></el-input>
                 <el-input v-model="postForm.CardNo" placeholder="读者卡号" style="width:180px" clearable></el-input>
@@ -36,53 +36,57 @@
                 <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handSearch">查找</el-button>
               </div>
               <div class="r-btn">
-                <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
-                <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
-                <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
-              </div>
-            </h2> -->
+                        <el-button size="medium" type="primary" @click="handMathChange">批量修改</el-button>
+                        <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathDel">批量移除</el-button>
+                        <el-button type="primary" size="medium" class="blue-btn" @click="handAdd">添加用户</el-button>
+                        <el-button type="primary" size="medium" @click="exportExcel">导出数据</el-button>
+                        <el-button type="primary" size="medium" @click="importExcel">发送信息</el-button>
+                      </div>
+                    </h2> -->
             <div class="t-p">
-              <el-table v-loading="loading" @selection-change="handleSelectionChange" ref="singleTable" stripe :data="tableData" border class="admin-table">
+              <el-table v-loading="loading" @selection-change="handleSelectionChange" ref="singleTable" stripe
+                :data="tableData" border class="admin-table">
                 <!-- <el-table-column type="selection" width="45"></el-table-column> -->
                 <!-- <el-table-column type="index" width="50" align="center" label="序号"></el-table-column> -->
                 <el-table-column prop="name" label="姓名" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    <a class="hover-line" :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })">{{scope.row.name}}</a>
+                    <a class="hover-line"
+                      :href="$setHref({ url: '/admin_readerCardEdit', query: { id: scope.row.id } })">{{ scope.row.name
+                      }}</a>
                   </template>
                 </el-table-column>
                 <el-table-column prop="cardNo" label="读者卡号" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="studentNo" label="学号" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="type" label="用户类型" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{getKeyValue('User_Type',scope.row.type)}}
+                    {{ getKeyValue('User_Type', scope.row.type) }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                 <el-table-column prop="status" label="状态" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{getKeyValue('User_Status',scope.row.status)}}
+                    {{ getKeyValue('User_Status', scope.row.status) }}
                   </template>
                 </el-table-column>
                 <el-table-column prop="sourceFrom" label="用户来源" align="center" show-overflow-tooltip>
                   <template slot-scope="scope">
-                    {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
+                    {{ getKeyValue('User_SourceFrom', scope.row.sourceFrom) }}
                   </template>
-                </el-table-column>
-                <el-table-column prop="createTime" label="添加日期" align="center" show-overflow-tooltip>
-                  <template slot-scope="scope">
-                    {{setTime(scope.row.createTime)}}
+              </el-table-column>
+              <el-table-column prop="createTime" label="添加日期" align="center" show-overflow-tooltip>
+                <template slot-scope="scope">
+                  {{ setTime(scope.row.createTime) }}
                   </template>
                 </el-table-column>
                 <!-- <el-table-column prop="createTime" label="截止日期">
-                  <template slot-scope="scope">
-                    {{setTime(scope.row.createTime)}}
-                  </template>
-                </el-table-column> -->
+                          <template slot-scope="scope">
+                            {{setTime(scope.row.createTime)}}
+                          </template>
+                        </el-table-column> -->
                 <el-table-column prop="content" label="操作" fixed="right" width="110" align="center">
                   <template slot-scope="scope">
-                    <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>查看</el-button>
+                    <el-button @click="handleLook(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
+                      round>查看</el-button>
                     <!-- <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="el-icon-edit" round>用户画像</el-button> -->
                   </template>
                 </el-table-column>
@@ -205,7 +209,8 @@ export default {
     },
     // 查看
     handleLook(row) {
-      this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
+      // this.$router.push({ path: '/admin_readerManagement', query: { id: row.id } })
+      this.$router.push({ path: '/admin_readerCardEdit', query: { id: row.id } })
     },
     // 添加用户
     handAdd() {
@@ -267,7 +272,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
 
 .user-top-box {
@@ -279,8 +285,10 @@ export default {
   div {
     width: 150px;
   }
+
   .title {
     padding-right: 12px;
+
     span {
       padding: 10px 15px;
       color: #fff;
@@ -291,15 +299,18 @@ export default {
       text-align: center;
     }
   }
+
   .top-number {
     span {
       padding: 0 10px;
     }
+
     .total {
       color: #666;
       font-size: 12px;
     }
   }
+
   .look {
     color: @m-col-b7;
     cursor: pointer;

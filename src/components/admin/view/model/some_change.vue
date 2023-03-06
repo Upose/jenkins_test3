@@ -2,52 +2,73 @@
   <el-dialog append-to-body title="批量修改" :visible.sync="dialogVisible" width="800px">
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="学历：">
-        <el-select class="wq50" v-model="postForm.edu" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
-          <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.edu" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_Edu')" v-el-select-loadmore="optionLoadMore('User_Edu')">
+          <el-option v-for="item in initSelect('User_Edu')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
         <!-- <el-checkbox v-model="b"></el-checkbox> -->
       </el-form-item>
       <el-form-item label="院系：">
-        <el-select class="wq50" v-model="postForm.college" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_College')" v-el-select-loadmore="optionLoadMore('User_College')">
-          <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.college" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_College')"
+          v-el-select-loadmore="optionLoadMore('User_College')">
+          <el-option v-for="item in initSelect('User_College')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="专业：">
-        <el-select class="wq50" v-model="postForm.major" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Major')" v-el-select-loadmore="optionLoadMore('User_Major')">
-          <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.major" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_Major')"
+          v-el-select-loadmore="optionLoadMore('User_Major')">
+          <el-option v-for="item in initSelect('User_Major')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年级：">
-        <el-select class="wq50" v-model="postForm.grade" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Grade')" v-el-select-loadmore="optionLoadMore('User_Grade')">
-          <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.grade" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_Grade')"
+          v-el-select-loadmore="optionLoadMore('User_Grade')">
+          <el-option v-for="item in initSelect('User_Grade')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="班级：">
-        <el-select class="wq50" v-model="postForm.class" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Class')" v-el-select-loadmore="optionLoadMore('User_Class')">
-          <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.class" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_Class')"
+          v-el-select-loadmore="optionLoadMore('User_Class')">
+          <el-option v-for="item in initSelect('User_Class')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="性别：">
         <el-select class="wq50" v-model="postForm.gender" placeholder="请选择" clearable>
-          <el-option v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option v-for="item in initSelect('User_Gender')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="用户类型：">
-        <el-select class="wq50" v-model="postForm.type" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
-          <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.type" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_Type')" v-el-select-loadmore="optionLoadMore('User_Type')">
+          <el-option v-for="item in initSelect('User_Type')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="状态：">
-        <el-select class="wq50" v-model="postForm.status" placeholder="请选择" clearable filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
-          <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+        <el-select class="wq50" v-model="postForm.status" placeholder="请选择" clearable filterable
+          :filter-method="(value) => handleFilter(value, 'User_Status')"
+          v-el-select-loadmore="optionLoadMore('User_Status')">
+          <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="离校日期：">
-        <el-date-picker class="wq50" v-model="postForm.leaveTime" type="date" placeholder="请选择" clearable></el-date-picker>
+        <el-date-picker class="wq50" v-model="postForm.leaveTime" type="date" placeholder="请选择"
+          clearable></el-date-picker>
       </el-form-item>
       <el-form-item label="用户分组：">
         <el-checkbox-group v-model="postForm.groupIDList">
-          <el-checkbox v-for="item in grounpOption" :key="item.id" :label="item.id">{{item.name}}</el-checkbox>
+          <el-checkbox v-for="item in grounpOption" :key="item.id" :label="item.id">{{ item.name }}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -63,7 +84,7 @@ import http from "@/assets/public/js/http";
 
 export default {
   name: 'preview',
-  props: ['userList'],
+  props: ['userList', 'targetType'],
   data() {
     return {
       dataKey: null,
@@ -204,7 +225,8 @@ export default {
           this.fields.push(key);
         }
       }
-      http.putJson('batch-update', { ...this.postForm, fields: this.fields, userIDList: this.userIDList }).then(res => {
+      // targetType  目标修改类型：1读者 2读者卡
+      http.putJson('batch-update', { ...this.postForm, fields: this.fields, userIDList: this.userIDList, targetType: this.targetType }).then(res => {
         this.dialogVisible = false;
         this.$message({ message: this.dataKey.needApprove ? '修改成功，等待审核！' : '修改成功！', type: 'success' });
       }).catch(err => {
@@ -215,8 +237,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
+
 .wq50 {
   width: 50% !important;
 }

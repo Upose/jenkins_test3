@@ -2,61 +2,80 @@
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}" v-loading="loading">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }" v-loading="loading">
         <breadcrumb :cuMenu="'读者管理'" :fontColor="'fff'"></breadcrumb>
         <!--面包屑导航--->
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">读者管理</h1>
             <!-- 顶部查询 -->
-            <div class="search-term" v-if="dataKey" :style="{'width': searchTermWidth+'px', 'max-height': searchTermHeight+'px'}">
+            <div class="search-term" v-if="dataKey"
+              :style="{ 'width': searchTermWidth + 'px', 'max-height': searchTermHeight + 'px' }">
               <!-- 属性组选择 -->
               <div class="search-item-box" v-for="item in selectProperties.slice(0, selectPropLen)" :key="item.code">
                 <div class="search-item" v-if="!item.external">
                   <!-- <el-date-picker v-model="searchForm[item.code]" type="date" :placeholder="item.name" v-if="!item.external && item.type==2"></el-date-picker> -->
                   <!-- 属性组是非选择 -->
-                  <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="!item.external && item.type==3" clearable>
+                  <el-select v-model="searchForm[item.code]" :placeholder="item.name"
+                    v-if="!item.external && item.type == 3" clearable>
                     <el-option label="是" :value="true"></el-option>
                     <el-option label="否" :value="false"></el-option>
                   </el-select>
                   <!-- 属性组单选选择 -->
-                  <el-select :style="{width:setSelectWidth(item.code)}" v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
-                    <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                  <el-select :style="{ width: setSelectWidth(item.code) }" v-model="searchForm[item.code]"
+                    :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable
+                    :filter-method="(value) => handleFilter(value, item.code)"
+                    v-el-select-loadmore="optionLoadMore(item.code)">
+                    <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key"
+                      :value="item.value"></el-option>
                   </el-select>
                   <!-- 属性组部门选择 -->
-                  <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>
+                  <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList"
+                    v-model="searchForm[item.code]"
+                    :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false, expandTrigger: 'hover' }"
+                    :show-all-levels="false" clearable></el-cascader>
                 </div>
               </div>
               <!-- 文本输入 -->
-              <div class="search-item-box text" v-if="(textProperties1.length||textProperties2.length||textProperties3.length)">
+              <div class="search-item-box text"
+                v-if="(textProperties1.length || textProperties2.length || textProperties3.length)">
                 <div class="search-item search-item-text" v-if="textProperties1.length">
                   <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" class="textleft input-textleft" clearable>
                   </el-input>
                   <el-select v-model="searchTextcondition1" placeholder="请选择" class="textright">
-                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label"
+                      :value="item.val"></el-option>
                   </el-select>
                 </div>
                 <div class="search-item search-item-text" v-if="textProperties2.length">
                   <el-input placeholder="请输入" v-model="searchTextValue2" clearable class="textleft">
-                    <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange2">
-                      <el-option v-for="item in textProperties2" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                    <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px"
+                      @change="searchTextCodeChange2">
+                      <el-option v-for="item in textProperties2" :key="item.code" :label="item.name"
+                        :value="item.code"></el-option>
                     </el-select>
                   </el-input>
-                  <el-select v-model="searchTextcondition2" placeholder="请选择" v-show="searchTextcondition2>0" class="textright">
-                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                  <el-select v-model="searchTextcondition2" placeholder="请选择" v-show="searchTextcondition2 > 0"
+                    class="textright">
+                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label"
+                      :value="item.val"></el-option>
                   </el-select>
                 </div>
                 <div class="search-item search-item-text" v-if="textProperties3.length">
                   <el-input placeholder="请输入" v-model="searchTextValue3" class="textleft" clearable>
-                    <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange3">
-                      <el-option v-for="item in textProperties3" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                    <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px"
+                      @change="searchTextCodeChange3">
+                      <el-option v-for="item in textProperties3" :key="item.code" :label="item.name"
+                        :value="item.code"></el-option>
                     </el-select>
                   </el-input>
-                  <el-select v-model="searchTextcondition3" placeholder="请选择" v-show="searchTextcondition3>0" class="textright">
-                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                  <el-select v-model="searchTextcondition3" placeholder="请选择" v-show="searchTextcondition3 > 0"
+                    class="textright">
+                    <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label"
+                      :value="item.val"></el-option>
                   </el-select>
                 </div>
               </div>
@@ -65,45 +84,58 @@
                 <div class="search-item w400">
                   <div class="date-checkbox">
                     <el-select v-model="searchDateCode" placeholder="请选择" style="width: 130px;" clearable>
-                      <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                      <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name"
+                        :value="item.code"></el-option>
                     </el-select>
-                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                    <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange"
+                      range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                   </div>
                 </div>
               </div>
             </div>
             <div class="search-term-btn">
-              <el-button type="text" icon="el-icon-more" class="more-btn" v-show="showSearchTermMore" @click="loadAllSearchTerm">加载更多检索条件</el-button>
-              <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch" v-button-debounce>查找</el-button>
+              <el-button type="text" icon="el-icon-more" class="more-btn" v-show="showSearchTermMore"
+                @click="loadAllSearchTerm">加载更多检索条件</el-button>
+              <el-button type="primary" icon="iconfont el-icon-vip-fangdajing" @click="handSearch"
+                v-button-debounce>查找</el-button>
             </div>
           </div>
           <!--顶部查询 end-->
           <div class="table-w">
             <h2 class="m-title">
               <div class="r-btn">
-                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange" v-has="'reader:batchUpdate'">批量修改</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd" v-has="'reader:create'">新增读者</el-button>
-                <el-button type="primary" size="medium" @click="handleMergeReader" v-has="'reader:export'">合并读者</el-button>
+                <el-button size="medium" type="primary" class="admin-red-btn" @click="handMathChange"
+                  v-has="'reader:batchUpdate'">批量修改</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handAdd"
+                  v-has="'reader:create'">新增读者</el-button>
+                <el-button type="primary" size="medium" @click="handleMergeReader"
+                  v-has="'reader:export'">合并读者</el-button>
                 <el-button type="primary" size="medium" @click="exportExcel" v-has="'reader:export'">导出数据</el-button>
                 <el-button type="primary" size="medium" @click="importExcel" v-has="'reader:import'">导入数据</el-button>
               </div>
             </h2>
             <div class="t-p">
-              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe :data="tableData" border class="admin-table">
+              <el-table @selection-change="handleSelectionChange" v-if="dataKey" ref="singleTable" stripe
+                :data="tableData" border class="admin-table">
                 <el-table-column type="selection" width="50" align="center"></el-table-column>
                 <template v-for="item in dataKey.showOnTableProperties">
-                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name" :width="item.displayWidth?item.displayWidth:130" :key="item" v-if="item.code != 'Card_Type'">
+                  <el-table-column show-overflow-tooltip :align="getColumnAlign(item)" :label="item.name"
+                    :width="item.displayWidth ? item.displayWidth : 130" :key="item" v-if="item.code != 'Card_Type'">
                     <template slot-scope="scope">
-                      <span v-if="item.code=='Card_No'">{{scope.row.displayNo}}</span>
-                      <a :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })" class="hover-line" v-else-if="item.code=='User_Name'">{{getKeyValue(item.code,scope.row)}}</a>
-                      <span v-else>{{getKeyValue(item.code,scope.row)}}</span>
+                      <span v-if="item.code == 'Card_No'">{{ scope.row.displayNo }}</span>
+                      <a :href="$setHref({ url: '/admin_readerManagement', query: { id: scope.row.id } })"
+                        class="hover-line" v-else-if="item.code == 'User_Name'">{{ getKeyValue(item.code, scope.row)
+                        }}</a>
+                      <span v-else>{{ getKeyValue(item.code, scope.row) }}</span>
                     </template>
                   </el-table-column>
                 </template>
                 <el-table-column prop="content" label="操作" fixed="right" width="200" align="center">
                   <template slot-scope="scope">
-                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1" class="operate-red-btn" round v-has="'reader:delete'">删除</el-button>
-                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round v-has="'reader:detail'">查看</el-button>
+                    <el-button @click="handleDel(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-shanchu-1"
+                      class="operate-red-btn" round v-has="'reader:delete'">删除</el-button>
+                    <el-button @click="handleSet(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
+                      round v-has="'reader:detail'">查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -111,7 +143,7 @@
             </div>
           </div>
           <!--管理页列表 end--->
-          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection"></someChange>
+          <someChange ref="someChange" :dataKey="dataKey" :userList="multipleSelection" targetType="1"></someChange>
           <dialog_export ref="dialog_export"></dialog_export>
         </div>
         <!---顶部查询板块 end--->
@@ -673,71 +705,89 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
+
 .search-table-general {
   min-width: 1100px;
+
   .search-term {
     max-height: 120px;
     overflow: hidden;
     line-height: normal;
   }
+
   .search-term-btn {
     padding: 5px 20px 11px 20px;
+
     .more-btn {
       margin-right: 10px;
     }
-    /deep/ .el-button + .el-button {
+
+    /deep/ .el-button+.el-button {
       margin-left: 0;
     }
   }
 }
+
 .search-item-box {
   display: inline-block;
   margin-right: 10px;
+
   &.text {
     width: 100%;
   }
+
   .search-item {
     // width: 150px;
     display: inline-block;
     margin-right: 4px;
     margin-bottom: 15px;
+
     &.search-item-text {
       margin-right: 10px;
       width: auto;
+
       /deep/ .textleft {
         width: 400px;
         float: left;
+
         &.input-textleft,
         .el-input__inner {
           width: 270px;
         }
+
         .el-input--suffix {
           .el-input__inner {
             width: 130px;
           }
         }
       }
+
       /deep/ .el-select.textright {
         width: 100px;
         float: left;
         margin-left: 3px;
       }
     }
+
     /deep/ .el-select {
       width: 150px;
     }
+
     /deep/ .el-date-editor.el-input,
     .el-input__inner {
       width: 150px;
     }
   }
 }
+
 .search-item-box {
   &.date-item-box {
     width: 400px;
   }
+
   .search-item {
     .date-checkbox {
       width: 400px;
@@ -758,6 +808,7 @@ export default {
           color: #909399;
         }
       }
+
       /deep/ .el-date-editor {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -774,11 +825,14 @@ export default {
 .w400 {
   width: 400px;
 }
+
 /deep/ .el-input {
   margin-bottom: 0 !important;
 }
+
 .cu-p {
   cursor: pointer;
+
   &:hover {
     color: @m-col-b7;
     text-decoration: underline;

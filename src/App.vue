@@ -1,5 +1,5 @@
 <template>
-  <div id="user_sys" class="admin-warp-app" v-if="isInfoLoad&&post_details">
+  <div id="user_sys" class="admin-warp-app" v-if="isInfoLoad && post_details">
     <router-view />
   </div>
 </template>

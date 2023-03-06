@@ -23,7 +23,8 @@
                 <el-input v-model="postForm.name" class="w500" minlength="2" maxlength="10" show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="备注：">
-                <el-input type="textarea" :rows="3" v-model="postForm.desc" class="w500" maxlength="100" show-word-limit></el-input>
+                <el-input type="textarea" :rows="3" v-model="postForm.desc" class="w500" maxlength="100"
+                  show-word-limit></el-input>
               </el-form-item>
               <el-form-item label="选择读者：">
                 <el-tabs v-model="activeName" style="min-width:930px">
@@ -31,54 +32,73 @@
                     <div class="rule-box" v-if="dataKey">
                       <div class="search-box" v-if="dataKey">
                         <!-- 属性组选择 -->
-                        <div class="search-item-box" v-for="item in selectProperties.slice(0, selectPropLen)" :key="item.code">
+                        <div class="search-item-box" v-for="item in selectProperties.slice(0, selectPropLen)"
+                          :key="item.code">
                           <div class="search-item" v-if="!item.external">
                             <!-- <el-date-picker v-model="searchForm[item.code]" type="date" :placeholder="item.name" v-if="!item.external && item.type==2"></el-date-picker> -->
                             <!-- 属性组是非选择 -->
-                            <el-select v-model="searchForm[item.code]" :placeholder="item.name" v-if="!item.external && item.type==3" clearable>
+                            <el-select v-model="searchForm[item.code]" :placeholder="item.name"
+                              v-if="!item.external && item.type == 3" clearable>
                               <el-option label="是" :value="true"></el-option>
                               <el-option label="否" :value="false"></el-option>
                             </el-select>
                             <!-- 属性组单选选择 -->
-                            <el-select :style="{width:setSelectWidth(item.code)}" v-model="searchForm[item.code]" :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable filterable :filter-method="(value)=>handleFilter(value,item.code)" v-el-select-loadmore="optionLoadMore(item.code)">
-                              <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key" :value="item.value"></el-option>
+                            <el-select :style="{ width: setSelectWidth(item.code) }" v-model="searchForm[item.code]"
+                              :placeholder="item.name" v-if="item.type == 4 && item.code != 'User_Depart'" clearable
+                              filterable :filter-method="(value) => handleFilter(value, item.code)"
+                              v-el-select-loadmore="optionLoadMore(item.code)">
+                              <el-option v-for="item in initSelect(item.code)" :key="item.value" :label="item.key"
+                                :value="item.value"></el-option>
                             </el-select>
                             <!-- 属性组部门选择 -->
-                            <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList" v-model="searchForm[item.code]" :props="{ value:'fullPath',label:'name',children:'children',emitPath:false,expandTrigger:'hover' }" :show-all-levels="false" clearable></el-cascader>
+                            <el-cascader v-if="item.code == 'User_Depart'" placeholder="部门" :options="depList"
+                              v-model="searchForm[item.code]"
+                              :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false, expandTrigger: 'hover' }"
+                              :show-all-levels="false" clearable></el-cascader>
                           </div>
                         </div>
                         <!-- 文本输入 -->
-                        <template v-if="(textProperties1.length||textProperties2.length||textProperties3.length)">
+                        <template v-if="(textProperties1.length || textProperties2.length || textProperties3.length)">
                           <div class="search-item-box">
                             <div class="search-item search-item-text" v-if="textProperties1.length">
-                              <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" class="textleft input-textleft" clearable>
+                              <el-input placeholder="请输入读者姓名" v-model="searchTextValue1" class="textleft input-textleft"
+                                clearable>
                               </el-input>
                               <el-select v-model="searchTextcondition1" placeholder="请选择" class="textright">
-                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label"
+                                  :value="item.val"></el-option>
                               </el-select>
                             </div>
                           </div>
                           <div class="search-item-box">
                             <div class="search-item search-item-text" v-if="textProperties2.length">
                               <el-input placeholder="请输入" v-model="searchTextValue2" clearable class="textleft">
-                                <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange2">
-                                  <el-option v-for="item in textProperties2" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                                <el-select v-model="searchTextCode2" slot="prepend" placeholder="请选择" style="width:130px"
+                                  @change="searchTextCodeChange2">
+                                  <el-option v-for="item in textProperties2" :key="item.code" :label="item.name"
+                                    :value="item.code"></el-option>
                                 </el-select>
                               </el-input>
-                              <el-select v-model="searchTextcondition2" placeholder="请选择" v-show="searchTextcondition2>0" class="textright">
-                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                              <el-select v-model="searchTextcondition2" placeholder="请选择"
+                                v-show="searchTextcondition2 > 0" class="textright">
+                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label"
+                                  :value="item.val"></el-option>
                               </el-select>
                             </div>
                           </div>
                           <div class="search-item-box">
                             <div class="search-item search-item-text" v-if="textProperties3.length">
                               <el-input placeholder="请输入" v-model="searchTextValue3" class="textleft" clearable>
-                                <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px" @change="searchTextCodeChange3">
-                                  <el-option v-for="item in textProperties3" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                                <el-select v-model="searchTextCode3" slot="prepend" placeholder="请选择" style="width:130px"
+                                  @change="searchTextCodeChange3">
+                                  <el-option v-for="item in textProperties3" :key="item.code" :label="item.name"
+                                    :value="item.code"></el-option>
                                 </el-select>
                               </el-input>
-                              <el-select v-model="searchTextcondition3" placeholder="请选择" v-show="searchTextcondition3>0" class="textright">
-                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label" :value="item.val"></el-option>
+                              <el-select v-model="searchTextcondition3" placeholder="请选择"
+                                v-show="searchTextcondition3 > 0" class="textright">
+                                <el-option v-for="(item, index) in textcondition" :key="index" :label="item.label"
+                                  :value="item.val"></el-option>
                               </el-select>
                             </div>
                           </div>
@@ -88,82 +108,102 @@
                           <div class="search-item w400">
                             <div class="date-checkbox">
                               <el-select v-model="searchDateCode" placeholder="请选择" style="width: 130px;" clearable>
-                                <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name" :value="item.code"></el-option>
+                                <el-option v-for="item in dateRangeProperties" :key="item.code" :label="item.name"
+                                  :value="item.code"></el-option>
                               </el-select>
-                              <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+                              <el-date-picker v-model="searchDateValue" value-format="yyyy-MM-dd" type="daterange"
+                                range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
                             </div>
                           </div>
                         </div>
-                        <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch" v-button-debounce>查找</el-button>
+                        <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing"
+                          @click="handleSearch" v-button-debounce>查找</el-button>
                       </div>
 
                       <div class="btn-box">
                         <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
                         <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
                       </div>
-                      <el-table v-loading="loading" :data="tableData" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange">
+                      <el-table v-loading="loading" :data="tableData" style="width: 56%" class="table-box" height="600px"
+                        @selection-change="handleAddChange">
                         <el-table-column type="selection" width="50" align="center"></el-table-column>
-                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center" show-overflow-tooltip></el-table-column>
-                        <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center"
+                          show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="name" label="姓名" min-width="75" align="center"
+                          show-overflow-tooltip></el-table-column>
                         <el-table-column prop="sourceFrom" label="用户来源" width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
-                            {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
+                            {{ getKeyValue('User_SourceFrom', scope.row.sourceFrom) }}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机" min-width="95" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="phone" label="手机" min-width="95" align="center"
+                          show-overflow-tooltip></el-table-column>
                         <el-table-column prop="type" label="用户类型" min-width="95" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
-                            {{getKeyValue('User_Type',scope.row.type)}}
+                            {{ getKeyValue('User_Type', scope.row.type) }}
                           </template>
                         </el-table-column>
                         <el-table-column prop="prop" label="注册日期" min-width="115" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
-                            {{setTime(scope.row.createTime) }}
+                            {{ setTime(scope.row.createTime) }}
                           </template>
                         </el-table-column>
                       </el-table>
 
-                      <el-table :data="chanceData" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
+                      <el-table :data="chanceData" style="width: 40%;float:right" class="table-box" height="600px"
+                        @selection-change="handleDelChange">
                         <el-table-column type="selection" width="50" align="center"></el-table-column>
-                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center"
+                          show-overflow-tooltip></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="75" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
-                            {{scope.row.name || scope.row.userName}}
+                            {{ scope.row.name || scope.row.userName }}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="sourceFrom" label="用户来源" min-width="95" align="center" show-overflow-tooltip>
+                        <el-table-column prop="sourceFrom" label="用户来源" min-width="95" align="center"
+                          show-overflow-tooltip>
                           <template slot-scope="scope">
-                            {{getKeyValue('User_SourceFrom',scope.row.sourceFrom)}}
+                            {{ getKeyValue('User_SourceFrom', scope.row.sourceFrom) }}
                           </template>
                         </el-table-column>
-                        <el-table-column prop="phone" label="手机" min-width="95" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="phone" label="手机" min-width="95" align="center"
+                          show-overflow-tooltip></el-table-column>
                       </el-table>
-                      <paging style="text-align:left;padding-left:40px" :pagedata="pageData" @pagechange="pageChange" v-if="pageData.totalCount"></paging>
+                      <paging style="text-align:left;padding-left:40px" :pagedata="pageData" @pagechange="pageChange"
+                        v-if="pageData.totalCount"></paging>
                     </div>
                   </el-tab-pane>
 
                   <el-tab-pane label="导入" name="导入">
                     <div class="rule-box">
                       <div style="padding:20px">
-                        <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload" v-button-debounce>下载模板</el-button>
+                        <el-button type="primary" size="medium" class="blue-btn" @click="handleDownload"
+                          v-button-debounce>下载模板</el-button>
                         <el-button type="primary" size="medium" @click="$refs.uploadFile.show()">导入数据</el-button>
                       </div>
                       <div class="btn-box">
                         <el-button type="primary" size="mini" class="add-btn" @click="hanleAddList">加入</el-button>
                         <el-button type="primary" size="mini" class="cal-btn" @click="hanleDelList">移除</el-button>
                       </div>
-                      <el-table :data="tableDataImp" style="width: 56%" class="table-box" height="600px" @selection-change="handleAddChange" :row-class-name="tableRowClassName">
+                      <el-table :data="tableDataImp" style="width: 56%" class="table-box" height="600px"
+                        @selection-change="handleAddChange" :row-class-name="tableRowClassName">
                         <el-table-column type="selection" width="50" align="center"></el-table-column>
-                        <el-table-column prop="name" label="姓名" min-width="85" align="center" show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center"
+                          show-overflow-tooltip></el-table-column>
+                        <el-table-column prop="name" label="姓名" min-width="85" align="center"
+                          show-overflow-tooltip></el-table-column>
                         <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
                         <el-table-column prop="idCard" label="身份证" align="center" show-overflow-tooltip></el-table-column>
                       </el-table>
 
-                      <el-table :data="chanceDataImp" style="width: 40%;float:right" class="table-box" height="600px" @selection-change="handleDelChange">
+                      <el-table :data="chanceDataImp" style="width: 40%;float:right" class="table-box" height="600px"
+                        @selection-change="handleDelChange">
                         <el-table-column type="selection" width="50" align="center"></el-table-column>
+                        <el-table-column prop="studentNo" label="学号/工号" min-width="75" align="center"
+                          show-overflow-tooltip></el-table-column>
                         <el-table-column prop="name" label="姓名" min-width="85" align="center" show-overflow-tooltip>
                           <template slot-scope="scope">
-                            {{scope.row.name || scope.row.userName}}
+                            {{ scope.row.name || scope.row.userName }}
                           </template>
                         </el-table-column>
                         <el-table-column prop="phone" label="手机" align="center" show-overflow-tooltip></el-table-column>
@@ -176,7 +216,8 @@
               </el-form-item>
               <el-form-item>
                 <el-button size="medium" @click="reset" icon="iconfont el-icon-vip-chushi">重 置</el-button>
-                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun" v-button-debounce>保 存</el-button>
+                <el-button icon="iconfont el-icon-vip-baocun1" size="medium" type="primary" @click="validateRun"
+                  v-button-debounce>保 存</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -352,7 +393,7 @@ export default {
           if (!item.external && item.type == 2) {
             this.dateRangeProperties.push(item);
           }
-          if (!item.external && (item.type == 4 || item.type == 3)) {
+          if (!item.external && (item.type == 4 || item.type == 3) && item.name != '读者状态') {
             this.selectProperties.push(item);
           }
         });
@@ -405,7 +446,7 @@ export default {
     // 获取列表数据
     getList() {
       this.loading = true;
-      http.getJson('table-data', { ...this.postSearch, ...this.pageData }).then(res => {
+      http.getJson('card-card-table-data', { ...this.postSearch, ...this.pageData }).then(res => {
         this.tableData = res.data.items;
         //分页所需  数据总条数
         this.pageData.totalCount = res.data.totalCount;
@@ -630,12 +671,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
 @import "../../../../assets/admin/css/form.less";
+
 .content {
   min-width: 1300px;
 }
+
 .content-box {
   min-height: 600px;
   background-color: @m-col-b0;
@@ -643,9 +687,11 @@ export default {
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.02);
   padding: 20px;
 }
+
 .w500 {
   width: 500px;
 }
+
 .rule-box {
   min-width: 910px;
   //   padding: 20px 0;
@@ -653,36 +699,45 @@ export default {
   border: 1px solid #ddd;
   position: relative;
 }
+
 .w100 {
   width: 100px;
 }
+
 .w150 {
   width: 150px;
 }
+
 .rule-item {
   position: relative;
   margin-bottom: 15px;
 }
+
 .table-box {
   display: inline-block;
   vertical-align: top;
 }
+
 .btn-box {
   padding-bottom: 20px;
 }
+
 .add-btn {
   // position: absolute;
   // top: 400px;
   margin-left: 49%;
 }
+
 .cal-btn {
   // position: absolute;
   // top: 460px;
   margin-left: 8%;
 }
+
 .search-box {
   padding: 20px;
 }
+
 // .search-item {
 //   // width: 150px;
 //   margin-bottom: 10px;
@@ -691,45 +746,55 @@ export default {
 /deep/ .el-table .warning-row {
   background: rgb(243, 208, 208);
 }
+
 .search-item-box {
   display: inline-block;
 }
+
 .search-item {
   // width: 150px;
   display: inline-block;
   margin-right: 4px;
   margin-bottom: 15px;
   vertical-align: top;
+
   &.search-item-text {
     margin-right: 10px;
     width: auto;
+
     /deep/ .textleft {
       width: 400px;
       float: left;
+
       &.input-textleft,
       .el-input__inner {
         width: 270px;
       }
+
       .el-input--suffix {
         .el-input__inner {
           width: 130px;
         }
       }
     }
+
     /deep/ .el-select.textright {
       width: 100px;
       float: left;
       margin-left: 3px;
     }
   }
+
   /deep/ .el-select {
     width: 150px;
   }
+
   /deep/ .el-date-editor.el-input,
   .el-input__inner {
     width: 150px;
   }
 }
+
 .date-checkbox {
   width: 400px;
   display: flex;
@@ -749,6 +814,7 @@ export default {
       color: #909399;
     }
   }
+
   /deep/ .el-date-editor {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -759,6 +825,7 @@ export default {
     }
   }
 }
+
 .w400 {
   width: 400px;
 }

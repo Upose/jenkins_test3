@@ -1,17 +1,17 @@
 <!--
  * @Author: huyu
  * @Date: 2022-12-28 14:05:12
- * @LastEditors: huyu
- * @LastEditTime: 2022-12-29 19:00:06
+ * @LastEditors: gongqin
+ * @LastEditTime: 2023-03-02 14:02:54
  * @Description: 馆员日志
 -->
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
         <breadcrumb></breadcrumb>
         <div class="content search-table-general">
           <div class="search-table-w">
@@ -29,29 +29,35 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="">
-                    <el-select clearable v-model="searchForm.userKey" filterable remote reserve-keyword placeholder="操作人" :remote-method="remoteMethod" :loading="loading">
-                      <el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.userKey"></el-option>
+                    <el-select clearable v-model="searchForm.userKey" filterable remote reserve-keyword placeholder="操作人"
+                      :remote-method="remoteMethod" :loading="loading">
+                      <el-option v-for="item in userList" :key="item.id" :label="item.name"
+                        :value="item.userKey"></el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item label="">
-                    <el-date-picker clearable @change="handleTime" v-model="time" type="daterange" value-format="yyyy-MM-dd" range-separator="-" start-placeholder="操作日期" end-placeholder="操作日期">
+                    <el-date-picker clearable @change="handleTime" v-model="time" type="daterange"
+                      value-format="yyyy-MM-dd" range-separator="-" start-placeholder="操作日期" end-placeholder="操作日期">
                     </el-date-picker>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch" v-button-debounce>查找</el-button>
+                    <el-button type="primary" size="medium" icon="iconfont el-icon-vip-fangdajing" @click="handleSearch"
+                      v-button-debounce>查找</el-button>
                   </el-form-item>
                 </el-form>
               </div>
               <el-table class="admin-table" :data="tableData" border stripe v-loading="loading">
                 <el-table-column type="index" label="序号" width="70" align="center">
                   <template slot-scope="scope">
-                    <span>{{(pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1}}</span>
+                    <span>{{ (pageData.pageIndex - 1) * pageData.pageSize + scope.$index + 1 }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="operationTime" label="发生时间" show-overflow-tooltip align="center">
                   <template slot-scope="scope">
-                    {{setTime(scope.row.operationTime,'分')}}
+                    {{ setTime(scope.row.operationTime, '分') }}
                   </template>
+                </el-table-column>
+                <el-table-column prop="studentNo" label="学工号" show-overflow-tooltip align="center">
                 </el-table-column>
                 <el-table-column prop="userName" label="操作人姓名" show-overflow-tooltip align="center">
                 </el-table-column>
@@ -63,7 +69,8 @@
                 </el-table-column>
                 <el-table-column prop="content" label="说明" align="center" width="120">
                   <template slot-scope="scope">
-                    <el-button @click="handleDetail(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan" round>查看</el-button>
+                    <el-button @click="handleDetail(scope.row)" type="text" size="mini" icon="iconfont el-icon-vip-yulan"
+                      round>查看</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -172,6 +179,5 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
-</style>
+<style scoped lang="less"></style>
 

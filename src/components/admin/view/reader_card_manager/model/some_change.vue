@@ -3,19 +3,23 @@
     <el-form :model="postForm" label-width="120px" v-if="dataKey">
       <el-form-item label="卡类型：">
         <el-select v-model="postForm.type" placeholder="请选择" clearable>
-          <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option v-for="item in initSelect('Card_Type')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="卡状态：">
         <el-select v-model="postForm.status" placeholder="请选择" clearable>
-          <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key" :value="item.value"></el-option>
+          <el-option v-for="item in initSelect('Card_Status')" :key="item.value" :label="item.key"
+            :value="item.value"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="发卡日期：">
-        <el-date-picker v-model="postForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+        <el-date-picker v-model="postForm.issueDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd"
+          format="yyyy-MM-dd"></el-date-picker>
       </el-form-item>
       <el-form-item label="截止日期：">
-        <el-date-picker v-model="postForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd" format="yyyy-MM-dd"></el-date-picker>
+        <el-date-picker v-model="postForm.expireDate" type="date" placeholder="请选择" clearable value-format="yyyy-MM-dd"
+          format="yyyy-MM-dd"></el-date-picker>
       </el-form-item>
     </el-form>
     <div slot="footer">
@@ -30,7 +34,7 @@ import http from "@/assets/public/js/http";
 
 export default {
   name: 'preview',
-  props: ['dataKey', 'cardList'],
+  props: ['dataKey', 'cardList', 'targetType'],
   data() {
     return {
       id: '',
@@ -71,8 +75,8 @@ export default {
     // 初始化下拉列表
     initSelect(code) {
       if (!this.dataKey) return;
-      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code));
-      return select.groupItems;
+      let select = this.dataKey.groupSelect.find(item => (item.groupCode == code)) || {};
+      return select.groupItems ? select.groupItems : [];
     },
     //表单提交
     submitForm() {
@@ -85,7 +89,8 @@ export default {
           this.postForm.fields.push(key);
         }
       }
-      http.putJson('card-batch-update', this.postForm).then(res => {
+      // targetType  目标修改类型：1读者 2读者卡
+      http.putJson('card-batch-update', { ...this.postForm, targetType: this.targetType }).then(res => {
         this.dialogVisible = false;
         this.$message({ message: '修改成功！', type: 'success' });
       }).catch(err => {
@@ -96,6 +101,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../../assets/admin/css/form.less";
 </style>

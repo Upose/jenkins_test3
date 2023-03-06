@@ -2,33 +2,35 @@
 <template>
   <div class="admin-warp-page">
     <el-container>
-      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse?'fold-menu':''">
+      <el-aside width="auto" :collapse="$root.collapse" :class="$root.collapse ? 'fold-menu' : ''">
         <serviceLMenu :isActive="2"></serviceLMenu>
       </el-aside>
-      <el-main class="admin-content pd admin-bg-top" :class="{'content-collapse':$root.collapse}">
+      <el-main class="admin-content pd admin-bg-top" :class="{ 'content-collapse': $root.collapse }">
         <breadcrumb :cuMenu="'读者账号详情'" :fontColor="'fff'"></breadcrumb>
         <div class="content search-table-general">
           <div class="search-table-w">
             <h1 class="search-title">读者账号详情</h1>
-            <!-- <span class="fsxx">发送消息</span>
-            <span class="zwhy" @click="handleChange">转为馆员</span> -->
-            <div class="right-btn-box">
-              <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary" class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
-              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend" v-has="'reader:sendMessage'">发送消息</el-button>
-            </div>
+          <!-- <span class="fsxx">发送消息</span>
+                      <span class="zwhy" @click="handleChange">转为馆员</span> -->
+          <!-- <div class="right-btn-box">
+              <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
+                class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
+              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend"
+                v-has="'reader:sendMessage'">发送消息</el-button>
+                </div> -->
           </div>
           <div class="loading-box" v-loading="loading" v-if="loading"></div>
           <div class="login-list" v-else>
             <div class="reader-top">
               <div class="reader-left" @click="upImg">
-                <img :src="iconUrl" alt="" v-if="iconUrl!=''">
-                <img :src="imgPath + postForm.photo" alt="" v-else-if="postForm.photo&&postForm.photo!=''">
+                <img :src="iconUrl" alt="" v-if="iconUrl != ''">
+                <img :src="imgPath + postForm.photo" alt="" v-else-if="postForm.photo && postForm.photo != ''">
                 <img :src="imgPath + '/public/image/default-user-head/default-user-head.png'" v-else />
               </div>
               <div class="reader-middle">
                 <div>
                   <!-- <div class="id">用户id：{{postForm.userKey}}</div> -->
-                  <span class="names">{{postForm.name}}</span>
+                  <span class="names">{{ postForm.name }}</span>
                   <span class="rm-activate-tag" v-if="!postForm.isActive">未激活</span>
                   <!-- <span class="numers">{{postForm.nickName}}</span> -->
                   <!-- <span class="level">LV{{integralData.level}}</span> -->
@@ -36,54 +38,55 @@
                 </div>
                 <div class="times">
                   <span>用户id：</span>
-                  <span>{{postForm.userKey}}</span>
+                  <span>{{ postForm.userKey }}</span>
                 </div>
                 <div class="times">
                   <span>读者来源：</span>
-                  <span>{{getKeyValue('User_SourceFrom',postForm.sourceFrom)}}</span>
+                  <span>{{ getKeyValue('User_SourceFrom', postForm.sourceFrom) }}</span>
                 </div>
                 <div class="times" v-if="integralData && postForm.showLevel">
                   <span class="lev">用户等级：</span>
-                  <span class="level">LV{{integralData.level}}</span>
+                  <span class="level">LV{{ integralData.level }}</span>
                 </div>
                 <div class="integral" v-if="integralData">
                   <span>当前积分：</span>
-                  <span>{{integralData.userScore}}</span>
+                  <span>{{ integralData.userScore }}</span>
                 </div>
-                <div class="times">最近登录：{{dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.lastLoginTime)}}</div>
+                <div class="times">最近登录：{{ dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.lastLoginTime) }}</div>
               </div>
               <div class="reader-right">
-                <span>首次使用：{{dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.firstLoginTime)}}</span>
-                <span>创建时间：{{dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.createTime)}}</span>
+                <span>首次使用：{{ dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.firstLoginTime) }}</span>
+                <span>创建时间：{{ dateChangeFormat('YYYY-mm-dd HH:MM:SS', postForm.createTime) }}</span>
               </div>
             </div>
 
             <div class="reader-box">
               <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="基本信息" name="first">
-                  <ReaderAcount @hide-to-staff="hideToStaff" :id="id" :iconUrl="postForm.photo||''"></ReaderAcount>
+                  <ReaderAcount @hide-to-staff="hideToStaff" :id="id" :iconUrl="postForm.photo || ''"></ReaderAcount>
                 </el-tab-pane>
                 <el-tab-pane label="证件信息" name="second">
-                  <Certificate :id="id" v-if="activeName=='second'"></Certificate>
+                  <Certificate :id="id" v-if="activeName == 'second'"></Certificate>
                 </el-tab-pane>
                 <el-tab-pane label="积分明细" name="third" v-if="integralData">
-                  <Intergral :id="id" :userKey="postForm.userKey" v-if="activeName=='third'"></Intergral>
+                  <Intergral :id="id" :userKey="postForm.userKey" v-if="activeName == 'third'"></Intergral>
                 </el-tab-pane>
                 <el-tab-pane label="借阅明细" name="fourth">
-                  <borrowingDetail :id="id" v-if="activeName=='fourth'"></borrowingDetail>
+                  <borrowingDetail :id="id" :userKey="postForm.userKey" v-if="activeName == 'fourth'"></borrowingDetail>
                 </el-tab-pane>
                 <el-tab-pane label="授权系统" name="five">
-                  <AuthSystem :id="id" v-if="activeName=='five'"></AuthSystem>
+                  <AuthSystem :id="id" :userKey="postForm.userKey" v-if="activeName == 'five'"></AuthSystem>
                 </el-tab-pane>
                 <el-tab-pane label="使用日志" name="six">
-                  <useLog :id="id" :userKey="postForm.userKey" v-if="activeName=='six'"></useLog>
+                  <useLog :id="id" :userKey="postForm.userKey" v-if="activeName == 'six'"></useLog>
                 </el-tab-pane>
               </el-tabs>
             </div>
           </div>
         </div>
 
-        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false" :before-close="handleClose">
+        <el-dialog append-to-body title="图片上传" :visible.sync="dialogUPimg" width="550px" :close-on-click-modal="false"
+          :before-close="handleClose">
           <UpdateImg @imgUrl="imgUrl"></UpdateImg>
         </el-dialog>
         <footerPage class="top20"></footerPage>
@@ -175,7 +178,7 @@ export default {
     getData() {
       http.getJsonSelf('user', `/${this.id}`).then(res => {
         this.postForm = res.data;
-        this.getIntegralData(res.data.userKey);
+        this.getIntegralData(res.data.cardKey);
         this.loading = false;
       }).catch(err => {
         this.loading = false;
@@ -183,8 +186,8 @@ export default {
       })
     },
     // 获取积分数据
-    getIntegralData(userKey) {
-      http.getJsonSelf('reader-score-summary', `/${userKey}`).then(res => {
+    getIntegralData(cardKey) {
+      http.getJsonSelf('reader-score-summary', `/${cardKey}`).then(res => {
         this.integralData = res.data;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取数据失败!' });
@@ -274,8 +277,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../../../assets/admin/css/color.less"; /**颜色配置 */
+@import "../../../../assets/admin/css/color.less";
+/**颜色配置 */
 @import "../../../../assets/admin/css/form.less";
+
 .content {
   .s-w {
     min-height: 60px;
@@ -283,6 +288,7 @@ export default {
     padding: 0 20px;
     border-bottom: 1px solid @ph-col-n3;
     background-color: @m-col-b0;
+
     .d-title {
       color: @ph-col-n12;
       font-size: 14px;
@@ -290,20 +296,25 @@ export default {
     }
   }
 }
+
 .tops {
   margin-top: 2%;
 }
+
 .m-top {
   margin-top: 24px;
 }
+
 /deep/ .el-table th.el-table__cell {
   background-color: #f1f3f7;
   border-right: 1px solid #ebeef5;
   padding: 0.7% 0;
 }
+
 .loading-box {
   height: 500px;
 }
+
 .login-list {
   width: 100%;
   background: #fff;
@@ -311,15 +322,18 @@ export default {
   display: table;
   border-top: 1px solid #ebeef5;
 }
+
 .reader-top {
   width: 100%;
   display: table;
 }
+
 .reader-box {
   width: 95%;
   display: table;
   margin: 2% auto;
 }
+
 // /deep/ .el-input,
 // /deep/ .el-select,
 // .divStyle {
@@ -331,15 +345,18 @@ export default {
   line-height: 40px;
   border: 1px solid #c0c4cc;
 }
+
 .divStyle span {
   padding: 0 !important;
   float: right !important;
 }
+
 .divStyle span:first-child {
   float: left !important;
   color: #6c757d;
   margin-left: 5%;
 }
+
 // /deep/ .el-select .el-input {
 //   width: 100%;
 // }
@@ -347,15 +364,18 @@ export default {
 .reader-middle {
   float: left;
 }
-.reader-left > img {
+
+.reader-left>img {
   width: 100%;
   height: 100%;
   border-radius: 12px;
 }
+
 .reader-right {
   float: right;
   width: 50%;
 }
+
 .reader-right span {
   font-size: 14px;
   color: #909399;
@@ -364,44 +384,54 @@ export default {
   float: right;
   cursor: pointer;
 }
+
 /deep/ .el-tabs__item {
   height: 46px;
 }
+
 /deep/ .el-tabs__nav-wrap::after {
   background-color: #fff;
 }
+
 /deep/ .el-tabs__content {
   min-height: 100px;
 }
+
 .reader-left {
   width: 9%;
   height: 9%;
   border-radius: 12px;
   margin: 0 2% 0 1.5%;
 }
+
 .reader-middle {
   width: 30%;
 }
+
 .middle-top,
 .integral,
 .times {
   width: 100%;
   display: table;
 }
+
 .middle-top {
   margin-top: 3%;
+
   .id {
     color: #34395e;
     margin-bottom: 3%;
     font-size: 14px;
   }
 }
+
 .times {
   .lev {
     display: block;
     float: left;
   }
 }
+
 .numers,
 .level,
 .async {
@@ -409,12 +439,14 @@ export default {
   display: block;
   margin-right: 2%;
 }
+
 .names {
   float: none;
   font-size: 18px !important;
   font-weight: bold;
   color: #34395e;
 }
+
 .rm-activate-tag {
   padding: 3px 8px;
   background: #f1f1f1;
@@ -422,12 +454,14 @@ export default {
   margin-left: 10px;
   color: #555;
 }
+
 .numers {
   color: #34395e;
   font-size: 16px !important;
   font-weight: bold;
   margin-top: 5px;
 }
+
 .level {
   color: #5568f5;
   font-size: 15px;
@@ -437,6 +471,7 @@ export default {
   line-height: 26px;
   height: 26px;
 }
+
 .async {
   color: #5568f5;
   border: 1px solid #5568f5;
@@ -445,63 +480,76 @@ export default {
   line-height: 26px;
   height: 26px;
 }
+
 .integral,
 .times {
   margin-top: 3%;
   width: 100%;
   display: table;
 }
+
 .integral span {
   display: block;
   float: left;
   font-size: 14px;
   color: #f58b58;
 }
+
 .integral span:first-child {
   color: #34395e;
 }
+
 .times {
   color: #34395e;
   font-size: 14px;
 }
+
 .editdiv {
   width: 60%;
   float: left;
 }
+
 .editdiv ul {
   list-style-type: none;
   padding: 0;
 }
+
 .editdiv ul li {
   width: 100%;
   display: table;
   padding: 1% 0;
 }
+
 .editdiv ul li span {
   float: left;
   padding: 12px 2% 12px 0;
   width: 13%;
   text-align: right;
 }
+
 .editdiv ul li span i {
   color: red;
   margin: 10px 0 0 0px;
 }
+
 .reader-right {
   width: 42%;
   float: right;
 }
+
 .right-title {
   width: 100%;
   font-size: 15px;
   font-weight: bold;
   display: table;
 }
+
 .right-box {
   width: 100%;
   display: table;
   margin: 2% 0 6% 0;
 }
+
 .right-box span {
   display: block;
   float: left;
@@ -513,18 +561,22 @@ export default {
   margin: 2% 2% 0 0;
   cursor: pointer;
 }
+
 .imgs {
   width: 13px;
   height: 11px;
   margin: -5px -9px 0 5px !important;
   float: right;
 }
+
 .el-select-dropdown__item {
   padding-left: 3% !important;
 }
+
 /deep/ .el-radio {
   margin: 2% 3% 0 0;
 }
+
 .yuan {
   width: 8px !important;
   height: 8px;
@@ -532,11 +584,13 @@ export default {
   border-radius: 100%;
   margin: 16px 2% 0 0;
 }
+
 .renzheng {
   color: #6c757d;
   width: auto !important;
   margin-right: 3%;
 }
+
 .baocun {
   background: #6777ef;
   border: 0;
@@ -544,12 +598,15 @@ export default {
   color: #fff;
   text-align: center;
 }
+
 .xuanzhong {
   border: 1px solid #6777ef !important;
 }
+
 /deep/.el-dialog__body {
   padding: 10px 20px;
 }
+
 .duihao {
   width: 12px;
   height: 10px;
@@ -562,20 +619,24 @@ export default {
   float: right;
   margin: -4px -11px 0 2px;
 }
+
 .btns {
   padding: 2.3% 4% 1.8% 4%;
   font-size: 15px;
 }
+
 .quxiao {
   color: #6d6d6d;
   background: #f3f3f3;
   border: 1px solid #f3f3f3;
 }
+
 .search-title {
   width: 50%;
   float: left;
   border: 0 !important;
 }
+
 .fsxx,
 .zwhy {
   padding: 0.7% 1.2%;
@@ -586,6 +647,7 @@ export default {
   color: #fff;
   font-size: 14px;
 }
+
 .zwhy {
   background: #f56c6c;
 }
@@ -594,9 +656,11 @@ export default {
   background: #6777ef;
   margin-right: 2%;
 }
+
 .search-table-general {
   background: #fff;
 }
+
 .right-btn-box {
   float: right;
   margin: 15px 15px 0 0;
