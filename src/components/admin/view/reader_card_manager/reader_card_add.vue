@@ -111,7 +111,6 @@
                       <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
                                                                                             </el-select> -->
-
                     <el-cascader v-bind="depList" :options="depList" v-model="cardForm.depart"
                       :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false }"
                       clearable></el-cascader>
@@ -147,7 +146,7 @@
                     <el-select v-model="cardForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
                       <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
                     </el-select>
-                    </el-form-item> -->
+                  </el-form-item> -->
 
                   <el-form-item :label="item.propertyName + '：'" v-for="(item, index) in cardForm.properties"
                     :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
@@ -267,35 +266,34 @@
                   <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
               </el-form>
-            </div> -->
-            <div class="right-btn-box" v-if="id">
-              <div class="btn-list">
-                <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
-                  class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
-                <el-button type="primary" size="medium" class="blue-btn" @click="handleSend"
-                  v-has="'reader:sendMessage'">发送消息</el-button>
-              </div>
-              <div class="reader-group-list">
-                <div class="right-title">添加至用户分组</div>
-                <div class="right-box">
-                  <span :class="isGrounp(item.id) ? 'grounpSel' : ''" v-for="item in grounpList" :key="item.id"
-                    :data-id="item.id" @click="handleAddGrounp(item.id)">{{ item.name }}</span>
-                </div>
-              </div>
+          </div> -->
+          <div class="right-btn-box" v-if="id">
+            <div class="btn-list">
+              <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
+                class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
+              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend"
+                v-has="'reader:sendMessage'">发送消息</el-button>
             </div>
-            <div class="btn_box">
-              <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
-              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'card:update'"
-                v-button-debounce> 保存</el-button>
+            <div class="reader-group-list">
+              <div class="right-title">添加至用户分组</div>
+              <div class="right-box">
+                <span :class="isGrounp(item.id) ? 'grounpSel' : ''" v-for="item in grounpList" :key="item.id"
+                  :data-id="item.id" @click="handleAddGrounp(item.id)">{{ item.name }}</span>
+              </div>
             </div>
           </div>
+          <div class="btn_box">
+            <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
+            <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'card:update'"
+              v-button-debounce> 保存</el-button>
+          </div>
         </div>
-        <!---content end--->
-        <footerPage class="top20"></footerPage>
-      </el-main>
-    </el-container>
   </div>
-</template>
+  <!---content end--->
+  <footerPage class="top20"></footerPage>
+  </el-main>
+  </el-container>
+</div></template>
 
 <script>
 // import bus from '@/assets/public/js/bus';;
@@ -718,7 +716,7 @@ export default {
     },
     //表单提交
     submitForm() {
-      if (!this.cardForm.seeSensitiveInfo) {
+      if (this.id && !this.cardForm.seeSensitiveInfo) {
         this.$message.warning('您没有用户隐私信息查看权限，不能修改信息。')
         return
       }
