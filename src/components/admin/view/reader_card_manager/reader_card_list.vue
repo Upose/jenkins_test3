@@ -453,7 +453,7 @@ export default {
 
       if (!curItem.external) {
         let key = this.tableSysArrtKey[this.tableSysArrt.indexOf(code)];
-        console.log(this.sysArrt, code, key, curItem, 'key')
+        // console.log(this.sysArrt, code, key, curItem, 'key')
         if (curItem.type == 2) {//时间
           value = row[key] ? this.dateChangeFormat('YYYY-mm-dd', row[key]) : "";
         } else if (curItem.type == 3) {//是否
