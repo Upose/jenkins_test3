@@ -35,7 +35,7 @@
                   </el-form-item>
                   <div class="row-form">
                     <el-form-item prop="cardType" class="r-f-item1">
-                      <el-select v-model="cardForm.cardType" placeholder="请选择" clearable>
+                      <el-select v-model="cardForm.cardType" placeholder="请选择" @change="hanldeCardType" clearable>
                         <el-option v-for="item in initSelect('Card_CardType')" :key="item.value" :label="item.key"
                           :value="item.value">
                         </el-option>
@@ -110,7 +110,8 @@
                   <!-- <el-select v-model="cardForm.depart" placeholder="请选择" clearable>
                       <el-option v-for="item in initSelect('User_Depart')" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
-                                                                                            </el-select> -->
+                                                                                                  </el-select> -->
+
                     <el-cascader v-bind="depList" :options="depList" v-model="cardForm.depart"
                       :props="{ value: 'fullPath', label: 'name', children: 'children', emitPath: false }"
                       clearable></el-cascader>
@@ -146,7 +147,7 @@
                     <el-select v-model="cardForm.status" placeholder="请选择" filterable :filter-method="(value)=>handleFilter(value,'User_Status')" v-el-select-loadmore="optionLoadMore('User_Status')">
                       <el-option v-for="item in initSelect('User_Status')" :key="item.value" :label="item.key" :value="Number(item.value)"></el-option>
                     </el-select>
-                  </el-form-item> -->
+                      </el-form-item> -->
 
                   <el-form-item :label="item.propertyName + '：'" v-for="(item, index) in cardForm.properties"
                     :key="item.propertyCode" :rules="getDynamicRule(item)" :prop="`properties.${index}.propertyValue`">
@@ -266,34 +267,35 @@
                   <el-input v-model="cardForm.no" placeholder="请输入" clearable maxlength="20" show-word-limit></el-input>
                 </el-form-item>
               </el-form>
-          </div> -->
-          <div class="right-btn-box" v-if="id">
-            <div class="btn-list">
-              <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
-                class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
-              <el-button type="primary" size="medium" class="blue-btn" @click="handleSend"
-                v-has="'reader:sendMessage'">发送消息</el-button>
-            </div>
-            <div class="reader-group-list">
-              <div class="right-title">添加至用户分组</div>
-              <div class="right-box">
-                <span :class="isGrounp(item.id) ? 'grounpSel' : ''" v-for="item in grounpList" :key="item.id"
-                  :data-id="item.id" @click="handleAddGrounp(item.id)">{{ item.name }}</span>
+                </div> -->
+            <div class="right-btn-box" v-if="id">
+              <div class="btn-list">
+                <el-button v-if="showToStaff" v-has="'reader:batchSetAsStaff'" size="medium" type="primary"
+                  class="admin-red-btn" @click="handleChange" v-button-debounce>转为馆员</el-button>
+                <el-button type="primary" size="medium" class="blue-btn" @click="handleSend"
+                  v-has="'reader:sendMessage'">发送消息</el-button>
+              </div>
+              <div class="reader-group-list">
+                <div class="right-title">添加至用户分组</div>
+                <div class="right-box">
+                  <span :class="isGrounp(item.id) ? 'grounpSel' : ''" v-for="item in grounpList" :key="item.id"
+                    :data-id="item.id" @click="handleAddGrounp(item.id)">{{ item.name }}</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="btn_box">
-            <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
-            <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'card:update'"
-              v-button-debounce> 保存</el-button>
+            <div class="btn_box">
+              <el-button type="info" plain @click="$router.back()" icon="iconfont el-icon-vip-quxiao">取消</el-button>
+              <el-button type="primary" @click="submitForm" icon="iconfont el-icon-vip-baocun1" v-has="'card:update'"
+                v-button-debounce> 保存</el-button>
+            </div>
           </div>
         </div>
+        <!---content end--->
+        <footerPage class="top20"></footerPage>
+      </el-main>
+    </el-container>
   </div>
-  <!---content end--->
-  <footerPage class="top20"></footerPage>
-  </el-main>
-  </el-container>
-</div></template>
+</template>
 
 <script>
 // import bus from '@/assets/public/js/bus';;
@@ -813,6 +815,11 @@ export default {
         })
       }
     },
+    hanldeCardType(val) {
+      let list = this.initSelect('Card_CardType') || [];
+      let curData = list.find(item => item.value == val) || {};
+      this.cardForm.cardTypeName = curData.key || '';
+    }
   }
 }
 </script>
