@@ -502,6 +502,8 @@ export default {
     getData() {
       http.getJsonSelf('card', `/${this.id}`).then(res => {
         this.cardForm = res.data;
+        // 已是馆员不展示转为馆员
+        this.showToStaff = !res.data.isStaff;
         this.cardForm.addr = this.showAddrCode(this.cardForm.addr)
         this.cardForm.secret = '******';
         this.properties = res.data.properties;
