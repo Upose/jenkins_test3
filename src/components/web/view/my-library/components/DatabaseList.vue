@@ -22,7 +22,7 @@
     <div class="app-content">
       <div class="item-box">
         <template v-for="(item) in list">
-          <a :href="item.directUrls.length?item.directUrls[0].url:''" target="_blank" class="app-item" :key="item.id" @click="openurlDetails(item.id)" :title="item.title">
+          <a :href="item.directUrls.length?item.directUrls[0].url:'javascript:;'" target="_blank" class="app-item" :key="item.id" @click="openurlDetails(item.id)" :title="item.title">
             <img src="../../../../../assets/web/img/personal/icon-database.png" alt="">
             {{item.title}}
           </a>
