@@ -21,7 +21,7 @@
                 <div class="harf-area">
                   <el-form-item label="账号激活状态：" prop="isActive">
                     <el-select v-model="cardForm.isActive" placeholder="请选择" disabled>
-                      <el-option v-for="item in isActiveList" :key="item.value" :label="item.key" :value="item.value">
+                      <el-option v-for="item in (isActiveList||[])" :key="item.value" :label="item.key" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -29,7 +29,7 @@
                   <el-form-item label="选择用户：" v-if="!id && !userId" prop="userId">
                     <el-select @change="changeUser" v-model="cardForm.userId" filterable remote reserve-keyword
                       placeholder="请输入用户名" :remote-method="remoteMethod" :loading="loading">
-                      <el-option v-for="item in userList" :key="item.id" :label="item.name + ' ' + item.phone"
+                      <el-option v-for="item in (userList||[])" :key="item.id" :label="item.name + ' ' + item.phone"
                         :value="item.id"></el-option>
                     </el-select>
                   </el-form-item>
@@ -244,9 +244,9 @@
                   <el-form-item label="卡密码：" prop="secret" v-else>
                     <!-- <el-input v-model="cardForm.secret" placeholder="请输入" show-password clearable maxlength="20" show-word-limit> -->
                     <el-input v-model="cardForm.secret" placeholder="请输入" show-password maxlength="30">
-                      <template slot="append" v-has="'card:setSecret'">
+                      <span slot="append" v-has="'card:setSecret'">
                         <el-button type="primary" size="medium" @click="handleReset">重置密码</el-button>
-                      </template>
+                      </span>
                     </el-input>
                   </el-form-item>
                   <el-form-item label="押金：" prop="deposit">
@@ -325,7 +325,9 @@ export default {
       //   gender: '男',
       //   type: null,
       // },
-      cardForm: {},
+      cardForm: {
+        secret: "",
+      },
       dataKey: null,
       groupSelect: [],
       properties: null,
@@ -500,11 +502,14 @@ export default {
     // 获取数据
     getData() {
       http.getJsonSelf('card', `/${this.id}`).then(res => {
-        this.cardForm = res.data;
+        this.cardForm = {
+          ...res.data,
+          secret: '******',
+        };
         // 已是馆员不展示转为馆员
         this.showToStaff = !res.data.isStaff;
         this.cardForm.addr = this.showAddrCode(this.cardForm.addr)
-        this.cardForm.secret = '******';
+        // this.cardForm.secret = '******';
         this.properties = res.data.properties;
       }).catch(err => {
         this.$message({ type: 'error', message: '获取设置失败!' });
@@ -707,6 +712,7 @@ export default {
         http.getJsonSelf('reset-card-secret-verify-key', `/${guid}`).then(res => {
           http.postJson('reset-card-secret-by-verify-key', { cardId: cardId, verifyCode: guid, verifyKey: res.data }).then(res1 => {
             this.$message({ message: res1.data, type: 'success' });
+            this.getData();
           }).catch(err => {
             this.$message({ type: 'error', message: '重置失败!' });
           })
@@ -819,7 +825,7 @@ export default {
     hanldeCardType(val) {
       let list = this.initSelect('Card_CardType') || [];
       let curData = list.find(item => item.value == val) || {};
-      this.cardForm.cardTypeName = curData.key || '';
+      this.cardForm.cardTypeName = curData.key || "";
     }
   }
 }
