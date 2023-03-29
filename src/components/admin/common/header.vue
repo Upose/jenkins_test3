@@ -14,7 +14,8 @@
     </div>
     <div class="login-msg-warp">
       <div class="u-img-w">
-        <el-image class="u-img" v-if="userInfo" :src="fileUrl+(userInfo.photo?userInfo.photo:'/public/image/default-user-head/default-user-head.png')" :fit="'contain'"></el-image>
+        <!-- <el-image class="u-img" v-if="userInfo" :src="fileUrl+(userInfo.photo?userInfo.photo:'/public/image/default-user-head/default-user-head.png')" :fit="'contain'"></el-image> -->
+        <el-image class="u-img" v-if="userInfo" :src="(userInfo.photo?userInfo.photo:'/public/image/default-user-head/default-user-head.png')" :fit="'contain'"></el-image>
       </div>
       <span class="u-name">{{userInfo.name||''}}</span>
       <i class="iconfont el-icon-vip-tuichu loginOut" title="退出登录" @click="outLogin()"></i>
