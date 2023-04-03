@@ -1,3 +1,11 @@
+<!--
+ * @Author: LuJiangPeng-lxx lujiangpeng@vipinfo.com.cn
+ * @Date: 2023-03-29 16:25:25
+ * @LastEditors: LuJiangPeng-lxx lujiangpeng@vipinfo.com.cn
+ * @LastEditTime: 2023-03-29 16:36:27
+ * @FilePath: \user_center_sys\src\App.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <div id="user_sys" class="admin-warp-app" v-if="isInfoLoad && post_details">
     <router-view />
@@ -15,13 +23,25 @@ export default {
   },
   async created() {
     await casCallbake('/web_library');
-    this.getBaseInfo();
-    this.getAppsDetails();
+    await this.getBaseInfo();
+    await this.getAppsDetails();
+    this.updateUserPhotoUrl();
   },
   mounted() {
     this.$i18n.locale = this.$store.state.language;
   },
   methods: {
+    //统一补全用户头像url格式规范 userInfo.photo
+    updateUserPhotoUrl() {
+      if (window.localStorage.getItem("userInfo")) {
+        let info = JSON.parse(window.localStorage.getItem("userInfo"));
+        info.photo = this.$imgUrlComple(info.photo);
+        let jsinfo = JSON.stringify(info);
+        // window.localStorage.removeItem("userInfo");
+        window.localStorage.setItem("userInfo", jsinfo);
+        // console.log(window.localStorage);
+      }
+    },
     //获取应用名称信息等
     async getAppsDetails() {
       var res = await handleAppState('usermanage');
