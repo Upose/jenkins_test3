@@ -1,8 +1,8 @@
 <!--
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
- * @LastEditors: huyu
- * @LastEditTime: 2022-11-28 11:33:58
+ * @LastEditors: gongqin
+ * @LastEditTime: 2023-04-03 10:36:38
  * @Description: 安全设置
 -->
 <template>
@@ -28,11 +28,30 @@
             <span>天</span>
           </el-form-item>
         </div>
-        <el-form-item label="登录人机验证：">
-          <el-switch v-model="postForm.verifyCodeConfirm"></el-switch>
-        </el-form-item>
-        <el-form-item label="首次登录修改密码：">
+        <!-- <el-form-item label="初始密码格式：">
+          <el-select v-model="postForm.test" size="medium" placeholder="请选择" clearable>
+            <el-option :value="item" :label="index" v-for="(item, index) in passwordFormatList||[]" :key="index"></el-option>
+          </el-select>
+          <el-popover class="hint-btn" placement="bottom-start" width="550" trigger="hover">
+            <div>
+              <p>1、若未选择格式，则初始/重置密码为TSG123456</p>
+              <p>2、若选择某项后，初始密码为对应内容，不足6位左侧用0占位</p>
+              <p>3、若读者信息不全，则初始/重置密码为TSG123456</p>
+            </div>
+            <i class="el-icon-question" slot="reference"></i>
+          </el-popover>
+        </el-form-item> -->
+        <el-form-item label="强制修改：">
           <el-switch v-model="postForm.firstLoginChangePassword"></el-switch>
+          <el-popover class="hint-btn" placement="bottom-start" width="550" trigger="hover">
+              <div>
+                开启后，初次登录或密码不符合强度要求，登录成功后需修改密码
+              </div>
+              <i class="el-icon-question" slot="reference"></i>
+            </el-popover>
+        </el-form-item>
+        <el-form-item label="人机验证：">
+          <el-switch v-model="postForm.verifyCodeConfirm"></el-switch>
         </el-form-item>
         <el-form-item>
           <el-button icon="iconfont el-icon-vip-baocun1" type="primary" @click="handleSubmit" v-button-debounce>保存</el-button>
@@ -94,7 +113,8 @@ export default {
           // { title: '登录失败锁定', value: '0', unit: '次/天', edit: true },
           // { title: '密码登录保持时长', value: '30', unit: '天', edit: true },
         ],
-      }
+      },
+      passwordFormatList: [],
     };
   },
   created() {
@@ -133,6 +153,8 @@ export default {
     handleSubmit() {
       http.postJson('save-security-config', this.postForm).then(res => {
         this.$message.success('保存成功！');
+      }).catch(err => {
+        this.$message.error('保存失败！');
       })
     },
   },
@@ -158,5 +180,12 @@ export default {
   /deep/ .el-input.is-disabled .el-input__inner {
     color: #666;
   }
+}
+.hint-btn{
+  color: #999999;
+  font-size: 18px;
+  vertical-align: -2px;
+  margin-left: 15px;
+  cursor: pointer;
 }
 </style>
