@@ -1,5 +1,6 @@
 /***后台管理系统 项目接口地址-用户中心 */
-var baseURL = "/usermanage"; //请求前端地址 用户中心
+var baseURL = '/usermanage';//请求前端地址 用户中心
+// var baseURL2 = "http://192.168.21.29:5202";//请求前端地址 用户中心
 var baseURL1 = "/appcenter"; //请求前端地址 应用中心
 
 export default {
@@ -90,10 +91,10 @@ export default {
     "set-user-principal-card": baseURL + "/api/reader/set-user-principal-card", //设为主卡
 
     /* 安全设置 */
+    "init-password-options": baseURL + "/api/security-config/init-password-options", //获取当前支持的初始密码方法
     "safe-set-init-data": baseURL + "/api/security-config/init-data", //初始数据
     "security-config": baseURL + "/api/security-config/security-config", //获取安全设置
-    "save-security-config":
-      baseURL + "/api/security-config/save-security-config", //保存安全设置
+    "save-security-config": baseURL + "/api/security-config/save-security-config", //保存安全设置
 
     "card-table-data": baseURL + "/api/card/table-data", //获取用户读者卡信息列表
     "card-card-table-data": baseURL + "/api/card/card-table-data", //获取读者卡表格数据

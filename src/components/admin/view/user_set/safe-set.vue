@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
  * @LastEditors: gongqin
- * @LastEditTime: 2023-04-03 10:36:38
+ * @LastEditTime: 2023-04-03 13:42:14
  * @Description: 安全设置
 -->
 <template>
@@ -28,9 +28,9 @@
             <span>天</span>
           </el-form-item>
         </div>
-        <!-- <el-form-item label="初始密码格式：">
-          <el-select v-model="postForm.test" size="medium" placeholder="请选择" clearable>
-            <el-option :value="item" :label="index" v-for="(item, index) in passwordFormatList||[]" :key="index"></el-option>
+        <el-form-item label="初始密码格式：">
+          <el-select v-model="postForm.initPasswordSymbol" size="medium" placeholder="请选择" clearable>
+            <el-option :value="item.key" :label="item.value" v-for="(item, index) in passwordFormatList||[]" :key="index"></el-option>
           </el-select>
           <el-popover class="hint-btn" placement="bottom-start" width="550" trigger="hover">
             <div>
@@ -40,7 +40,7 @@
             </div>
             <i class="el-icon-question" slot="reference"></i>
           </el-popover>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="强制修改：">
           <el-switch v-model="postForm.firstLoginChangePassword"></el-switch>
           <el-popover class="hint-btn" placement="bottom-start" width="550" trigger="hover">
@@ -120,17 +120,31 @@ export default {
   created() {
 
   },
-  mounted() {
-    this.getKey();
+  async mounted() {
+    this.loading = true;
+    await this.initPasswordOptions();
+    await this.getKey();
   },
   methods: {
+    // 获取当前支持的初始密码方法
+    async initPasswordOptions() {
+      this.passwordFormatList = [];
+      try{
+        let res = await http.getJson('init-password-options');
+        this.passwordFormatList = res.data || [];
+      }catch(err) {
+        this.$message.error('获取初始密码方法失败！');
+      }
+    },
     // 获取初始数据
-    getKey() {
-      this.loading = true;
-      http.getJson('safe-set-init-data').then(res => {
+    async getKey() {
+      try {
+        let res = await http.getJson('safe-set-init-data');
         this.dataKey = res.data;
         this.getData();
-      })
+      } catch(err) {
+        this.$message.error('获取初始数据失败！');
+      }
     },
     // 获取设置数据
     getData() {
