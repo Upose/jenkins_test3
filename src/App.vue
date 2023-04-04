@@ -25,23 +25,11 @@ export default {
     await casCallbake('/web_library');
     await this.getBaseInfo();
     await this.getAppsDetails();
-    this.updateUserPhotoUrl();
   },
   mounted() {
     this.$i18n.locale = this.$store.state.language;
   },
   methods: {
-    //统一补全用户头像url格式规范 userInfo.photo
-    updateUserPhotoUrl() {
-      if (window.localStorage.getItem("userInfo")) {
-        let info = JSON.parse(window.localStorage.getItem("userInfo"));
-        info.photo = this.$imgUrlComple(info.photo);
-        let jsinfo = JSON.stringify(info);
-        // window.localStorage.removeItem("userInfo");
-        window.localStorage.setItem("userInfo", jsinfo);
-        // console.log(window.localStorage);
-      }
-    },
     //获取应用名称信息等
     async getAppsDetails() {
       var res = await handleAppState('usermanage');

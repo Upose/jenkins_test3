@@ -40,9 +40,14 @@ export default {
   },
   created() {
     this.userInfo = JSON.parse(window.localStorage.getItem('userInfo') || '{}');
+    this.updateUserPhotoUrl()
     this.getHead();
   },
   methods: {
+    //统一补全用户头像url格式规范 userInfo.photo
+    updateUserPhotoUrl(){
+      this.$set(this.userInfo, "photo", this.$imgUrlComple(this.userInfo.photo));
+    },
     getHead() {
       http.getJson('getmgrtopmenu').then(res => {
         this.dataList = res.data.appMenuList;
