@@ -2,7 +2,7 @@
  * @Author: huyu
  * @Date: 2022-06-24 16:49:05
  * @LastEditors: gongqin
- * @LastEditTime: 2023-04-03 13:42:14
+ * @LastEditTime: 2023-04-04 14:07:24
  * @Description: 安全设置
 -->
 <template>
@@ -150,6 +150,8 @@ export default {
     getData() {
       http.getJson('security-config').then(res => {
         this.postForm = res.data || this.dataKey.securityConfigData;
+        this.loading = false;
+      }).catch(err => {
         this.loading = false;
       })
     },
