@@ -33,51 +33,10 @@
         <!-- <span class="take" @click="takeSearch()">订阅此检索</span> -->
       </div>
       <!--检索输入框-->
-      <div class="alert-panel" v-if="details.smartPanelEnabled">
-        <!--------------------------------------- 空检索-提示面板 start -->
-        <div class="alert-panel-w" v-if="emptySearchModel.show && !basicInputKeyWord">
-          <div class="a-panel-c1">
-            <div class="empty-title">功能推荐</div>
-            <a class="box box-link" v-for="item in emptySearchModel.hotComponent" :key="item.docId" :href="item.url" target="_blank">
-              <span>{{ item.title }}</span>
-            </a>
-          </div>
-          <!--智能推荐-功能推荐-->
 
-          <div class="a-panel-c2">
-            <div class="empty-title">检索发现</div>
-            <div class="new-list" v-for="(hotword, index) in emptySearchModel.hotKeyword" :key="index" @click="searchKeyword(hotword.word)">
-              {{hotword.word}}
-              <i class="news" :class="index==0?'news':'hot'"></i>
-            </div>
-          </div>
-          <!--智能推荐-检索发现-->
-        </div>
-        <!--------------------------------------- 空检索-提示面板 end -->
-
-        <!----- 有输入值-提示面板 start ----------------------------------->
-        <div class="alert-panel-w" v-if="onKeywordInputSuggestModel.show && basicInputKeyWord">
-          <div class="a-panel-c3" v-if="onKeywordInputSuggestModel.regexInfo">
-            <div class="box box-link" @click="regexMatchSearch(onKeywordInputSuggestModel.regexInfo)"><i>{{onKeywordInputSuggestModel.regexInfo.title}}</i>{{ basicInputKeyWord }}</div>
-          </div>
-          <!--智能识别-（查找专利号、查找标准号、查找DOI：）-->
-
-          <div class="a-panel-c4" v-if="onKeywordInputSuggestModel.matchComponent">
-            <div class="box box-link" v-for="(item, index) in onKeywordInputSuggestModel.matchComponent" :key="index">
-              <i class="type-name">导航至{{mapServiceComponentName(item.app_type)}}</i><a class="cursor" v-html="hightLightShow(item.title)" target="_blank" :href="item.url"></a>
-            </div>
-          </div>
-          <!--智能识别-导航至页面 || 参考咨询-（去提问、相关问题、导航至页面）-->
-
-          <div class="a-panel-c5" v-if="onKeywordInputSuggestModel.autoComplete">
-            <div class="title">检索“{{ basicInputKeyWord }}”相关主题</div>
-            <div class="box box-link" v-for="(word, index) in onKeywordInputSuggestModel.autoComplete" :key="index" @click="searchKeyword(word)">{{word}}</div>
-          </div>
-          <!--（智能识别、智能匹配、参考咨询）搜索“XXX”相关文献-->
-        </div>
-        <!----- 有输入值-提示面板 end ----------------------------------->
-
-      </div>
+      <div class="alert-panel panel_unified_retrieval_sys_temp1">
+        <Intelligentpanel v-if="panel_model" :panelClass="'panel_unified_retrieval_sys_temp1'" @closePanel="closePanel" @searchKeyword="searchKeyword" @regexMatchSearch="regexMatchSearch" :emptySearchModel="emptySearchModel" :smartPanelEnabled="details.smartPanelEnabled" :onKeywordInputSuggestModel="onKeywordInputSuggestModel" :basicInputKeyWord="basicInputKeyWord"></Intelligentpanel>
+      </div><!--智能面板-->
 
       <div class="search-hot-w" v-if="details.hotResourceEnabled">
         <span class="hot-title">热门检索：</span>
@@ -154,9 +113,11 @@ export default {
       },
       /**检索条件为空的时候出来的提示面板 */
       emptySearchModel: {
+        focus:false,//是否获取焦点
         show: false, //是否显示下拉弹窗
         hotComponent: null, //智能推荐-功能推荐
         hotKeyword: null,//智能推荐-检索发现
+        searchHistory: null,//智能推荐-检索历史
       },
       /**当输入关键词的时候提示的项 */
       onKeywordInputSuggestModel: {
@@ -170,10 +131,11 @@ export default {
       subjectCheckRow: null,//右侧选中的行-下标
       LsubjectCheckList: [],//左侧选中的数据
       RsubjectCheckList: [],//添加到右侧的数据
+      panel_model:false,
     };
   },
   created() {
-
+    this.initIntelligentpanel();
   },
   mounted() {
     if (!rxjs)
@@ -181,9 +143,9 @@ export default {
         "rxjs未正确加载，请确保有对应script标签，src地址https://cdn.bootcdn.net/ajax/libs/rxjs/6.0.0/rxjs.umd.js"
       );
     this.initComponentAsync().then(() => {
-      this.emptySearch().then(() => {
-        this.emptySearchModel.show = false;//空检索-无内容显示的弹窗
-      }); //获取热门检索
+      // this.emptySearch().then(() => {
+      //   this.emptySearchModel.show = false;//空检索-无内容显示的弹窗
+      // }); //获取热门检索
       if (this.$refs.mainInput)
         rxjs.fromEvent(this.$refs.mainInput, "keyup").pipe(
           rxjs.operators.map(() => this.basicInputKeyWord),
@@ -199,6 +161,31 @@ export default {
     })
   },
   methods: {
+    initIntelligentpanel(){
+      var _that = this;
+      var intelligentpanel_url = '../cdn/public/template/app_template/search_Intelligentpanel';
+      var is_load = document.getElementsByClassName('intelligentpanel-css');
+      if(is_load.length>0){
+        _that.panel_model = true;
+        return;
+      }
+      var link = document.createElement("link");
+      link.setAttribute("rel", "stylesheet");
+      link.setAttribute("type", "text/css");
+      link.setAttribute("class", "intelligentpanel-css");
+      link.setAttribute("href", intelligentpanel_url + '/component.css?version=' + new Date().getTime());
+      document.getElementsByTagName("body")[0].appendChild(link);
+
+      var js_element = document.createElement("script");
+      js_element.setAttribute("type", "text/javascript");
+      js_element.setAttribute("class", "intelligentpanel-css");
+      js_element.setAttribute("src", intelligentpanel_url + '/component.js?version=' + new Date().getTime());
+      document.getElementsByTagName("body")[0].appendChild(js_element);
+      js_element.onload=js_element.onreadystatechange=function(){
+        _that.panel_model = true;
+        js_element.onload=js_element.onreadystatechange=null;
+      }
+    },
     /**获取页面数据 */
     initComponentAsync() {
       return Promise.all([
@@ -219,10 +206,6 @@ export default {
         let url = this.$setHref({ type: 'dlib', url: ['articlesearch', `/web_searchingResult?high=h`] })
         location.href = url;
       }
-    },
-    /***订阅此检索 */
-    takeSearch() {
-      alert('产品：此功能先不处理');
     },
     //栏目点击
     tabClick(val) {
@@ -322,6 +305,7 @@ export default {
         }
         list.filterRule.ruleBody = result;
       }
+      setSearchHistoryKey(this.basicInputKeyWord);//记录历史
       this.postJsonAsync("/api/search-const/encrypt-search-parameter", list).then((x) => {
         let keyword = this.basicInputKeyWord || "";
         // if (keyword.length >= 100) keyword = keyword.substring(0, 100);
@@ -332,6 +316,9 @@ export default {
     },
     //当输入框获取焦点的时候
     emptySearch() {
+      console.log('input 获取焦点');
+      this.emptySearchModel.focus = true;
+      this.emptySearchModel.searchHistory = true;
       if (this.emptySearchModel.hotComponent) {
         this.emptySearchModel.show = true;
         return Promise.resolve(null); //将热门组件和检索词缓存起来
@@ -347,17 +334,20 @@ export default {
           this.emptySearchModel.hotKeyword = null;
         }
         this.emptySearchModel.show = this.emptySearchModel.hotKeyword || this.emptySearchModel.hotComponent;
-        /////////// 这里是假数据---弹窗调试完后删除 //////////////////
-        // this.emptySearchModel.hotComponent = [{title:'链接'}];
-        // this.emptySearchModel.hotKeyword = [{word:'最热新闻'}];
       });
     },
-    /**检索框失去焦点 */
-    inputBlur() {
-      setTimeout(() => {
-        this.emptySearchModel.show = false;
-        this.onKeywordInputSuggestModel.show = false;
-      }, 200);
+    //input 失去焦点
+    inputBlur(){
+      console.log('input 失去焦点');
+      this.emptySearchModel.focus = false;
+    },
+    //关闭面板
+    closePanel(){
+      //这里还要加个判断-input失去焦点的时候，如果是点击的input框，则不关闭
+      console.log('input 焦点状态：'+this.emptySearchModel.focus);
+      this.emptySearchModel.show = false;
+      this.onKeywordInputSuggestModel.show = false;
+      this.emptySearchModel.searchHistory = false;
     },
     /**适用于rxjs防抖节流策略的下拉框 */
     rxAutoComplete(x) {
@@ -400,19 +390,6 @@ export default {
         matchType: searchMatchType.Fuzzy,
       });
       this.goToSearch();
-    },
-    mapServiceComponentName(type) {
-      switch (parseInt(type)) {
-        case 1 << 1: return "服务";//2
-        case 1 << 2: return "功能";//4
-        case 1 << 3: return "数据库";//8
-        case 1 << 4: return "专题";//16
-        case 1 << 5: return "新闻";//32
-        case 1 << 6: return "回答";//64
-        case 1 << 7: return "应用";//128
-        case 1 << 8: return "活动";//256
-        default: break;
-      }
     },
     //获取学科分类弹窗
     initSubject() {
@@ -508,13 +485,6 @@ export default {
         this.RsubjectCheckList.splice(this.subjectCheckRow, 1);
         this.subjectCheckRow = null;
       }
-    },
-    /**显示关键字高亮 */
-    hightLightShow(message) {
-      if (this.basicInputKeyWord == null) return "";
-      if (!message) return message;
-      let highlightToken = this.basicInputKeyWord;
-      return message.toLowerCase().split(highlightToken).join(`<i class='reds'>${highlightToken}</i>`);
     },
     /*******************************封装方法******************************************************************/
     //向指定的连接发起get请求
