@@ -8,7 +8,7 @@ import http from "@/assets/public/js/http";
 import bus from "@/assets/public/js/bus";
 import validator from "@/assets/public/js/validator.js";
 import { timeFormat, friendlyError } from "@/assets/public/js/util";
-import Dlib3Tinymce from "dlib3-tinymce";
+import Dlib3Tinymce from "@vpscope/dlib3-tinymce";
 
 import "@/assets/public/js/plugin";
 
